@@ -1,10 +1,10 @@
 'use strict';
 
 var React = require('react');
-var CommonMark = require('commonmark');
+var Parser = require('commonmark').Parser;
 var ReactRenderer = require('commonmark-react-renderer');
 
-var parser = new CommonMark.Parser();
+var parser = new Parser();
 
 var ReactMarkdown = React.createClass({
     displayName: 'ReactMarkdown',

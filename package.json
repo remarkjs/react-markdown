@@ -1,7 +1,7 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "react-component",
     "react",
@@ -14,8 +14,11 @@
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --reporter spec",
     "pretest": "npm run lint",
     "lint": "eslint .",
-    "prepublish": "npm prune && npm test",
-    "test": "mocha --reporter spec"
+    "prepublish": "npm prune && npm test && npm run build",
+    "build": "NODE_ENV=production webpack",
+    "watch": "webpack --watch",
+    "test": "mocha --reporter spec",
+    "deploy": "gh-pages-deploy"
   },
   "repository": {
     "type": "git",
@@ -24,14 +27,27 @@
   "author": "Espen Hovlandsdal <rexxars@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^5.4.3",
+    "babel-loader": "^5.1.2",
     "chai": "^2.3.0",
     "eslint": "^0.21.2",
     "eslint-config-vaffel": "^1.0.0",
     "eslint-plugin-react": "^2.3.0",
+    "gh-pages-deploy": "^0.3.0",
     "istanbul": "^0.3.14",
-    "mocha": "^2.2.5",
     "jsdom": "^3.1.2",
-    "mocha-jsdom": "^0.3.0"
+    "mocha": "^2.2.5",
+    "mocha-jsdom": "^0.3.0",
+    "node-libs-browser": "^0.5.0",
+    "react-textarea-autosize": "^2.2.1",
+    "webpack": "^1.9.7"
+  },
+  "gh-pages-deploy": {
+    "staticpath": "demo/dist",
+    "prep": [
+      "build"
+    ],
+    "noprompt": true
   },
   "dependencies": {
     "commonmark": "^0.19.0",
