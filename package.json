@@ -3,13 +3,19 @@
   "description": "Renders Markdown as React components",
   "version": "1.0.0",
   "keywords": [
-    "react-component"
+    "react-component",
+    "react",
+    "markdown",
+    "commonmark"
   ],
   "main": "src/react-markdown.js",
   "scripts": {
-    "lint": "gulp lint",
-    "prepublish": "npm prune && gulp test",
-    "test": "gulp test"
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- --reporter spec",
+    "pretest": "npm run lint",
+    "lint": "eslint .",
+    "prepublish": "npm prune && npm test",
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
@@ -18,22 +24,18 @@
   "author": "Espen Hovlandsdal <rexxars@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel": "^5.4.3",
     "chai": "^2.3.0",
     "eslint": "^0.21.2",
     "eslint-config-vaffel": "^1.0.0",
     "eslint-plugin-react": "^2.3.0",
-    "gulp": "^3.8.11",
-    "gulp-eslint": "^0.12.0",
-    "gulp-istanbul": "^0.9.0",
-    "gulp-mocha": "^2.0.1",
     "istanbul": "^0.3.14",
-    "istanbul-react": "^1.0.1",
     "jsdom": "^5.4.1",
     "mocha": "^2.2.5",
     "mocha-jsdom": "^0.3.0"
   },
   "dependencies": {
+    "commonmark": "^0.19.0",
+    "commonmark-react-renderer": "^1.0.2",
     "react": "^0.13.3"
   }
 }
