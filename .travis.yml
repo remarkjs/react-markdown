@@ -3,6 +3,10 @@ node_js:
   - '0.12'
   - '0.10'
   - iojs
+script:
+  - npm run test-travis
+after_script:
+  - npm install codeclimate-test-reporter && cat coverage/lcov.info | codeclimate
 env:
   global:
     - secure: XR2+j2DOmq8FY5xKiJ4JGYFtMdrF+owqZpU6mq8nJH4bEACAGtATgrKy4agxC5ROMpt0BeU10dXXrtwQzMXdaI6oaPIhMEuzIc/Kcwhxx4zbcNSzqmwohwnL+BywfQvgGma/GPRGocpMdhIjU3GoomgxyAqKPJTSmuMQ8LOpZw9+OnjVhTwRh1rIaAEyXW+7S+H0O+oqENHx/3X0tYybC71/jMVBpRZ9o8Z09IxX2a1CAI2ZQ/U4wVkgbUbPl1ikh+mW7IU0DrGVNzpJdFGA944Upo65XWGrlU1h4J2Zr0A0TjYGCydYDzgxuCSfLXENm17R3xpY5RH8jmNYeoiSTbXNDjIw3uguxlhLJxmziXP2M0n5+fQT/rfIW5SGVIyAIfieKwD8xOyM62HqFMRCImgvh6VJsrtgBd5IHYWSJ+e08vMuGzniRx4S5ZYBE0cM1LZjOZT/+H/9ocLSRlGpI1q8KMz4LhFlRmuocJf2sdr/tI194Cxltcm0TJKnAFID7kQM/a/po6IPWgAISGlgxMNj1Cr8s16U78IUkykgc1da+/nGoq9yMKF7j5i1FPDdaekRNGeOmKqxMYiAM05WslzzNbC0zYL8geDpMCR4lKnfBlZJS4u6GhR5ZnzE+tx3h+S0q5qiXYdVON//WGtV9Ll/9r4G1gnEV8bFmnCKKC8=
