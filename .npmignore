@@ -1,0 +1,10 @@
+.gitignore
+.editorconfig
+.eslintignore
+.eslintrc
+.travis.yml
+npm-debug.log
+test/**/*
+test
+coverage
+example

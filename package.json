@@ -1,0 +1,39 @@
+{
+  "name": "react-markdown",
+  "description": "Renders Markdown as React components",
+  "version": "1.0.0",
+  "keywords": [
+    "react-component"
+  ],
+  "main": "src/react-markdown.js",
+  "scripts": {
+    "lint": "gulp lint",
+    "prepublish": "npm prune && gulp test",
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rexxars/react-markdown.git"
+  },
+  "author": "Espen Hovlandsdal <rexxars@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^5.4.3",
+    "chai": "^2.3.0",
+    "eslint": "^0.21.2",
+    "eslint-config-vaffel": "^1.0.0",
+    "eslint-plugin-react": "^2.3.0",
+    "gulp": "^3.8.11",
+    "gulp-eslint": "^0.12.0",
+    "gulp-istanbul": "^0.9.0",
+    "gulp-mocha": "^2.0.1",
+    "istanbul": "^0.3.14",
+    "istanbul-react": "^1.0.1",
+    "jsdom": "^5.4.1",
+    "mocha": "^2.2.5",
+    "mocha-jsdom": "^0.3.0"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
+  }
+}
