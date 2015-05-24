@@ -33,13 +33,14 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
 ## Options
 
 * `source` - *string* The Markdown source to parse (**required**)
+* `className` - *string* Class name of the container element (default: `''`).
 * `containerTagName` - *string* Tag name for the container element, since Markdown can have many root-level elements, the component need to wrap them in something (default: `div`).
 * `escapeHtml` - *boolean* Setting to `true` will escape HTML blocks, rendering plain text instead of inserting the blocks as raw HTML (default: `false`).
 * `skipHtml` - *boolean* Setting to `true` will skip inlined and blocks of HTML (default: `false`).
 * `sourcePos` - *boolean* Setting to `true` will add `data-sourcepos` attributes to all elements, indicating where in the markdown source they were rendered from (default: `false`).
 * `softBreak` - *string* Setting to `br` will create `<br>` tags instead of newlines (default: `\n`).
 
-## Testing
+## Developing
 
 ```bash
 git clone git@github.com:rexxars/react-markdown.git

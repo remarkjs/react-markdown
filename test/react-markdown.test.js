@@ -18,77 +18,93 @@ describe('ReactMarkdown', function() {
         'Lets do it <i>again</i>!\nYeah?'
     ].join('');
 
-    it('should have rendered a div with the right children', function() {
-        this.rendered = TestUtils.renderIntoDocument(
+    it('should not set a class on container if no className is passed as prop', function() {
+        var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, { source: testMarkdown })
         );
 
-        expect(this.rendered.getDOMNode().tagName).to.equal('DIV');
-        expect(this.rendered.getDOMNode().innerHTML).to.contain(testDate);
+        expect(rendered.getDOMNode().getAttribute('class')).to.equal(null);
+    });
 
-        var h1 = TestUtils.findRenderedDOMComponentWithTag(this.rendered, 'h1');
+    it('should set a class on container if className is passed as prop', function() {
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, { source: testMarkdown, className: 'foo bar' })
+        );
+
+        expect(rendered.getDOMNode().getAttribute('class')).to.equal('foo bar');
+    });
+
+    it('should have rendered a div with the right children', function() {
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, { source: testMarkdown })
+        );
+
+        expect(rendered.getDOMNode().tagName).to.equal('DIV');
+        expect(rendered.getDOMNode().innerHTML).to.contain(testDate);
+
+        var h1 = TestUtils.findRenderedDOMComponentWithTag(rendered, 'h1');
         expect(h1.getDOMNode().innerHTML).to.equal('Demo');
 
-        var em = TestUtils.findRenderedDOMComponentWithTag(this.rendered, 'em');
+        var em = TestUtils.findRenderedDOMComponentWithTag(rendered, 'em');
         expect(em.getDOMNode().innerHTML).to.equal('rendered');
 
-        var strong = TestUtils.findRenderedDOMComponentWithTag(this.rendered, 'strong');
+        var strong = TestUtils.findRenderedDOMComponentWithTag(rendered, 'strong');
         expect(strong.getDOMNode().innerHTML).to.equal('React');
 
-        var ps = TestUtils.scryRenderedDOMComponentsWithTag(this.rendered, 'p');
+        var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
         expect(ps).to.have.length(2);
     });
 
     it('can specify different container tag name', function() {
-        this.rendered = TestUtils.renderIntoDocument(
+        var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, { source: testMarkdown, containerTagName: 'section' })
         );
 
-        expect(this.rendered.getDOMNode().tagName).to.equal('SECTION');
+        expect(rendered.getDOMNode().tagName).to.equal('SECTION');
     });
 
     it('can be told to use <br> for soft-breaks', function() {
-        this.rendered = TestUtils.renderIntoDocument(
+        var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, { source: testMarkdown, softBreak: 'br' })
         );
 
-        var strong = TestUtils.findRenderedDOMComponentWithTag(this.rendered, 'br');
+        var strong = TestUtils.findRenderedDOMComponentWithTag(rendered, 'br');
         expect(strong).to.be.ok;
     });
 
     it('can be told to output sourcemaps as data attributes', function() {
-        this.rendered = TestUtils.renderIntoDocument(
+        var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, { source: testMarkdown, sourcePos: true })
         );
 
-        var h1 = TestUtils.findRenderedDOMComponentWithTag(this.rendered, 'h1');
+        var h1 = TestUtils.findRenderedDOMComponentWithTag(rendered, 'h1');
         expect(h1.getDOMNode().getAttribute('data-sourcepos')).to.equal('1:1-1:6');
     });
 
     it('can be told to escape html', function() {
-        this.rendered = TestUtils.renderIntoDocument(
+        var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, { source: testMarkdown, escapeHtml: true })
         );
 
-        var ps = TestUtils.scryRenderedDOMComponentsWithTag(this.rendered, 'p');
+        var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
         expect(ps[1].getDOMNode().innerHTML).to.contain('&lt;i&gt;');
     });
 
     it('can be told to skip HTML', function() {
-        this.rendered = TestUtils.renderIntoDocument(
+        var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, { source: testMarkdown, skipHtml: true })
         );
 
-        var ps = TestUtils.scryRenderedDOMComponentsWithTag(this.rendered, 'p');
+        var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
         expect(ps[1].getDOMNode().innerHTML).to.not.contain('<i>');
         expect(ps[1].getDOMNode().innerHTML).to.not.contain('&lt;i&gt;');
     });
 
     it('does not blow up if no source is given', function() {
-        this.rendered = TestUtils.renderIntoDocument(
+        var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, {})
         );
 
-        expect(this.rendered.getDOMNode().innerHTML).to.equal('');
+        expect(rendered.getDOMNode().innerHTML).to.equal('');
     });
 });
