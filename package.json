@@ -1,24 +1,24 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "keywords": [
-    "react-component",
-    "react",
+    "commonmark",
     "markdown",
-    "commonmark"
+    "react",
+    "react-component"
   ],
   "main": "src/react-markdown.js",
   "scripts": {
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
+    "build": "NODE_ENV=production webpack",
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --reporter spec",
-    "pretest": "npm run lint",
+    "deploy": "gh-pages-deploy",
     "lint": "eslint .",
     "prepublish": "npm prune && npm test && npm run build",
-    "build": "NODE_ENV=production webpack",
-    "watch": "webpack --watch",
+    "pretest": "npm run lint",
     "test": "mocha --reporter spec",
-    "deploy": "gh-pages-deploy"
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -29,25 +29,25 @@
   "devDependencies": {
     "babel-core": "^5.4.3",
     "babel-loader": "^5.1.2",
-    "chai": "^2.3.0",
-    "eslint": "^0.21.2",
-    "eslint-config-vaffel": "^1.0.0",
-    "eslint-plugin-react": "^2.3.0",
+    "chai": "^3.4.0",
+    "eslint": "^1.7.3",
+    "eslint-config-vaffel": "^3.0.0",
+    "eslint-plugin-react": "^3.6.3",
     "gh-pages-deploy": "^0.3.0",
-    "istanbul": "^0.3.14",
-    "jsdom": "^3.1.2",
+    "istanbul": "^0.4.0",
+    "jsdom": "^7.0.1",
     "mocha": "^2.2.5",
-    "mocha-jsdom": "^0.3.0",
+    "mocha-jsdom": "^1.0.0",
     "node-libs-browser": "^0.5.0",
     "react-textarea-autosize": "^2.2.1",
     "webpack": "^1.9.7"
   },
   "gh-pages-deploy": {
-    "staticpath": "demo/dist",
+    "noprompt": true,
     "prep": [
       "build"
     ],
-    "noprompt": true
+    "staticpath": "demo/dist"
   },
   "dependencies": {
     "commonmark": "^0.19.0",
