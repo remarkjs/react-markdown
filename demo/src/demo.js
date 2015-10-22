@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Editor = require('./editor');
 var MarkdownControls = require('./markdown-controls');
 var Markdown = require('../../');
@@ -42,9 +43,7 @@ var Demo = module.exports = React.createClass({
 
         var els = document.querySelectorAll('pre code');
         for (var i = 0; i < els.length; i++) {
-            if (!els[i].classList.contains('hljs')) {
-                window.hljs.highlightBlock(els[i]);
-            }
+            window.hljs.highlightBlock(els[i]);
         }
     },
 
@@ -89,5 +88,5 @@ var Demo = module.exports = React.createClass({
 });
 
 if (typeof window !== 'undefined') {
-    React.render(<Demo />, document.getElementById('main'));
+    ReactDOM.render(<Demo />, document.getElementById('main'));
 }
