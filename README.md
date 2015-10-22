@@ -16,11 +16,12 @@ npm install --save react-markdown
 
 ```js
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ReactMarkdown = require('react-markdown');
 
 var input = '# This is a header\n\nAnd this is a paragraph';
 
-React.render(
+ReactDOM.render(
     <ReactMarkdown source={input} />,
     document.getElementById('container')
 );
@@ -48,3 +49,7 @@ cd react-markdown
 npm install
 npm test
 ```
+
+## License
+
+MIT-licensed. See LICENSE.
