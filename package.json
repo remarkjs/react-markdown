@@ -1,7 +1,7 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "keywords": [
     "commonmark",
     "markdown",
@@ -39,6 +39,9 @@
     "mocha": "^2.2.5",
     "mocha-jsdom": "^1.0.0",
     "node-libs-browser": "^0.5.0",
+    "react": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-textarea-autosize": "^2.2.1",
     "webpack": "^1.9.7"
   },
@@ -51,9 +54,9 @@
   },
   "dependencies": {
     "commonmark": "^0.19.0",
-    "commonmark-react-renderer": "^1.0.2"
+    "commonmark-react-renderer": "^2.0.0"
   },
   "peerDependencies": {
-    "react": ">=0.13.3"
+    "react": ">=0.14.0"
   }
 }
