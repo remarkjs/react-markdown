@@ -32,15 +32,39 @@ module.exports = React.createClass({
                         <legend>HTML mode:</legend>
 
                         <label htmlFor="raw-html" className="pure-checkbox">
-                            Raw <input id="raw-html" name="html-mode" type="radio" value="raw" checked={rawChecked} onChange={this.onChange} />
+                            Raw&nbsp;
+                            <input
+                                id="raw-html"
+                                name="html-mode"
+                                type="radio"
+                                value="raw"
+                                checked={rawChecked}
+                                onChange={this.onChange}
+                            />
                         </label>
 
                         <label htmlFor="escape-html" className="pure-checkbox">
-                            Escape <input id="escape-html" name="html-mode" type="radio" value="escape" checked={escapeChecked} onChange={this.onChange} />
+                            Escape&nbsp;
+                            <input
+                                id="escape-html"
+                                name="html-mode"
+                                type="radio"
+                                value="escape"
+                                checked={escapeChecked}
+                                onChange={this.onChange}
+                            />
                         </label>
 
                         <label htmlFor="skip-html" className="pure-checkbox">
-                            Skip <input id="skip-html" name="html-mode" type="radio" value="skip" checked={skipChecked} onChange={this.onChange} />
+                            Skip&nbsp;
+                            <input
+                                id="skip-html"
+                                name="html-mode"
+                                type="radio"
+                                value="skip"
+                                checked={skipChecked}
+                                onChange={this.onChange}
+                            />
                         </label>
                     </fieldset>
                 </form>
