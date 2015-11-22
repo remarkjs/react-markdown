@@ -27,23 +27,24 @@
   "author": "Espen Hovlandsdal <rexxars@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^5.4.3",
-    "babel-loader": "^5.1.2",
-    "chai": "^3.4.0",
-    "eslint": "^1.7.3",
+    "babel-loader": "^6.2.0",
+    "babel-preset-react": "^6.1.18",
+    "chai": "^3.4.1",
+    "eslint": "^1.10.1",
     "eslint-config-vaffel": "^3.0.0",
-    "eslint-plugin-react": "^3.6.3",
+    "eslint-plugin-react": "^3.10.0",
     "gh-pages-deploy": "^0.3.0",
     "istanbul": "^0.4.0",
-    "jsdom": "^7.0.1",
-    "mocha": "^2.2.5",
+    "jsdom": "^7.0.2",
+    "json-loader": "^0.5.3",
+    "mocha": "^2.3.4",
     "mocha-jsdom": "^1.0.0",
-    "node-libs-browser": "^0.5.0",
-    "react": "^0.14.0",
-    "react-addons-test-utils": "^0.14.0",
-    "react-dom": "^0.14.0",
-    "react-textarea-autosize": "^2.2.1",
-    "webpack": "^1.9.7"
+    "node-libs-browser": "^0.5.3",
+    "react": "^0.14.3",
+    "react-addons-test-utils": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-textarea-autosize": "^3.1.0",
+    "webpack": "^1.12.8"
   },
   "gh-pages-deploy": {
     "noprompt": true,
@@ -53,8 +54,8 @@
     "staticpath": "demo/dist"
   },
   "dependencies": {
-    "commonmark": "^0.19.0",
-    "commonmark-react-renderer": "^2.0.0"
+    "commonmark": "^0.22.0",
+    "commonmark-react-renderer": "^2.1.0"
   },
   "peerDependencies": {
     "react": ">=0.13.3"

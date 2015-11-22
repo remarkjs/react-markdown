@@ -23,9 +23,18 @@ var config = {
     },
 
     module: {
-        loaders: [
-            { test: /\.js$/, loaders: ['babel?stage=0'], exclude: /node_modules/ }
-        ]
+        loaders: [{
+            test: /\.js$/,
+            loader: 'babel',
+            exclude: /node_modules/,
+            query: {
+                cacheDirectory: true,
+                presets: ['react']
+            }
+        }, {
+            test: /\.json$/,
+            loader: 'json'
+        }]
     },
 
     plugins: [
