@@ -40,6 +40,30 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
 * `skipHtml` - *boolean* Setting to `true` will skip inlined and blocks of HTML (default: `false`).
 * `sourcePos` - *boolean* Setting to `true` will add `data-sourcepos` attributes to all elements, indicating where in the markdown source they were rendered from (default: `false`).
 * `softBreak` - *string* Setting to `br` will create `<br>` tags instead of newlines (default: `\n`).
+* `allowedTypes` - *array* Defines which types of nodes should be allowed (rendered). (default: all types).
+* `disallowedTypes` - *array* Defines which types of nodes should be disallowed (not rendered). (default: none).
+
+The possible types of elements that can be allowed/disallowed are:
+
+* `Html` - Inline HTML
+* `HtmlBlock` - Block of HTML
+* `Text` - Text nodes (inside of paragraphs, list items etc)
+* `Paragraph` - Paragraph nodes (`<p>`)
+* `Header` - Headers (`<h1>`, `<h2>` etc)
+* `Softbreak` - Newlines
+* `Hardbreak` - Hard line breaks (`<br>`)
+* `Link` - Link nodes (`<a>`)
+* `Image` - Image nodes (`<img>`)
+* `Emph` - Emphasis nodes (`<em>`)
+* `Code` - Inline code nodes (`<code>`)
+* `CodeBlock` - Blocks of code (`<code>`)
+* `BlockQuote` - Block quotes (`<blockquote>`)
+* `List` - List nodes (`<ol>`, `<ul>`)
+* `Item` - List item nodes (`<li>`)
+* `Strong` - Strong/bold nodes (`<strong>`)
+* `HorizontalRule` - Horizontal rule nodes (`<hr>`)
+
+Note: Disallowing a node will also prevent the rendering of any children of that node. Eg, disallowing a paragraph will not render it's children text nodes.
 
 ## Developing
 

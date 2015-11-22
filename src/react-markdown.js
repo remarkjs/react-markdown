@@ -5,19 +5,21 @@ var Parser = require('commonmark').Parser;
 var ReactRenderer = require('commonmark-react-renderer');
 
 var parser = new Parser();
+var propTypes = React.PropTypes;
 
 var ReactMarkdown = React.createClass({
     displayName: 'ReactMarkdown',
 
     propTypes: {
-        className: React.PropTypes.string,
-        source: React.PropTypes.string.isRequired,
-        containerTagName: React.PropTypes.string,
-        sourcePos: React.PropTypes.bool,
-        escapeHtml: React.PropTypes.bool,
-        skipHtml: React.PropTypes.bool,
-        softBreak: React.PropTypes.string,
-        highlight: React.PropTypes.func
+        className: propTypes.string,
+        source: propTypes.string.isRequired,
+        containerTagName: propTypes.string,
+        sourcePos: propTypes.bool,
+        escapeHtml: propTypes.bool,
+        skipHtml: propTypes.bool,
+        softBreak: propTypes.string,
+        allowedTypes: propTypes.array,
+        disallowedTypes: propTypes.array
     },
 
     getDefaultProps: function() {
