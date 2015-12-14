@@ -14,7 +14,8 @@ var config = {
     output: {
         path: path.join(__dirname, 'demo', 'dist', 'js'),
         filename: 'demo.js',
-        publicPath: '/demo/dist'
+        publicPath: '/demo/dist',
+        libraryTarget: 'umd'
     },
 
     externals: {
