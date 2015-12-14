@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## [1.1.4] - 2015-12-14
+
+### Fixed
+
+- Set correct `libraryTarget` to make UMD builds work as expected
+
 ## [1.1.3] - 2015-12-14
 
 ### Fixed
@@ -26,6 +32,7 @@ All notable changes will be documented in this file.
 
 - Moved React from dependency to peer dependency.
 
+[1.1.4]: https://github.com/rexxars/react-markdown/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/rexxars/react-markdown/compare/v1.1.1...v1.1.3
 [1.1.1]: https://github.com/rexxars/react-markdown/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/rexxars/react-markdown/compare/v1.0.5...v1.1.0
