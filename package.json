@@ -14,8 +14,9 @@
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --reporter spec",
     "deploy": "gh-pages-deploy",
     "lint": "eslint .",
-    "prepublish": "in-publish && npm prune && npm test && npm run build",
+    "prepublish": "in-publish && npm run qa || not-in-publish",
     "pretest": "npm run lint",
+    "qa": "npm prune && npm test && npm run build",
     "test": "mocha --reporter spec",
     "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
     "watch": "webpack --watch"
@@ -27,8 +28,9 @@
   "author": "Espen Hovlandsdal <rexxars@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^6.3.17",
     "babel-loader": "^6.2.0",
-    "babel-preset-react": "^6.1.18",
+    "babel-preset-react": "^6.3.13",
     "chai": "^3.4.1",
     "eslint": "^1.10.1",
     "eslint-config-vaffel": "^3.0.0",
