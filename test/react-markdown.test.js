@@ -100,6 +100,19 @@ describe('ReactMarkdown', function() {
         expect(ReactDom.findDOMNode(ps[1]).innerHTML).to.not.contain('&lt;i&gt;');
     });
 
+    it('can be given a node filtering function', function() {
+        var input = 'I accidentally **removed** the whole word';
+        var filter = function(node) {
+            return node.type !== 'Strong';
+        };
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, { source: input, allowNode: filter })
+        );
+
+        var main = ReactDom.findDOMNode(rendered).innerHTML;
+        expect(main).to.not.contain('<strong');
+    });
+
     it('does not blow up if no source is given', function() {
         var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, {})

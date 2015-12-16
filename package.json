@@ -15,7 +15,7 @@
     "deploy": "gh-pages-deploy",
     "lint": "eslint .",
     "prepublish": "in-publish && npm run qa || not-in-publish",
-    "pretest": "npm run lint",
+    "posttest": "npm run lint",
     "qa": "npm prune && npm test && npm run build",
     "test": "mocha --reporter spec",
     "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "commonmark": "^0.22.0",
-    "commonmark-react-renderer": "^2.1.0",
+    "commonmark-react-renderer": "^2.2.0",
     "in-publish": "^2.0.0"
   },
   "peerDependencies": {

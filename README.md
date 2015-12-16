@@ -42,6 +42,11 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
 * `softBreak` - *string* Setting to `br` will create `<br>` tags instead of newlines (default: `\n`).
 * `allowedTypes` - *array* Defines which types of nodes should be allowed (rendered). (default: all types).
 * `disallowedTypes` - *array* Defines which types of nodes should be disallowed (not rendered). (default: none).
+* `allowNode` - *function* Function execute if in order to determine if the node should be allowed. Ran prior to checking `allowedTypes`/`disallowedTypes`. Returning a truthy value will allow the node to be included. Note that if this function returns `true` and the type is not in `allowedTypes` (or specified as a `disallowedType`), it won't be included. The function will get a single object argument (`node`), which includes the following properties:
+  * `type` - *string* The type of node - same ones accepted in `allowedTypes` and `disallowedTypes`
+  * `tag` - *string* The resolved tag name for this node
+  * `props` - *object* Properties for this tag
+  * `children* - *array* Array of unparsed children
 
 The possible types of elements that can be allowed/disallowed are:
 

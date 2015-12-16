@@ -18,6 +18,7 @@ var ReactMarkdown = React.createClass({
         escapeHtml: propTypes.bool,
         skipHtml: propTypes.bool,
         softBreak: propTypes.string,
+        allowNode: propTypes.func,
         allowedTypes: propTypes.array,
         disallowedTypes: propTypes.array
     },
