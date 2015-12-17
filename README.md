@@ -46,7 +46,7 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
   * `type` - *string* The type of node - same ones accepted in `allowedTypes` and `disallowedTypes`
   * `tag` - *string* The resolved tag name for this node
   * `props` - *object* Properties for this tag
-  * `children* - *array* Array of unparsed children
+  * `children` - *array* Array of unparsed children
 
 The possible types of elements that can be allowed/disallowed are:
 
