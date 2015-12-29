@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var Parser = require('commonmark').Parser;
+var Parser = require('commonmark/dist/commonmark').Parser;
 var ReactRenderer = require('commonmark-react-renderer');
 
 var parser = new Parser();
