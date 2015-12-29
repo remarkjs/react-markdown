@@ -2,6 +2,18 @@
 
 All notable changes will be documented in this file.
 
+## [1.2.1] - 2015-12-29
+
+### Fixed
+
+- Use pre-built (dist version) of commonmark renderer in order to work around JSON-loader dependency.
+
+## [1.2.0] - 2015-12-16
+
+### Added
+
+- Added new `allowNode`-property. See README for details.
+
 ## [1.1.4] - 2015-12-14
 
 ### Fixed
@@ -32,6 +44,8 @@ All notable changes will be documented in this file.
 
 - Moved React from dependency to peer dependency.
 
+[1.2.1]: https://github.com/rexxars/react-markdown/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/rexxars/react-markdown/compare/v1.1.4...v1.2.0
 [1.1.4]: https://github.com/rexxars/react-markdown/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/rexxars/react-markdown/compare/v1.1.1...v1.1.3
 [1.1.1]: https://github.com/rexxars/react-markdown/compare/v1.1.0...v1.1.1
