@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## [1.2.2] - 2016-01-08
+
+### Changed
+
+- Reverted change from 1.2.1 that uses the dist version. Instead, documentation is added that specified the need for `json-loader` to be enabled when using webpack. 
+
 ## [1.2.1] - 2015-12-29
 
 ### Fixed

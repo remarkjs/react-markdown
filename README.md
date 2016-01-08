@@ -27,9 +27,24 @@ ReactDOM.render(
 );
 ```
 
+## Important note
+
+If you are using Webpack, you need to enable a JSON-loader. To do so, first `npm install --save json-loader`, then add the loader to your webpack config:
+
+```js
+{
+    module: {
+        loaders: [{
+            test: /\.json$/,
+            loader: 'json'
+        }]
+    }
+}
+```
+
 ## Notes
 
-If you either set `escapeHtml` or `skipHtml` to `true`, this component does not use `dangerouslySetInnerHTML` at all.
+If you either set `escapeHtml` or `skipHtml` to `true`, this component does not use `dangerouslySetInnerHTML` at all - this is a Good Thing™.
 
 ## Options
 
