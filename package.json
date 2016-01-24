@@ -56,8 +56,8 @@
     "staticpath": "demo/dist"
   },
   "dependencies": {
-    "commonmark": "^0.22.0",
-    "commonmark-react-renderer": "^2.2.0",
+    "commonmark": "^0.24.0",
+    "commonmark-react-renderer": "^2.2.2",
     "in-publish": "^2.0.0"
   },
   "peerDependencies": {
