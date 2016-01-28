@@ -2,6 +2,13 @@
 
 All notable changes will be documented in this file.
 
+
+## [1.2.4] - 2016-01-28
+
+### Changed
+
+- Rolled back dependencies because of breaking changes
+
 ## [1.2.3] - 2016-01-24
 
 ### Changed
