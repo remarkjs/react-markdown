@@ -20,7 +20,8 @@ var ReactMarkdown = React.createClass({
         softBreak: propTypes.string,
         allowNode: propTypes.func,
         allowedTypes: propTypes.array,
-        disallowedTypes: propTypes.array
+        disallowedTypes: propTypes.array,
+        walker: propTypes.func
     },
 
     getDefaultProps: function() {
@@ -33,6 +34,15 @@ var ReactMarkdown = React.createClass({
         var containerProps = {};
         var renderer = new ReactRenderer(this.props);
         var ast = parser.parse(this.props.source || '');
+
+        if (this.props.walker) {
+            var walker = ast.walker();
+            var event;
+
+            while ((event = walker.next())) {
+                this.props.walker.call(this, event.node);
+            }
+        }
 
         if (this.props.className) {
             containerProps.className = this.props.className;

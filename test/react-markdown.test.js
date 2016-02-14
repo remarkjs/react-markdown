@@ -120,4 +120,19 @@ describe('ReactMarkdown', function() {
 
         expect(ReactDom.findDOMNode(rendered).innerHTML).to.equal('');
     });
+
+    it('allows a walker callback', function() {
+        var walker = function(item) {
+            if (item.type === 'Strong') {
+                item.firstChild.literal = 'walker';
+            }
+        };
+
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, { source: testMarkdown, walker: walker })
+        );
+
+        var main = ReactDom.findDOMNode(rendered).innerHTML;
+        expect(main).to.contain('walker</strong>');
+    });
 });
