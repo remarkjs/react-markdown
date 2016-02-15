@@ -122,9 +122,9 @@ describe('ReactMarkdown', function() {
     });
 
     it('allows a walker callback', function() {
-        var walker = function(item) {
-            if (item.type === 'Strong') {
-                item.firstChild.literal = 'walker';
+        var walker = function(event) {
+            if (event.entering && event.node.type === 'Strong') {
+                event.node.firstChild.literal = 'walker';
             }
         };
 
