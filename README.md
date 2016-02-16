@@ -62,6 +62,7 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
   * `tag` - *string* The resolved tag name for this node
   * `props` - *object* Properties for this tag
   * `children` - *array* Array of unparsed children
+* `walker` - *function* Defines a callback function to walk through all nodes and manipulating them where needed before rendering.
 
 The possible types of elements that can be allowed/disallowed are:
 
