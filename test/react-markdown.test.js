@@ -46,10 +46,10 @@ describe('ReactMarkdown', function() {
         expect(ReactDom.findDOMNode(h1).innerHTML).to.equal('Demo');
 
         var em = TestUtils.findRenderedDOMComponentWithTag(rendered, 'em');
-        expect(ReactDom.findDOMNode(em).innerHTML).to.equal('rendered');
+        expect(ReactDom.findDOMNode(em).firstChild.innerHTML).to.equal('rendered');
 
         var strong = TestUtils.findRenderedDOMComponentWithTag(rendered, 'strong');
-        expect(ReactDom.findDOMNode(strong).innerHTML).to.equal('React');
+        expect(ReactDom.findDOMNode(strong).firstChild.innerHTML).to.equal('React');
 
         var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
         expect(ps).to.have.length(2);
@@ -168,6 +168,6 @@ describe('ReactMarkdown', function() {
         );
 
         var main = ReactDom.findDOMNode(rendered).innerHTML;
-        expect(main).to.contain('walker</strong>');
+        expect(main).to.contain('walker</span></strong>');
     });
 });
