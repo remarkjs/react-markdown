@@ -2,7 +2,9 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var assign = require('lodash.assign');
 var Editor = require('./editor');
+var CodeBlock = require('./code-block');
 var MarkdownControls = require('./markdown-controls');
 var Markdown = require('../../');
 
@@ -36,25 +38,6 @@ var Demo = module.exports = React.createClass({
         });
     },
 
-    highlightCodeBlocks: function() {
-        if (this.state.markdownSrc.indexOf('```') === -1) {
-            return;
-        }
-
-        var els = document.querySelectorAll('pre code');
-        for (var i = 0; i < els.length; i++) {
-            window.hljs.highlightBlock(els[i]);
-        }
-    },
-
-    componentDidMount: function() {
-        this.highlightCodeBlocks();
-    },
-
-    componentDidUpdate: function() {
-        this.highlightCodeBlocks();
-    },
-
     onControlsChange: function(mode) {
         this.setState({ htmlMode: mode });
     },
@@ -80,6 +63,9 @@ var Demo = module.exports = React.createClass({
                         source={this.state.markdownSrc}
                         skipHtml={this.state.htmlMode === 'skip'}
                         escapeHtml={this.state.htmlMode === 'escape'}
+                        renderers={assign({}, Markdown.renderers, {
+                            CodeBlock: CodeBlock
+                        })}
                     />
                 </div>
             </div>
