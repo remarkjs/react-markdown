@@ -121,6 +121,41 @@ describe('ReactMarkdown', function() {
         expect(ReactDom.findDOMNode(rendered).innerHTML).to.equal('');
     });
 
+    it('does not allow javascript, vbscript or file protocols by default', function() {
+        var source = [
+            '# [Much fun](javascript:alert("foo"))',
+            'Can be had with [XSS links](vbscript:foobar(\'test\'))',
+            '> And [other](VBSCRIPT:bap) nonsense... [files](file:///etc/passwd) for instance',
+            '## [Entities](javascript&#x3A;alert("bazinga")) can be tricky, too'
+        ].join('\n\n');
+
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, { source: source })
+        );
+
+        var links = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'a');
+        expect(ReactDom.findDOMNode(links[0]).getAttribute('href')).to.equal('x-javascript:alert(%22foo%22)');
+        expect(ReactDom.findDOMNode(links[1]).getAttribute('href')).to.equal('x-vbscript:foobar(\'test\')');
+        expect(ReactDom.findDOMNode(links[2]).getAttribute('href')).to.equal('x-VBSCRIPT:bap');
+        expect(ReactDom.findDOMNode(links[3]).getAttribute('href')).to.equal('x-file:///etc/passwd');
+        expect(ReactDom.findDOMNode(links[4]).getAttribute('href')).to.equal('x-javascript:alert(%22bazinga%22)');
+    });
+
+    it('allows specifying a custom URI-transformer', function() {
+        var src = 'Received a great [pull request](https://github.com/rexxars/react-markdown/pull/15) today';
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, {
+                source: src,
+                transformLinkUri: function(uri) {
+                    return uri.replace(/^https?:\/\/github\.com\//i, '/');
+                }
+            })
+        );
+
+        var links = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'a');
+        expect(ReactDom.findDOMNode(links[0]).getAttribute('href')).to.equal('/rexxars/react-markdown/pull/15');
+    });
+
     it('allows a walker callback', function() {
         var walker = function(event) {
             if (event.entering && event.node.type === 'Strong') {

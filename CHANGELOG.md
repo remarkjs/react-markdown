@@ -2,6 +2,21 @@
 
 All notable changes will be documented in this file.
 
+## [2.0.0] - 2016-02-21
+
+### Changed
+
+- **Breaking change**: The renderer now requires Node 0.14 or higher. This is because the renderer uses stateless components internally.
+- **Breaking change**: `allowNode` now receives different properties in the options argument. See `README.md` for more details.
+- **Breaking change**: CommonMark has changed some type names. `Html` is now `HtmlInline`, `Header` is now `Heading` and `HorizontalRule` is now `ThematicBreak`. This affects the `allowedTypes` and `disallowedTypes` options.
+- **Breaking change**: A bug in the `allowedTypes`/`disallowedTypes` and `allowNode` options made them only applicable to certain types. In this version, all types are filtered, as expected.
+- **Breaking change**: Link URIs are now filtered through an XSS-filter by default, prefixing "dangerous" protocols such as `javascript:` with `x-` (eg: `javascript:alert('foo')` turns into `x-javascript:alert('foo')`). This can be overridden with the `transformLinkUri`-option. Pass `null` to disable the feature or a custom function to replace the built-in behaviour.
+
+### Added
+
+- New `renderers` option allows you to customize which React component should be used for rendering given types. See `README.md` for more details. (Espen Hovlandsdal / Guillaume Plique)
+- New `unwrapDisallowed` option allows you to select if the contents of a disallowed node should be "unwrapped" (placed into the disallowed node position). For instance, setting this option to true and disallowing a link would still render the text of the link, instead of the whole link node and all it's children disappearing. (Espen Hovlandsdal)
+- New `transformLinkUri` option allows you to transform URIs in links. By default, an XSS-filter is used, but you could also use this for use cases like transforming absolute to relative URLs, or similar. (Espen Hovlandsdal)
 
 ## [1.2.4] - 2016-01-28
 

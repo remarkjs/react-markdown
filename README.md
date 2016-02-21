@@ -57,20 +57,22 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
 * `softBreak` - *string* Setting to `br` will create `<br>` tags instead of newlines (default: `\n`).
 * `allowedTypes` - *array* Defines which types of nodes should be allowed (rendered). (default: all types).
 * `disallowedTypes` - *array* Defines which types of nodes should be disallowed (not rendered). (default: none).
+* `unwrapDisallowed` - *boolean* Setting to `true` will try to extract/unwrap the children of disallowed nodes. For instance, if disallowing `Strong`, the default behaviour is to simply skip the text within the strong altogether, while the behaviour some might want is to simply have the text returned without the strong wrapping it. (default: `false`)
 * `allowNode` - *function* Function execute if in order to determine if the node should be allowed. Ran prior to checking `allowedTypes`/`disallowedTypes`. Returning a truthy value will allow the node to be included. Note that if this function returns `true` and the type is not in `allowedTypes` (or specified as a `disallowedType`), it won't be included. The function will get a single object argument (`node`), which includes the following properties:
   * `type` - *string* The type of node - same ones accepted in `allowedTypes` and `disallowedTypes`
-  * `tag` - *string* The resolved tag name for this node
-  * `props` - *object* Properties for this tag
-  * `children` - *array* Array of unparsed children
-* `walker` - *function* Defines a callback function to walk through all nodes and manipulating them where needed before rendering.
+  * `renderer` - *string* The resolved renderer for this node
+  * `props` - *object* Properties for this node
+  * `children* - *array* Array of children
+* `renderers` - *object* An object where the keys represent the node type and the value is a React component. The object is merged with the default renderers. The props passed to the component varies based on the type of node. See the [type renderer options](https://github.com/rexxars/commonmark-react-renderer#type-renderer-options) of `commonmark-react-renderer` for more details.
+* `transformLinkUri` - *function|null* Function that gets called for each encountered link with a single argument - `uri`. The returned value is used in place of the original. The default link URI transformer acts as an XSS-filter, neutralizing things like `javascript:`, `vbscript:` and `file:` protocols. If you specify a custom function, this default filter won't be called, but you can access it as `require('react-markdown').uriTransformer`. If you want to disable the default transformer, pass `null` to this option.
 
 The possible types of elements that can be allowed/disallowed are:
 
-* `Html` - Inline HTML
+* `HtmlInline` - Inline HTML
 * `HtmlBlock` - Block of HTML
 * `Text` - Text nodes (inside of paragraphs, list items etc)
 * `Paragraph` - Paragraph nodes (`<p>`)
-* `Header` - Headers (`<h1>`, `<h2>` etc)
+* `Heading` - Headers (`<h1>`, `<h2>` etc)
 * `Softbreak` - Newlines
 * `Hardbreak` - Hard line breaks (`<br>`)
 * `Link` - Link nodes (`<a>`)
@@ -82,9 +84,9 @@ The possible types of elements that can be allowed/disallowed are:
 * `List` - List nodes (`<ol>`, `<ul>`)
 * `Item` - List item nodes (`<li>`)
 * `Strong` - Strong/bold nodes (`<strong>`)
-* `HorizontalRule` - Horizontal rule nodes (`<hr>`)
+* `ThematicBreak` - Horizontal rule nodes (`<hr>`)
 
-Note: Disallowing a node will also prevent the rendering of any children of that node. Eg, disallowing a paragraph will not render it's children text nodes.
+Note: Disallowing a node will also prevent the rendering of any children of that node, unless the `unwrapDisallowed` option is set to `true`. Eg, disallowing a paragraph will not render it's children text nodes.
 
 ## Developing
 

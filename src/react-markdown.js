@@ -21,6 +21,9 @@ var ReactMarkdown = React.createClass({
         allowNode: propTypes.func,
         allowedTypes: propTypes.array,
         disallowedTypes: propTypes.array,
+        transformLinkUri: propTypes.func,
+        unwrapDisallowed: propTypes.bool,
+        renderers: propTypes.object,
         walker: propTypes.func
     },
 
@@ -54,5 +57,9 @@ var ReactMarkdown = React.createClass({
         );
     }
 });
+
+ReactMarkdown.types = ReactRenderer.types;
+ReactMarkdown.renderers = ReactRenderer.renderers;
+ReactMarkdown.uriTransformer = ReactRenderer.uriTransformer;
 
 module.exports = ReactMarkdown;
