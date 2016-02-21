@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## [2.0.1] - 2016-02-21
+
+### Changed
+
+- Update `commonmark-react-renderer` dependency to latest version to add keys to all elements and simplify custom renderers.
+
 ## [2.0.0] - 2016-02-21
 
 ### Changed
