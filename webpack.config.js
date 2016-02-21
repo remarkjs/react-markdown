@@ -54,6 +54,11 @@ var config = {
 };
 
 if (prod) {
+    config.plugins.push(new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: JSON.stringify('production')
+        }
+    }));
     config.plugins.push(new webpack.optimize.DedupePlugin());
     config.plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
     config.plugins.push(new webpack.optimize.UglifyJsPlugin());
