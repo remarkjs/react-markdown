@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "commonmark": "^0.24.0",
-    "commonmark-react-renderer": "^4.0.1",
+    "commonmark-react-renderer": "^4.1.1",
     "in-publish": "^2.0.0"
   },
   "peerDependencies": {
