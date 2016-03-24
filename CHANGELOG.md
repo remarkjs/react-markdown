@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file.
 
+## [2.1.1] - 2016-03-25
+
+- Add `containerProps` option (Thomas Lindstrøm)
+
 ## [2.1.0] - 2016-03-12
 
 ### Changes
