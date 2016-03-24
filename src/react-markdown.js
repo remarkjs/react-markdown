@@ -12,6 +12,7 @@ var ReactMarkdown = React.createClass({
 
     propTypes: {
         className: propTypes.string,
+        props: propTypes.object,
         source: propTypes.string.isRequired,
         containerTagName: propTypes.string,
         sourcePos: propTypes.bool,
@@ -34,7 +35,7 @@ var ReactMarkdown = React.createClass({
     },
 
     render: function() {
-        var containerProps = {};
+        var containerProps = this.props.props || {};
         var renderer = new ReactRenderer(this.props);
         var ast = parser.parse(this.props.source || '');
 
