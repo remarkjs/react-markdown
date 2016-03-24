@@ -38,7 +38,7 @@ describe('ReactMarkdown', function() {
         var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, {
                 source: testMarkdown,
-                props: {
+                containerProps: {
                     htmlFor: 'myElementID'
                 }
             })
@@ -51,7 +51,7 @@ describe('ReactMarkdown', function() {
         var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, {
                 source: testMarkdown,
-                props: {
+                containerProps: {
                     id: 'myElementID'
                 }
             })

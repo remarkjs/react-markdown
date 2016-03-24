@@ -50,8 +50,8 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
 
 * `source` - *string* The Markdown source to parse (**required**)
 * `className` - *string* Class name of the container element (default: `''`).
-* `props` - *object* An object containing custom element props to put on the container element such as `id` and `htmlFor`.
 * `containerTagName` - *string* Tag name for the container element, since Markdown can have many root-level elements, the component need to wrap them in something (default: `div`).
+* `containerProps` - *object* An object containing custom element props to put on the container element such as `id` and `htmlFor`.
 * `escapeHtml` - *boolean* Setting to `true` will escape HTML blocks, rendering plain text instead of inserting the blocks as raw HTML (default: `false`).
 * `skipHtml` - *boolean* Setting to `true` will skip inlined and blocks of HTML (default: `false`).
 * `sourcePos` - *boolean* Setting to `true` will add `data-sourcepos` attributes to all elements, indicating where in the markdown source they were rendered from (default: `false`).
