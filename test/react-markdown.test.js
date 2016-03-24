@@ -34,6 +34,32 @@ describe('ReactMarkdown', function() {
         expect(ReactDom.findDOMNode(rendered).getAttribute('class')).to.equal('foo bar');
     });
 
+    it('should set custom prop htmlFor on the container if props are passed as prop', function() {
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, {
+                source: testMarkdown,
+                containerProps: {
+                    htmlFor: 'myElementID'
+                }
+            })
+        );
+
+        expect(ReactDom.findDOMNode(rendered).getAttribute('for')).to.equal('myElementID');
+    });
+
+    it('should set custom prop ID on the container if props are passed as prop', function() {
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, {
+                source: testMarkdown,
+                containerProps: {
+                    id: 'myElementID'
+                }
+            })
+        );
+
+        expect(ReactDom.findDOMNode(rendered).getAttribute('id')).to.equal('myElementID');
+    });
+
     it('should have rendered a div with the right children', function() {
         var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, { source: testMarkdown })
