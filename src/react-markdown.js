@@ -15,6 +15,8 @@ var ReactMarkdown = React.createClass({
         containerProps: propTypes.object,
         source: propTypes.string.isRequired,
         containerTagName: propTypes.string,
+        childBefore: propTypes.object,
+        childAfter: propTypes.object,
         sourcePos: propTypes.bool,
         escapeHtml: propTypes.bool,
         skipHtml: propTypes.bool,
@@ -53,8 +55,10 @@ var ReactMarkdown = React.createClass({
         }
 
         return React.createElement.apply(React,
-            [this.props.containerTagName, containerProps]
-                .concat(renderer.render(ast))
+            [this.props.containerTagName, containerProps, this.props.childBefore]
+                .concat(renderer.render(ast).concat(
+                    [this.props.childAfter]
+                ))
         );
     }
 });
