@@ -47,6 +47,22 @@ describe('ReactMarkdown', function() {
         expect(ReactDom.findDOMNode(rendered).getAttribute('for')).to.equal('myElementID');
     });
 
+    it('should render before and after children if passed as props', function() {
+        var beforeText = 'Hello again';
+        var afterText = 'friend of a friend';
+
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ReactMarkdown, {
+                source: testMarkdown,
+                childBefore: React.createElement('ul', null, beforeText),
+                childAfter: React.createElement('a', null, afterText)
+            })
+        );
+
+        expect(ReactDom.findDOMNode(rendered).firstChild.innerHTML).to.equal(beforeText);
+        expect(ReactDom.findDOMNode(rendered).lastChild.innerHTML).to.equal(afterText);
+    });
+
     it('should set custom prop ID on the container if props are passed as prop', function() {
         var rendered = TestUtils.renderIntoDocument(
             React.createElement(ReactMarkdown, {
