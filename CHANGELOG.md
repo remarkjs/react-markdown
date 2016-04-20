@@ -2,6 +2,10 @@
 
 All notable changes will be documented in this file.
 
+## [2.2.0] - 2016-04-20
+
+- Add `childBefore`/`childAfter` options (Thomas Lindstrøm)
+
 ## [2.1.1] - 2016-03-25
 
 - Add `containerProps` option (Thomas Lindstrøm)
