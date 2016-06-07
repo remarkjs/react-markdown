@@ -46,7 +46,7 @@ var ReactMarkdown = React.createClass({
             var event;
 
             while ((event = walker.next())) {
-                this.props.walker.call(this, event);
+                this.props.walker.call(this, event, walker);
             }
         }
 
