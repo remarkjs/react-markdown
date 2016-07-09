@@ -7,6 +7,21 @@ var React = require('react'),
     expect = require('chai').expect,
     ReactMarkdown = require('../');
 
+function firstNonCommentChild(parent) {
+    var children = ReactDom.findDOMNode(parent).childNodes;
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].nodeName !== '#comment') {
+            return children[i];
+        }
+    }
+
+    throw new Error('No child node found on parent that was not a comment');
+}
+
+function uncommentify(src) {
+    return src.replace(/<!--.*?-->/g, '');
+}
+
 describe('ReactMarkdown', function() {
     jsdom();
 
@@ -88,10 +103,10 @@ describe('ReactMarkdown', function() {
         expect(ReactDom.findDOMNode(h1).innerHTML).to.equal('Demo');
 
         var em = TestUtils.findRenderedDOMComponentWithTag(rendered, 'em');
-        expect(ReactDom.findDOMNode(em).firstChild.innerHTML).to.equal('rendered');
+        expect(firstNonCommentChild(em).nodeValue).to.equal('rendered');
 
         var strong = TestUtils.findRenderedDOMComponentWithTag(rendered, 'strong');
-        expect(ReactDom.findDOMNode(strong).firstChild.innerHTML).to.equal('React');
+        expect(firstNonCommentChild(strong).nodeValue).to.equal('React');
 
         var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
         expect(ps).to.have.length(2);
@@ -155,14 +170,6 @@ describe('ReactMarkdown', function() {
         expect(main).to.not.contain('<strong');
     });
 
-    it('does not blow up if no source is given', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, {})
-        );
-
-        expect(ReactDom.findDOMNode(rendered).innerHTML).to.equal('');
-    });
-
     it('does not allow javascript, vbscript or file protocols by default', function() {
         var source = [
             '# [Much fun](javascript:alert("foo"))',
@@ -209,7 +216,7 @@ describe('ReactMarkdown', function() {
             React.createElement(ReactMarkdown, { source: testMarkdown, walker: walker })
         );
 
-        var main = ReactDom.findDOMNode(rendered).innerHTML;
-        expect(main).to.contain('walker</span></strong>');
+        var main = uncommentify(ReactDom.findDOMNode(rendered).innerHTML);
+        expect(main).to.contain('walker</strong>');
     });
 });
