@@ -68,6 +68,7 @@ If you either set `escapeHtml` or `skipHtml` to `true`, this component does not 
   * `children` - *array* Array of children
 * `renderers` - *object* An object where the keys represent the node type and the value is a React component. The object is merged with the default renderers. The props passed to the component varies based on the type of node. See the [type renderer options](https://github.com/rexxars/commonmark-react-renderer#type-renderer-options) of `commonmark-react-renderer` for more details.
 * `transformLinkUri` - *function|null* Function that gets called for each encountered link with a single argument - `uri`. The returned value is used in place of the original. The default link URI transformer acts as an XSS-filter, neutralizing things like `javascript:`, `vbscript:` and `file:` protocols. If you specify a custom function, this default filter won't be called, but you can access it as `require('react-markdown').uriTransformer`. If you want to disable the default transformer, pass `null` to this option.
+* `transformImageUri` - *function|null* Function that gets called for each encountered image with a single argument - `uri`. The returned value is used in place of the original.
 
 The possible types of elements that can be allowed/disallowed are:
 
