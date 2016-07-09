@@ -3,6 +3,7 @@
 var React = require('react');
 var PureRenderMixin = require('react-addons-pure-render-mixin');
 var hljs = window.hljs;
+var h = React.createElement;
 
 var CodeBlock = React.createClass({
     displayName: 'CodeBlock',
@@ -26,9 +27,12 @@ var CodeBlock = React.createClass({
 
     render: function() {
         return (
-            <pre>
-                <code ref="code" className={this.props.language}>{this.props.literal}</code>
-            </pre>
+            h('pre', null,
+                h('code', {
+                    ref: 'code',
+                    className: this.props.language
+                }, this.props.literal)
+            )
         );
     }
 });

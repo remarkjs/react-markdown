@@ -7,6 +7,7 @@ var Editor = require('./editor');
 var CodeBlock = require('./code-block');
 var MarkdownControls = require('./markdown-controls');
 var Markdown = require('../../');
+var h = React.createElement;
 
 var Demo = module.exports = React.createClass({
     displayName: 'Demo',
@@ -44,35 +45,35 @@ var Demo = module.exports = React.createClass({
 
     render: function() {
         return (
-            <div className="demo">
-                <div className="editor-pane">
-                    <MarkdownControls
-                        onChange={this.onControlsChange}
-                        mode={this.state.htmlMode}
-                    />
+            h('div', {className: 'demo'},
+                h('div', {className: 'editor-pane'},
+                    h(MarkdownControls, {
+                        onChange: this.onControlsChange,
+                        mode: this.state.htmlMode
+                    }),
 
-                    <Editor
-                        value={this.state.markdownSrc}
-                        onChange={this.onMarkdownChange}
-                    />
-                </div>
+                    h(Editor, {
+                        value: this.state.markdownSrc,
+                        onChange: this.onMarkdownChange
+                    })
+                ),
 
-                <div className="result-pane">
-                    <Markdown
-                        className="result"
-                        source={this.state.markdownSrc}
-                        skipHtml={this.state.htmlMode === 'skip'}
-                        escapeHtml={this.state.htmlMode === 'escape'}
-                        renderers={assign({}, Markdown.renderers, {
+                h('div', {className: 'result-pane'},
+                    h(Markdown, {
+                        className: 'result',
+                        source: this.state.markdownSrc,
+                        skipHtml: this.state.htmlMode === 'skip',
+                        escapeHtml: this.state.htmlMode === 'escape',
+                        renderers: assign({}, Markdown.renderers, {
                             CodeBlock: CodeBlock
-                        })}
-                    />
-                </div>
-            </div>
+                        })
+                    })
+                )
+            )
         );
     }
 });
 
 if (typeof window !== 'undefined') {
-    ReactDOM.render(<Demo />, document.getElementById('main'));
+    ReactDOM.render(h(Demo), document.getElementById('main'));
 }

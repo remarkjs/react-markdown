@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var h = React.createElement;
 
 module.exports = React.createClass({
     displayName: 'MarkdownControls',
@@ -26,49 +27,49 @@ module.exports = React.createClass({
             escapeChecked = this.props.mode === 'escape';
 
         return (
-            <div className="markdown-controls">
-                <form className="pure-form pure-form-inline">
-                    <fieldset>
-                        <legend>HTML mode:</legend>
+            h('div', {className: 'markdown-controls'},
+                h('form', {className: 'pure-form pure-form-inline'},
+                    h('fieldset', null,
+                        h('legend', null, 'HTML mode'),
 
-                        <label htmlFor="raw-html" className="pure-checkbox">
-                            Raw&nbsp;
-                            <input
-                                id="raw-html"
-                                name="html-mode"
-                                type="radio"
-                                value="raw"
-                                checked={rawChecked}
-                                onChange={this.onChange}
-                            />
-                        </label>
+                        h('label', {htmlFor: 'raw-html', className: 'pure-checkbox'},
+                            'Raw ',
+                            h('input', {
+                                id: 'raw-html',
+                                name: 'html-mode',
+                                type: 'radio',
+                                value: 'raw',
+                                checked: rawChecked,
+                                onChange: this.onChange
+                            })
+                        ),
 
-                        <label htmlFor="escape-html" className="pure-checkbox">
-                            Escape&nbsp;
-                            <input
-                                id="escape-html"
-                                name="html-mode"
-                                type="radio"
-                                value="escape"
-                                checked={escapeChecked}
-                                onChange={this.onChange}
-                            />
-                        </label>
+                        h('label', {htmlFor: 'escape-html', className: 'pure-checkbox'},
+                            'Escape ',
+                            h('input', {
+                                id: 'escape-html',
+                                name: 'html-mode',
+                                type: 'radio',
+                                value: 'escape',
+                                checked: escapeChecked,
+                                onChange: this.onChange
+                            })
+                        ),
 
-                        <label htmlFor="skip-html" className="pure-checkbox">
-                            Skip&nbsp;
-                            <input
-                                id="skip-html"
-                                name="html-mode"
-                                type="radio"
-                                value="skip"
-                                checked={skipChecked}
-                                onChange={this.onChange}
-                            />
-                        </label>
-                    </fieldset>
-                </form>
-            </div>
+                        h('label', {htmlFor: 'skip-html', className: 'pure-checkbox'},
+                            'Skip ',
+                            h('input', {
+                                id: 'skip-html',
+                                name: 'html-mode',
+                                type: 'radio',
+                                value: 'skip',
+                                checked: skipChecked,
+                                onChange: this.onChange
+                            })
+                        )
+                    )
+                )
+            )
         );
     }
 });

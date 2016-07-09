@@ -2,6 +2,7 @@
 
 var React = require('react');
 var CodeMirror = window.CodeMirrorEditor;
+var h = React.createElement;
 
 module.exports = React.createClass({
     displayName: 'Editor',
@@ -17,14 +18,14 @@ module.exports = React.createClass({
 
     render: function() {
         return (
-            <form className="editor pure-form">
-                <CodeMirror
-                    mode="markdown"
-                    theme="monokai"
-                    value={this.props.value}
-                    onChange={this.onInputChange}
-                />
-            </form>
+            h('form', {className: 'editor pure-form'},
+                h(CodeMirror, {
+                    mode: 'markdown',
+                    theme: 'monokai',
+                    value: this.props.value,
+                    onChange: this.onInputChange
+                })
+            )
         );
     }
 });
