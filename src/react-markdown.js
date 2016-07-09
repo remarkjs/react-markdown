@@ -22,6 +22,7 @@ var ReactMarkdown = React.createClass({
         allowedTypes: propTypes.array,
         disallowedTypes: propTypes.array,
         transformLinkUri: propTypes.func,
+        transformImageUri: propTypes.func,
         unwrapDisallowed: propTypes.bool,
         renderers: propTypes.object,
         walker: propTypes.func

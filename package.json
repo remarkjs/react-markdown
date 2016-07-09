@@ -43,10 +43,10 @@
     "mocha": "^2.3.4",
     "mocha-jsdom": "^1.0.0",
     "node-libs-browser": "^0.5.3",
-    "react": "^0.14.3",
-    "react-addons-pure-render-mixin": "^0.14.7",
-    "react-addons-test-utils": "^0.14.3",
-    "react-dom": "^0.14.3",
+    "react": "^15.2.1",
+    "react-addons-pure-render-mixin": "^15.2.1",
+    "react-addons-test-utils": "^15.2.1",
+    "react-dom": "^15.2.1",
     "react-textarea-autosize": "^3.1.0",
     "webpack": "^1.12.9"
   },
@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "commonmark": "^0.24.0",
-    "commonmark-react-renderer": "^4.1.1",
+    "commonmark-react-renderer": "^4.2.1",
     "in-publish": "^2.0.0"
   },
   "peerDependencies": {
