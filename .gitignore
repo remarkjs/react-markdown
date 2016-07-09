@@ -25,3 +25,7 @@ build/Release
 # Dependency directories
 node_modules
 vendor
+
+# UMD build
+umd
+

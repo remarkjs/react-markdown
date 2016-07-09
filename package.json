@@ -9,8 +9,9 @@
     "react-component"
   ],
   "main": "src/react-markdown.js",
+  "umd": "umd/react-markdown.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack && NODE_ENV=production webpack --config webpack.config.demo.js",
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --reporter spec",
     "deploy": "gh-pages-deploy",
     "lint": "eslint .",
@@ -19,7 +20,7 @@
     "qa": "npm prune && npm test && npm run build",
     "test": "mocha --reporter spec",
     "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
-    "watch": "webpack --watch"
+    "watch": "webpack --config webpack.config.demo.js --watch"
   },
   "repository": {
     "type": "git",

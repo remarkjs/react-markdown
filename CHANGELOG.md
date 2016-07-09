@@ -2,6 +2,18 @@
 
 All notable changes will be documented in this file.
 
+## [2.4.2] - 2016-07-09
+
+### Added
+
+- Added UMD-build (`umd/react-markdown.js`) (Espen Hovlandsdal)
+
+## [2.4.1] - 2016-07-09
+
+### Changes
+
+- Update `commonmark-react-renderer`, fixing a bug with missing nodes (Espen Hovlandsdal)
+
 ## [2.4.0] - 2016-07-09
 
 ### Changes
