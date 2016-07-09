@@ -2,7 +2,7 @@
 
 All notable changes will be documented in this file.
 
-## [2.3.0] - 2016-07-09
+## [2.4.0] - 2016-07-09
 
 ### Changes
 
@@ -11,6 +11,12 @@ All notable changes will be documented in this file.
 ### Added
 
 - New `transformImageUri` option allows you to transform URIs for images. (Petri Lehtinen)
+
+## [2.3.0] - 2016-06-06
+
+## Added
+
+- The `walker` instance is now passed to the `walker` callback function (Riku Rouvila)
 
 ## [2.2.0] - 2016-04-20
 
