@@ -29,6 +29,7 @@
   "author": "Espen Hovlandsdal <rexxars@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/react": "*",
     "chai": "^3.5.0",
     "eslint": "^3.0.1",
     "eslint-config-vaffel": "^5.0.0",
@@ -54,7 +55,6 @@
     "staticpath": "demo/dist"
   },
   "dependencies": {
-    "@types/react": "*",
     "commonmark": "^0.24.0",
     "commonmark-react-renderer": "^4.2.4",
     "in-publish": "^2.0.0"
