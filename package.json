@@ -29,6 +29,7 @@
   "author": "Espen Hovlandsdal <rexxars@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/react": "*",
     "chai": "^3.5.0",
     "eslint": "^3.0.1",
     "eslint-config-vaffel": "^5.0.0",
@@ -58,6 +59,7 @@
     "commonmark-react-renderer": "^4.2.4",
     "in-publish": "^2.0.0"
   },
+  "types": "./react-markdown.d.ts",
   "peerDependencies": {
     "react": ">=0.13.3"
   }
