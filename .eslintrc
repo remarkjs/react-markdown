@@ -1,3 +1,6 @@
 {
-    "extends": "vaffel/react"
+    "extends": "vaffel/react",
+    "rules": {
+        "react/wrap-multilines": 0
+    }
 }
