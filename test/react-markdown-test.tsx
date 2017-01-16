@@ -1,15 +1,12 @@
-/// <reference path="../react-markdown.d.ts" />
-
-import ReactMarkdown, {NodeType} from 'react-markdown';
+import * as ReactMarkdown from '../';
 
 const text = "# Hello";
 
 const ex1: JSX.Element = (
-    <ReactMarkdown source={text}/>
+    <ReactMarkdown source={text} />
 );
 
-
-const allowedTypes: NodeType[] = ['BlockQuote', 'Code'];
+const allowedTypes: ReactMarkdown.NodeType[] = ['BlockQuote', 'Code'];
 
 const ex2: JSX.Element = (
     <ReactMarkdown
