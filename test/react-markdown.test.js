@@ -219,4 +219,16 @@ describe('ReactMarkdown', function() {
         var main = uncommentify(ReactDom.findDOMNode(rendered).innerHTML);
         expect(main).to.contain('walker</strong>');
     });
+
+    it('should pass options correctly to the parser', function() {
+        var src = '"He\'s gone totally off--it\'s wild."';
+        var rendered = TestUtils.renderIntoDocument(
+          React.createElement(ReactMarkdown, {
+              source: src,
+              parserOptions: { smart: true }
+          })
+        );
+        var main = ReactDom.findDOMNode(rendered).innerHTML;
+        expect(main).to.contain('“He’s gone totally off–it’s wild.”');
+    });
 });

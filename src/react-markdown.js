@@ -4,7 +4,6 @@ var React = require('react');
 var Parser = require('commonmark').Parser;
 var ReactRenderer = require('commonmark-react-renderer');
 
-var parser = new Parser();
 var propTypes = React.PropTypes;
 
 var ReactMarkdown = React.createClass({
@@ -28,18 +27,21 @@ var ReactMarkdown = React.createClass({
         transformImageUri: propTypes.func,
         unwrapDisallowed: propTypes.bool,
         renderers: propTypes.object,
-        walker: propTypes.func
+        walker: propTypes.func,
+        parserOptions: propTypes.object
     },
 
     getDefaultProps: function() {
         return {
-            containerTagName: 'div'
+            containerTagName: 'div',
+            parserOptions: {}
         };
     },
 
     render: function() {
         var containerProps = this.props.containerProps || {};
         var renderer = new ReactRenderer(this.props);
+        var parser = new Parser(this.props.parserOptions);
         var ast = parser.parse(this.props.source || '');
 
         if (this.props.walker) {
