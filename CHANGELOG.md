@@ -2,7 +2,7 @@
 
 All notable changes will be documented in this file.
 
-## [2.4.5] - 2017-03-14
+## [2.4.6] - 2017-03-14
 
 ### Changes
 
