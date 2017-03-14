@@ -2,6 +2,29 @@
 
 All notable changes will be documented in this file.
 
+## [2.4.5] - 2017-03-14
+
+### Changes
+
+- Fix too strict TypeScript definition (Rasmus Eneman)
+- Update JSON-loader info in readme to match webpack 2 (Robin Wieruch)
+
+### Added
+
+- Add ability to pass options to the CommonMark parser (Evan Hensleigh)
+
+## [2.4.4] - 2017-01-16
+
+### Changes
+
+- Fixed TypeScript definitions (Kohei Asai)
+
+## [2.4.3] - 2017-01-12
+
+### Added
+
+- Added TypeScript definitions (Ibragimov Ruslan)
+
 ## [2.4.2] - 2016-07-09
 
 ### Added
