@@ -36,7 +36,7 @@ If you are using Webpack, you need to enable a JSON-loader. To do so, first `npm
     module: {
         loaders: [{
             test: /\.json$/,
-            loader: 'json'
+            loader: 'json-loader'
         }]
     }
 }
