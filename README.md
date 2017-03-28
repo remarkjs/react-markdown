@@ -29,22 +29,26 @@ ReactDOM.render(
 
 ## Important note
 
-If you are using Webpack, you need to enable a JSON-loader. To do so, first `npm install --save json-loader`, then add the loader to your webpack config:
+If you are using Webpack 1, you need to enable a JSON-loader. To do so, first `npm install --save json-loader`, then add the loader to your webpack config:
 
 ```js
 {
-    module: {
-        loaders: [{
-            test: /\.json$/,
-            loader: 'json-loader'
-        }]
-    }
+  module: {
+    loaders: [{
+      test: /\.json$/,
+      loader: 'json-loader'
+    }]
+  }
 }
 ```
 
 ## Notes
 
 If you either set `escapeHtml` or `skipHtml` to `true`, this component does not use `dangerouslySetInnerHTML` at all - this is a Good Thing™.
+
+## Inline HTML is broken
+
+As the title says, inline HTML is currently broken. See [commonmark-react-renderer#9](https://github.com/rexxars/commonmark-react-renderer/issues/9) for more information on why and how you can help out.
 
 ## Options
 
