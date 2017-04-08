@@ -2,7 +2,7 @@
 
 var React = require('react'),
     ReactDom = require('react-dom'),
-    TestUtils = require('react-addons-test-utils'),
+    TestUtils = require('react-dom/test-utils'),
     jsdom = require('mocha-jsdom'),
     expect = require('chai').expect,
     ReactMarkdown = require('../');
