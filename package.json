@@ -57,7 +57,8 @@
   "dependencies": {
     "commonmark": "^0.24.0",
     "commonmark-react-renderer": "^4.2.4",
-    "in-publish": "^2.0.0"
+    "in-publish": "^2.0.0",
+    "prop-types": "^15.5.1"
   },
   "types": "./react-markdown.d.ts",
   "peerDependencies": {
