@@ -9,11 +9,11 @@ var MarkdownControls = require('./markdown-controls');
 var Markdown = require('../../');
 var h = React.createElement;
 
-var Demo = module.exports = React.createClass({
-    displayName: 'Demo',
+class Demo extends React.Component {
+    constructor(props) {
+        super(props);
 
-    getInitialState: function() {
-        return {
+        this.state = {
             markdownSrc: [
                 '# Live demo\n\nChanges are automatically rendered as you type.\n\n* Follows the ',
                 '[CommonMark](http://commonmark.org/) spec\n* Renders actual, "native" React DOM ',
@@ -31,19 +31,22 @@ var Demo = module.exports = React.createClass({
 
             htmlMode: 'raw'
         };
-    },
 
-    onMarkdownChange: function(md) {
+        this.onMarkdownChange = this.onMarkdownChange.bind(this);
+        this.onControlsChange = this.onControlsChange.bind(this);
+    }
+
+    onMarkdownChange(md) {
         this.setState({
             markdownSrc: md
         });
-    },
+    }
 
-    onControlsChange: function(mode) {
+    onControlsChange(mode) {
         this.setState({ htmlMode: mode });
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             h('div', {className: 'demo'},
                 h('div', {className: 'editor-pane'},
@@ -72,7 +75,9 @@ var Demo = module.exports = React.createClass({
             )
         );
     }
-});
+}
+
+module.exports = Demo;
 
 if (typeof window !== 'undefined') {
     ReactDOM.render(h(Demo), document.getElementById('main'));

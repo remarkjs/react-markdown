@@ -30,6 +30,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/react": "^15.0.16",
+    "buble-loader": "^0.4.1",
     "chai": "^3.5.0",
     "eslint": "^3.17.1",
     "eslint-config-vaffel": "^5.0.0",
@@ -42,7 +43,6 @@
     "mocha": "^3.2.0",
     "mocha-jsdom": "^1.1.0",
     "react": "^15.5.0",
-    "react-addons-pure-render-mixin": "^15.5.1",
     "react-dom": "^15.5.0",
     "webpack": "^1.13.1"
   },

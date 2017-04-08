@@ -1,27 +1,21 @@
 'use strict';
 
 var React = require('react');
+var PropTypes = require('prop-types');
 var h = React.createElement;
 
-module.exports = React.createClass({
-    displayName: 'MarkdownControls',
+class MarkdownControls extends React.Component {
+    constructor(props) {
+        super(props);
 
-    propTypes: {
-        mode: React.PropTypes.string.isRequired,
-        onChange: React.PropTypes.func.isRequired
-    },
+        this.onChange = this.onChange.bind(this);
+    }
 
-    getDefaultProps: function() {
-        return {
-            mode: 'raw'
-        };
-    },
-
-    onChange: function(e) {
+    onChange(e) {
         this.props.onChange(e.target.value);
-    },
+    }
 
-    render: function() {
+    render() {
         var rawChecked = this.props.mode === 'raw',
             skipChecked = this.props.mode === 'skip',
             escapeChecked = this.props.mode === 'escape';
@@ -72,4 +66,15 @@ module.exports = React.createClass({
             )
         );
     }
-});
+}
+
+MarkdownControls.propTypes = {
+    mode: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
+};
+
+MarkdownControls.defaultProps = {
+    mode: 'raw'
+};
+
+module.exports = MarkdownControls;
