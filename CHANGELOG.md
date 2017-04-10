@@ -2,7 +2,13 @@
 
 All notable changes will be documented in this file.
 
-## [2.4.6] - 2017-03-14
+## 2.5.0 - 2017-04-10
+
+### Changes
+
+- Fix deprecations for React v15.5 (Renée Kooi)
+
+## 2.4.6 - 2017-03-14
 
 ### Changes
 
@@ -13,31 +19,31 @@ All notable changes will be documented in this file.
 
 - Add ability to pass options to the CommonMark parser (Evan Hensleigh)
 
-## [2.4.4] - 2017-01-16
+## 2.4.4 - 2017-01-16
 
 ### Changes
 
 - Fixed TypeScript definitions (Kohei Asai)
 
-## [2.4.3] - 2017-01-12
+## 2.4.3 - 2017-01-12
 
 ### Added
 
 - Added TypeScript definitions (Ibragimov Ruslan)
 
-## [2.4.2] - 2016-07-09
+## 2.4.2 - 2016-07-09
 
 ### Added
 
 - Added UMD-build (`umd/react-markdown.js`) (Espen Hovlandsdal)
 
-## [2.4.1] - 2016-07-09
+## 2.4.1 - 2016-07-09
 
 ### Changes
 
 - Update `commonmark-react-renderer`, fixing a bug with missing nodes (Espen Hovlandsdal)
 
-## [2.4.0] - 2016-07-09
+## 2.4.0 - 2016-07-09
 
 ### Changes
 
@@ -47,33 +53,33 @@ All notable changes will be documented in this file.
 
 - New `transformImageUri` option allows you to transform URIs for images. (Petri Lehtinen)
 
-## [2.3.0] - 2016-06-06
+## 2.3.0 - 2016-06-06
 
 ## Added
 
 - The `walker` instance is now passed to the `walker` callback function (Riku Rouvila)
 
-## [2.2.0] - 2016-04-20
+## 2.2.0 - 2016-04-20
 
 - Add `childBefore`/`childAfter` options (Thomas Lindstrøm)
 
-## [2.1.1] - 2016-03-25
+## 2.1.1 - 2016-03-25
 
 - Add `containerProps` option (Thomas Lindstrøm)
 
-## [2.1.0] - 2016-03-12
+## 2.1.0 - 2016-03-12
 
 ### Changes
 
 - Join sibling text nodes into one text node (Espen Hovlandsdal)
 
-## [2.0.1] - 2016-02-21
+## 2.0.1 - 2016-02-21
 
 ### Changed
 
 - Update `commonmark-react-renderer` dependency to latest version to add keys to all elements and simplify custom renderers.
 
-## [2.0.0] - 2016-02-21
+## 2.0.0 - 2016-02-21
 
 ### Changed
 
@@ -89,70 +95,62 @@ All notable changes will be documented in this file.
 - New `unwrapDisallowed` option allows you to select if the contents of a disallowed node should be "unwrapped" (placed into the disallowed node position). For instance, setting this option to true and disallowing a link would still render the text of the link, instead of the whole link node and all it's children disappearing. (Espen Hovlandsdal)
 - New `transformLinkUri` option allows you to transform URIs in links. By default, an XSS-filter is used, but you could also use this for use cases like transforming absolute to relative URLs, or similar. (Espen Hovlandsdal)
 
-## [1.2.4] - 2016-01-28
+## 1.2.4 - 2016-01-28
 
 ### Changed
 
 - Rolled back dependencies because of breaking changes
 
-## [1.2.3] - 2016-01-24
+## 1.2.3 - 2016-01-24
 
 ### Changed
 
 - Updated dependencies for both `commonmark` and `commonmark-react-parser` to work around an embarrasing oversight on my part.
 
-## [1.2.2] - 2016-01-08
+## 1.2.2 - 2016-01-08
 
 ### Changed
 
 - Reverted change from 1.2.1 that uses the dist version. Instead, documentation is added that specified the need for `json-loader` to be enabled when using webpack.
 
-## [1.2.1] - 2015-12-29
+## 1.2.1 - 2015-12-29
 
 ### Fixed
 
 - Use pre-built (dist version) of commonmark renderer in order to work around JSON-loader dependency.
 
-## [1.2.0] - 2015-12-16
+## 1.2.0 - 2015-12-16
 
 ### Added
 
 - Added new `allowNode`-property. See README for details.
 
-## [1.1.4] - 2015-12-14
+## 1.1.4 - 2015-12-14
 
 ### Fixed
 
 - Set correct `libraryTarget` to make UMD builds work as expected
 
-## [1.1.3] - 2015-12-14
+## 1.1.3 - 2015-12-14
 
 ### Fixed
 
 - Update babel dependencies and run prepublish only as actual prepublish, not install
 
-## [1.1.1] - 2015-11-28
+## 1.1.1 - 2015-11-28
 
 ### Fixed
 
 - Fixed issue with React external name in global environment (`react` vs `React`)
 
-## [1.1.0] - 2015-11-22
+## 1.1.0 - 2015-11-22
 
 ### Changed
 
 - Add ability to allow/disallow specific node types (`allowedTypes`/`disallowedTypes`)
 
-## [1.0.5] - 2015-10-22
+## 1.0.5 - 2015-10-22
 
 ### Changed
 
 - Moved React from dependency to peer dependency.
-
-[1.2.1]: https://github.com/rexxars/react-markdown/compare/v1.2.0...v1.2.1
-[1.2.0]: https://github.com/rexxars/react-markdown/compare/v1.1.4...v1.2.0
-[1.1.4]: https://github.com/rexxars/react-markdown/compare/v1.1.3...v1.1.4
-[1.1.3]: https://github.com/rexxars/react-markdown/compare/v1.1.1...v1.1.3
-[1.1.1]: https://github.com/rexxars/react-markdown/compare/v1.1.0...v1.1.1
-[1.1.0]: https://github.com/rexxars/react-markdown/compare/v1.0.5...v1.1.0
-[1.0.5]: https://github.com/rexxars/react-markdown/compare/85a0e625ad1fefc6af2cb779c6ee74db5f31f866...v1.0.5
