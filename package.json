@@ -1,7 +1,7 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "2.4.6",
+  "version": "2.5.0",
   "keywords": [
     "commonmark",
     "markdown",
