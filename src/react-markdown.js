@@ -3,8 +3,7 @@
 var React = require('react');
 var Parser = require('commonmark').Parser;
 var ReactRenderer = require('commonmark-react-renderer');
-
-var propTypes = React.PropTypes;
+var propTypes = require('prop-types');
 
 function ReactMarkdown(props) {
     React.Component.call(this, props);

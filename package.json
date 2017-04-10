@@ -30,6 +30,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/react": "^15.0.16",
+    "buble-loader": "^0.4.1",
     "chai": "^3.5.0",
     "eslint": "^3.17.1",
     "eslint-config-vaffel": "^5.0.0",
@@ -41,10 +42,8 @@
     "lodash.assign": "^4.0.9",
     "mocha": "^3.2.0",
     "mocha-jsdom": "^1.1.0",
-    "react": "^15.2.1",
-    "react-addons-pure-render-mixin": "^15.2.1",
-    "react-addons-test-utils": "^15.2.1",
-    "react-dom": "^15.2.1",
+    "react": "^15.5.0",
+    "react-dom": "^15.5.0",
     "webpack": "^1.13.1"
   },
   "gh-pages-deploy": {
@@ -57,7 +56,8 @@
   "dependencies": {
     "commonmark": "^0.24.0",
     "commonmark-react-renderer": "^4.2.4",
-    "in-publish": "^2.0.0"
+    "in-publish": "^2.0.0",
+    "prop-types": "^15.5.1"
   },
   "types": "./react-markdown.d.ts",
   "peerDependencies": {

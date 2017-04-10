@@ -35,6 +35,9 @@ var config = {
 
     module: {
         loaders: [{
+            test: /\.js$/,
+            loader: 'buble'
+        }, {
             test: /\.json$/,
             loader: 'json'
         }]

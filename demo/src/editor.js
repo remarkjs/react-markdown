@@ -1,22 +1,22 @@
 'use strict';
 
 var React = require('react');
+var PropTypes = require('prop-types');
 var CodeMirror = window.CodeMirrorEditor;
 var h = React.createElement;
 
-module.exports = React.createClass({
-    displayName: 'Editor',
+class Editor extends React.Component {
+    constructor(props) {
+        super(props);
 
-    propTypes: {
-        onChange: React.PropTypes.func.isRequired,
-        value: React.PropTypes.string
-    },
+        this.onInputChange = this.onInputChange.bind(this);
+    }
 
-    onInputChange: function(e) {
+    onInputChange(e) {
         this.props.onChange(e.target.value);
-    },
+    }
 
-    render: function() {
+    render() {
         return (
             h('form', {className: 'editor pure-form'},
                 h(CodeMirror, {
@@ -28,4 +28,11 @@ module.exports = React.createClass({
             )
         );
     }
-});
+}
+
+Editor.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string
+};
+
+module.exports = Editor;
