@@ -1,234 +1,365 @@
-'use strict';
+/* eslint-env jest */
+/* eslint-disable react/prop-types */
+const React = require('react')
+const ReactDom = require('react-dom/server')
+const renderer = require('react-test-renderer')
+const Markdown = require('../src/react-markdown')
 
-var React = require('react'),
-    ReactDom = require('react-dom'),
-    TestUtils = require('react-dom/test-utils'),
-    jsdom = require('mocha-jsdom'),
-    expect = require('chai').expect,
-    ReactMarkdown = require('../');
+const render = input => renderer.create(<Markdown source={input} />).toJSON().children
+const renderHTML = input => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
 
-function firstNonCommentChild(parent) {
-    var children = ReactDom.findDOMNode(parent).childNodes;
-    for (var i = 0; i < children.length; i++) {
-        if (children[i].nodeName !== '#comment') {
-            return children[i];
-        }
-    }
+test('can render the most basic of documents (single paragraph)', () => {
+  const component = renderer.create(<Markdown>Test</Markdown>)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    throw new Error('No child node found on parent that was not a comment');
-}
+test('uses passed classname for root component', () => {
+  const component = renderer.create(<Markdown className="md">Test</Markdown>)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-function uncommentify(src) {
-    return src.replace(/<!--.*?-->/g, '');
-}
+it('should handle multiple paragraphs properly', () => {
+  const input = 'React is awesome\nAnd so is markdown\n\nCombining = epic'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-describe('ReactMarkdown', function() {
-    jsdom();
+it('should handle multiline paragraphs properly (softbreak, paragraphs)', () => {
+  const input = 'React is awesome\nAnd so is markdown  \nCombining = epic'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    var testDate = (new Date()).toString();
-    var testMarkdown = [
-        '# Demo\n\n',
-        'I was *rendered* using __React__ at ' + testDate,
-        ' and it was so much FUN!', '\n\n',
-        'Lets do it <i>again</i>!\nYeah?'
-    ].join('');
+it('should handle emphasis', () => {
+  const input = 'React is _totally_ *awesome*'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('should not set a class on container if no className is passed as prop', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown })
-        );
+it('should handle bold/strong text', () => {
+  const input = 'React is __totally__ **awesome**'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        expect(ReactDom.findDOMNode(rendered).getAttribute('class')).to.equal(null);
-    });
+it('should handle links without title attribute', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('should set a class on container if className is passed as prop', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown, className: 'foo bar' })
-        );
+it('should handle links with title attribute', () => {
+  const input = 'This is [a link](https://espen.codes/ "some title") to Espen.Codes.'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        expect(ReactDom.findDOMNode(rendered).getAttribute('class')).to.equal('foo bar');
-    });
+it('should handle links with custom uri transformer', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const transform = uri => uri.replace(/^https?:/, '')
+  const component = renderer.create(<Markdown transformLinkUri={transform} source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('should set custom prop htmlFor on the container if props are passed as prop', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, {
-                source: testMarkdown,
-                containerProps: {
-                    htmlFor: 'myElementID'
-                }
-            })
-        );
+it('should handle images without title attribute', () => {
+  const input = 'This is ![an image](/ninja.png).'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        expect(ReactDom.findDOMNode(rendered).getAttribute('for')).to.equal('myElementID');
-    });
+it('should handle images with title attribute', () => {
+  const input = 'This is ![an image](/ninja.png "foo bar").'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('should render before and after children if passed as props', function() {
-        var beforeText = 'Hello again';
-        var afterText = 'friend of a friend';
+it('should handle images with custom uri transformer', () => {
+  const input = 'This is ![an image](/ninja.png).'
+  const transform = uri => uri.replace(/\.png$/, '.jpg')
+  const component = renderer.create(<Markdown transformImageUri={transform} source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, {
-                source: testMarkdown,
-                childBefore: React.createElement('ul', null, beforeText),
-                childAfter: React.createElement('a', null, afterText)
-            })
-        );
+it('should handle images with special characters in alternative text', () => {
+  const input = "This is ![a ninja's image](/ninja.png)."
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        expect(ReactDom.findDOMNode(rendered).firstChild.innerHTML).to.equal(beforeText);
-        expect(ReactDom.findDOMNode(rendered).lastChild.innerHTML).to.equal(afterText);
-    });
+it('should be able to render headers', () => {
+  expect(render('# Awesome')[0]).toEqual({type: 'h1', props: {}, children: ['Awesome']})
+  expect(render('## Awesome')[0]).toEqual({type: 'h2', props: {}, children: ['Awesome']})
+  expect(render('### Awesome')[0]).toEqual({type: 'h3', props: {}, children: ['Awesome']})
+  expect(render('#### Awesome')[0]).toEqual({type: 'h4', props: {}, children: ['Awesome']})
+  expect(render('##### Awesome')[0]).toEqual({type: 'h5', props: {}, children: ['Awesome']})
+})
 
-    it('should set custom prop ID on the container if props are passed as prop', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, {
-                source: testMarkdown,
-                containerProps: {
-                    id: 'myElementID'
-                }
-            })
-        );
+it('should be able to render inline code', () => {
+  const input = 'Just call `renderToStaticMarkup()`, already'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        expect(ReactDom.findDOMNode(rendered).getAttribute('id')).to.equal('myElementID');
-    });
+it('should handle code tags without any language specification', () => {
+  const input = "```\nvar foo = require('bar');\nfoo();\n```"
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('should have rendered a div with the right children', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown })
-        );
+it('should handle code tags with language specification', () => {
+  const input = "```js\nvar foo = require('bar');\nfoo();\n```"
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        expect(ReactDom.findDOMNode(rendered).tagName).to.equal('DIV');
-        expect(ReactDom.findDOMNode(rendered).innerHTML).to.contain(testDate);
+it('should handle code blocks by indentation', () => {
+  const input = ['', '<footer class="footer">\n', '', '&copy; 2014 Foo Bar\n', '</footer>'].join(
+    '    '
+  )
+  const pre = render(input)[0]
+  expect(pre.type).toEqual('pre')
+  expect(pre.children).toHaveLength(1)
 
-        var h1 = TestUtils.findRenderedDOMComponentWithTag(rendered, 'h1');
-        expect(ReactDom.findDOMNode(h1).innerHTML).to.equal('Demo');
+  const code = pre.children[0]
+  expect(code.type).toEqual('code')
+  expect(code.children).toHaveLength(1)
+  expect(code.children[0]).toEqual('<footer class="footer">\n    &copy; 2014 Foo Bar\n</footer>')
+})
 
-        var em = TestUtils.findRenderedDOMComponentWithTag(rendered, 'em');
-        expect(firstNonCommentChild(em).nodeValue).to.equal('rendered');
+it('should handle blockquotes', () => {
+  const input = '> Moo\n> Tools\n> FTW\n'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var strong = TestUtils.findRenderedDOMComponentWithTag(rendered, 'strong');
-        expect(firstNonCommentChild(strong).nodeValue).to.equal('React');
+it('should handle nested blockquotes', () => {
+  const input = [
+    '> > Lots of ex-Mootoolers on the React team\n>\n',
+    "> Totally didn't know that.\n>\n",
+    "> > There's a reason why it turned out so awesome\n>\n",
+    "> Haha I guess you're right!"
+  ].join('')
 
-        var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
-        expect(ps).to.have.length(2);
-    });
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('can specify different container tag name', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown, containerTagName: 'section' })
-        );
+it('should handle tight, unordered lists', () => {
+  const input = '* Unordered\n* Lists\n* Are cool\n'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        expect(ReactDom.findDOMNode(rendered).tagName).to.equal('SECTION');
-    });
+it('should handle loose, unordered lists', () => {
+  const input = '- foo\n\n- bar'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('can be told to use <br> for soft-breaks', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown, softBreak: 'br' })
-        );
+it('should handle ordered lists', () => {
+  const input = '1. Ordered\n2. Lists\n3. Are cool\n'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var strong = TestUtils.findRenderedDOMComponentWithTag(rendered, 'br');
-        expect(strong).to.be.ok;
-    });
+it('should handle ordered lists with a start index', () => {
+  const input = '7. Ordered\n8. Lists\n9. Are cool\n'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('can be told to output sourcemaps as data attributes', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown, sourcePos: true })
-        );
+it('should handle inline html with escapeHtml option enabled', () => {
+  const input = 'I am having <strong>so</strong> much fun'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var h1 = TestUtils.findRenderedDOMComponentWithTag(rendered, 'h1');
-        expect(ReactDom.findDOMNode(h1).getAttribute('data-sourcepos')).to.equal('1:1-1:6');
-    });
+// @todo need better handling of inline HTML. hard. need help. plz help.
+it('should be able to render inline html', () => {
+  const input = 'I am having <strong>so</strong> much fun'
+  const component = renderer.create(<Markdown source={input} escapeHtml={false} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('can be told to escape html', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown, escapeHtml: true })
-        );
+it('should skip inline html with skipHtml option enabled', () => {
+  const input = 'I am having <strong>so</strong> much fun'
+  const component = renderer.create(<Markdown source={input} skipHtml />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
-        expect(ReactDom.findDOMNode(ps[1]).innerHTML).to.contain('&lt;i&gt;');
-    });
+it('should handle html blocks', () => {
+  const input = [
+    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
+    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
+    ' regular paragraph.'
+  ].join('')
 
-    it('can be told to skip HTML', function() {
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown, skipHtml: true })
-        );
+  const component = renderer.create(<Markdown source={input} escapeHtml={false} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var ps = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'p');
-        expect(ReactDom.findDOMNode(ps[1]).innerHTML).to.not.contain('<i>');
-        expect(ReactDom.findDOMNode(ps[1]).innerHTML).to.not.contain('&lt;i&gt;');
-    });
+it('should escape html blocks by default', () => {
+  const input = [
+    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
+    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
+    ' regular paragraph.'
+  ].join('')
 
-    it('can be given a node filtering function', function() {
-        var input = 'I accidentally **removed** the whole word';
-        var filter = function(node) {
-            return node.type !== 'Strong';
-        };
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: input, allowNode: filter })
-        );
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var main = ReactDom.findDOMNode(rendered).innerHTML;
-        expect(main).to.not.contain('<strong');
-    });
+it('should skip html blocks if skipHtml prop is set', () => {
+  const input = [
+    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
+    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
+    ' regular paragraph.'
+  ].join('')
 
-    it('does not allow javascript, vbscript or file protocols by default', function() {
-        var source = [
-            '# [Much fun](javascript:alert("foo"))',
-            'Can be had with [XSS links](vbscript:foobar(\'test\'))',
-            '> And [other](VBSCRIPT:bap) nonsense... [files](file:///etc/passwd) for instance',
-            '## [Entities](javascript&#x3A;alert("bazinga")) can be tricky, too'
-        ].join('\n\n');
+  const component = renderer.create(<Markdown source={input} skipHtml />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: source })
-        );
+it('should handle horizontal rules', () => {
+  const input = 'Foo\n\n------------\n\nBar'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var links = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'a');
-        expect(ReactDom.findDOMNode(links[0]).getAttribute('href')).to.equal('x-javascript:alert(%22foo%22)');
-        expect(ReactDom.findDOMNode(links[1]).getAttribute('href')).to.equal('x-vbscript:foobar(\'test\')');
-        expect(ReactDom.findDOMNode(links[2]).getAttribute('href')).to.equal('x-VBSCRIPT:bap');
-        expect(ReactDom.findDOMNode(links[3]).getAttribute('href')).to.equal('x-file:///etc/passwd');
-        expect(ReactDom.findDOMNode(links[4]).getAttribute('href')).to.equal('x-javascript:alert(%22bazinga%22)');
-    });
+it('should set source position attributes if sourcePos option is enabled', () => {
+  const input = 'Foo\n\n------------\n\nBar'
+  const component = renderer.create(<Markdown source={input} sourcePos />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('allows specifying a custom URI-transformer', function() {
-        var src = 'Received a great [pull request](https://github.com/rexxars/react-markdown/pull/15) today';
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, {
-                source: src,
-                transformLinkUri: function(uri) {
-                    return uri.replace(/^https?:\/\/github\.com\//i, '/');
-                }
-            })
-        );
+it('should skip nodes that are not defined as allowed', () => {
+  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
+  const allowed = ['paragraph', 'list', 'listItem']
+  const component = renderer.create(<Markdown source={input} allowedTypes={allowed} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var links = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'a');
-        expect(ReactDom.findDOMNode(links[0]).getAttribute('href')).to.equal('/rexxars/react-markdown/pull/15');
-    });
+it('should skip nodes that are defined as disallowed', () => {
+  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
+  const component = renderer.create(<Markdown source={input} disallowedTypes={['listItem']} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-    it('allows a walker callback', function() {
-        var walker = function(event) {
-            if (event.entering && event.node.type === 'Strong') {
-                event.node.firstChild.literal = 'walker';
-            }
-        };
+it('should unwrap child nodes from disallowed nodes, if unwrapDisallowed option is enabled', () => {
+  const input = 'Espen *~~initiated~~ had the initial commit*, but has had several **contributors**'
+  const component = renderer.create(
+    <Markdown source={input} disallowedTypes={['emphasis', 'strong']} unwrapDisallowed />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
 
-        var rendered = TestUtils.renderIntoDocument(
-            React.createElement(ReactMarkdown, { source: testMarkdown, walker: walker })
-        );
+it('should render tables', () => {
+  const input = [
+    'Languages are fun, right?',
+    '',
+    '| ID  | English | Norwegian | Italian |',
+    '| :-- | :-----: | --------: | ------- |',
+    '| 1   | one     | en        | uno     |',
+    '| 2   | two     | to        | due     |',
+    '| 3   | three   | tre       | tre     |',
+    ''
+  ].join('\n')
 
-        var main = uncommentify(ReactDom.findDOMNode(rendered).innerHTML);
-        expect(main).to.contain('walker</strong>');
-    });
+  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+})
 
-    it('should pass options correctly to the parser', function() {
-        var src = '"He\'s gone totally off--it\'s wild."';
-        var rendered = TestUtils.renderIntoDocument(
-          React.createElement(ReactMarkdown, {
-              source: src,
-              parserOptions: { smart: true }
-          })
-        );
-        var main = ReactDom.findDOMNode(rendered).innerHTML;
-        expect(main).to.contain('“He’s gone totally off–it’s wild.”');
-    });
-});
+it('should render link references', () => {
+  const input = [
+    'Stuff were changed in [1.1.4]. Check out the changelog for reference.',
+    '',
+    '[1.1.4]: https://github.com/rexxars/react-markdown/compare/v1.1.3...v1.1.4'
+  ].join('\n')
+
+  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+})
+
+it('should render image references', () => {
+  const input = [
+    'Checkout out this ninja: ![The Waffle Ninja][ninja]. Pretty neat, eh?',
+    '',
+    '[ninja]: /assets/ninja.png'
+  ].join('\n')
+
+  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+})
+
+describe('should skip nodes that are defined as disallowed', () => {
+  const samples = {
+    html: {input: 'Foo<strong>bar</strong>', shouldNotContain: 'Foo<span><strong>'},
+    paragraph: {input: 'Paragraphs are cool', shouldNotContain: 'Paragraphs are cool'},
+    heading: {input: '# Headers are neat', shouldNotContain: 'Headers are neat'},
+    break: {input: 'Text  \nHardbreak', shouldNotContain: '<br/>'},
+    link: {input: "[Espen's blog](http://espen.codes/) yeh?", shouldNotContain: '<a'},
+    image: {input: 'Holy ![ninja](/ninja.png), batman', shouldNotContain: '<img'},
+    emphasis: {input: 'Many *contributors*', shouldNotContain: '<em'},
+    inlineCode: {input: 'Yeah, `renderToStaticMarkup()`', shouldNotContain: 'renderToStaticMarkup'},
+    code: {input: "```\nvar moo = require('bar');\nmoo();\n```", shouldNotContain: '<pre><code>'},
+    blockquote: {input: '> Moo\n> Tools\n> FTW\n', shouldNotContain: '<blockquote'},
+    list: {input: '* A list\n*Of things', shouldNotContain: 'Of things'},
+    listItem: {input: '* IPA\n*Imperial Stout\n', shouldNotContain: '<li'},
+    strong: {input: "Don't **give up**, alright?", shouldNotContain: 'give up'},
+    thematicBreak: {input: '\n-----\nAnd with that...', shouldNotContain: '<hr'}
+  }
+
+  const fullInput = Object.keys(samples).reduce((input, sampleType) => {
+    return `${input + samples[sampleType].input}\n`
+  }, '')
+
+  Object.keys(samples).forEach(type => {
+    it(type, () => {
+      const sample = samples[type]
+
+      expect(
+        renderHTML(<Markdown source={fullInput} disallowedTypes={[type]} escapeHtml={false} />)
+      ).not.toContain(sample.shouldNotContain)
+
+      // Just for sanity's sake, let ensure that the opposite is true
+      expect(renderHTML(<Markdown escapeHtml={false} source={fullInput} />)).toContain(
+        sample.shouldNotContain
+      )
+    })
+  })
+})
+
+it('should throw if both allowed and disallowed types is specified', () => {
+  expect(() => {
+    renderHTML(<Markdown source={''} allowedTypes={['paragraph']} disallowedTypes={['link']} />)
+  }).toThrow(/Only one of/i)
+})
+
+it('should be able to use a custom function to determine if the node should be allowed', () => {
+  const input = [
+    '# Header',
+    '[react-markdown](https://github.com/rexxars/react-markdown/) is a nice helper',
+    'Also check out [my website](https://espen.codes/)'
+  ].join('\n\n')
+  const allow = node => node.type !== 'link' || node.url.indexOf('https://github.com/') === 0
+
+  expect(renderHTML(<Markdown allowNode={allow} source={input} />)).toEqual(
+    [
+      '<h1>Header</h1>',
+      '<p><a href="https://github.com/rexxars/react-markdown/">react-markdown</a> is a nice helper</p>',
+      '<p>Also check out </p>'
+    ].join('')
+  )
+})
+
+it('should be able to override renderers', () => {
+  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
+  const heading = props => <span className={`heading level-${props.level}`}>{props.children}</span>
+  const component = renderer.create(<Markdown source={input} renderers={{heading: heading}} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+it('should throw on invalid renderer', () => {
+  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
+  const renderers = {heading: 123}
+  expect(() => renderHTML(<Markdown source={input} renderers={renderers} />)).toThrow(
+    /Renderer for type `heading`/
+  )
+})

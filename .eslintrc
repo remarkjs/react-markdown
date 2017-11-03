@@ -1,6 +1,7 @@
 {
-    "extends": "vaffel/react",
-    "rules": {
-        "react/wrap-multilines": 0
-    }
+  "extends": ["sanity", "prettier", "plugin:react/recommended"],
+  "plugins": ["react"],
+  "env": {"node": true, "browser": true},
+  "parserOptions": {"ecmaVersion": 2017, "ecmaFeatures": {"jsx": true}},
+  "rules": {"strict": 0}
 }

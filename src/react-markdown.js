@@ -1,73 +1,77 @@
-'use strict';
+'use strict'
 
-var React = require('react');
-var Parser = require('commonmark').Parser;
-var ReactRenderer = require('commonmark-react-renderer');
-var propTypes = require('prop-types');
+const unified = require('unified')
+const parse = require('remark-parse')
+const PropTypes = require('prop-types')
+const objectAssign = require('object-assign')
+const defaultRenderers = require('./renderers')
+const getDefinitions = require('./get-definitions')
+const astToReact = require('./ast-to-react')
+const wrapTableRows = require('./wrap-table-rows')
+const disallowNode = require('./plugins/disallow-node')
 
-function ReactMarkdown(props) {
-    React.Component.call(this, props);
+const allTypes = Object.keys(defaultRenderers)
+
+const ReactMarkdown = function ReactMarkdown(props) {
+  const src = props.source || props.children || ''
+
+  if (props.allowedTypes && props.disallowedTypes) {
+    throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
+  }
+
+  const renderers = objectAssign({}, defaultRenderers, props.renderers)
+  const plugins = [wrapTableRows]
+
+  let disallowedTypes = props.disallowedTypes || []
+  if (props.allowedTypes) {
+    disallowedTypes = allTypes.filter(
+      type => type !== 'root' && props.allowedTypes.indexOf(type) === -1
+    )
+  }
+
+  const removalMethod = props.unwrapDisallowed ? 'unwrap' : 'remove'
+  if (disallowedTypes.length > 0) {
+    plugins.push(disallowNode.ofType(disallowedTypes, removalMethod))
+  }
+
+  if (props.allowNode) {
+    plugins.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
+  }
+
+  const rawAst = unified()
+    .use(parse)
+    .parse(src)
+
+  const ast = plugins.reduce((node, plugin) => plugin(node), rawAst)
+  const renderProps = objectAssign({}, props, {
+    renderers: renderers,
+    definitions: getDefinitions(ast)
+  })
+
+  return astToReact(ast, renderProps)
 }
 
-ReactMarkdown.prototype = Object.create(React.Component.prototype);
-ReactMarkdown.prototype.constructor = ReactMarkdown;
-
-ReactMarkdown.prototype.render = function() {
-    var containerProps = this.props.containerProps || {};
-    var renderer = new ReactRenderer(this.props);
-    var parser = new Parser(this.props.parserOptions);
-    var ast = parser.parse(this.props.source || '');
-
-    if (this.props.walker) {
-        var walker = ast.walker();
-        var event;
-
-        while ((event = walker.next())) {
-            this.props.walker.call(this, event, walker);
-        }
-    }
-
-    if (this.props.className) {
-        containerProps.className = this.props.className;
-    }
-
-    return React.createElement.apply(React,
-        [this.props.containerTagName, containerProps, this.props.childBefore]
-            .concat(renderer.render(ast).concat(
-                [this.props.childAfter]
-            ))
-    );
-};
+ReactMarkdown.defaultProps = {
+  renderers: {},
+  escapeHtml: true,
+  skipHtml: false
+}
 
 ReactMarkdown.propTypes = {
-    className: propTypes.string,
-    containerProps: propTypes.object,
-    source: propTypes.string.isRequired,
-    containerTagName: propTypes.string,
-    childBefore: propTypes.object,
-    childAfter: propTypes.object,
-    sourcePos: propTypes.bool,
-    escapeHtml: propTypes.bool,
-    skipHtml: propTypes.bool,
-    softBreak: propTypes.string,
-    allowNode: propTypes.func,
-    allowedTypes: propTypes.array,
-    disallowedTypes: propTypes.array,
-    transformLinkUri: propTypes.func,
-    transformImageUri: propTypes.func,
-    unwrapDisallowed: propTypes.bool,
-    renderers: propTypes.object,
-    walker: propTypes.func,
-    parserOptions: propTypes.object
-};
+  className: PropTypes.string,
+  source: PropTypes.string,
+  children: PropTypes.string,
+  sourcePos: PropTypes.bool,
+  escapeHtml: PropTypes.bool,
+  skipHtml: PropTypes.bool,
+  softBreak: PropTypes.string,
+  allowNode: PropTypes.func,
+  allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
+  disallowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
+  transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  transformImageUri: PropTypes.func,
+  unwrapDisallowed: PropTypes.bool,
+  renderers: PropTypes.object
+}
 
-ReactMarkdown.defaultProps = {
-    containerTagName: 'div',
-    parserOptions: {}
-};
-
-ReactMarkdown.types = ReactRenderer.types;
-ReactMarkdown.renderers = ReactRenderer.renderers;
-ReactMarkdown.uriTransformer = ReactRenderer.uriTransformer;
-
-module.exports = ReactMarkdown;
+module.exports = ReactMarkdown

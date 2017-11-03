@@ -1,0 +1,18 @@
+{
+  "presets": [
+    "react",
+    ["env", {
+      "targets": {
+        "browsers": ["ie >= 9"]
+      }
+    }]
+  ],
+
+  "env": {
+    "production": {
+      "plugins": [["transform-react-remove-prop-types", {
+        "removeImport": true
+      }]]
+    }
+  }
+}

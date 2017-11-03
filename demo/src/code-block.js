@@ -1,38 +1,47 @@
-'use strict';
+const React = require('react')
+const PropTypes = require('prop-types')
+const hljs = window.hljs
 
-var React = require('react');
-var PropTypes = require('prop-types');
-var hljs = window.hljs;
-var h = React.createElement;
+class CodeBlock extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.setRef = this.setRef.bind(this)
+  }
 
-class CodeBlock extends React.Component {
-    componentDidMount() {
-        this.highlightCode();
-    }
+  setRef(el) {
+    this.codeEl = el
+  }
 
-    componentDidUpdate() {
-        this.highlightCode();
-    }
+  componentDidMount() {
+    this.highlightCode()
+  }
 
-    highlightCode() {
-        hljs.highlightBlock(this.refs.code);
-    }
+  componentDidUpdate() {
+    this.highlightCode()
+  }
 
-    render() {
-        return (
-            h('pre', null,
-                h('code', {
-                    ref: 'code',
-                    className: this.props.language
-                }, this.props.literal)
-            )
-        );
-    }
+  highlightCode() {
+    hljs.highlightBlock(this.codeEl)
+  }
+
+  render() {
+    return (
+      <pre>
+        <code ref={this.setRef} className={this.props.language}>
+          {this.props.value}
+        </code>
+      </pre>
+    )
+  }
+}
+
+CodeBlock.defaultProps = {
+  language: ''
 }
 
 CodeBlock.propTypes = {
-    literal: PropTypes.string,
-    language: PropTypes.string
-};
+  value: PropTypes.string.isRequired,
+  language: PropTypes.string
+}
 
-module.exports = CodeBlock;
+module.exports = CodeBlock

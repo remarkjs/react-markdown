@@ -1,62 +1,54 @@
-'use strict';
+/* eslint-disable no-process-env */
+'use strict'
 
-var path = require('path');
-var webpack = require('webpack');
-var prod = process.env.NODE_ENV === 'production';
+const path = require('path')
+const webpack = require('webpack')
+const prod = process.env.NODE_ENV === 'production'
 
-var config = {
-    devtool: prod ? null : 'eval',
+const config = {
+  devtool: prod ? null : 'eval',
 
-    entry: [
-        path.join(__dirname, 'demo', 'src', 'demo.js')
-    ],
+  entry: [path.join(__dirname, 'demo', 'src', 'demo.js')],
 
-    output: {
-        path: path.join(__dirname, 'demo', 'dist', 'js'),
-        filename: 'demo.js',
-        publicPath: '/demo/dist',
-        libraryTarget: 'umd'
+  output: {
+    path: path.join(__dirname, 'demo', 'dist', 'js'),
+    filename: 'demo.js',
+    publicPath: '/demo/dist',
+    libraryTarget: 'umd'
+  },
+
+  externals: {
+    react: {
+      root: 'React',
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react'
     },
+    'react-dom': {
+      root: 'ReactDOM',
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom'
+    }
+  },
 
-    externals: {
-        'react': {
-            root: 'React',
-            commonjs: 'react',
-            commonjs2: 'react',
-            amd: 'react'
-        },
-        'react-dom': {
-            root: 'ReactDOM',
-            commonjs: 'react-dom',
-            commonjs2: 'react-dom',
-            amd: 'react-dom'
-        }
-    },
-
-    module: {
-        loaders: [{
-            test: /\.js$/,
-            loader: 'buble'
-        }, {
-            test: /\.json$/,
-            loader: 'json'
-        }]
-    },
-
-    plugins: [
-        new webpack.NoErrorsPlugin()
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
+      }
     ]
-};
+  },
 
-if (prod) {
-    config.plugins.push(new webpack.DefinePlugin({
-        'process.env': {
-            NODE_ENV: JSON.stringify('production')
-        }
-    }));
-    config.plugins.push(new webpack.optimize.DedupePlugin());
-    config.plugins.push(new webpack.optimize.OccurenceOrderPlugin(true));
-    config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+  plugins: [new webpack.NoErrorsPlugin()]
 }
 
-module.exports = config;
+if (prod) {
+  config.plugins.push(
+    new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify('production')})
+  )
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin())
+}
+
+module.exports = config
