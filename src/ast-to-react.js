@@ -62,6 +62,9 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
         astToReact(childNode, opts, {node, props}, i)
       )
       break
+    case 'definition':
+      assignDefined(props, {identifier: node.identifier, title: node.title, url: node.url})
+      break
     case 'code':
       assignDefined(props, {language: node.lang})
       break

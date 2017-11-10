@@ -8,6 +8,632 @@ exports[`can render the most basic of documents (single paragraph) 1`] = `
 </div>
 `;
 
+exports[`can render the whole spectrum of markdown within a single run 1`] = `
+<div
+  data-sourcepos="1:1-154:1"
+>
+  <h1
+    data-sourcepos="1:1-1:13"
+  >
+    h1 Heading
+  </h1>
+  <h2
+    data-sourcepos="2:1-2:14"
+  >
+    h2 Heading
+  </h2>
+  <h3
+    data-sourcepos="3:1-3:15"
+  >
+    h3 Heading
+  </h3>
+  <h4
+    data-sourcepos="4:1-4:16"
+  >
+    h4 Heading
+  </h4>
+  <h5
+    data-sourcepos="5:1-5:17"
+  >
+    h5 Heading
+  </h5>
+  <h6
+    data-sourcepos="6:1-6:18"
+  >
+    h6 Heading
+  </h6>
+  <h2
+    data-sourcepos="9:1-9:20"
+  >
+    Horizontal Rules
+  </h2>
+  <hr
+    data-sourcepos="11:1-11:4"
+  />
+  <hr
+    data-sourcepos="13:1-13:4"
+  />
+  <hr
+    data-sourcepos="15:1-15:4"
+  />
+  <h2
+    data-sourcepos="18:1-18:12"
+  >
+    Emphasis
+  </h2>
+  <p
+    data-sourcepos="20:1-20:22"
+  >
+    <strong
+      data-sourcepos="20:1-20:22"
+    >
+      This is bold text
+    </strong>
+  </p>
+  <p
+    data-sourcepos="22:1-22:22"
+  >
+    <strong
+      data-sourcepos="22:1-22:22"
+    >
+      This is bold text
+    </strong>
+  </p>
+  <p
+    data-sourcepos="24:1-24:22"
+  >
+    <em
+      data-sourcepos="24:1-24:22"
+    >
+      This is italic text
+    </em>
+  </p>
+  <p
+    data-sourcepos="26:1-26:22"
+  >
+    <em
+      data-sourcepos="26:1-26:22"
+    >
+      This is italic text
+    </em>
+  </p>
+  <p
+    data-sourcepos="28:1-28:18"
+  >
+    <del
+      data-sourcepos="28:1-28:18"
+    >
+      Strikethrough
+    </del>
+  </p>
+  <h2
+    data-sourcepos="31:1-31:15"
+  >
+    Blockquotes
+  </h2>
+  <blockquote
+    data-sourcepos="34:1-36:40"
+  >
+    <p
+      data-sourcepos="34:3-34:36"
+    >
+      Blockquotes can also be nested...
+    </p>
+    <blockquote
+      data-sourcepos="35:2-36:40"
+    >
+      <p
+        data-sourcepos="35:4-35:73"
+      >
+        ...by using additional greater-than signs right next to each other...
+      </p>
+      <blockquote
+        data-sourcepos="36:5-36:40"
+      >
+        <p
+          data-sourcepos="36:7-36:40"
+        >
+          ...or with spaces between arrows.
+        </p>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+  <h2
+    data-sourcepos="39:1-39:9"
+  >
+    Lists
+  </h2>
+  <p
+    data-sourcepos="41:1-41:10"
+  >
+    Unordered
+  </p>
+  <ul
+    data-sourcepos="43:1-49:13"
+  >
+    <li
+      data-sourcepos="43:1-43:57"
+    >
+      Create a list by starting a line with 
+      <code
+        data-sourcepos="43:41-43:44"
+      >
+        +
+      </code>
+      , 
+      <code
+        data-sourcepos="43:46-43:49"
+      >
+        -
+      </code>
+      , or 
+      <code
+        data-sourcepos="43:54-43:57"
+      >
+        *
+      </code>
+    </li>
+    <li
+      data-sourcepos="44:1-48:35"
+    >
+      Sub-lists are made by indenting 2 spaces:
+    </li>
+    <li
+      data-sourcepos="49:1-49:13"
+    >
+      Very easy!
+    </li>
+  </ul>
+  <p
+    data-sourcepos="51:1-51:8"
+  >
+    Ordered
+  </p>
+  <ol
+    data-sourcepos="53:1-55:35"
+  >
+    <li
+      data-sourcepos="53:1-53:30"
+    >
+      Lorem ipsum dolor sit amet
+    </li>
+    <li
+      data-sourcepos="54:1-54:31"
+    >
+      Consectetur adipiscing elit
+    </li>
+    <li
+      data-sourcepos="55:1-55:35"
+    >
+      Integer molestie lorem at massa
+    </li>
+  </ol>
+  <ol
+    data-sourcepos="58:1-59:38"
+  >
+    <li
+      data-sourcepos="58:1-58:37"
+    >
+      You can use sequential numbers...
+    </li>
+    <li
+      data-sourcepos="59:1-59:38"
+    >
+      ...or keep all the numbers as 
+      <code
+        data-sourcepos="59:34-59:38"
+      >
+        1.
+      </code>
+    </li>
+  </ol>
+  <p
+    data-sourcepos="61:1-61:29"
+  >
+    Start numbering with offset:
+  </p>
+  <ol
+    data-sourcepos="63:1-64:7"
+    start="57"
+  >
+    <li
+      data-sourcepos="63:1-63:8"
+    >
+      foo
+    </li>
+    <li
+      data-sourcepos="64:1-64:7"
+    >
+      bar
+    </li>
+  </ol>
+  <p
+    data-sourcepos="66:1-66:13"
+  >
+    Loose lists?
+  </p>
+  <ul
+    data-sourcepos="68:1-70:6"
+  >
+    <li
+      data-sourcepos="68:1-69:1"
+    >
+      <p
+        data-sourcepos="68:3-68:6"
+      >
+        foo
+      </p>
+    </li>
+    <li
+      data-sourcepos="70:1-70:6"
+    >
+      bar
+    </li>
+  </ul>
+  <h2
+    data-sourcepos="73:1-73:8"
+  >
+    Code
+  </h2>
+  <p
+    data-sourcepos="75:1-75:14"
+  >
+    Inline 
+    <code
+      data-sourcepos="75:8-75:14"
+    >
+      code
+    </code>
+  </p>
+  <p
+    data-sourcepos="77:1-77:14"
+  >
+    Indented code
+  </p>
+  <pre
+    data-sourcepos="79:1-82:19"
+  >
+    <code>
+      // Some comments
+line 1 of code
+line 2 of code
+line 3 of code
+    </code>
+  </pre>
+  <p
+    data-sourcepos="85:1-85:20"
+  >
+    Block code "fences"
+  </p>
+  <pre
+    data-sourcepos="87:1-89:4"
+  >
+    <code>
+      Sample text here...
+    </code>
+  </pre>
+  <p
+    data-sourcepos="91:1-91:20"
+  >
+    Syntax highlighting
+  </p>
+  <pre
+    data-sourcepos="93:1-99:4"
+  >
+    <code
+      className="language-js"
+    >
+      var foo = function (bar) {
+  return bar++;
+};
+
+console.log(foo(5));
+    </code>
+  </pre>
+  <h2
+    data-sourcepos="101:1-101:10"
+  >
+    Tables
+  </h2>
+  <table
+    data-sourcepos="103:1-107:25"
+  >
+    <thead
+      data-sourcepos="103:1-103:25"
+    >
+      <tr
+        data-sourcepos="103:1-103:25"
+      >
+        <th
+          data-sourcepos="103:3-103:9"
+        >
+          Tag
+        </th>
+        <th
+          data-sourcepos="103:12-103:23"
+        >
+          Use
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      data-sourcepos="105:1-107:25"
+    >
+      <tr
+        data-sourcepos="105:1-105:25"
+      >
+        <td
+          data-sourcepos="105:3-105:9"
+        >
+          p
+        </td>
+        <td
+          data-sourcepos="105:12-105:23"
+        >
+          Paragraph
+        </td>
+      </tr>
+      <tr
+        data-sourcepos="106:1-106:25"
+      >
+        <td
+          data-sourcepos="106:3-106:9"
+        >
+          table
+        </td>
+        <td
+          data-sourcepos="106:12-106:23"
+        >
+          Table
+        </td>
+      </tr>
+      <tr
+        data-sourcepos="107:1-107:25"
+      >
+        <td
+          data-sourcepos="107:3-107:9"
+        >
+          em
+        </td>
+        <td
+          data-sourcepos="107:12-107:23"
+        >
+          Emphasis
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p
+    data-sourcepos="109:1-109:27"
+  >
+    Left/right aligned columns
+  </p>
+  <table
+    data-sourcepos="111:1-115:21"
+  >
+    <thead
+      data-sourcepos="111:1-111:20"
+    >
+      <tr
+        data-sourcepos="111:1-111:20"
+      >
+        <th
+          data-sourcepos="111:3-111:10"
+          style={
+            Object {
+              "textAlign": "left",
+            }
+          }
+        >
+          Project
+        </th>
+        <th
+          data-sourcepos="111:13-111:18"
+          style={
+            Object {
+              "textAlign": "right",
+            }
+          }
+        >
+          Stars
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      data-sourcepos="113:1-115:21"
+    >
+      <tr
+        data-sourcepos="113:1-113:19"
+      >
+        <td
+          data-sourcepos="113:3-113:8"
+          style={
+            Object {
+              "textAlign": "left",
+            }
+          }
+        >
+          React
+        </td>
+        <td
+          data-sourcepos="113:11-113:17"
+          style={
+            Object {
+              "textAlign": "right",
+            }
+          }
+        >
+          80 759
+        </td>
+      </tr>
+      <tr
+        data-sourcepos="114:1-114:20"
+      >
+        <td
+          data-sourcepos="114:3-114:9"
+          style={
+            Object {
+              "textAlign": "left",
+            }
+          }
+        >
+          Vue.js
+        </td>
+        <td
+          data-sourcepos="114:12-114:18"
+          style={
+            Object {
+              "textAlign": "right",
+            }
+          }
+        >
+          73 322
+        </td>
+      </tr>
+      <tr
+        data-sourcepos="115:1-115:21"
+      >
+        <td
+          data-sourcepos="115:3-115:14"
+          style={
+            Object {
+              "textAlign": "left",
+            }
+          }
+        >
+          sse-channel
+        </td>
+        <td
+          data-sourcepos="115:17-115:19"
+          style={
+            Object {
+              "textAlign": "right",
+            }
+          }
+        >
+          50
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h2
+    data-sourcepos="118:1-118:9"
+  >
+    Links
+  </h2>
+  <p
+    data-sourcepos="120:1-120:36"
+  >
+    <a
+      data-sourcepos="120:1-120:36"
+      href="https://espen.codes/"
+    >
+      Espen.Codes
+    </a>
+  </p>
+  <p
+    data-sourcepos="122:1-122:69"
+  >
+    <a
+      data-sourcepos="122:1-122:69"
+      href="https://www.sanity.io/"
+      title="Sanity, the headless CMS and PaaS"
+    >
+      Sanity
+    </a>
+  </p>
+  <p
+    data-sourcepos="124:1-124:61"
+  >
+    Autoconverted link 
+    <a
+      data-sourcepos="124:20-124:61"
+      href="https://github.com/rexxars/react-markdown"
+    >
+      https://github.com/rexxars/react-markdown
+    </a>
+  </p>
+  <p
+    data-sourcepos="126:1-126:25"
+  >
+    <a
+      data-sourcepos="126:1-126:25"
+      href="https://reactjs.org"
+      title="React, A JavaScript library for building user interfaces"
+    >
+      Link references
+    </a>
+  </p>
+  <h2
+    data-sourcepos="131:1-131:10"
+  >
+    Images
+  </h2>
+  <p
+    data-sourcepos="133:1-134:99"
+  >
+    <img
+      alt="React Markdown"
+      data-sourcepos="133:1-133:82"
+      src="https://espen.codes/assets/projects/react-markdown/320x180.png"
+    />
+    
+
+    <img
+      alt="Mead"
+      data-sourcepos="134:1-134:99"
+      src="https://espen.codes/assets/projects/mead/320x180.png"
+      title="Mead, on-the-fly image transformer"
+    />
+  </p>
+  <p
+    data-sourcepos="136:1-136:53"
+  >
+    Like links, Images also have a footnote style syntax
+  </p>
+  <p
+    data-sourcepos="138:1-138:21"
+  >
+    <img
+      alt="Alt text"
+      data-sourcepos="138:1-138:21"
+    />
+  </p>
+  <p
+    data-sourcepos="140:1-140:66"
+  >
+    With a reference later in the document defining the URL location:
+  </p>
+  <h2
+    data-sourcepos="144:1-144:15"
+  >
+    Hard breaks
+  </h2>
+  <p
+    data-sourcepos="146:1-147:19"
+  >
+    Yeah, hard breaks
+    <br
+      data-sourcepos="146:18-147:1"
+    />
+    can be useful too.
+  </p>
+  <h2
+    data-sourcepos="149:1-149:8"
+  >
+    HTML
+  </h2>
+  <p
+    data-sourcepos="151:1-151:72"
+  >
+    Does anyone actually like the fact that you can embed HTML in markdown?
+  </p>
+  <span>
+    &lt;p&gt;Well, you can put blocks of HTML in here. It'll kind of work.&lt;/p&gt;
+  </span>
+</div>
+`;
+
 exports[`should be able to override renderers 1`] = `
 <div>
   <span
