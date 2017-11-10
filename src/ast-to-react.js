@@ -98,7 +98,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.columnAlignment = node.align
       break
     case 'tableRow':
-      props.isHeader = index === 0
+      props.isHeader = parent.node.type === 'tableHead'
       props.columnAlignment = parent.props.columnAlignment
       break
     case 'tableCell':
