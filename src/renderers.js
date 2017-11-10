@@ -38,9 +38,11 @@ function SimpleRenderer(tag, props) {
 }
 
 function TableCell(props) {
+  const style = props.align ? {textAlign: props.align} : undefined
+  const coreProps = getCoreProps(props)
   return createElement(
     props.isHeader ? 'th' : 'td',
-    objectAssign(getCoreProps(props), {style: {textAlign: props.align}}),
+    style ? objectAssign({style}, coreProps) : coreProps,
     props.children
   )
 }
