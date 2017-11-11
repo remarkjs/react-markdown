@@ -43,7 +43,7 @@ ReactMarkdown.propTypes = {
     className: propTypes.string,
     containerProps: propTypes.object,
     source: propTypes.string.isRequired,
-    containerTagName: propTypes.string,
+    containerTagName: propTypes.oneOfType([propTypes.string, propTypes.func]),
     childBefore: propTypes.object,
     childAfter: propTypes.object,
     sourcePos: propTypes.bool,
