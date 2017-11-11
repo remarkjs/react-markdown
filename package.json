@@ -1,13 +1,14 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "3.0.0-rc1",
+  "version": "3.0.0-rc2",
   "keywords": ["markdown", "react", "react-component"],
-  "main": "src/react-markdown.js",
+  "main": "lib/react-markdown.js",
   "scripts": {
     "build": "NODE_ENV=production webpack -p && npm run build:demo",
     "build:demo": "NODE_ENV=production webpack -p --config webpack.config.demo.js",
-    "coverage": "jest --coverage",
+    "clean": "rimraf lib/",
+    "compile": "npm run clean && babel --copy-files -d lib/ src/",
     "deploy": "gh-pages-deploy",
     "posttest": "eslint .",
     "prepublishOnly": "npm run qa",
@@ -34,7 +35,7 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "babel-jest": "^21.2.0",
+    "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.10",
     "babel-preset-env": "^1.6.1",
@@ -46,10 +47,11 @@
     "gh-pages-deploy": "^0.4.2",
     "jest": "^21.2.1",
     "prettier": "^1.8.2",
-    "react": "^16.0.0",
+    "react": "^16.1.0",
     "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^16.0.0",
+    "react-dom": "^16.1.0",
     "react-test-renderer": "^16.0.0",
+    "rimraf": "^2.6.2",
     "webpack": "^3.8.1"
   },
   "peerDependencies": {
