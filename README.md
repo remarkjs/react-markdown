@@ -9,7 +9,7 @@ Demo available at http://rexxars.github.io/react-markdown/
 ## Installing
 
 ```
-npm install --save react-markdown
+npm install --save react-markdown@next
 ```
 
 ## Basic usage
