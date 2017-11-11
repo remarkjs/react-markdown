@@ -60,7 +60,7 @@ function determinePlugins(props) {
     plugins.push(naiveHtml)
   }
 
-  return plugins
+  return props.astPlugins ? plugins.concat(props.astPlugins) : plugins
 }
 
 ReactMarkdown.defaultProps = {
@@ -76,12 +76,12 @@ ReactMarkdown.propTypes = {
   sourcePos: PropTypes.bool,
   escapeHtml: PropTypes.bool,
   skipHtml: PropTypes.bool,
-  softBreak: PropTypes.string,
   allowNode: PropTypes.func,
   allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
   disallowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
   transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   transformImageUri: PropTypes.func,
+  astPlugins: PropTypes.arrayOf(PropTypes.func),
   unwrapDisallowed: PropTypes.bool,
   renderers: PropTypes.object
 }
