@@ -1,23 +1,22 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "2.5.0",
-  "keywords": [
-    "markdown",
-    "react",
-    "react-component"
-  ],
+  "version": "2.5.1",
+  "keywords": ["markdown", "react", "react-component"],
   "main": "src/react-markdown.js",
   "scripts": {
     "build": "NODE_ENV=production webpack",
     "build:umd": "NODE_ENV=production webpack --config webpack.umd.js",
     "coverage": "jest --coverage",
     "deploy": "gh-pages-deploy",
-    "posttest": "eslint .",
+    "lint": "eslint .",
+    "posttest": "npm run lint",
     "prepublishOnly": "npm run qa",
-    "qa": "npm prune && npm test && npm run build && npm run build:umd",
+    "qa": "npm test && npm run build && npm run build:umd",
     "test": "jest",
-    "watch": "webpack --watch"
+    "test": "mocha --reporter spec",
+    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
+    "watch": "webpack --config webpack.config.demo.js --watch"
   },
   "repository": {
     "type": "git",
@@ -27,9 +26,7 @@
   "license": "MIT",
   "gh-pages-deploy": {
     "noprompt": true,
-    "prep": [
-      "build"
-    ],
+    "prep": ["build"],
     "staticpath": "demo/dist"
   },
   "dependencies": {
@@ -65,8 +62,6 @@
     "verbose": true,
     "testEnvironment": "node",
     "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "src/**.js"
-    ]
+    "collectCoverageFrom": ["src/**.js"]
   }
 }

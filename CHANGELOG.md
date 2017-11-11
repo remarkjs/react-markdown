@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 2.5.1 - 2017-11-11
+
+### Changes
+
+- Fix `<br/>` not having a node key (Alex Zaworski)
+
 ## 2.5.0 - 2017-04-10
 
 ### Changes
