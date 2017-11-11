@@ -3,6 +3,8 @@ node_js:
   - 4
   - 6
   - 8
+before_install:
+  - npm install -g npm@5
 after_script:
   - npm install codeclimate-test-reporter && cat coverage/lcov.info | codeclimate
 env:
