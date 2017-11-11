@@ -379,7 +379,7 @@ test('can render the whole spectrum of markdown within a single run', done => {
       return
     }
 
-    const component = renderer.create(<Markdown source={fixture} escapeHtml={false} sourcePos />)
+    const component = renderer.create(<Markdown source={fixture} escapeHtml={false} />)
     expect(component.toJSON()).toMatchSnapshot()
     done()
   })
@@ -418,4 +418,32 @@ test('can match and reactify self-closing, attributeless html (whitelist)', () =
   expect(renderHTML(<Markdown source={input} escapeHtml={false} />)).toEqual(
     '<p>Can I insert a horizontal rule?</p><hr/><p>Yup, looks like it.</p>'
   )
+})
+
+test('sanitizes certain dangerous urls for links by default', () => {
+  const input = [
+    '# [Much fun](javascript:alert("foo"))',
+    "Can be had with [XSS links](vbscript:foobar('test'))",
+    '> And [other](VBSCRIPT:bap) nonsense... [files](file:///etc/passwd) for instance',
+    '## [Entities]( javascript&#x3A;alert("bazinga")) can be tricky, too',
+    'Regular [links](https://foo.bar) must [be]() allowed',
+    '[Some ref][xss]',
+    '[xss]: javascript:alert("foo") "Dangerous stuff"',
+    'Should allow [mailto](mailto:ex@ample.com) and [tel](tel:13133) links tho',
+    'Also, [protocol-agnostic](//google.com) should be allowed',
+    'local [paths](/foo/bar) should be [allowed](foo)',
+    'allow [weird](?javascript:foo) query strings and [hashes](foo#vbscript:orders)'
+  ].join('\n\n')
+
+  const component = renderer.create(<Markdown source={input} escapeHtml={false} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('allows specifying a custom URI-transformer', () => {
+  const input =
+    'Received a great [pull request](https://github.com/rexxars/react-markdown/pull/15) today'
+
+  const transform = uri => uri.replace(/^https?:\/\/github\.com\//i, '/')
+  const component = renderer.create(<Markdown source={input} transformLinkUri={transform} />)
+  expect(component.toJSON()).toMatchSnapshot()
 })

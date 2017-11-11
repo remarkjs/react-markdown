@@ -1,6 +1,7 @@
 'use strict'
 
 const React = require('react')
+const xtend = require('xtend')
 
 function astToReact(node, options, parent = {}, index = 0) {
   if (node.type === 'text') {
@@ -41,7 +42,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     props['data-sourcepos'] = flattenPosition(node.position)
   }
 
-  const ref = opts.definitions[node.identifier] || {}
+  const ref = node.identifier ? opts.definitions[node.identifier] || {} : null
 
   switch (node.type) {
     case 'root':
@@ -86,7 +87,12 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       })
       break
     case 'linkReference':
-      assignDefined(props, opts.definitions[node.identifier] || {})
+      assignDefined(
+        props,
+        xtend(ref, {
+          href: opts.transformLinkUri ? opts.transformLinkUri(ref.href) : ref.href
+        })
+      )
       break
     case 'imageReference':
       assignDefined(props, {

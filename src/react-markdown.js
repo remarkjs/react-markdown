@@ -4,12 +4,13 @@ const xtend = require('xtend')
 const unified = require('unified')
 const parse = require('remark-parse')
 const PropTypes = require('prop-types')
-const defaultRenderers = require('./renderers')
-const getDefinitions = require('./get-definitions')
+const naiveHtml = require('./plugins/naive-html')
+const disallowNode = require('./plugins/disallow-node')
 const astToReact = require('./ast-to-react')
 const wrapTableRows = require('./wrap-table-rows')
-const disallowNode = require('./plugins/disallow-node')
-const naiveHtml = require('./plugins/naive-html')
+const getDefinitions = require('./get-definitions')
+const uriTransformer = require('./uriTransformer')
+const defaultRenderers = require('./renderers')
 
 const allTypes = Object.keys(defaultRenderers)
 
@@ -26,12 +27,13 @@ const ReactMarkdown = function ReactMarkdown(props) {
     .use(parse)
     .parse(src)
 
-  const plugins = determinePlugins(props)
-  const ast = plugins.reduce((node, plugin) => plugin(node), rawAst)
   const renderProps = xtend(props, {
     renderers: renderers,
-    definitions: getDefinitions(ast)
+    definitions: getDefinitions(rawAst)
   })
+
+  const plugins = determinePlugins(props)
+  const ast = plugins.reduce((node, plugin) => plugin(node, renderProps), rawAst)
 
   return astToReact(ast, renderProps)
 }
@@ -66,7 +68,8 @@ function determinePlugins(props) {
 ReactMarkdown.defaultProps = {
   renderers: {},
   escapeHtml: true,
-  skipHtml: false
+  skipHtml: false,
+  transformLinkUri: uriTransformer
 }
 
 ReactMarkdown.propTypes = {
@@ -88,5 +91,6 @@ ReactMarkdown.propTypes = {
 
 ReactMarkdown.types = allTypes
 ReactMarkdown.renderers = defaultRenderers
+ReactMarkdown.uriTransformer = uriTransformer
 
 module.exports = ReactMarkdown
