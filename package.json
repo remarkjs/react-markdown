@@ -5,8 +5,8 @@
   "keywords": ["markdown", "react", "react-component"],
   "main": "src/react-markdown.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack",
-    "build:umd": "NODE_ENV=production webpack --config webpack.umd.js",
+    "build": "NODE_ENV=production webpack -p && npm run build:demo",
+    "build:demo": "NODE_ENV=production webpack -p --config webpack.config.demo.js",
     "coverage": "jest --coverage",
     "deploy": "gh-pages-deploy",
     "posttest": "eslint .",

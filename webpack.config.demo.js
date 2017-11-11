@@ -6,7 +6,7 @@ const webpack = require('webpack')
 const prod = process.env.NODE_ENV === 'production'
 
 const config = {
-  devtool: prod ? null : 'eval',
+  devtool: prod ? false : 'eval',
 
   entry: [path.join(__dirname, 'demo', 'src', 'demo.js')],
 
@@ -41,7 +41,7 @@ const config = {
     ]
   },
 
-  plugins: [new webpack.NoErrorsPlugin()]
+  plugins: []
 }
 
 if (prod) {
