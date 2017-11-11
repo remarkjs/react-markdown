@@ -12,7 +12,7 @@
     "posttest": "eslint .",
     "prepublishOnly": "npm run qa",
     "qa": "npm prune && npm test && npm run build && npm run build:umd",
-    "test": "jest",
+    "test": "jest --coverage",
     "watch": "webpack --watch"
   },
   "repository": {
