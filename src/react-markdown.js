@@ -22,17 +22,32 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const renderers = xtend(defaultRenderers, props.renderers)
 
-  let disallowedTypes = props.disallowedTypes || []
+  const rawAst = unified()
+    .use(parse)
+    .parse(src)
+
+  const plugins = determinePlugins(props)
+  const ast = plugins.reduce((node, plugin) => plugin(node), rawAst)
+  const renderProps = xtend(props, {
+    renderers: renderers,
+    definitions: getDefinitions(ast)
+  })
+
+  return astToReact(ast, renderProps)
+}
+
+function determinePlugins(props) {
+  const plugins = [wrapTableRows]
+
+  let disallowedTypes = props.disallowedTypes
   if (props.allowedTypes) {
     disallowedTypes = allTypes.filter(
       type => type !== 'root' && props.allowedTypes.indexOf(type) === -1
     )
   }
 
-  const plugins = [wrapTableRows]
-
   const removalMethod = props.unwrapDisallowed ? 'unwrap' : 'remove'
-  if (disallowedTypes.length > 0) {
+  if (disallowedTypes && disallowedTypes.length > 0) {
     plugins.push(disallowNode.ofType(disallowedTypes, removalMethod))
   }
 
@@ -45,17 +60,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
     plugins.push(naiveHtml)
   }
 
-  const rawAst = unified()
-    .use(parse)
-    .parse(src)
-
-  const ast = plugins.reduce((node, plugin) => plugin(node), rawAst)
-  const renderProps = xtend(props, {
-    renderers: renderers,
-    definitions: getDefinitions(ast)
-  })
-
-  return astToReact(ast, renderProps)
+  return plugins
 }
 
 ReactMarkdown.defaultProps = {
