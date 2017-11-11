@@ -11,7 +11,7 @@
     "deploy": "gh-pages-deploy",
     "posttest": "eslint .",
     "prepublishOnly": "npm run qa",
-    "qa": "npm prune && npm test && npm run build && npm run build:umd",
+    "qa": "npm test && npm run build",
     "test": "jest --coverage",
     "watch": "webpack --watch"
   },
