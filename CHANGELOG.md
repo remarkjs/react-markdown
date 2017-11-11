@@ -2,7 +2,7 @@
 
 All notable changes will be documented in this file.
 
-## 3.0.0-rc1 - 2017-11-11
+## 3.0.0-rc3 - 2017-11-11
 
 ### Notes
 
