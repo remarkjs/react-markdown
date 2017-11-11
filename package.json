@@ -1,7 +1,7 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "2.5.1",
+  "version": "3.0.0-rc1",
   "keywords": ["markdown", "react", "react-component"],
   "main": "src/react-markdown.js",
   "scripts": {
