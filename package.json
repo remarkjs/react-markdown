@@ -1,14 +1,15 @@
 {
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "3.0.0-rc2",
+  "version": "3.0.0-rc3",
   "keywords": ["markdown", "react", "react-component"],
   "main": "lib/react-markdown.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack -p && npm run build:demo",
+    "build":
+      "npm run clean && npm run compile && NODE_ENV=production webpack -p && npm run build:demo",
     "build:demo": "NODE_ENV=production webpack -p --config webpack.config.demo.js",
     "clean": "rimraf lib/",
-    "compile": "npm run clean && babel --copy-files -d lib/ src/",
+    "compile": "babel --copy-files -d lib/ src/",
     "deploy": "gh-pages-deploy",
     "posttest": "eslint .",
     "prepublishOnly": "npm run qa",
