@@ -86,4 +86,7 @@ ReactMarkdown.propTypes = {
   renderers: PropTypes.object
 }
 
+ReactMarkdown.types = allTypes
+ReactMarkdown.renderers = defaultRenderers
+
 module.exports = ReactMarkdown
