@@ -6,6 +6,14 @@ Renders Markdown as pure React components.
 
 Demo available at http://rexxars.github.io/react-markdown/
 
+## :warning: NOTE
+
+Version 3 of this library is pending feedback and should be released soon.
+It contains numerous fixes and better markdown support across the board, but also *breaking changes*.  
+For new projects, I recommend you use the v3 release candidate!
+
+Please see https://github.com/rexxars/react-markdown/tree/v3 and [this issue](https://github.com/rexxars/react-markdown/issues/96) for more information.
+
 ## Installing
 
 ```
