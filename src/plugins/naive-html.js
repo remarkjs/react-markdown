@@ -6,7 +6,7 @@
 const visit = require('unist-util-visit')
 
 const type = 'virtualHtml'
-const selfClosingRe = /^<([a-z]+)\s*\/>$/
+const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i
 const simpleTagRe = /^<(\/?)([a-z]+)\s*>$/
 
 module.exports = function(tree) {

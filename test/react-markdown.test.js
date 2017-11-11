@@ -412,3 +412,10 @@ test('can match and reactify self-closing, attributeless html', () => {
     '<p>Can I insert a horizontal rule?</p><hr/><p>Yup, looks like it.</p>'
   )
 })
+
+test('can match and reactify self-closing, attributeless html (whitelist)', () => {
+  const input = 'Can I insert a horizontal rule?\n\n<hr>\n\nYup, looks like it.'
+  expect(renderHTML(<Markdown source={input} escapeHtml={false} />)).toEqual(
+    '<p>Can I insert a horizontal rule?</p><hr/><p>Yup, looks like it.</p>'
+  )
+})
