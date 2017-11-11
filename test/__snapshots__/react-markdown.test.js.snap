@@ -10,7 +10,7 @@ exports[`can render the most basic of documents (single paragraph) 1`] = `
 
 exports[`can render the whole spectrum of markdown within a single run 1`] = `
 <div
-  data-sourcepos="1:1-154:1"
+  data-sourcepos="1:1-160:1"
 >
   <h1
     data-sourcepos="1:1-1:13"
@@ -628,9 +628,56 @@ console.log(foo(5));
   >
     Does anyone actually like the fact that you can embed HTML in markdown?
   </p>
-  <span>
-    &lt;p&gt;Well, you can put blocks of HTML in here. It'll kind of work.&lt;/p&gt;
-  </span>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<iframe
+  src=\\"https://foo.bar/\\"
+  width=\\"640\\"
+  height=\\"480\\"
+/>",
+      }
+    }
+  />
+  <p
+    data-sourcepos="159:1-159:304"
+  >
+    We have a known bug where inline HTML isn't handled well. You can do basic tags like 
+    <code
+      data-sourcepos="159:86-159:103"
+    >
+      code
+    </code>
+    , as long as it doesn't contain any 
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<span class=\\"attrs\\">",
+        }
+      }
+    />
+    attributes
+    <span
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "</span>",
+        }
+      }
+    />
+    . If you have weird ordering on your tags, it won't work either. It does support 
+    <strong
+      data-sourcepos="159:257-159:303"
+    >
+      nested 
+      <em
+        data-sourcepos="159:272-159:285"
+      >
+        tags
+      </em>
+      , however
+    </strong>
+    .
+  </p>
 </div>
 `;
 
@@ -663,6 +710,18 @@ exports[`should be able to override renderers 1`] = `
 </div>
 `;
 
+exports[`should be able to render basic inline html without containers 1`] = `
+<div>
+  <p>
+    I am having 
+    <strong>
+      so
+    </strong>
+     much fun
+  </p>
+</div>
+`;
+
 exports[`should be able to render inline code 1`] = `
 <div>
   <p>
@@ -675,14 +734,14 @@ exports[`should be able to render inline code 1`] = `
 </div>
 `;
 
-exports[`should be able to render inline html 1`] = `
+exports[`should be able to render inline html in totally unsatisfying, weird ways 1`] = `
 <div>
   <p>
     I am having 
     <span
       dangerouslySetInnerHTML={
         Object {
-          "__html": "<strong>",
+          "__html": "<span class=\\"foo\\">",
         }
       }
     />
@@ -690,7 +749,7 @@ exports[`should be able to render inline html 1`] = `
     <span
       dangerouslySetInnerHTML={
         Object {
-          "__html": "</strong>",
+          "__html": "</span>",
         }
       }
     />
@@ -704,13 +763,13 @@ exports[`should escape html blocks by default 1`] = `
   <p>
     This is a regular paragraph.
   </p>
-  <span>
+  <div>
     &lt;table&gt;
     &lt;tr&gt;
         &lt;td&gt;Foo&lt;/td&gt;
     &lt;/tr&gt;
 &lt;/table&gt;
-  </span>
+  </div>
   <p>
     This is another regular paragraph.
   </p>

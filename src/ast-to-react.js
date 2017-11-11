@@ -110,6 +110,9 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
         align: parent.props.columnAlignment[index]
       })
       break
+    case 'virtualHtml':
+      props.tag = node.tag
+      break
     case 'html':
       // @todo find a better way than this
       props.isBlock = node.position.start.line !== node.position.end.line

@@ -9,6 +9,7 @@ const getDefinitions = require('./get-definitions')
 const astToReact = require('./ast-to-react')
 const wrapTableRows = require('./wrap-table-rows')
 const disallowNode = require('./plugins/disallow-node')
+const naiveHtml = require('./plugins/naive-html')
 
 const allTypes = Object.keys(defaultRenderers)
 
@@ -20,7 +21,6 @@ const ReactMarkdown = function ReactMarkdown(props) {
   }
 
   const renderers = objectAssign({}, defaultRenderers, props.renderers)
-  const plugins = [wrapTableRows]
 
   let disallowedTypes = props.disallowedTypes || []
   if (props.allowedTypes) {
@@ -29,6 +29,8 @@ const ReactMarkdown = function ReactMarkdown(props) {
     )
   }
 
+  const plugins = [wrapTableRows]
+
   const removalMethod = props.unwrapDisallowed ? 'unwrap' : 'remove'
   if (disallowedTypes.length > 0) {
     plugins.push(disallowNode.ofType(disallowedTypes, removalMethod))
@@ -36,6 +38,11 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   if (props.allowNode) {
     plugins.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
+  }
+
+  const renderHtml = !props.escapeHtml && !props.skipHtml
+  if (renderHtml) {
+    plugins.push(naiveHtml)
   }
 
   const rawAst = unified()

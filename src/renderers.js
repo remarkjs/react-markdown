@@ -30,7 +30,8 @@ module.exports = {
   heading: Heading,
   inlineCode: InlineCode,
   code: CodeBlock,
-  html: Html
+  html: Html,
+  virtualHtml: VirtualHtml
 }
 
 function SimpleRenderer(tag, props) {
@@ -79,13 +80,18 @@ function Html(props) {
     return null
   }
 
+  const tag = props.isBlock ? 'div' : 'span'
   if (props.escapeHtml) {
     // @todo when fiber lands, we can simply render props.value
-    return createElement('span', null, props.value)
+    return createElement(tag, null, props.value)
   }
 
   const nodeProps = {dangerouslySetInnerHTML: {__html: props.value}}
-  return createElement(props.isBlock ? 'div' : 'span', nodeProps)
+  return createElement(tag, nodeProps)
+}
+
+function VirtualHtml(props) {
+  return createElement(props.tag, getCoreProps(props), props.children)
 }
 
 function NullRenderer() {

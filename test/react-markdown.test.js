@@ -176,9 +176,15 @@ test('should handle inline html with escapeHtml option enabled', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
-// @todo need better handling of inline HTML. hard. need help. plz help.
-test('should be able to render inline html', () => {
+test('should be able to render basic inline html without containers', () => {
   const input = 'I am having <strong>so</strong> much fun'
+  const component = renderer.create(<Markdown source={input} escapeHtml={false} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+// @todo need better handling of inline HTML. hard. need help. plz help.
+test('should be able to render inline html in totally unsatisfying, weird ways', () => {
+  const input = 'I am having <span class="foo">so</span> much fun'
   const component = renderer.create(<Markdown source={input} escapeHtml={false} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -292,7 +298,7 @@ test('should render image references', () => {
 
 describe('should skip nodes that are defined as disallowed', () => {
   const samples = {
-    html: {input: 'Foo<strong>bar</strong>', shouldNotContain: 'Foo<span><strong>'},
+    html: {input: 'Foo<kbd>bar</kbd>', shouldNotContain: '<kbd>'},
     paragraph: {input: 'Paragraphs are cool', shouldNotContain: 'Paragraphs are cool'},
     heading: {input: '# Headers are neat', shouldNotContain: 'Headers are neat'},
     break: {input: 'Text  \nHardbreak', shouldNotContain: '<br/>'},
@@ -330,7 +336,7 @@ describe('should skip nodes that are defined as disallowed', () => {
 
 test('should throw if both allowed and disallowed types is specified', () => {
   expect(() => {
-    renderHTML(<Markdown source={''} allowedTypes={['paragraph']} disallowedTypes={['link']} />)
+    renderHTML(<Markdown source="" allowedTypes={['paragraph']} disallowedTypes={['link']} />)
   }).toThrow(/Only one of/i)
 })
 
@@ -373,8 +379,36 @@ test('can render the whole spectrum of markdown within a single run', done => {
       return
     }
 
-    const component = renderer.create(<Markdown source={fixture} sourcePos />)
+    const component = renderer.create(<Markdown source={fixture} escapeHtml={false} sourcePos />)
     expect(component.toJSON()).toMatchSnapshot()
     done()
   })
+})
+
+test('can match and reactify cheap/simple inline html', () => {
+  const input = 'So <ins>arbitrary *tags* wont</ins> just work.'
+  expect(renderHTML(<Markdown source={input} escapeHtml={false} />)).toEqual(
+    '<p>So <ins>arbitrary <em>tags</em> wont</ins> just work.</p>'
+  )
+})
+
+test('can match multiple simple inline tags', () => {
+  const input = 'So <ins>arbitrary</ins> <em>things</em>?'
+  expect(renderHTML(<Markdown source={input} escapeHtml={false} />)).toEqual(
+    '<p>So <ins>arbitrary</ins> <em>things</em>?</p>'
+  )
+})
+
+test('can match nested simple inline tags', () => {
+  const input = 'So <ins>arbitrary <em>things</em> are cool</ins>?'
+  expect(renderHTML(<Markdown source={input} escapeHtml={false} />)).toEqual(
+    '<p>So <ins>arbitrary <em>things</em> are cool</ins>?</p>'
+  )
+})
+
+test('can match and reactify self-closing, attributeless html', () => {
+  const input = 'Can I insert a horizontal rule?\n\n<hr />\n\nYup, looks like it.'
+  expect(renderHTML(<Markdown source={input} escapeHtml={false} />)).toEqual(
+    '<p>Can I insert a horizontal rule?</p><hr/><p>Yup, looks like it.</p>'
+  )
 })
