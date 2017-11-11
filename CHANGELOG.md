@@ -2,6 +2,39 @@
 
 All notable changes will be documented in this file.
 
+## 3.0.0-rc1 - 2017-11-11
+
+### Notes
+
+- **FULL REWRITE**. Changed parser from CommonMark to Markdown. Big, breaking changes. See *BREAKING* below.
+
+## Added
+
+* Table support!
+  * New types: `table`, `tableHead`, `tableBody`, `tableRow`, `tableCell`
+* New type: `delete` (`~~foo~~`)
+* New type: `imageReference`
+* New type: `linkReference`
+* New type: `definition`
+* Hacky, but basic support for React-native rendering of attributeless HTML nodes (`<kbd>`, `<sub>` etc)
+
+## BREAKING
+
+* Container props removed (`containerTagName`, `containerProps`), override `root` renderer instead
+* `softBreak` option removed. New solution will be added at some point in the future.
+* `escapeHtml` is now TRUE by default
+* `HtmlInline`/`HtmlBlock` are now named `html` (use `isBlock` prop to check if inline or block)
+* Renderer names are camelcased and in certain cases, renamed. For instance:
+  * `Emph` => `emphasis`
+  * `Item` => `listItem`
+  * `Code` => `inlineCode`
+  * `CodeBlock` => `code`
+  * `linebreak`/`hardbreak` => `break`
+* All renderers: `literal` prop is now called `value`* List renderer: `type` prop is now a boolean named `ordered` (`Bullet` => `false`, `Ordered` => `true`)
+* `walker` prop removed. Code depending on this will have to be rewritten to use the `astPlugins` prop, which functions differently.
+* `allowNode` has new arguments (node, index, parent) - node has different props, see renderer props
+* `childBefore` and `childAfter` props removed. Use `root` renderer instead.
+
 ## 2.5.1 - 2017-11-11
 
 ### Changes
