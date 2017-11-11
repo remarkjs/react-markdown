@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types, react/no-multi-comp */
 'use strict'
 
+const xtend = require('xtend')
 const React = require('react')
-const objectAssign = require('object-assign')
 const createElement = React.createElement
 
 module.exports = {
@@ -43,7 +43,7 @@ function TableCell(props) {
   const coreProps = getCoreProps(props)
   return createElement(
     props.isHeader ? 'th' : 'td',
-    style ? objectAssign({style}, coreProps) : coreProps,
+    style ? xtend({style}, coreProps) : coreProps,
     props.children
   )
 }

@@ -1,9 +1,9 @@
 'use strict'
 
+const xtend = require('xtend')
 const unified = require('unified')
 const parse = require('remark-parse')
 const PropTypes = require('prop-types')
-const objectAssign = require('object-assign')
 const defaultRenderers = require('./renderers')
 const getDefinitions = require('./get-definitions')
 const astToReact = require('./ast-to-react')
@@ -20,7 +20,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
     throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
   }
 
-  const renderers = objectAssign({}, defaultRenderers, props.renderers)
+  const renderers = xtend(defaultRenderers, props.renderers)
 
   let disallowedTypes = props.disallowedTypes || []
   if (props.allowedTypes) {
@@ -50,7 +50,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
     .parse(src)
 
   const ast = plugins.reduce((node, plugin) => plugin(node), rawAst)
-  const renderProps = objectAssign({}, props, {
+  const renderProps = xtend(props, {
     renderers: renderers,
     definitions: getDefinitions(ast)
   })
