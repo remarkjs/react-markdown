@@ -15,9 +15,9 @@
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --reporter spec",
     "deploy": "gh-pages-deploy",
     "lint": "eslint .",
-    "prepublish": "in-publish && npm run qa || not-in-publish",
+    "prepublishOnly": "npm run qa",
     "posttest": "npm run lint",
-    "qa": "npm prune && npm test && npm run build",
+    "qa": "npm test && npm run build",
     "test": "mocha --reporter spec",
     "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec",
     "watch": "webpack --config webpack.config.demo.js --watch"
@@ -56,7 +56,6 @@
   "dependencies": {
     "commonmark": "^0.24.0",
     "commonmark-react-renderer": "^4.3.4",
-    "in-publish": "^2.0.0",
     "prop-types": "^15.5.1"
   },
   "types": "./react-markdown.d.ts",
