@@ -6,6 +6,16 @@ Renders Markdown as pure React components.
 
 Demo available at http://rexxars.github.io/react-markdown/
 
+---
+react-markdown is proudly sponsored by
+
+<a href="https://www.sanity.io/" rel="nofollow" target="_blank">
+  <img src="https://www.sanity.io/static/images/logo_red.svg?v=2" width="300"><br />
+  Sanity: The Headless CMS Construction Kit
+</a>
+
+---
+
 ## Installing
 
 ```
