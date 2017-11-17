@@ -117,6 +117,26 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
     </li>
     <li>
       Sub-lists are made by indenting 2 spaces:
+      <ul>
+        <li>
+          Marker character change forces new list start:
+          <ul>
+            <li>
+              Ac tristique libero volutpat at
+            </li>
+          </ul>
+          <ul>
+            <li>
+              Facilisis in pretium nisl aliquet
+            </li>
+          </ul>
+          <ul>
+            <li>
+              Nulla volutpat aliquam velit
+            </li>
+          </ul>
+        </li>
+      </ul>
     </li>
     <li>
       Very easy!
@@ -996,6 +1016,43 @@ exports[`should handle tight, unordered lists 1`] = `
     </li>
     <li>
       Are cool
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`should handle tight, unordered lists with sublists 1`] = `
+<div>
+  <ul>
+    <li>
+      Unordered
+      <ul>
+        <li>
+          Lists
+          <ul>
+            <li>
+              Are cool
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`should handle loose, unordered lists with sublists 1`] = `
+<div>
+  <ul>
+    <li>
+      <p>
+        foo
+      </p>
+      <ul>
+        <li>
+          bar
+        </li>
+      </ul>
     </li>
   </ul>
 </div>
