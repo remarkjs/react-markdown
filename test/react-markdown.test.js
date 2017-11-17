@@ -158,6 +158,18 @@ test('should handle loose, unordered lists', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should handle tight, unordered lists with sublists', () => {
+  const input = '* Unordered\n  * Lists\n    * Are cool\n'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should handle loose, unordered lists with sublists', () => {
+  const input = '- foo\n\n  - bar'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle ordered lists', () => {
   const input = '1. Ordered\n2. Lists\n3. Are cool\n'
   const component = renderer.create(<Markdown source={input} />)

@@ -59,9 +59,9 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     case 'listItem':
       props.checked = node.checked
       props.tight = !node.loose
-      props.children = (props.tight ? unwrapFirstChild(node) : node.children).map((childNode, i) =>
-        astToReact(childNode, opts, {node, props}, i)
-      )
+      props.children = (props.tight ? unwrapParagraphs(node) : node.children).map((childNode, i) => {
+        return astToReact(childNode, opts, { node: node, props: props }, i)
+      })
       break
     case 'definition':
       assignDefined(props, {identifier: node.identifier, title: node.title, url: node.url})
@@ -149,8 +149,10 @@ function flattenPosition(pos) {
     .join('')
 }
 
-function unwrapFirstChild(node) {
-  return (node.children && node.children[0] && node.children[0].children) || []
+function unwrapParagraphs(node) {
+  return node.children.reduce((array, child) => {
+    return array.concat(child.type === 'paragraph' ? child.children || [] : [child])
+  }, [])
 }
 
 module.exports = astToReact
