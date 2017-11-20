@@ -1,80 +1,71 @@
-'use strict';
+const React = require('react')
+const PropTypes = require('prop-types')
 
-var React = require('react');
-var PropTypes = require('prop-types');
-var h = React.createElement;
+class MarkdownControls extends React.PureComponent {
+  handleChange(evt) {
+    this.props.onChange(evt.target.value)
+  }
 
-class MarkdownControls extends React.Component {
-    constructor(props) {
-        super(props);
+  render() {
+    const rawChecked = this.props.mode === 'raw'
+    const skipChecked = this.props.mode === 'skip'
+    const escapeChecked = this.props.mode === 'escape'
 
-        this.onChange = this.onChange.bind(this);
-    }
+    return (
+      <div className="markdown-controls">
+        <form className="pure-form pure-form-inline">
+          <fieldset>
+            <legend>HTML mode:</legend>
 
-    onChange(e) {
-        this.props.onChange(e.target.value);
-    }
+            <label htmlFor="raw-html" className="pure-checkbox">
+              Raw&nbsp;
+              <input
+                id="raw-html"
+                name="html-mode"
+                type="radio"
+                value="raw"
+                checked={rawChecked}
+                onChange={this.handleChange}
+              />
+            </label>
 
-    render() {
-        var rawChecked = this.props.mode === 'raw',
-            skipChecked = this.props.mode === 'skip',
-            escapeChecked = this.props.mode === 'escape';
+            <label htmlFor="escape-html" className="pure-checkbox">
+              Escape&nbsp;
+              <input
+                id="escape-html"
+                name="html-mode"
+                type="radio"
+                value="escape"
+                checked={escapeChecked}
+                onChange={this.handleChange}
+              />
+            </label>
 
-        return (
-            h('div', {className: 'markdown-controls'},
-                h('form', {className: 'pure-form pure-form-inline'},
-                    h('fieldset', null,
-                        h('legend', null, 'HTML mode'),
+            <label htmlFor="skip-html" className="pure-checkbox">
+              Skip&nbsp;
+              <input
+                id="skip-html"
+                name="html-mode"
+                type="radio"
+                value="skip"
+                checked={skipChecked}
+                onChange={this.handleChange}
+              />
+            </label>
+          </fieldset>
+        </form>
+      </div>
+    )
+  }
+}
 
-                        h('label', {htmlFor: 'raw-html', className: 'pure-checkbox'},
-                            'Raw ',
-                            h('input', {
-                                id: 'raw-html',
-                                name: 'html-mode',
-                                type: 'radio',
-                                value: 'raw',
-                                checked: rawChecked,
-                                onChange: this.onChange
-                            })
-                        ),
-
-                        h('label', {htmlFor: 'escape-html', className: 'pure-checkbox'},
-                            'Escape ',
-                            h('input', {
-                                id: 'escape-html',
-                                name: 'html-mode',
-                                type: 'radio',
-                                value: 'escape',
-                                checked: escapeChecked,
-                                onChange: this.onChange
-                            })
-                        ),
-
-                        h('label', {htmlFor: 'skip-html', className: 'pure-checkbox'},
-                            'Skip ',
-                            h('input', {
-                                id: 'skip-html',
-                                name: 'html-mode',
-                                type: 'radio',
-                                value: 'skip',
-                                checked: skipChecked,
-                                onChange: this.onChange
-                            })
-                        )
-                    )
-                )
-            )
-        );
-    }
+MarkdownControls.defaultProps = {
+  mode: 'raw'
 }
 
 MarkdownControls.propTypes = {
-    mode: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
-};
+  mode: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
+}
 
-MarkdownControls.defaultProps = {
-    mode: 'raw'
-};
-
-module.exports = MarkdownControls;
+module.exports = MarkdownControls

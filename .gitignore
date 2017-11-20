@@ -29,3 +29,5 @@ vendor
 # UMD build
 umd
 
+# Babelified
+lib

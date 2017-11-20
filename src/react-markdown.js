@@ -1,73 +1,96 @@
-'use strict';
+'use strict'
 
-var React = require('react');
-var Parser = require('commonmark').Parser;
-var ReactRenderer = require('commonmark-react-renderer');
-var propTypes = require('prop-types');
+const xtend = require('xtend')
+const unified = require('unified')
+const parse = require('remark-parse')
+const PropTypes = require('prop-types')
+const naiveHtml = require('./plugins/naive-html')
+const disallowNode = require('./plugins/disallow-node')
+const astToReact = require('./ast-to-react')
+const wrapTableRows = require('./wrap-table-rows')
+const getDefinitions = require('./get-definitions')
+const uriTransformer = require('./uriTransformer')
+const defaultRenderers = require('./renderers')
 
-function ReactMarkdown(props) {
-    React.Component.call(this, props);
+const allTypes = Object.keys(defaultRenderers)
+
+const ReactMarkdown = function ReactMarkdown(props) {
+  const src = props.source || props.children || ''
+
+  if (props.allowedTypes && props.disallowedTypes) {
+    throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
+  }
+
+  const renderers = xtend(defaultRenderers, props.renderers)
+
+  const rawAst = unified()
+    .use(parse)
+    .parse(src)
+
+  const renderProps = xtend(props, {
+    renderers: renderers,
+    definitions: getDefinitions(rawAst)
+  })
+
+  const plugins = determinePlugins(props)
+  const ast = plugins.reduce((node, plugin) => plugin(node, renderProps), rawAst)
+
+  return astToReact(ast, renderProps)
 }
 
-ReactMarkdown.prototype = Object.create(React.Component.prototype);
-ReactMarkdown.prototype.constructor = ReactMarkdown;
+function determinePlugins(props) {
+  const plugins = [wrapTableRows]
 
-ReactMarkdown.prototype.render = function() {
-    var containerProps = this.props.containerProps || {};
-    var renderer = new ReactRenderer(this.props);
-    var parser = new Parser(this.props.parserOptions);
-    var ast = parser.parse(this.props.source || '');
+  let disallowedTypes = props.disallowedTypes
+  if (props.allowedTypes) {
+    disallowedTypes = allTypes.filter(
+      type => type !== 'root' && props.allowedTypes.indexOf(type) === -1
+    )
+  }
 
-    if (this.props.walker) {
-        var walker = ast.walker();
-        var event;
+  const removalMethod = props.unwrapDisallowed ? 'unwrap' : 'remove'
+  if (disallowedTypes && disallowedTypes.length > 0) {
+    plugins.push(disallowNode.ofType(disallowedTypes, removalMethod))
+  }
 
-        while ((event = walker.next())) {
-            this.props.walker.call(this, event, walker);
-        }
-    }
+  if (props.allowNode) {
+    plugins.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
+  }
 
-    if (this.props.className) {
-        containerProps.className = this.props.className;
-    }
+  const renderHtml = !props.escapeHtml && !props.skipHtml
+  if (renderHtml) {
+    plugins.push(naiveHtml)
+  }
 
-    return React.createElement.apply(React,
-        [this.props.containerTagName, containerProps, this.props.childBefore]
-            .concat(renderer.render(ast).concat(
-                [this.props.childAfter]
-            ))
-    );
-};
-
-ReactMarkdown.propTypes = {
-    className: propTypes.string,
-    containerProps: propTypes.object,
-    source: propTypes.string.isRequired,
-    containerTagName: propTypes.string,
-    childBefore: propTypes.object,
-    childAfter: propTypes.object,
-    sourcePos: propTypes.bool,
-    escapeHtml: propTypes.bool,
-    skipHtml: propTypes.bool,
-    softBreak: propTypes.string,
-    allowNode: propTypes.func,
-    allowedTypes: propTypes.array,
-    disallowedTypes: propTypes.array,
-    transformLinkUri: propTypes.func,
-    transformImageUri: propTypes.func,
-    unwrapDisallowed: propTypes.bool,
-    renderers: propTypes.object,
-    walker: propTypes.func,
-    parserOptions: propTypes.object
-};
+  return props.astPlugins ? plugins.concat(props.astPlugins) : plugins
+}
 
 ReactMarkdown.defaultProps = {
-    containerTagName: 'div',
-    parserOptions: {}
-};
+  renderers: {},
+  escapeHtml: true,
+  skipHtml: false,
+  transformLinkUri: uriTransformer
+}
 
-ReactMarkdown.types = ReactRenderer.types;
-ReactMarkdown.renderers = ReactRenderer.renderers;
-ReactMarkdown.uriTransformer = ReactRenderer.uriTransformer;
+ReactMarkdown.propTypes = {
+  className: PropTypes.string,
+  source: PropTypes.string,
+  children: PropTypes.string,
+  sourcePos: PropTypes.bool,
+  escapeHtml: PropTypes.bool,
+  skipHtml: PropTypes.bool,
+  allowNode: PropTypes.func,
+  allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
+  disallowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
+  transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  transformImageUri: PropTypes.func,
+  astPlugins: PropTypes.arrayOf(PropTypes.func),
+  unwrapDisallowed: PropTypes.bool,
+  renderers: PropTypes.object
+}
 
-module.exports = ReactMarkdown;
+ReactMarkdown.types = allTypes
+ReactMarkdown.renderers = defaultRenderers
+ReactMarkdown.uriTransformer = uriTransformer
+
+module.exports = ReactMarkdown
