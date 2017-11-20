@@ -20,19 +20,22 @@ react-markdown is proudly sponsored by
 ## Installing
 
 ```
-npm install --save react-markdown@next
+npm install --save react-markdown
 ```
 
 ## Basic usage
 
 ```js
-var React = require('react')
-var ReactDOM = require('react-dom')
-var ReactMarkdown = require('react-markdown')
+const React = require('react')
+const ReactDOM = require('react-dom')
+const ReactMarkdown = require('react-markdown')
 
-var input = '# This is a header\n\nAnd this is a paragraph'
+const input = '# This is a header\n\nAnd this is a paragraph'
 
-ReactDOM.render(<ReactMarkdown source={input} />, document.getElementById('container'))
+ReactDOM.render(
+  <ReactMarkdown source={input} />,
+  document.getElementById('container')
+)
 ```
 
 ## Notes
@@ -79,7 +82,7 @@ this has been planned, but if you're feeling up to the task, create an issue and
   single argument - `uri`. The returned value is used in place of the original.
 * `renderers` - _object_ An object where the keys represent the node type and the value is a React
   component. The object is merged with the default renderers. The props passed to the component
-  varies based on the type of node.
+  consties based on the type of node.
 
 The node types available are the following, and applies to both `renderers` and
 `allowedTypes`/`disallowedTypes`:
