@@ -5,6 +5,44 @@ const Editor = require('./editor')
 const CodeBlock = require('./code-block')
 const MarkdownControls = require('./markdown-controls')
 
+const initialSource = `
+# Live demo
+
+Changes are automatically rendered as you type.
+
+* Implements [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual, "native" React DOM elements
+* Allows you to escape or skip HTML (try toggling the checkboxes above)
+* If you escape or skip the HTML, no \`dangerouslySetInnerHTML\` is used! Yay!
+
+## HTML block below
+
+<blockquote>
+    This blockquote will change based on the HTML settings above.
+</blockquote>
+
+## How about some code?
+\`\`\`js
+var React = require('react');
+var Markdown = require('react-markdown');
+
+React.render(
+    <Markdown source="# Your markdown here" />,
+    document.getElementById('content')
+);
+\`\`\`
+
+Pretty neat, eh?
+
+## More info?
+
+Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
+
+---------------
+
+A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal
+`
+
 class Demo extends React.PureComponent {
   constructor(props) {
     super(props)
@@ -12,22 +50,7 @@ class Demo extends React.PureComponent {
     this.handleControlsChange = this.handleControlsChange.bind(this)
     this.handleMarkdownChange = this.handleMarkdownChange.bind(this)
     this.state = {
-      markdownSrc: [
-        '# Live demo\n\nChanges are automatically rendered as you type.\n\n* Follows the ',
-        '[CommonMark](http://commonmark.org/) spec\n* Renders actual, "native" React DOM ',
-        'elements\n* Allows you to escape or skip HTML (try toggling the checkboxes above)',
-        '\n* If you escape or skip the HTML, no `dangerouslySetInnerHTML` is used! Yay!\n',
-        '\n## HTML block below\n\n<blockquote>\n    This blockquote will change based ',
-        'on the HTML settings above.\n</blockquote>\n\n## How about some code?\n',
-        "```js\nvar React = require('react');\nvar Markdown = require('react-markdown');",
-        '\n\nReact.render(\n    <Markdown source="# Your markdown here" />,\n    document.',
-        "getElementById('content')\n);\n```\n\nPretty neat, eh?\n\n",
-        '## More info?\n\n',
-        'Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)\n\n',
-        '---------------\n\n',
-        'A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal'
-      ].join(''),
-
+      markdownSrc: initialSource,
       htmlMode: 'raw'
     }
   }
