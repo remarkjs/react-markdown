@@ -2,7 +2,11 @@
 
 All notable changes will be documented in this file.
 
-## Unreleased
+## 3.0.1 - 2017-11-21
+
+### Added
+
+* _Experimental_ support for plugins (Espen Hovlandsdal)
 
 ### Changes
 
