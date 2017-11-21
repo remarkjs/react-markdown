@@ -62,8 +62,8 @@ declare namespace ReactMarkdown {
     readonly allowNode?: (node: AllowNode, number: index, parent) => boolean
     readonly allowedTypes?: NodeType[]
     readonly disallowedTypes?: NodeType[]
-    readonly transformLinkUri?: (uri: string) => string
-    readonly transformImageUri?: (uri: string) => string
+    readonly transformLinkUri?: (uri: string, children?: ReactNode, title?: string) => string
+    readonly transformImageUri?: (uri: string, children?: ReactNode, title?: string, alt?: string) => string
     readonly unwrapDisallowed?: boolean
     readonly renderers?: {[nodeType: string]: ReactType}
   }
