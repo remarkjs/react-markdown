@@ -2,14 +2,20 @@
 
 All notable changes will be documented in this file.
 
-## 3.0.0-rc3 - 2017-11-11
+## Unreleased
+
+### Changes
+
+* Provide more arguments to `transformLinkUri`/`transformImageUri` (children, title, alt) (mudrz)
+
+## 3.0.0 - 2017-11-20
 
 ### Notes
 
 * **FULL REWRITE**. Changed parser from CommonMark to Markdown. Big, breaking changes. See
   _BREAKING_ below.
 
-## Added
+### Added
 
 * Table support!
   * New types: `table`, `tableHead`, `tableBody`, `tableRow`, `tableCell`
@@ -20,7 +26,7 @@ All notable changes will be documented in this file.
 * Hacky, but basic support for React-native rendering of attributeless HTML nodes (`<kbd>`, `<sub>`
   etc)
 
-## BREAKING
+### BREAKING
 
 * Container props removed (`containerTagName`, `containerProps`), override `root` renderer instead
 * `softBreak` option removed. New solution will be added at some point in the future.
