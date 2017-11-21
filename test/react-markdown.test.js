@@ -3,6 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const React = require('react')
+const breaks = require('remark-breaks')
 const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
 const Markdown = require('../src/react-markdown')
@@ -457,5 +458,13 @@ test('allows specifying a custom URI-transformer', () => {
 
   const transform = uri => uri.replace(/^https?:\/\/github\.com\//i, '/')
   const component = renderer.create(<Markdown source={input} transformLinkUri={transform} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('can use parser plugins', () => {
+  const input =
+    'Just put\nhard breaks\nat each newline\n\n```\nbut not inside\ncode snippets\n```\n'
+
+  const component = renderer.create(<Markdown source={input} plugins={[breaks]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })

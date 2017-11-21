@@ -23,22 +23,26 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const renderers = xtend(defaultRenderers, props.renderers)
 
-  const rawAst = unified()
-    .use(parse)
-    .parse(src)
+  const plugins = [parse].concat(props.plugins || [])
+  const parser = plugins.reduce(applyParserPlugin, unified())
 
+  const rawAst = parser.parse(src)
   const renderProps = xtend(props, {
     renderers: renderers,
     definitions: getDefinitions(rawAst)
   })
 
-  const plugins = determinePlugins(props)
-  const ast = plugins.reduce((node, plugin) => plugin(node, renderProps), rawAst)
+  const astPlugins = determineAstPlugins(props)
+  const ast = astPlugins.reduce((node, plugin) => plugin(node, renderProps), rawAst)
 
   return astToReact(ast, renderProps)
 }
 
-function determinePlugins(props) {
+function applyParserPlugin(parser, plugin) {
+  return Array.isArray(plugin) ? parser.use(plugin[0], plugin[1]) : parser.use(plugin)
+}
+
+function determineAstPlugins(props) {
   const plugins = [wrapTableRows]
 
   let disallowedTypes = props.disallowedTypes

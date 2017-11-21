@@ -483,6 +483,24 @@ have weird ordering on your tags, it won't work either. It does support
 </div>
 `;
 
+exports[`can use parser plugins 1`] = `
+<div>
+  <p>
+    Just put
+    <br />
+    hard breaks
+    <br />
+    at each newline
+  </p>
+  <pre>
+    <code>
+      but not inside
+code snippets
+    </code>
+  </pre>
+</div>
+`;
+
 exports[`sanitizes certain dangerous urls for links by default 1`] = `
 <div>
   <h1>
@@ -925,6 +943,23 @@ exports[`should handle loose, unordered lists 1`] = `
 </div>
 `;
 
+exports[`should handle loose, unordered lists with sublists 1`] = `
+<div>
+  <ul>
+    <li>
+      <p>
+        foo
+      </p>
+      <ul>
+        <li>
+          bar
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+`;
+
 exports[`should handle multiline paragraphs properly (softbreak, paragraphs) 1`] = `
 <div>
   <p>
@@ -1034,23 +1069,6 @@ exports[`should handle tight, unordered lists with sublists 1`] = `
               Are cool
             </li>
           </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>
-`;
-
-exports[`should handle loose, unordered lists with sublists 1`] = `
-<div>
-  <ul>
-    <li>
-      <p>
-        foo
-      </p>
-      <ul>
-        <li>
-          bar
         </li>
       </ul>
     </li>
