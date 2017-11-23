@@ -59,7 +59,7 @@ declare namespace ReactMarkdown {
     readonly sourcePos?: boolean
     readonly escapeHtml?: boolean
     readonly skipHtml?: boolean
-    readonly allowNode?: (node: AllowNode, number: index, parent) => boolean
+    readonly allowNode?: (node: AllowNode, index: number, parent: NodeType) => boolean
     readonly allowedTypes?: NodeType[]
     readonly disallowedTypes?: NodeType[]
     readonly transformLinkUri?: (uri: string, children?: ReactNode, title?: string) => string
