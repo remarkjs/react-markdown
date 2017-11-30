@@ -84,6 +84,8 @@ this has been planned, but if you're feeling up to the task, create an issue and
   component. The object is merged with the default renderers. The props passed to the component
   consties based on the type of node.
 
+## Node types
+
 The node types available are the following, and applies to both `renderers` and
 `allowedTypes`/`disallowedTypes`:
 
