@@ -1171,6 +1171,36 @@ exports[`should unwrap child nodes from disallowed nodes, if unwrapDisallowed op
 </div>
 `;
 
+exports[`supports checkbox lists 1`] = `
+<div>
+  <ul>
+    <li>
+      <input
+        checked={false}
+        type="checkbox"
+      />
+      Foo
+    </li>
+    <li>
+      <input
+        checked={true}
+        type="checkbox"
+      />
+      Bar
+    </li>
+  </ul>
+  <hr />
+  <ul>
+    <li>
+      Foo
+    </li>
+    <li>
+      Bar
+    </li>
+  </ul>
+</div>
+`;
+
 exports[`uses passed classname for root component 1`] = `
 <div
   className="md"

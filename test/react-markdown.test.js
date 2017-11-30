@@ -468,3 +468,9 @@ test('can use parser plugins', () => {
   const component = renderer.create(<Markdown source={input} plugins={[breaks]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
+
+test('supports checkbox lists', () => {
+  const input = '- [ ] Foo\n- [x] Bar\n\n---\n\n- Foo\n- Bar'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})

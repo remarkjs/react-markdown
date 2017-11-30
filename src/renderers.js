@@ -62,7 +62,13 @@ function List(props) {
 }
 
 function ListItem(props) {
-  return createElement('li', getCoreProps(props), props.children)
+  let checkbox = null
+  if (props.checked !== null) {
+    const checked = props.checked
+    checkbox = createElement('input', {type: 'checkbox', checked})
+  }
+
+  return createElement('li', getCoreProps(props), checkbox, props.children)
 }
 
 function CodeBlock(props) {
