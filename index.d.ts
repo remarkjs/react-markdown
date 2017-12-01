@@ -3,6 +3,7 @@
 // Definitions by: Ruslan Ibragimov <https://github.com/IRus>, Kohei Asai <me@axross.io>
 
 import {Component, ReactElement, ReactNode, ReactType} from 'react'
+import { Node } from 'unist'
 
 declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
@@ -53,6 +54,8 @@ declare namespace ReactMarkdown {
     | 'html'
     | 'virtualHtml'
 
+  export type ASTPlugin = (node: Node, props?: ReactMarkdownProps) => Node;
+
   export interface ReactMarkdownProps {
     readonly className?: string
     readonly source: string
@@ -66,6 +69,7 @@ declare namespace ReactMarkdown {
     readonly transformImageUri?: (uri: string, children?: ReactNode, title?: string, alt?: string) => string
     readonly unwrapDisallowed?: boolean
     readonly renderers?: {[nodeType: string]: ReactType}
+    readonly astPlugins?: ASTPlugin[]
   }
 
   type Renderer<T> = (props: T) => ReactElement<T>
