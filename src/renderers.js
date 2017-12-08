@@ -65,7 +65,7 @@ function ListItem(props) {
   let checkbox = null
   if (props.checked !== null) {
     const checked = props.checked
-    checkbox = createElement('input', {type: 'checkbox', checked})
+    checkbox = createElement('input', {type: 'checkbox', checked, readOnly: true})
   }
 
   return createElement('li', getCoreProps(props), checkbox, props.children)
