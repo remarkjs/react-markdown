@@ -1177,6 +1177,7 @@ exports[`supports checkbox lists 1`] = `
     <li>
       <input
         checked={false}
+        readOnly={true}
         type="checkbox"
       />
       Foo
@@ -1184,6 +1185,7 @@ exports[`supports checkbox lists 1`] = `
     <li>
       <input
         checked={true}
+        readOnly={true}
         type="checkbox"
       />
       Bar
