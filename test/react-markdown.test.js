@@ -289,6 +289,18 @@ test('should render tables', () => {
   expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
 })
 
+test('should render partial tables', () => {
+  const input = [
+    'User is writing a table by hand',
+    '',
+    '| Test | Test |',
+    '|------|',
+    ''
+  ].join('\n')
+
+  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+})
+
 test('should render link references', () => {
   const input = [
     'Stuff were changed in [1.1.4]. Check out the changelog for reference.',
