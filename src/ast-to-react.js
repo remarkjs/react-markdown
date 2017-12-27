@@ -96,7 +96,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       break
     case 'imageReference':
       assignDefined(props, {
-        src: ref.href,
+        src: opts.transformImageUri ? opts.transformImageUri(ref.href, node.children, ref.title, node.alt) : ref.href,
         title: ref.title || undefined,
         alt: node.alt || undefined
       })
