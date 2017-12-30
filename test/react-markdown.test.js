@@ -83,6 +83,13 @@ test('should handle images with custom uri transformer', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should handle image references with custom uri transformer', () => {
+  const input = 'This is ![The Waffle Ninja][ninja].\n\n[ninja]: https://some.host/img.png'
+  const transform = uri => uri.replace(/\.png$/, '.jpg')
+  const component = renderer.create(<Markdown transformImageUri={transform} source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle images with special characters in alternative text', () => {
   const input = "This is ![a ninja's image](/ninja.png)."
   const component = renderer.create(<Markdown source={input} />)
@@ -290,13 +297,9 @@ test('should render tables', () => {
 })
 
 test('should render partial tables', () => {
-  const input = [
-    'User is writing a table by hand',
-    '',
-    '| Test | Test |',
-    '|------|',
-    ''
-  ].join('\n')
+  const input = ['User is writing a table by hand', '', '| Test | Test |', '|------|', ''].join(
+    '\n'
+  )
 
   expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
 })

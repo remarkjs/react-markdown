@@ -816,6 +816,19 @@ exports[`should handle html blocks 1`] = `
 </div>
 `;
 
+exports[`should handle image references with custom uri transformer 1`] = `
+<div>
+  <p>
+    This is 
+    <img
+      alt="The Waffle Ninja"
+      src="https://some.host/img.jpg"
+    />
+    .
+  </p>
+</div>
+`;
+
 exports[`should handle images with custom uri transformer 1`] = `
 <div>
   <p>
