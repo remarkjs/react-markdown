@@ -2,6 +2,40 @@
 
 All notable changes will be documented in this file.
 
+## 3.1.4 - 2017-12-30
+
+### Fixes
+
+* Enable transformImageUri for image references (evoye)
+
+## 3.1.3 - 2017-12-16
+
+### Fixes
+
+* Exclude babel config from npm package (Espen Hovlandsdal)
+
+## 3.1.2 - 2017-12-16
+
+### Fixes
+
+* Fixed partial table exception (Alexander Wong)
+
+## 3.1.1 - 2017-12-11
+
+### Fixes
+
+* Add readOnly property to checkboxes (Phil Rajchgot)
+
+## 3.1.0 - 2017-11-30
+
+### Added
+
+* Support for checkbox lists (Espen Hovlandsdal)
+
+### Fixes
+
+* Better typings (Igor Kamyshev)
+
 ## 3.0.1 - 2017-11-21
 
 ### Added
