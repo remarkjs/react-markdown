@@ -82,7 +82,7 @@ this has been planned, but if you're feeling up to the task, create an issue and
   single argument - `uri`. The returned value is used in place of the original.
 * `renderers` - _object_ An object where the keys represent the node type and the value is a React
   component. The object is merged with the default renderers. The props passed to the component
-  consties based on the type of node.
+  varies based on the type of node.
 
 ## Node types
 
