@@ -2,6 +2,12 @@ const React = require('react')
 const PropTypes = require('prop-types')
 
 class MarkdownControls extends React.PureComponent {
+  constructor() {
+    super()
+
+    this.handleChange = this.handleChange.bind(this)
+  }
+
   handleChange(evt) {
     this.props.onChange(evt.target.value)
   }
