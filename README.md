@@ -129,4 +129,4 @@ npm test
 
 ## License
 
-MIT-licensed. See LICENSE.
+MIT © [Espen Hovlandsdal](https://espen.codes/)
