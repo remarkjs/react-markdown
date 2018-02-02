@@ -67,7 +67,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       assignDefined(props, {identifier: node.identifier, title: node.title, url: node.url})
       break
     case 'code':
-      assignDefined(props, {language: node.lang})
+      assignDefined(props, {language: node.lang && node.lang.split(' ', 1)[0]})
       break
     case 'inlineCode':
       props.children = node.value

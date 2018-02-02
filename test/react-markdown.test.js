@@ -122,6 +122,12 @@ test('should handle code tags with language specification', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should only use first language definition on code blocks', () => {
+  const input = "```js foo bar\nvar foo = require('bar');\nfoo();\n```"
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle code blocks by indentation', () => {
   const input = ['', '<footer class="footer">\n', '', '&copy; 2014 Foo Bar\n', '</footer>'].join(
     '    '
