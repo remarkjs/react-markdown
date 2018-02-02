@@ -115,7 +115,7 @@ The node types available are the following, and applies to both `renderers` and
 * `html` - HTML node (Best-effort rendering)
 
 Note: Disallowing a node will also prevent the rendering of any children of that node, unless the
-`unwrapDisallowed` option is set to `true`. Eg, disallowing a paragraph will not render it's
+`unwrapDisallowed` option is set to `true`. E.g., disallowing a paragraph will not render its
 children text nodes.
 
 ## Developing
