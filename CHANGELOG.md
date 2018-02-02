@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.1.5 - 2018-02-03
+
+### Fixes
+
+* Only use first language from code block (Espen Hovlandsdal)
+
 ## 3.1.4 - 2017-12-30
 
 ### Fixes
