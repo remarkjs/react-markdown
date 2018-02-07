@@ -31,7 +31,8 @@ module.exports = {
   inlineCode: InlineCode,
   code: CodeBlock,
   html: Html,
-  virtualHtml: VirtualHtml
+  virtualHtml: VirtualHtml,
+	text: text => text
 }
 
 function SimpleRenderer(tag, props) {

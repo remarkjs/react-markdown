@@ -8,9 +8,9 @@ function astToReact(node, options, parent = {}, index = 0) {
   if (typeof renderer !== 'function' && typeof renderer !== 'string') {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
-  
+
   if (node.type === 'text') {
-    return renderer ? renderer(node.value) : node.value
+    return renderer(node.value)
   }
 
   const pos = node.position.start
