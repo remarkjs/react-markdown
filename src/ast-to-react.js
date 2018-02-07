@@ -5,12 +5,13 @@ const xtend = require('xtend')
 
 function astToReact(node, options, parent = {}, index = 0) {
   const renderer = options.renderers[node.type]
-  if (typeof renderer !== 'function' && typeof renderer !== 'string') {
-    throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
+
+	if (node.type === 'text') {
+    return renderer ? renderer(node.value) : node.value
   }
 
-  if (node.type === 'text') {
-    return renderer(node.value)
+  if (typeof renderer !== 'function' && typeof renderer !== 'string') {
+    throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
 
   const pos = node.position.start
