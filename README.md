@@ -90,6 +90,7 @@ The node types available are the following, and applies to both `renderers` and
 `allowedTypes`/`disallowedTypes`:
 
 * `root` - Root container element that contains the rendered markdown
+* `text` - Text rendered inside of other elements, such as paragraphs
 * `break` - Hard-break (`<br>`)
 * `paragraph` - Paragraph (`<p>`)
 * `emphasis` - Emphasis (`<em>`)

@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.2.0 - 2018-02-12
+
+### Added
+
+* Allow overriding text renderer (Thibaud Courtoison)
+
 ## 3.1.5 - 2018-02-03
 
 ### Fixes
