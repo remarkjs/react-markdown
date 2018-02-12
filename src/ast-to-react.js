@@ -4,11 +4,12 @@ const React = require('react')
 const xtend = require('xtend')
 
 function astToReact(node, options, parent = {}, index = 0) {
-  if (node.type === 'text') {
-    return node.value
+  const renderer = options.renderers[node.type]
+
+	if (node.type === 'text') {
+    return renderer ? renderer(node.value) : node.value
   }
 
-  const renderer = options.renderers[node.type]
   if (typeof renderer !== 'function' && typeof renderer !== 'string') {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }

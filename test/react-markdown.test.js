@@ -495,3 +495,10 @@ test('supports checkbox lists', () => {
   const component = renderer.create(<Markdown source={input} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
+
+test('should be able to override text renderer', () => {
+  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
+  const textRenderer = text => text.toUpperCase()
+  const component = renderer.create(<Markdown source={input} renderers={{text: textRenderer}} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
