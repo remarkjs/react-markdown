@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.2.1 - 2018-02-21
+
+### Fixes
+
+* Pass the React key into an overridden text renderer (vanchagreen)
+
 ## 3.2.0 - 2018-02-12
 
 ### Added
