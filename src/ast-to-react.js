@@ -6,16 +6,17 @@ const xtend = require('xtend')
 function astToReact(node, options, parent = {}, index = 0) {
   const renderer = options.renderers[node.type]
 
-	if (node.type === 'text') {
-    return renderer ? renderer(node.value) : node.value
+  const pos = node.position.start
+  const key = [node.type, pos.line, pos.column].join('-')
+
+  if (node.type === 'text') {
+    return renderer ? renderer(node.value, key) : node.value
   }
 
   if (typeof renderer !== 'function' && typeof renderer !== 'string') {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
 
-  const pos = node.position.start
-  const key = [node.type, pos.line, pos.column].join('-')
   const nodeProps = getNodeProps(node, key, options, renderer, parent, index)
 
   return React.createElement(

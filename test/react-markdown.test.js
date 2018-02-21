@@ -502,3 +502,13 @@ test('should be able to override text renderer', () => {
   const component = renderer.create(<Markdown source={input} renderers={{text: textRenderer}} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
+
+test('should pass the key to an overriden text renderer', () => {
+  const textRenderer = (text, key) => {
+    expect(key).toEqual('text-1-1');
+    return <marquee key={key}>{text}</marquee>;
+  }
+
+  renderer.create(<Markdown source={'foo'} renderers={{ text: textRenderer }} />)
+})
+
