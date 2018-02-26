@@ -128,6 +128,14 @@ test('should only use first language definition on code blocks', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should sanititize language strings in code blocks', () => {
+  const input = `~~~js&#x0a;ololo&#x0a;i&#x0a;can&#x0a;haz&#x0a;class&#x0a;names&#x0a;!@#$%^&*()_
+  woop
+  ~~~`
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle code blocks by indentation', () => {
   const input = ['', '<footer class="footer">\n', '', '&copy; 2014 Foo Bar\n', '</footer>'].join(
     '    '
