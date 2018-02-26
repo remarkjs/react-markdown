@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.2.2 - 2018-02-26
+
+### Fixes
+
+* Fix language escaping in code blocks (Espen Hovlandsdal)
+
 ## 3.2.1 - 2018-02-21
 
 ### Fixes
