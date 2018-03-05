@@ -33,10 +33,13 @@ const config = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
       }
     ]
   },
@@ -48,7 +51,6 @@ if (prod) {
   config.plugins.push(
     new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify('production')})
   )
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin())
 }
 
 module.exports = config
