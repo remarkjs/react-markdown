@@ -13,7 +13,7 @@ function astToReact(node, options, parent = {}, index = 0) {
     return renderer ? renderer(node.value, key) : node.value
   }
 
-  if (typeof renderer !== 'function' && typeof renderer !== 'string') {
+  if (typeof renderer !== 'function' && typeof renderer !== 'string' && !isReactFragment(renderer)) {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
 
@@ -33,6 +33,10 @@ function astToReact(node, options, parent = {}, index = 0) {
       )
     )
   }
+}
+
+function isReactFragment(renderer) {
+  return React.Fragment && React.Fragment === renderer;
 }
 
 // eslint-disable-next-line max-params, complexity
