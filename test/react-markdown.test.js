@@ -414,6 +414,19 @@ test('should throw on invalid renderer', () => {
   )
 })
 
+test('should be able to override root renderer with fragment renderer', () => {
+  const input = '# Header\n\nfoo'
+  const root = props => (
+    <React.Fragment>
+      {props.children}
+      <span>And that is the end of that</span>
+    </React.Fragment>
+  )
+
+  const component = renderer.create(<Markdown source={input} renderers={{root}} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('can render the whole spectrum of markdown within a single run', done => {
   fs.readFile(path.join(__dirname, 'fixtures', 'runthrough.md'), 'utf8', (err, fixture) => {
     if (err) {

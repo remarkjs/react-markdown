@@ -650,6 +650,20 @@ exports[`should be able to override renderers 1`] = `
 </div>
 `;
 
+exports[`should be able to override root renderer with fragment renderer 1`] = `
+Array [
+  <h1>
+    Header
+  </h1>,
+  <p>
+    foo
+  </p>,
+  <span>
+    And that is the end of that
+  </span>,
+]
+`;
+
 exports[`should be able to override text renderer 1`] = `
 <div>
   <h1>
