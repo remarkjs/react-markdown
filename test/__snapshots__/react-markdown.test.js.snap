@@ -658,9 +658,6 @@ Array [
   <p>
     foo
   </p>,
-  <span>
-    And that is the end of that
-  </span>,
 ]
 `;
 
