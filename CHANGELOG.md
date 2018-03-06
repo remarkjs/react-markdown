@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.3.0 - 2018-03-06
+
+### Added
+
+* Add support for fragment renderers (Benjamim Sonntag)
+
 ## 3.2.2 - 2018-02-26
 
 ### Fixes
