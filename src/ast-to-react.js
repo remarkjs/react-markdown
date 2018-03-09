@@ -140,6 +140,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
         xtend(node, {
           type: undefined,
           position: undefined,
+          children: undefined,
         }),
       )
   }
