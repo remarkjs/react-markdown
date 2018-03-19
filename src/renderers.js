@@ -82,6 +82,10 @@ function InlineCode(props) {
 }
 
 function Html(props) {
+  if (props.AppLoadableContainer) {
+    return props.AppLoadableContainer(props)
+  }
+
   if (props.skipHtml) {
     return null
   }
