@@ -129,6 +129,20 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.tag = node.tag
       break
     case 'html':
+      let match = node.value.match(/<AppLoadableContainer ([^/]*)\/>/)
+      if (match) {
+        let attributes = match[1].trim()
+        let regex = /\s*(\w+)="([^"]+)"/g
+        let customProps = {}
+        while ((match = regex.exec(attributes))) {
+          let [everything, attr, value] = match
+          customProps[attr] = value
+        }
+
+        const renderer = opts.renderers.AppLoadableContainer
+        props.AppLoadableContainer = () => renderer(customProps)
+      }
+
       // @todo find a better way than this
       props.isBlock = node.position.start.line !== node.position.end.line
       props.escapeHtml = opts.escapeHtml
