@@ -66,7 +66,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.checked = node.checked
       props.tight = !node.loose
       props.children = (props.tight ? unwrapParagraphs(node) : node.children).map((childNode, i) => {
-        return astToReact(childNode, opts, { node: node, props: props }, i)
+        return astToReact(childNode, opts, {node: node, props: props}, i)
       })
       break
     case 'definition':

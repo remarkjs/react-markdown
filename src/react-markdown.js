@@ -39,7 +39,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
 }
 
 function applyParserPlugin(parser, plugin) {
-  return Array.isArray(plugin) ? parser.use(plugin[0], plugin[1]) : parser.use(plugin)
+  return Array.isArray(plugin) ? parser.use(...plugin) : parser.use(plugin)
 }
 
 function determineAstPlugins(props) {
@@ -73,7 +73,9 @@ ReactMarkdown.defaultProps = {
   renderers: {},
   escapeHtml: true,
   skipHtml: false,
-  transformLinkUri: uriTransformer
+  transformLinkUri: uriTransformer,
+  astPlugins: [],
+  plugins: []
 }
 
 ReactMarkdown.propTypes = {
@@ -90,7 +92,8 @@ ReactMarkdown.propTypes = {
   transformImageUri: PropTypes.func,
   astPlugins: PropTypes.arrayOf(PropTypes.func),
   unwrapDisallowed: PropTypes.bool,
-  renderers: PropTypes.object
+  renderers: PropTypes.object,
+  plugins: PropTypes.array
 }
 
 ReactMarkdown.types = allTypes
