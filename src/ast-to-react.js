@@ -66,7 +66,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.checked = node.checked
       props.tight = !node.loose
       props.children = (props.tight ? unwrapParagraphs(node) : node.children).map((childNode, i) => {
-        return astToReact(childNode, opts, { node: node, props: props }, i)
+        return astToReact(childNode, opts, {node: node, props: props}, i)
       })
       break
     case 'definition':
@@ -134,6 +134,13 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
       break
+    case 'iframe':
+      assignDefined(props, {
+        src: node.url,
+        height: node.height,
+        width: node.width
+      })
+      break;
     default:
   }
 
