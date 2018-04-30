@@ -28,6 +28,7 @@ declare namespace ReactMarkdown {
 
   export type NodeType =
     | 'root'
+    | 'text'
     | 'break'
     | 'paragraph'
     | 'emphasis'
