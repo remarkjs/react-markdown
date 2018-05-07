@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.3.1 - Unreleased
+
+### Added
+
+* Pass properties of unknown nodes directly to renderer (Jesse Pinho)
+
 ## 3.3.0 - 2018-03-06
 
 ### Added
