@@ -2,11 +2,12 @@
 
 All notable changes will be documented in this file.
 
-## 3.3.1 - Unreleased
+## 3.3.1 - 2018-05-07
 
-### Added
+### Changes
 
 * Pass properties of unknown nodes directly to renderer (Jesse Pinho)
+* Update TypeScript definition and prop types (ClassicDarkChocolate)
 
 ## 3.3.0 - 2018-03-06
 
