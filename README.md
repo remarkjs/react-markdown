@@ -85,6 +85,8 @@ this has been planned, but if you're feeling up to the task, create an issue and
   component. The object is merged with the default renderers. The props passed to the component
   varies based on the type of node.
   * With one exception: if the key is `text`, the value should be a function that takes the literal text and returns a new string or React element.
+* `plugins` - _array_ An array of unified/remark parser plugins. If you need to pass options to the plugin, pass an array with two elements, the first being the plugin and the second being the options - for instance: `{plugins: [[require('remark-shortcodes'), {your: 'options'}]]`. (default: `[]`)
+ 
 
 ## Node types
 
