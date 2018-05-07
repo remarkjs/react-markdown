@@ -436,15 +436,25 @@ test('can render the whole spectrum of markdown within a single run', done => {
 })
 
 test('passes along all props when the node type is unknown', () => {
-  expect.assertions(2)
-  const input = 'Text with [[ foo | bar="baz" ]] in the middle'
-  const component = <Markdown source={input} plugins={[shortcodes]} renderers={{ shortcode: ShortcodeRenderer }} escapeHtml={false} />
+  expect.assertions(3)
 
   const ShortcodeRenderer = props => {
-    expect(props.identifier).toBe('foo')
-    expect(props.attributes).toEqual({ bar: 'baz' })
-    return null
+    expect(props.identifier).toBe('GeoMarker')
+    expect(props.attributes).toEqual({lat: '59.924082', lng: '10.758460', title: 'Sanity'})
+    return <div>{props.attributes.title}</div>
   }
+
+  const input = 'Paragraph\n\n[[ GeoMarker lat="59.924082" lng="10.758460" title="Sanity" ]]'
+  const component = renderer.create(
+    <Markdown
+      source={input}
+      plugins={[shortcodes]}
+      renderers={{shortcode: ShortcodeRenderer}}
+      escapeHtml={false}
+    />
+  )
+
+  expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('can match and reactify cheap/simple inline html', () => {
