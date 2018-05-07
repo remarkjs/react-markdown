@@ -58,6 +58,7 @@
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.2.0",
     "remark-breaks": "^1.0.0",
+    "remark-shortcodes": "^0.1.5",
     "rimraf": "^2.6.2",
     "webpack": "^4.1.0",
     "webpack-cli": "^2.0.10"

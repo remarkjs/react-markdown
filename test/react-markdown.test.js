@@ -6,6 +6,7 @@ const React = require('react')
 const breaks = require('remark-breaks')
 const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
+const shortcodes = require('remark-shortcodes')
 const Markdown = require('../src/react-markdown')
 
 const render = input => renderer.create(<Markdown source={input} />).toJSON().children
@@ -432,6 +433,18 @@ test('can render the whole spectrum of markdown within a single run', done => {
     expect(component.toJSON()).toMatchSnapshot()
     done()
   })
+})
+
+test('passes along all props when the node type is unknown', () => {
+  expect.assertions(2)
+  const input = 'Text with [[ foo | bar="baz" ]] in the middle'
+  const component = <Markdown source={input} plugins={[shortcodes]} renderers={{ shortcode: ShortcodeRenderer }} escapeHtml={false} />
+
+  const ShortcodeRenderer = props => {
+    expect(props.identifier).toBe('foo')
+    expect(props.attributes).toEqual({ bar: 'baz' })
+    return null
+  }
 })
 
 test('can match and reactify cheap/simple inline html', () => {

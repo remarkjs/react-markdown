@@ -135,6 +135,14 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.skipHtml = opts.skipHtml
       break
     default:
+      assignDefined(
+        props,
+        xtend(node, {
+          type: undefined,
+          position: undefined,
+          children: undefined,
+        }),
+      )
   }
 
   if (typeof renderer !== 'string' && node.value) {
