@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.3.2 - 2018-05-07
+
+### Changes
+
+* Add `rawSourcePos` property for passing structured source position info to renderers (Espen Hovlandsdal)
+
 ## 3.3.1 - 2018-05-07
 
 ### Changes

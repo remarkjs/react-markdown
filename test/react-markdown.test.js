@@ -275,6 +275,16 @@ test('should set source position attributes if sourcePos option is enabled', () 
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should pass on raw source position to non-tag renderers if rawSourcePos option is enabled', () => {
+  const input = '*Foo*\n\n------------\n\n__Bar__'
+  const emphasis = props => {
+    expect(props.sourcePosition).toMatchSnapshot()
+    return <em className="custom">{props.children}</em>
+  }
+  const component = renderer.create(<Markdown source={input} renderers={{emphasis}} rawSourcePos />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should skip nodes that are not defined as allowed', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
   const allowed = ['paragraph', 'list', 'listItem']

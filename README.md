@@ -58,6 +58,7 @@ this has been planned, but if you're feeling up to the task, create an issue and
 * `skipHtml` - _boolean_ Setting to `true` will skip inlined and blocks of HTML (default: `false`).
 * `sourcePos` - _boolean_ Setting to `true` will add `data-sourcepos` attributes to all elements,
   indicating where in the markdown source they were rendered from (default: `false`).
+* `rawSourcePos` - _boolean_ Setting to `true` will pass a `sourcePosition` property to all renderers with structured source position information (default: `false`).
 * `allowedTypes` - _array_ Defines which types of nodes should be allowed (rendered). (default: all
   types).
 * `disallowedTypes` - _array_ Defines which types of nodes should be disallowed (not rendered).

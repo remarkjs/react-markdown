@@ -1,6 +1,6 @@
 // Type definitions for react-markdown > v3.3.0
 // Project: https://github.com/rexxars/react-markdown
-// Definitions by: Ruslan Ibragimov <https://github.com/IRus>, Kohei Asai <me@axross.io>
+// Definitions by: Ruslan Ibragimov <https://github.com/IRus>, Kohei Asai <me@axross.io>, ClassicDarkChocolate<https://github.com/ClassicDarkChocolate>
 
 import {Component, ReactElement, ReactNode, ReactType} from 'react'
 
@@ -62,6 +62,7 @@ declare namespace ReactMarkdown {
     readonly className?: string
     readonly source: string
     readonly sourcePos?: boolean
+    readonly rawSourcePos?: boolean
     readonly escapeHtml?: boolean
     readonly skipHtml?: boolean
     readonly allowNode?: (node: MarkdownAbstractSyntaxTree, index: number, parent: NodeType) => boolean

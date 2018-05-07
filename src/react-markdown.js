@@ -73,6 +73,8 @@ ReactMarkdown.defaultProps = {
   renderers: {},
   escapeHtml: true,
   skipHtml: false,
+  sourcePos: false,
+  rawSourcePos: false,
   transformLinkUri: uriTransformer,
   astPlugins: [],
   plugins: []
@@ -83,6 +85,7 @@ ReactMarkdown.propTypes = {
   source: PropTypes.string,
   children: PropTypes.string,
   sourcePos: PropTypes.bool,
+  rawSourcePos: PropTypes.bool,
   escapeHtml: PropTypes.bool,
   skipHtml: PropTypes.bool,
   allowNode: PropTypes.func,
