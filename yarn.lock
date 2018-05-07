@@ -5385,6 +5385,10 @@ remark-parse@^5.0.0:
     vfile-location "^2.0.0"
     xtend "^4.0.1"
 
+remark-shortcodes@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/remark-shortcodes/-/remark-shortcodes-0.1.5.tgz#0d8e1c6fbdf89fd9e99347eeb5b73f60e6288870"
+
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"

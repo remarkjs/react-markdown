@@ -501,6 +501,17 @@ code snippets
 </div>
 `;
 
+exports[`passes along all props when the node type is unknown 1`] = `
+<div>
+  <p>
+    Paragraph
+  </p>
+  <div>
+    Sanity
+  </div>
+</div>
+`;
+
 exports[`sanitizes certain dangerous urls for links by default 1`] = `
 <div>
   <h1>

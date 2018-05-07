@@ -6,6 +6,7 @@ const React = require('react')
 const breaks = require('remark-breaks')
 const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
+const shortcodes = require('remark-shortcodes')
 const Markdown = require('../src/react-markdown')
 
 const render = input => renderer.create(<Markdown source={input} />).toJSON().children
@@ -432,6 +433,28 @@ test('can render the whole spectrum of markdown within a single run', done => {
     expect(component.toJSON()).toMatchSnapshot()
     done()
   })
+})
+
+test('passes along all props when the node type is unknown', () => {
+  expect.assertions(3)
+
+  const ShortcodeRenderer = props => {
+    expect(props.identifier).toBe('GeoMarker')
+    expect(props.attributes).toEqual({lat: '59.924082', lng: '10.758460', title: 'Sanity'})
+    return <div>{props.attributes.title}</div>
+  }
+
+  const input = 'Paragraph\n\n[[ GeoMarker lat="59.924082" lng="10.758460" title="Sanity" ]]'
+  const component = renderer.create(
+    <Markdown
+      source={input}
+      plugins={[shortcodes]}
+      renderers={{shortcode: ShortcodeRenderer}}
+      escapeHtml={false}
+    />
+  )
+
+  expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('can match and reactify cheap/simple inline html', () => {
