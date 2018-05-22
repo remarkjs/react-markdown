@@ -50,7 +50,7 @@ this has been planned, but if you're feeling up to the task, create an issue and
 
 ## Options
 
-* `source` - _string_ The Markdown source to parse (**required**)
+* `source` or `children` - _string_ The Markdown source to parse (**required**)
 * `className` - _string_ Class name of the container element (default: `''`).
 * `escapeHtml` - _boolean_ Setting to `false` will cause HTML to be rendered (see note above about
   broken HTML, though). Be aware that setting this to `false` might cause security issues if the
