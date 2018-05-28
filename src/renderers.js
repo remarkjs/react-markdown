@@ -88,8 +88,7 @@ function Html(props) {
 
   const tag = props.isBlock ? 'div' : 'span'
   if (props.escapeHtml) {
-    // @todo when fiber lands, we can simply render props.value
-    return createElement(tag, null, props.value)
+    return props.value
   }
 
   const nodeProps = {dangerouslySetInnerHTML: {__html: props.value}}
