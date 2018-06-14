@@ -30,7 +30,12 @@ function untangle(node, index, parent, mode) {
   if (mode === 'remove') {
     parent.children.splice(index, 1)
   } else if (mode === 'unwrap') {
-    const args = [index, 1].concat(node.children)
-    Array.prototype.splice.apply(parent.children, args)
+    let args = [index, 1];
+
+    if (node.children) {
+      args = args.concat(node.children);
+    }
+
+    Array.prototype.splice.apply(parent.children, args);
   }
 }
