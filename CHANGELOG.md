@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.3.3 - 2018-06-14
+
+### Fixes
+
+* Fix bug where unwrapping certain disallowed nodes would fail (Petr Gazarov)
+
 ## 3.3.2 - 2018-05-07
 
 ### Changes
