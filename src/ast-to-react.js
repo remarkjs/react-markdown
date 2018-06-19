@@ -54,7 +54,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     props.sourcePosition = node.position
   }
 
-  const ref = node.identifier ? opts.definitions[node.identifier] || {} : null
+  const ref = (node.identifier !== null && node.identifier !== undefined) ? opts.definitions[node.identifier] || {} : null
 
   switch (node.type) {
     case 'root':
