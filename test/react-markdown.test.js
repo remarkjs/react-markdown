@@ -339,6 +339,12 @@ test('should render link references', () => {
   expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
 })
 
+test('should render empty link references', () => {
+  const input = 'Stuff were changed in [][]. Check out the changelog for reference.';
+
+  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+})
+
 test('should render image references', () => {
   const input = [
     'Checkout out this ninja: ![The Waffle Ninja][ninja]. Pretty neat, eh?',
