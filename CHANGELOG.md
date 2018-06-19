@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.3.4 - 2018-06-19
+
+### Fixes
+
+* Fix bug where rendering empty link references (`[][]`) would fail (Dennis S)
+
 ## 3.3.3 - 2018-06-14
 
 ### Fixes
