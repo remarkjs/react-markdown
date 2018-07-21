@@ -67,10 +67,13 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.start = node.start
       props.ordered = node.ordered
       props.tight = !node.loose
+      props.depth = node.depth
       break
     case 'listItem':
       props.checked = node.checked
       props.tight = !node.loose
+      props.ordered = node.ordered
+      props.index = node.index
       props.children = (props.tight ? unwrapParagraphs(node) : node.children).map((childNode, i) => {
         return astToReact(childNode, opts, {node: node, props: props}, i)
       })
