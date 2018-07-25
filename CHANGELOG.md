@@ -2,6 +2,18 @@
 
 All notable changes will be documented in this file.
 
+## 3.4.0 - 2018-07-25
+
+### Added
+
+* Add more metadata props to list and listItem (André Staltz)
+  - list: `depth`
+  - listItem: `ordered`, `index`
+
+### Fixes
+
+* Make `source` property optional in typescript definition (gRoberts84)
+
 ## 3.3.4 - 2018-06-19
 
 ### Fixes
