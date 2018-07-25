@@ -34,7 +34,7 @@
     "staticpath": "demo/dist"
   },
   "dependencies": {
-    "mdast-add-list-metadata": "^1.0.0",
+    "mdast-add-list-metadata": "^1.0.1",
     "prop-types": "^15.6.1",
     "remark-parse": "^5.0.0",
     "unified": "^6.1.5",
