@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.4.1 - 2018-07-25
+
+### Fixes
+
+* Bump dependency for mdast-add-list-metadata as it was using ES6 features (Espen Hovlandsdal)
+
 ## 3.4.0 - 2018-07-25
 
 ### Added
