@@ -8,9 +8,11 @@
     "react-component"
   ],
   "main": "lib/react-markdown.js",
+  "unpkg": "umd/react-markdown.js",
   "scripts": {
     "build": "npm run clean && npm run compile && NODE_ENV=production webpack -p && npm run build:demo",
     "build:demo": "NODE_ENV=production webpack -p --config webpack.config.demo.js",
+    "postbuild": "echo 'Ensuring ES5 compatibility...' && uglifyjs umd/react-markdown.js > /dev/null && echo 'Yep!'",
     "clean": "rimraf lib/",
     "compile": "babel --copy-files -d lib/ src/",
     "deploy": "gh-pages-deploy",
@@ -34,7 +36,7 @@
     "staticpath": "demo/dist"
   },
   "dependencies": {
-    "mdast-add-list-metadata": "^1.0.1",
+    "mdast-add-list-metadata": "1.0.1",
     "prop-types": "^15.6.1",
     "remark-parse": "^5.0.0",
     "unified": "^6.1.5",
@@ -61,6 +63,7 @@
     "remark-breaks": "^1.0.0",
     "remark-shortcodes": "^0.1.5",
     "rimraf": "^2.6.2",
+    "uglify-js": "^3.4.5",
     "webpack": "^4.1.0",
     "webpack-cli": "^2.0.10"
   },
