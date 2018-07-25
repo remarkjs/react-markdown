@@ -4,6 +4,7 @@ const xtend = require('xtend')
 const unified = require('unified')
 const parse = require('remark-parse')
 const PropTypes = require('prop-types')
+const addListMetadata = require('mdast-add-list-metadata')
 const naiveHtml = require('./plugins/naive-html')
 const disallowNode = require('./plugins/disallow-node')
 const astToReact = require('./ast-to-react')
@@ -43,7 +44,7 @@ function applyParserPlugin(parser, plugin) {
 }
 
 function determineAstPlugins(props) {
-  const plugins = [wrapTableRows]
+  const plugins = [wrapTableRows, addListMetadata()]
 
   let disallowedTypes = props.disallowedTypes
   if (props.allowedTypes) {

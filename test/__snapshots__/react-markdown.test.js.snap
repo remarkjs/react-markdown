@@ -1149,6 +1149,29 @@ foo();
 </div>
 `;
 
+exports[`should pass depth, index and ordered props to list/listItem 1`] = `
+<div>
+  <ul>
+    <li>
+      foo
+      <ol
+        start="2"
+      >
+        <li>
+          bar
+        </li>
+        <li>
+          baz
+        </li>
+      </ol>
+    </li>
+    <li>
+      root
+    </li>
+  </ul>
+</div>
+`;
+
 exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 1`] = `
 Position {
   "end": Object {

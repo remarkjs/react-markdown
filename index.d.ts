@@ -1,6 +1,10 @@
 // Type definitions for react-markdown > v3.3.0
 // Project: https://github.com/rexxars/react-markdown
-// Definitions by: Ruslan Ibragimov <https://github.com/IRus>, Kohei Asai <me@axross.io>, ClassicDarkChocolate<https://github.com/ClassicDarkChocolate>
+// Definitions by:
+// - Ruslan Ibragimov <https://github.com/IRus>
+// - Kohei Asai <me@axross.io>
+// - ClassicDarkChocolate <https://github.com/ClassicDarkChocolate>
+// - Espen Hovlandsdal <https://espen.codes/>
 
 import {Component, ReactElement, ReactNode, ReactType} from 'react'
 
@@ -91,6 +95,7 @@ declare namespace ReactMarkdown {
     checked?: boolean | null
     children?: MarkdownAbstractSyntaxTree[]
     data?: {[key: string]: any}
+    index?: number
     depth?: number
     height?: number
     identifier?: string

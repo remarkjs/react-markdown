@@ -205,6 +205,23 @@ test('should handle ordered lists with a start index', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should pass depth, index and ordered props to list/listItem', () => {
+  const input = '- foo\n  2. bar\n  3. baz\n- root\n'
+  const renderers = {
+    listItem: item => {
+      expect(item.index).toBeGreaterThanOrEqual(0)
+      expect(item.ordered).not.toBeUndefined()
+      return Markdown.renderers.listItem(item)
+    },
+    list: item => {
+      expect(item.depth).toBeGreaterThanOrEqual(0)
+      return Markdown.renderers.list(item)
+    }
+  }
+  const component = renderer.create(<Markdown source={input} renderers={renderers} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle inline html with escapeHtml option enabled', () => {
   const input = 'I am having <strong>so</strong> much fun'
   const component = renderer.create(<Markdown source={input} />)
