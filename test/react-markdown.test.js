@@ -769,3 +769,12 @@ test('should pass index of a node under its parent to non-tag renderers if inclu
   const component = renderer.create(<Markdown renderers={{ paragraph }} source={input} includeNodeIndex />)
   expect(component.toJSON()).toMatchSnapshot()
 })
+
+test('should be able to override remark-parse plugin options', () => {
+  // gfm is used by default in remark-parse which will not autolink URLs
+  // containing a space unless the pedantic option is set to true.
+  const input = '[Spaces in URLs](https://example.com/so much space "Title")'
+  const component = renderer.create(<Markdown source={input} remarkParseOptions={{ pedantic: true }} />)
+
+  expect(component.toJSON()).toMatchSnapshot()
+})

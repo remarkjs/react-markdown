@@ -1144,6 +1144,17 @@ Array [
 ]
 `;
 
+exports[`should be able to override remark-parse plugin options 1`] = `
+<p>
+  <a
+    href="https://example.com/so much space"
+    title="Title"
+  >
+    Spaces in URLs
+  </a>
+</p>
+`;
+
 exports[`should be able to override renderers 1`] = `
 Array [
   <span
