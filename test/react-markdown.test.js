@@ -583,3 +583,11 @@ test('should pass the key to an overriden text renderer', () => {
   renderer.create(<Markdown source={'foo'} renderers={{ text: textRenderer }} />)
 })
 
+test('should be able to override remark-parse plugin options', () => {
+  // gfm is used by default in remark-parse which will not autolink URLs
+  // containing a space unless the pedantic option is set to true.
+  const input = '[Spaces in URLs](https://example.com/so much space "Title")'
+  const component = renderer.create(<Markdown source={input} remarkParseOptions={{ pedantic: true }} />)
+
+  expect(component.toJSON()).toMatchSnapshot()
+})

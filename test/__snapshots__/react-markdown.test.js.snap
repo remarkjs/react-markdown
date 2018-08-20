@@ -1358,3 +1358,16 @@ exports[`uses passed classname for root component 1`] = `
   </p>
 </div>
 `;
+
+exports[`should be able to override remark-parse plugin options 1`] = `
+<div>
+  <p>
+    <a
+      href="https://example.com/so much space"
+      title="Title"
+    >
+      Spaces in URLs
+    </a>
+  </p>
+</div>
+`;
