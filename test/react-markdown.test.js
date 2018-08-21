@@ -65,6 +65,19 @@ test('should handle links with custom uri transformer', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should use target attribute for links if specified', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const component = renderer.create(<Markdown linkTarget="_blank" source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should call function to get target attribute for links if specified', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const getTarget = (uri) => uri.match(/^http/) ? '_blank' : undefined;
+  const component = renderer.create(<Markdown linkTarget={getTarget} source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle images without title attribute', () => {
   const input = 'This is ![an image](/ninja.png).'
   const component = renderer.create(<Markdown source={input} />)

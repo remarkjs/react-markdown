@@ -745,6 +745,21 @@ exports[`should be able to render inline html in totally unsatisfying, weird way
 </div>
 `;
 
+exports[`should call function to get target attribute for links if specified 1`] = `
+<div>
+  <p>
+    This is 
+    <a
+      href="https://espen.codes/"
+      target="_blank"
+    >
+      a link
+    </a>
+     to Espen.Codes.
+  </p>
+</div>
+`;
+
 exports[`should escape html blocks by default 1`] = `
 <div>
   <p>
@@ -1313,6 +1328,21 @@ exports[`should unwrap child nodes from disallowed nodes, if unwrapDisallowed op
      had the initial commit
     , but has had several 
     contributors
+  </p>
+</div>
+`;
+
+exports[`should use target attribute for links if specified 1`] = `
+<div>
+  <p>
+    This is 
+    <a
+      href="https://espen.codes/"
+      target="_blank"
+    >
+      a link
+    </a>
+     to Espen.Codes.
   </p>
 </div>
 `;
