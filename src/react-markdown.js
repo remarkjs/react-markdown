@@ -93,6 +93,7 @@ ReactMarkdown.propTypes = {
   allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
   disallowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
   transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
+  linkTarget: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   transformImageUri: PropTypes.func,
   astPlugins: PropTypes.arrayOf(PropTypes.func),
   unwrapDisallowed: PropTypes.bool,

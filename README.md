@@ -73,6 +73,9 @@ this has been planned, but if you're feeling up to the task, create an issue and
   `allowedTypes` (or specified as a `disallowedType`), it won't be included. The function will
   receive three arguments argument (`node`, `index`, `parent`), where `node` contains different
   properties depending on the node type.
+* `linkTarget` - _function|string_ Sets the default target attribute for links. If a function is
+  provided, it will be called with `url`, `text`, and `title` and should return a string
+  (e.g. `_blank` for a new tab).
 * `transformLinkUri` - _function|null_ Function that gets called for each encountered link with a
   single argument - `uri`. The returned value is used in place of the original. The default link URI
   transformer acts as an XSS-filter, neutralizing things like `javascript:`, `vbscript:` and `file:`
