@@ -91,7 +91,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     case 'link':
       assignDefined(props, {
         title: node.title || undefined,
-        target: opts.linkTarget instanceof Function ? opts.linkTarget(node.url, node.children, node.title) : opts.linkTarget,
+        target: typeof opts.linkTarget === 'function' ? opts.linkTarget(node.url, node.children, node.title) : opts.linkTarget,
         href: opts.transformLinkUri ? opts.transformLinkUri(node.url, node.children, node.title) : node.url
       })
       break
