@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.5.0 - 2018-09-03
+
+### Added
+
+* Allow specifying `target` attribute for links (Marshall Smith)
+
 ## 3.4.1 - 2018-07-25
 
 ### Fixes
