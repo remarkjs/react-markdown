@@ -54,9 +54,9 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     props.sourcePosition = node.position
   }
 
-  // If `indexUnderParent` is true, pass node index info to all non-tag renderers
-  if (opts.indexUnderParent && parent.node && parent.node.children && !isTagRenderer) {
-    props.indexUnderParent = parent.node.children.indexOf(node);
+  // If `includeNodeIndex` is true, pass node index info to all non-tag renderers
+  if (opts.includeNodeIndex && parent.node && parent.node.children && !isTagRenderer) {
+    props.index = parent.node.children.indexOf(node);
     props.parentChildCount = parent.node.children.length;
   }
 
