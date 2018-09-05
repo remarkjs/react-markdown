@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 3.6.0 - 2018-09-05
+
+### Added
+
+* Add support for passing index info to renderers (Beau Roberts)
+
 ## 3.5.0 - 2018-09-03
 
 ### Added
