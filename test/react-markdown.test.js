@@ -596,3 +596,13 @@ test('should pass the key to an overriden text renderer', () => {
   renderer.create(<Markdown source={'foo'} renderers={{ text: textRenderer }} />)
 })
 
+test('should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled', () => {
+  const input = 'Foo\n\nBar\n\nBaz'
+  const paragraph = props => {
+    expect(props).toMatchSnapshot()
+    return <p>{props.children}</p>
+  };
+
+  const component = renderer.create(<Markdown renderers={{ paragraph }} source={input} includeNodeIndex />)
+  expect(component.toJSON()).toMatchSnapshot()
+})

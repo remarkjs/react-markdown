@@ -54,6 +54,12 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     props.sourcePosition = node.position
   }
 
+  // If `includeNodeIndex` is true, pass node index info to all non-tag renderers
+  if (opts.includeNodeIndex && parent.node && parent.node.children && !isTagRenderer) {
+    props.index = parent.node.children.indexOf(node);
+    props.parentChildCount = parent.node.children.length;
+  }
+
   const ref = (node.identifier !== null && node.identifier !== undefined) ? opts.definitions[node.identifier] || {} : null
 
   switch (node.type) {

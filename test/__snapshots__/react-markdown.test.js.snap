@@ -1187,6 +1187,50 @@ exports[`should pass depth, index and ordered props to list/listItem 1`] = `
 </div>
 `;
 
+exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 1`] = `
+Object {
+  "children": Array [
+    "Foo",
+  ],
+  "index": 0,
+  "parentChildCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 2`] = `
+Object {
+  "children": Array [
+    "Bar",
+  ],
+  "index": 1,
+  "parentChildCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 3`] = `
+Object {
+  "children": Array [
+    "Baz",
+  ],
+  "index": 2,
+  "parentChildCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 4`] = `
+<div>
+  <p>
+    Foo
+  </p>
+  <p>
+    Bar
+  </p>
+  <p>
+    Baz
+  </p>
+</div>
+`;
+
 exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 1`] = `
 Position {
   "end": Object {
