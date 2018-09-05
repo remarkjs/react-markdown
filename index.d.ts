@@ -68,6 +68,7 @@ declare namespace ReactMarkdown {
     readonly className?: string
     readonly source?: string
     readonly sourcePos?: boolean
+    readonly includeNodeIndex?: boolean
     readonly rawSourcePos?: boolean
     readonly escapeHtml?: boolean
     readonly skipHtml?: boolean
