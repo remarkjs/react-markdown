@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.0 - UNRELEASED
+
+### BREAKING
+
+* On React >= 16.2, escaped HTML will no longer be rendered with div/span containers
+
 ## 3.6.0 - 2018-09-05
 
 ### Added

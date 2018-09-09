@@ -742,13 +742,11 @@ exports[`should escape html blocks by default 1`] = `
   <p>
     This is a regular paragraph.
   </p>
-  <div>
-    &lt;table&gt;
+  &lt;table&gt;
     &lt;tr&gt;
         &lt;td&gt;Foo&lt;/td&gt;
     &lt;/tr&gt;
 &lt;/table&gt;
-  </div>
   <p>
     This is another regular paragraph.
   </p>
@@ -925,13 +923,9 @@ exports[`should handle inline html with escapeHtml option enabled 1`] = `
 <div>
   <p>
     I am having 
-    <span>
-      &lt;strong&gt;
-    </span>
+    &lt;strong&gt;
     so
-    <span>
-      &lt;/strong&gt;
-    </span>
+    &lt;/strong&gt;
      much fun
   </p>
 </div>
