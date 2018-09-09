@@ -3,6 +3,7 @@
 
 const path = require('path')
 const webpack = require('webpack')
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
 
 module.exports = {
   entry: [path.join(__dirname, 'src', 'react-markdown.js')],
@@ -34,6 +35,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-    })
-  ]
+    }),
+    process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin()
+  ].filter(Boolean)
 }
