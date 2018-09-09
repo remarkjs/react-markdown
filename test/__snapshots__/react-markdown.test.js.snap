@@ -156,13 +156,17 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
       Integer molestie lorem at massa
     </li>
   </ol>
-  <p>
-    1) You can use sequential numbers...
-1) ...or keep all the numbers as 
-    <code>
-      1.
-    </code>
-  </p>
+  <ol>
+    <li>
+      You can use sequential numbers...
+    </li>
+    <li>
+      ...or keep all the numbers as 
+      <code>
+        1.
+      </code>
+    </li>
+  </ol>
   <p>
     Start numbering with offset:
   </p>
@@ -224,11 +228,11 @@ line 3 of code
     <code
       className="language-js"
     >
-      var foo = function(bar) {
-  return bar++
-}
+      var foo = function (bar) {
+  return bar++;
+};
 
-console.log(foo(5))
+console.log(foo(5));
     </code>
   </pre>
   <h2>
@@ -426,8 +430,19 @@ console.log(foo(5))
     Hard breaks
   </h2>
   <p>
-    Yeah, hard breaks\\
-can be useful too.
+    Yeah, hard breaks
+    <br />
+    can be useful too.
+  </p>
+  <h2>
+    HTML entities
+  </h2>
+  <p>
+    Some characters, like 
+    æ
+    , 
+    &
+     and similar should be handled properly.
   </p>
   <h2>
     HTML
@@ -435,51 +450,13 @@ can be useful too.
   <p>
     Does anyone actually like the fact that you can embed HTML in markdown?
   </p>
-  <div
+  <span
     dangerouslySetInnerHTML={
       Object {
-        "__html": "<iframe
-  src=\\"https://foo.bar/\\"
-  width=\\"640\\"
-  height=\\"480\\"
-/>",
+        "__html": "<p>Well, you can put blocks of HTML in here. It'll kind of work.</p>",
       }
     }
   />
-  <p>
-    We have a known bug where inline HTML isn't handled well. You can do basic tags like
-
-    <code>
-      code
-    </code>
-    , as long as it doesn't contain any 
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<span class=\\"attrs\\">",
-        }
-      }
-    />
-    attributes
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "</span>",
-        }
-      }
-    />
-    . If you
-have weird ordering on your tags, it won't work either. It does support 
-    <strong>
-      nested
-
-      <em>
-        tags
-      </em>
-      , however
-    </strong>
-    .
-  </p>
 </div>
 `;
 
