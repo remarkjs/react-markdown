@@ -19,7 +19,7 @@ module.exports = function uriTransformer(uri) {
   while (++index < length) {
     const protocol = protocols[index]
 
-    if (colon === protocol.length && url.slice(0, protocol.length) === protocol) {
+    if (colon === protocol.length && url.slice(0, protocol.length).toLowerCase() === protocol) {
       return url
     }
   }
