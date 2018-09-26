@@ -24,6 +24,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const renderers = xtend(defaultRenderers, props.renderers)
 
+  const removedTokens = removeIgnoredParseTokens(props.ignoreTokens);
   const plugins = [parse].concat(props.plugins || [])
   const parser = plugins.reduce(applyParserPlugin, unified())
 
@@ -35,8 +36,57 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const astPlugins = determineAstPlugins(props)
   const ast = astPlugins.reduce((node, plugin) => plugin(node, renderProps), rawAst)
+  restoreIgnoredParseTokens(removedTokens);
 
   return astToReact(ast, renderProps)
+}
+
+function removeIgnoredParseTokens(ignoreTokens) {
+  const interruptArrays = ['interruptParagraph', 'interruptList', 'interruptBlockquote'];
+  const removedParseTokens = {
+    blockTokenizers: {},
+    inlineTokenizers: {},
+    interruptParagraph: [],
+    interruptList: [],
+    interruptBlockquote: []
+  };
+  const proto = parse.Parser.prototype;
+
+  if (ignoreTokens.includes('list')) throw new Error(`Cannot ignore list token`);
+
+  ignoreTokens.forEach((token) => {
+    let tokenizerGroup = null;
+    if (proto.blockMethods.includes(token)) tokenizerGroup = 'blockTokenizers';
+    if (proto.inlineMethods.includes(token)) tokenizerGroup = 'inlineTokenizers';
+    if (tokenizerGroup) {
+      removedParseTokens[tokenizerGroup][token] = proto[tokenizerGroup][token];
+      delete proto[tokenizerGroup][token];
+
+      interruptArrays.forEach(arr => {
+        proto[arr] = proto[arr].filter(tkn => {
+          if (tkn[0] === token) {
+            removedParseTokens[arr].push(tkn);
+            return false;
+          }
+          return true;
+        });
+      });
+    } else {
+      throw new Error(`Invalid token found in ignoreTokens prop: ${token}`)
+    }
+  });
+
+  return removedParseTokens;
+}
+
+function restoreIgnoredParseTokens(removedTokens) {
+  const interruptArrays = ['interruptParagraph', 'interruptList', 'interruptBlockquote'];
+  const proto = parse.Parser.prototype;
+  Object.assign(proto.blockTokenizers, removedTokens.blockTokenizers);
+  Object.assign(proto.inlineTokenizers, removedTokens.inlineTokenizers);
+  interruptArrays.forEach(arr => {
+    proto[arr] = proto[arr].concat(removedTokens[arr]);
+  });
 }
 
 function applyParserPlugin(parser, plugin) {
@@ -78,7 +128,8 @@ ReactMarkdown.defaultProps = {
   rawSourcePos: false,
   transformLinkUri: uriTransformer,
   astPlugins: [],
-  plugins: []
+  plugins: [],
+  ignoreTokens: []
 }
 
 ReactMarkdown.propTypes = {
