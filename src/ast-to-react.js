@@ -150,6 +150,11 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
       break
+    case 'reactNode':
+      props.escapeHtml = opts.escapeHtml
+      props.skipHtml = opts.skipHtml
+      props.element = mergeNodeChildren(node, (node.children || []).map((child, i) => astToReact(child, opts, {node, props}, i)))
+      break
     default:
       assignDefined(
         props,
@@ -174,6 +179,12 @@ function assignDefined(target, attrs) {
       target[key] = attrs[key]
     }
   }
+}
+
+function mergeNodeChildren(reactNode, parsedChildren) {
+  const el = reactNode.element
+  const children = (el.props.children || []).concat(parsedChildren)
+  return React.cloneElement(el, null, children)
 }
 
 function flattenPosition(pos) {
