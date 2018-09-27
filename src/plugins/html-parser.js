@@ -150,7 +150,7 @@ function reactNode(fromNode, toNode, parent) {
 
 module.exports = function getHtmlParserPlugin(config, props) {
   if (props && (typeof config.source !== 'undefined' || typeof config.children !== 'undefined')) {
-    throw new Error('react-markdown: `parse-html` must be called before use - see https://github.com/rexxars/react-markdown#parsing-html')
+    throw new Error('react-markdown: `html-parser` must be called before use - see https://github.com/rexxars/react-markdown#parsing-html')
   }
 
   const htmlConfig = xtend(defaultConfig, config || {})
