@@ -31,7 +31,8 @@ module.exports = {
   inlineCode: InlineCode,
   code: CodeBlock,
   html: Html,
-  virtualHtml: VirtualHtml
+  virtualHtml: VirtualHtml,
+  reactNode: ReactNode
 }
 
 function SimpleRenderer(tag, props) {
@@ -94,6 +95,12 @@ function Html(props) {
 
   const nodeProps = {dangerouslySetInnerHTML: {__html: props.value}}
   return createElement(tag, nodeProps)
+}
+
+function ReactNode(props) {
+  return props['data-sourcepos']
+    ? React.cloneElement(props.element, {'data-sourcepos': props['data-sourcepos']})
+    : props.element
 }
 
 function VirtualHtml(props) {

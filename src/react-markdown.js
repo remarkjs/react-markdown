@@ -12,6 +12,7 @@ const wrapTableRows = require('./wrap-table-rows')
 const getDefinitions = require('./get-definitions')
 const uriTransformer = require('./uri-transformer')
 const defaultRenderers = require('./renderers')
+const symbols = require('./symbols')
 
 const allTypes = Object.keys(defaultRenderers)
 
@@ -63,7 +64,12 @@ function determineAstPlugins(props) {
   }
 
   const renderHtml = !props.escapeHtml && !props.skipHtml
-  if (renderHtml) {
+  const hasHtmlParser = (props.astPlugins || []).some(item => {
+    const plugin = Array.isArray(item) ? item[0] : item
+    return plugin.identity === symbols.HtmlParser
+  })
+
+  if (renderHtml && !hasHtmlParser) {
     plugins.push(naiveHtml)
   }
 
