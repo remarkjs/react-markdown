@@ -3,5 +3,5 @@
   "plugins": ["react"],
   "env": {"node": true, "browser": true},
   "parserOptions": {"ecmaVersion": 2017, "ecmaFeatures": {"jsx": true}},
-  "rules": {"strict": 0}
+  "rules": {"strict": 0, "complexity": ["warn", 15]}
 }
