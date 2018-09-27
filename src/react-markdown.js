@@ -10,7 +10,7 @@ const disallowNode = require('./plugins/disallow-node')
 const astToReact = require('./ast-to-react')
 const wrapTableRows = require('./wrap-table-rows')
 const getDefinitions = require('./get-definitions')
-const uriTransformer = require('./uriTransformer')
+const uriTransformer = require('./uri-transformer')
 const defaultRenderers = require('./renderers')
 
 const allTypes = Object.keys(defaultRenderers)
