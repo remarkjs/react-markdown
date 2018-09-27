@@ -43,11 +43,6 @@ ReactDOM.render(
 If you don't need to render HTML, this component does not use `dangerouslySetInnerHTML` at all -
 this is a Good Thing™.
 
-## Inline HTML is broken
-
-Inline HTML is currently broken for any tags that include attributes. A vague idea of how to fix
-this has been planned, but if you're feeling up to the task, create an issue and let us know!
-
 ## Options
 
 * `source` or `children` - _string_ The Markdown source to parse (**required**)
@@ -90,7 +85,43 @@ this has been planned, but if you're feeling up to the task, create an issue and
   varies based on the type of node.
   * With one exception: if the key is `text`, the value should be a function that takes the literal text and returns a new string or React element.
 * `plugins` - _array_ An array of unified/remark parser plugins. If you need to pass options to the plugin, pass an array with two elements, the first being the plugin and the second being the options - for instance: `{plugins: [[require('remark-shortcodes'), {your: 'options'}]]`. (default: `[]`)
- 
+
+## Parsing HTML
+
+If you are in a trusted environment and want to parse and render HTML, you will want to use the `html-parser` plugin. For a default configuration, import `react-markdown/with-html` instead of the default:
+
+```js
+const ReactMarkdown = require('react-markdown/with-html')
+
+const markdown = `
+This block of Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
+`
+
+<ReactMarkdown
+  source={markdown}
+  escapeHtml={false}
+>
+```
+
+If you want to specify options for the HTML parsing step, you can instead import the HTML parser plugin directly:
+
+```js
+const ReactMarkdown = require('react-markdown')
+const htmlParser = require('react-markdown/plugins/html-parser')
+
+// See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
+// for more info on the processing instructions
+const parseHtml = htmlParser({
+  isValidNode: node => node.type !== 'script',
+  processingInstructions: [/* ... */]
+})
+
+<ReactMarkdown
+  source={markdown}
+  escapeHtml={false}
+  astPlugins={[parseHtml]}
+>
+```
 
 ## Node types
 
