@@ -1,6 +1,6 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
-const Markdown = require('../../src/react-markdown')
+const Markdown = require('../../src/with-html')
 const Editor = require('./editor')
 const CodeBlock = require('./code-block')
 const MarkdownControls = require('./markdown-controls')
@@ -36,11 +36,11 @@ Pretty neat, eh?
 
 ## Tables?
 
-| Feature | Support |
-| ------ | ----------- |
-| tables | ✔ |
+| Feature   | Support |
+| --------- | ------- |
+| tables    | ✔ |
 | alignment | ✔ |
-| wewt | ✔ |
+| wewt      | ✔ |
 
 ## More info?
 
@@ -48,7 +48,7 @@ Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
 
 ---------------
 
-A component by [VaffelNinja](http://vaffel.ninja) / Espen Hovlandsdal
+A component by [Espen Hovlandsdal](https://espen.codes/)
 `
 
 class Demo extends React.PureComponent {
