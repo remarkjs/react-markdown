@@ -4,8 +4,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer')
+const prod = process.env.NODE_ENV === 'production'
 
 module.exports = {
+  mode: prod ? 'production' : 'development',
   entry: [path.join(__dirname, 'src', 'react-markdown.js')],
   output: {
     library: 'reactMarkdown',

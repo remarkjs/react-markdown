@@ -6,6 +6,7 @@ const webpack = require('webpack')
 const prod = process.env.NODE_ENV === 'production'
 
 const config = {
+  mode: prod ? 'production' : 'development',
   devtool: prod ? false : 'eval',
 
   entry: [path.join(__dirname, 'demo', 'src', 'demo.js')],
