@@ -7,8 +7,9 @@ const breaks = require('remark-breaks')
 const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
 const shortcodes = require('remark-shortcodes')
+const htmlParser = require('../src/plugins/html-parser')
 const Markdown = require('../src/react-markdown')
-const htmlParser = require('../src/plugins/html-parser');
+const MarkdownWithHtml = require('../src/with-html')
 
 const render = input => renderer.create(<Markdown source={input} />).toJSON().children
 const renderHTML = input => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
@@ -264,6 +265,14 @@ test('should be able to render inline html properly with HTML parser plugin', ()
   const input = 'I am having <span class="foo">so</span> much fun'
   const component = renderer.create(
     <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should be able to render inline html properly with HTML parser plugin (through require)', () => {
+  const input = 'I am having <span class="foo">so</span> much fun'
+  const component = renderer.create(
+    <MarkdownWithHtml source={input} escapeHtml={false}  />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })

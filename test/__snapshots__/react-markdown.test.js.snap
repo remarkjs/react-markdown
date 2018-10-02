@@ -722,6 +722,20 @@ exports[`should be able to render inline html in totally unsatisfying, weird way
 </div>
 `;
 
+exports[`should be able to render inline html properly with HTML parser plugin (through require) 1`] = `
+<div>
+  <p>
+    I am having 
+    <span
+      className="foo"
+    >
+      so
+    </span>
+     much fun
+  </p>
+</div>
+`;
+
 exports[`should be able to render inline html properly with HTML parser plugin 1`] = `
 <div>
   <p>
