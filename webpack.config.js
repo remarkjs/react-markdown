@@ -10,7 +10,7 @@ module.exports = {
   mode: prod ? 'production' : 'development',
   entry: [path.join(__dirname, 'src', 'react-markdown.js')],
   output: {
-    library: 'reactMarkdown',
+    library: 'ReactMarkdown',
     libraryTarget: 'umd',
     path: path.join(__dirname, 'umd'),
     filename: 'react-markdown.js'
