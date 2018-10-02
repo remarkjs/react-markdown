@@ -586,6 +586,19 @@ test('can render the whole spectrum of markdown within a single run', done => {
   })
 })
 
+test('can render the whole spectrum of markdown within a single run (with html parser)', done => {
+  fs.readFile(path.join(__dirname, 'fixtures', 'runthrough.md'), 'utf8', (err, fixture) => {
+    if (err) {
+      done(err)
+      return
+    }
+
+    const component = renderer.create(<MarkdownWithHtml source={fixture} escapeHtml={false} />)
+    expect(component.toJSON()).toMatchSnapshot()
+    done()
+  })
+})
+
 test('passes along all props when the node type is unknown', () => {
   expect.assertions(3)
 
