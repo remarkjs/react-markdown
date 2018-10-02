@@ -46,9 +46,8 @@ this is a Good Thing™.
 ## Options
 
 * `source` or `children` - _string_ The Markdown source to parse (**required**)
-* `className` - _string_ Class name of the container element (default: `''`).
-* `escapeHtml` - _boolean_ Setting to `false` will cause HTML to be rendered (see note above about
-  broken HTML, though). Be aware that setting this to `false` might cause security issues if the
+* `className` - _string_ Class name of the container element. If none is passed, a container will not be rendered.
+* `escapeHtml` - _boolean_ Setting to `false` will cause HTML to be rendered (see notes below about proper HTML support). Be aware that setting this to `false` might cause security issues if the
   input is user-generated. Use at your own risk. (default: `true`).
 * `skipHtml` - _boolean_ Setting to `true` will skip inlined and blocks of HTML (default: `false`).
 * `sourcePos` - _boolean_ Setting to `true` will add `data-sourcepos` attributes to all elements,
@@ -83,7 +82,6 @@ this is a Good Thing™.
 * `renderers` - _object_ An object where the keys represent the node type and the value is a React
   component. The object is merged with the default renderers. The props passed to the component
   varies based on the type of node.
-  * With one exception: if the key is `text`, the value should be a function that takes the literal text and returns a new string or React element.
 * `plugins` - _array_ An array of unified/remark parser plugins. If you need to pass options to the plugin, pass an array with two elements, the first being the plugin and the second being the options - for instance: `{plugins: [[require('remark-shortcodes'), {your: 'options'}]]`. (default: `[]`)
 
 ## Parsing HTML
@@ -153,6 +151,8 @@ The node types available are the following, and applies to both `renderers` and
 * `inlineCode` - Inline code (`<code>`)
 * `code` - Block of code (`<pre><code>`)
 * `html` - HTML node (Best-effort rendering)
+* `virtualHtml` - When not using the HTML parser plugin, a cheap and dirty approach to supporting simple HTML elements without a complete parser.
+* `parsedHtml` - When using the HTML parser plugin, HTML parsed to a React element.
 
 Note: Disallowing a node will also prevent the rendering of any children of that node, unless the
 `unwrapDisallowed` option is set to `true`. E.g., disallowing a paragraph will not render its
