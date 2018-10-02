@@ -80,6 +80,29 @@ function parseHtml(config, tree, props) {
     true // Iterate in reverse
   )
 
+  // Find any leftover HTML elements and blindly replace them with a parsed version
+  visit(tree, 'html', (node, index, parent) => {
+    const element = parser.parseWithInstructions(
+      node.value,
+      config.isValidNode,
+      config.processingInstructions
+    )
+
+    if (!element) {
+      parent.children.splice(index, 1)
+      return true
+    }
+
+    parent.children.splice(index, 1, {
+      type,
+      element,
+      value: node.value,
+      position: node.position
+    })
+
+    return true
+  })
+
   return tree
 }
 
