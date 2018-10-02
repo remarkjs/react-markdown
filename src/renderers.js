@@ -6,7 +6,6 @@ const React = require('react')
 const createElement = React.createElement
 
 module.exports = {
-  root: 'div',
   break: 'br',
   paragraph: 'p',
   emphasis: 'em',
@@ -24,6 +23,7 @@ module.exports = {
   tableRow: SimpleRenderer.bind(null, 'tr'),
   tableCell: TableCell,
 
+  root: Root,
   list: List,
   listItem: ListItem,
   definition: NullRenderer,
@@ -33,6 +33,12 @@ module.exports = {
   html: Html,
   virtualHtml: VirtualHtml,
   reactNode: ReactNode
+}
+
+function Root(props) {
+  const useFragment = !props.className
+  const root = useFragment ? React.Fragment || 'div' : 'div'
+  return createElement(root, useFragment ? null : props, props.children)
 }
 
 function SimpleRenderer(tag, props) {

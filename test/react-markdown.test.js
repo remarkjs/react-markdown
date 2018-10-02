@@ -11,7 +11,6 @@ const htmlParser = require('../src/plugins/html-parser')
 const Markdown = require('../src/react-markdown')
 const MarkdownWithHtml = require('../src/with-html')
 
-const render = input => renderer.create(<Markdown source={input} />).toJSON().children
 const renderHTML = input => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
 
 test('can render the most basic of documents (single paragraph)', () => {
@@ -119,11 +118,11 @@ test('should handle images with special characters in alternative text', () => {
 })
 
 test('should be able to render headers', () => {
-  expect(render('# Awesome')[0]).toEqual({type: 'h1', props: {}, children: ['Awesome']})
-  expect(render('## Awesome')[0]).toEqual({type: 'h2', props: {}, children: ['Awesome']})
-  expect(render('### Awesome')[0]).toEqual({type: 'h3', props: {}, children: ['Awesome']})
-  expect(render('#### Awesome')[0]).toEqual({type: 'h4', props: {}, children: ['Awesome']})
-  expect(render('##### Awesome')[0]).toEqual({type: 'h5', props: {}, children: ['Awesome']})
+  expect(renderHTML(<Markdown source={'# Awesome'} />)).toEqual('<h1>Awesome</h1>')
+  expect(renderHTML(<Markdown source={'## Awesome'} />)).toEqual('<h2>Awesome</h2>')
+  expect(renderHTML(<Markdown source={'### Awesome'} />)).toEqual('<h3>Awesome</h3>')
+  expect(renderHTML(<Markdown source={'#### Awesome'} />)).toEqual('<h4>Awesome</h4>')
+  expect(renderHTML(<Markdown source={'##### Awesome'} />)).toEqual('<h5>Awesome</h5>')
 })
 
 test('should be able to render inline code', () => {
@@ -162,14 +161,7 @@ test('should handle code blocks by indentation', () => {
   const input = ['', '<footer class="footer">\n', '', '&copy; 2014 Foo Bar\n', '</footer>'].join(
     '    '
   )
-  const pre = render(input)[0]
-  expect(pre.type).toEqual('pre')
-  expect(pre.children).toHaveLength(1)
-
-  const code = pre.children[0]
-  expect(code.type).toEqual('code')
-  expect(code.children).toHaveLength(1)
-  expect(code.children[0]).toEqual('<footer class="footer">\n    &copy; 2014 Foo Bar\n</footer>')
+  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
 })
 
 test('should handle blockquotes', () => {

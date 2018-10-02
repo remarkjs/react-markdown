@@ -1,84 +1,80 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`allows specifying a custom URI-transformer 1`] = `
-<div>
-  <p>
-    Received a great 
-    <a
-      href="/rexxars/react-markdown/pull/15"
-    >
-      pull request
-    </a>
-     today
-  </p>
-</div>
+<p>
+  Received a great 
+  <a
+    href="/rexxars/react-markdown/pull/15"
+  >
+    pull request
+  </a>
+   today
+</p>
 `;
 
 exports[`can render the most basic of documents (single paragraph) 1`] = `
-<div>
-  <p>
-    Test
-  </p>
-</div>
+<p>
+  Test
+</p>
 `;
 
 exports[`can render the whole spectrum of markdown within a single run (with html parser) 1`] = `
-<div>
+Array [
   <h1>
     h1 Heading
-  </h1>
+  </h1>,
   <h2>
     h2 Heading
-  </h2>
+  </h2>,
   <h3>
     h3 Heading
-  </h3>
+  </h3>,
   <h4>
     h4 Heading
-  </h4>
+  </h4>,
   <h5>
     h5 Heading
-  </h5>
+  </h5>,
   <h6>
     h6 Heading
-  </h6>
+  </h6>,
   <h2>
     Horizontal Rules
-  </h2>
-  <hr />
-  <hr />
-  <hr />
+  </h2>,
+  <hr />,
+  <hr />,
+  <hr />,
   <h2>
     Emphasis
-  </h2>
+  </h2>,
   <p>
     <strong>
       This is bold text
     </strong>
-  </p>
+  </p>,
   <p>
     <strong>
       This is bold text
     </strong>
-  </p>
+  </p>,
   <p>
     <em>
       This is italic text
     </em>
-  </p>
+  </p>,
   <p>
     <em>
       This is italic text
     </em>
-  </p>
+  </p>,
   <p>
     <del>
       Strikethrough
     </del>
-  </p>
+  </p>,
   <h2>
     Blockquotes
-  </h2>
+  </h2>,
   <blockquote>
     <p>
       Blockquotes can also be nested...
@@ -93,13 +89,13 @@ exports[`can render the whole spectrum of markdown within a single run (with htm
         </p>
       </blockquote>
     </blockquote>
-  </blockquote>
+  </blockquote>,
   <h2>
     Lists
-  </h2>
+  </h2>,
   <p>
     Unordered
-  </p>
+  </p>,
   <ul>
     <li>
       Create a list by starting a line with 
@@ -141,10 +137,10 @@ exports[`can render the whole spectrum of markdown within a single run (with htm
     <li>
       Very easy!
     </li>
-  </ul>
+  </ul>,
   <p>
     Ordered
-  </p>
+  </p>,
   <ol>
     <li>
       Lorem ipsum dolor sit amet
@@ -155,7 +151,7 @@ exports[`can render the whole spectrum of markdown within a single run (with htm
     <li>
       Integer molestie lorem at massa
     </li>
-  </ol>
+  </ol>,
   <ol>
     <li>
       You can use sequential numbers...
@@ -166,10 +162,10 @@ exports[`can render the whole spectrum of markdown within a single run (with htm
         1.
       </code>
     </li>
-  </ol>
+  </ol>,
   <p>
     Start numbering with offset:
-  </p>
+  </p>,
   <ol
     start="57"
   >
@@ -179,10 +175,10 @@ exports[`can render the whole spectrum of markdown within a single run (with htm
     <li>
       bar
     </li>
-  </ol>
+  </ol>,
   <p>
     Loose lists?
-  </p>
+  </p>,
   <ul>
     <li>
       <p>
@@ -192,19 +188,19 @@ exports[`can render the whole spectrum of markdown within a single run (with htm
     <li>
       bar
     </li>
-  </ul>
+  </ul>,
   <h2>
     Code
-  </h2>
+  </h2>,
   <p>
     Inline 
     <code>
       code
     </code>
-  </p>
+  </p>,
   <p>
     Indented code
-  </p>
+  </p>,
   <pre>
     <code>
       // Some comments
@@ -212,18 +208,18 @@ line 1 of code
 line 2 of code
 line 3 of code
     </code>
-  </pre>
+  </pre>,
   <p>
     Block code "fences"
-  </p>
+  </p>,
   <pre>
     <code>
       Sample text here...
     </code>
-  </pre>
+  </pre>,
   <p>
     Syntax highlighting
-  </p>
+  </p>,
   <pre>
     <code
       className="language-js"
@@ -234,10 +230,10 @@ line 3 of code
 
 console.log(foo(5));
     </code>
-  </pre>
+  </pre>,
   <h2>
     Tables
-  </h2>
+  </h2>,
   <table>
     <thead>
       <tr>
@@ -275,10 +271,10 @@ console.log(foo(5));
         </td>
       </tr>
     </tbody>
-  </table>
+  </table>,
   <p>
     Left/right aligned columns
-  </p>
+  </p>,
   <table>
     <thead>
       <tr>
@@ -364,17 +360,17 @@ console.log(foo(5));
         </td>
       </tr>
     </tbody>
-  </table>
+  </table>,
   <h2>
     Links
-  </h2>
+  </h2>,
   <p>
     <a
       href="https://espen.codes/"
     >
       Espen.Codes
     </a>
-  </p>
+  </p>,
   <p>
     <a
       href="https://www.sanity.io/"
@@ -382,7 +378,7 @@ console.log(foo(5));
     >
       Sanity
     </a>
-  </p>
+  </p>,
   <p>
     Autoconverted link 
     <a
@@ -390,7 +386,7 @@ console.log(foo(5));
     >
       https://github.com/rexxars/react-markdown
     </a>
-  </p>
+  </p>,
   <p>
     <a
       href="https://reactjs.org"
@@ -398,10 +394,10 @@ console.log(foo(5));
     >
       Link references
     </a>
-  </p>
+  </p>,
   <h2>
     Images
-  </h2>
+  </h2>,
   <p>
     <img
       alt="React Markdown"
@@ -414,47 +410,47 @@ console.log(foo(5));
       src="https://espen.codes/assets/projects/mead/320x180.png"
       title="Mead, on-the-fly image transformer"
     />
-  </p>
+  </p>,
   <p>
     Like links, Images also have a footnote style syntax
-  </p>
+  </p>,
   <p>
     <img
       alt="Alt text"
     />
-  </p>
+  </p>,
   <p>
     With a reference later in the document defining the URL location:
-  </p>
+  </p>,
   <h2>
     Hard breaks
-  </h2>
+  </h2>,
   <p>
     Yeah, hard breaks
     <br />
     can be useful too.
-  </p>
+  </p>,
   <h2>
     HTML entities
-  </h2>
+  </h2>,
   <p>
     Some characters, like 
     æ
     , 
     &
      and similar should be handled properly.
-  </p>
+  </p>,
   <h2>
     HTML
-  </h2>
+  </h2>,
   <p>
     Does anyone actually like the fact that you can embed HTML in markdown?
-  </p>
+  </p>,
   <iframe
     height="480"
     src="https://foo.bar/"
     width="640"
-  />
+  />,
   <p>
     We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
 
@@ -484,72 +480,72 @@ have weird ordering on your tags, it won't work either. It does support
       html-parser
     </code>
      plugin, it can now properly handle HTML! Which is pretty sweet.
-  </p>
-  <hr />
-  <hr />
+  </p>,
+  <hr />,
+  <hr />,
   <p>
     Cool, eh?
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`can render the whole spectrum of markdown within a single run 1`] = `
-<div>
+Array [
   <h1>
     h1 Heading
-  </h1>
+  </h1>,
   <h2>
     h2 Heading
-  </h2>
+  </h2>,
   <h3>
     h3 Heading
-  </h3>
+  </h3>,
   <h4>
     h4 Heading
-  </h4>
+  </h4>,
   <h5>
     h5 Heading
-  </h5>
+  </h5>,
   <h6>
     h6 Heading
-  </h6>
+  </h6>,
   <h2>
     Horizontal Rules
-  </h2>
-  <hr />
-  <hr />
-  <hr />
+  </h2>,
+  <hr />,
+  <hr />,
+  <hr />,
   <h2>
     Emphasis
-  </h2>
+  </h2>,
   <p>
     <strong>
       This is bold text
     </strong>
-  </p>
+  </p>,
   <p>
     <strong>
       This is bold text
     </strong>
-  </p>
+  </p>,
   <p>
     <em>
       This is italic text
     </em>
-  </p>
+  </p>,
   <p>
     <em>
       This is italic text
     </em>
-  </p>
+  </p>,
   <p>
     <del>
       Strikethrough
     </del>
-  </p>
+  </p>,
   <h2>
     Blockquotes
-  </h2>
+  </h2>,
   <blockquote>
     <p>
       Blockquotes can also be nested...
@@ -564,13 +560,13 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
         </p>
       </blockquote>
     </blockquote>
-  </blockquote>
+  </blockquote>,
   <h2>
     Lists
-  </h2>
+  </h2>,
   <p>
     Unordered
-  </p>
+  </p>,
   <ul>
     <li>
       Create a list by starting a line with 
@@ -612,10 +608,10 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
     <li>
       Very easy!
     </li>
-  </ul>
+  </ul>,
   <p>
     Ordered
-  </p>
+  </p>,
   <ol>
     <li>
       Lorem ipsum dolor sit amet
@@ -626,7 +622,7 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
     <li>
       Integer molestie lorem at massa
     </li>
-  </ol>
+  </ol>,
   <ol>
     <li>
       You can use sequential numbers...
@@ -637,10 +633,10 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
         1.
       </code>
     </li>
-  </ol>
+  </ol>,
   <p>
     Start numbering with offset:
-  </p>
+  </p>,
   <ol
     start="57"
   >
@@ -650,10 +646,10 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
     <li>
       bar
     </li>
-  </ol>
+  </ol>,
   <p>
     Loose lists?
-  </p>
+  </p>,
   <ul>
     <li>
       <p>
@@ -663,19 +659,19 @@ exports[`can render the whole spectrum of markdown within a single run 1`] = `
     <li>
       bar
     </li>
-  </ul>
+  </ul>,
   <h2>
     Code
-  </h2>
+  </h2>,
   <p>
     Inline 
     <code>
       code
     </code>
-  </p>
+  </p>,
   <p>
     Indented code
-  </p>
+  </p>,
   <pre>
     <code>
       // Some comments
@@ -683,18 +679,18 @@ line 1 of code
 line 2 of code
 line 3 of code
     </code>
-  </pre>
+  </pre>,
   <p>
     Block code "fences"
-  </p>
+  </p>,
   <pre>
     <code>
       Sample text here...
     </code>
-  </pre>
+  </pre>,
   <p>
     Syntax highlighting
-  </p>
+  </p>,
   <pre>
     <code
       className="language-js"
@@ -705,10 +701,10 @@ line 3 of code
 
 console.log(foo(5));
     </code>
-  </pre>
+  </pre>,
   <h2>
     Tables
-  </h2>
+  </h2>,
   <table>
     <thead>
       <tr>
@@ -746,10 +742,10 @@ console.log(foo(5));
         </td>
       </tr>
     </tbody>
-  </table>
+  </table>,
   <p>
     Left/right aligned columns
-  </p>
+  </p>,
   <table>
     <thead>
       <tr>
@@ -835,17 +831,17 @@ console.log(foo(5));
         </td>
       </tr>
     </tbody>
-  </table>
+  </table>,
   <h2>
     Links
-  </h2>
+  </h2>,
   <p>
     <a
       href="https://espen.codes/"
     >
       Espen.Codes
     </a>
-  </p>
+  </p>,
   <p>
     <a
       href="https://www.sanity.io/"
@@ -853,7 +849,7 @@ console.log(foo(5));
     >
       Sanity
     </a>
-  </p>
+  </p>,
   <p>
     Autoconverted link 
     <a
@@ -861,7 +857,7 @@ console.log(foo(5));
     >
       https://github.com/rexxars/react-markdown
     </a>
-  </p>
+  </p>,
   <p>
     <a
       href="https://reactjs.org"
@@ -869,10 +865,10 @@ console.log(foo(5));
     >
       Link references
     </a>
-  </p>
+  </p>,
   <h2>
     Images
-  </h2>
+  </h2>,
   <p>
     <img
       alt="React Markdown"
@@ -885,42 +881,42 @@ console.log(foo(5));
       src="https://espen.codes/assets/projects/mead/320x180.png"
       title="Mead, on-the-fly image transformer"
     />
-  </p>
+  </p>,
   <p>
     Like links, Images also have a footnote style syntax
-  </p>
+  </p>,
   <p>
     <img
       alt="Alt text"
     />
-  </p>
+  </p>,
   <p>
     With a reference later in the document defining the URL location:
-  </p>
+  </p>,
   <h2>
     Hard breaks
-  </h2>
+  </h2>,
   <p>
     Yeah, hard breaks
     <br />
     can be useful too.
-  </p>
+  </p>,
   <h2>
     HTML entities
-  </h2>
+  </h2>,
   <p>
     Some characters, like 
     æ
     , 
     &
      and similar should be handled properly.
-  </p>
+  </p>,
   <h2>
     HTML
-  </h2>
+  </h2>,
   <p>
     Does anyone actually like the fact that you can embed HTML in markdown?
-  </p>
+  </p>,
   <div
     dangerouslySetInnerHTML={
       Object {
@@ -931,7 +927,7 @@ console.log(foo(5));
 />",
       }
     }
-  />
+  />,
   <p>
     We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
 
@@ -981,58 +977,58 @@ have weird ordering on your tags, it won't work either. It does support
       html-parser
     </code>
      plugin, it can now properly handle HTML! Which is pretty sweet.
-  </p>
+  </p>,
   <span
     dangerouslySetInnerHTML={
       Object {
         "__html": "<hr /><hr />",
       }
     }
-  />
+  />,
   <p>
     Cool, eh?
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`can use parser plugins 1`] = `
-<div>
+Array [
   <p>
     Just put
     <br />
     hard breaks
     <br />
     at each newline
-  </p>
+  </p>,
   <pre>
     <code>
       but not inside
 code snippets
     </code>
-  </pre>
-</div>
+  </pre>,
+]
 `;
 
 exports[`passes along all props when the node type is unknown 1`] = `
-<div>
+Array [
   <p>
     Paragraph
-  </p>
+  </p>,
   <div>
     Sanity
-  </div>
-</div>
+  </div>,
+]
 `;
 
 exports[`sanitizes certain dangerous urls for links by default 1`] = `
-<div>
+Array [
   <h1>
     <a
       href="javascript:void(0)"
     >
       Much fun
     </a>
-  </h1>
+  </h1>,
   <p>
     Can be had with 
     <a
@@ -1040,7 +1036,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
     >
       XSS links
     </a>
-  </p>
+  </p>,
   <blockquote>
     <p>
       And 
@@ -1057,7 +1053,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
       </a>
        for instance
     </p>
-  </blockquote>
+  </blockquote>,
   <h2>
     <a
       href="javascript:void(0)"
@@ -1065,7 +1061,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
       Entities
     </a>
      can be tricky, too
-  </h2>
+  </h2>,
   <p>
     Regular 
     <a
@@ -1080,7 +1076,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
       be
     </a>
      allowed
-  </p>
+  </p>,
   <p>
     <a
       href="javascript:void(0)"
@@ -1088,7 +1084,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
     >
       Some ref
     </a>
-  </p>
+  </p>,
   <p>
     Should allow 
     <a
@@ -1103,7 +1099,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
       tel
     </a>
      links tho
-  </p>
+  </p>,
   <p>
     Also, 
     <a
@@ -1112,7 +1108,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
       protocol-agnostic
     </a>
      should be allowed
-  </p>
+  </p>,
   <p>
     local 
     <a
@@ -1126,7 +1122,7 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
     >
       allowed
     </a>
-  </p>
+  </p>,
   <p>
     allow 
     <a
@@ -1140,25 +1136,25 @@ exports[`sanitizes certain dangerous urls for links by default 1`] = `
     >
       hashes
     </a>
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should be able to override renderers 1`] = `
-<div>
+Array [
   <span
     className="heading level-1"
   >
     Header
-  </span>
+  </span>,
   <p>
     Paragraph
-  </p>
+  </p>,
   <span
     className="heading level-2"
   >
     New header
-  </span>
+  </span>,
   <ol>
     <li>
       List item
@@ -1166,11 +1162,11 @@ exports[`should be able to override renderers 1`] = `
     <li>
       List item 2
     </li>
-  </ol>
+  </ol>,
   <p>
     Foo
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should be able to override root renderer with fragment renderer 1`] = `
@@ -1185,16 +1181,16 @@ Array [
 `;
 
 exports[`should be able to override text renderer 1`] = `
-<div>
+Array [
   <h1>
     HEADER
-  </h1>
+  </h1>,
   <p>
     PARAGRAPH
-  </p>
+  </p>,
   <h2>
     NEW HEADER
-  </h2>
+  </h2>,
   <ol>
     <li>
       LIST ITEM
@@ -1202,273 +1198,251 @@ exports[`should be able to override text renderer 1`] = `
     <li>
       LIST ITEM 2
     </li>
-  </ol>
+  </ol>,
   <p>
     FOO
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should be able to render basic inline html without containers 1`] = `
-<div>
-  <p>
-    I am having 
-    <strong>
-      so
-    </strong>
-     much fun
-  </p>
-</div>
+<p>
+  I am having 
+  <strong>
+    so
+  </strong>
+   much fun
+</p>
 `;
 
 exports[`should be able to render inline code 1`] = `
-<div>
-  <p>
-    Just call 
-    <code>
-      renderToStaticMarkup()
-    </code>
-    , already
-  </p>
-</div>
+<p>
+  Just call 
+  <code>
+    renderToStaticMarkup()
+  </code>
+  , already
+</p>
 `;
 
 exports[`should be able to render inline html in totally unsatisfying, weird ways 1`] = `
-<div>
-  <p>
-    I am having 
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<span class=\\"foo\\">",
-        }
+<p>
+  I am having 
+  <span
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<span class=\\"foo\\">",
       }
-    />
-    so
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "</span>",
-        }
+    }
+  />
+  so
+  <span
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "</span>",
       }
-    />
-     much fun
-  </p>
-</div>
+    }
+  />
+   much fun
+</p>
 `;
 
 exports[`should be able to render inline html properly with HTML parser plugin (through require) 1`] = `
-<div>
-  <p>
-    I am having 
-    <span
-      className="foo"
-    >
-      so
-    </span>
-     much fun
-  </p>
-</div>
+<p>
+  I am having 
+  <span
+    className="foo"
+  >
+    so
+  </span>
+   much fun
+</p>
 `;
 
 exports[`should be able to render inline html properly with HTML parser plugin 1`] = `
-<div>
-  <p>
-    I am having 
-    <span
-      className="foo"
-    >
-      so
-    </span>
-     much fun
-  </p>
-</div>
+<p>
+  I am having 
+  <span
+    className="foo"
+  >
+    so
+  </span>
+   much fun
+</p>
 `;
 
 exports[`should be able to render inline html with nested markdown properly with HTML parser plugin 1`] = `
-<div>
-  <p>
-    I am having 
-    <span
-      className="foo"
-    >
-      <em>
-        so
-      </em>
-    </span>
-     much fun
-  </p>
-</div>
+<p>
+  I am having 
+  <span
+    className="foo"
+  >
+    <em>
+      so
+    </em>
+  </span>
+   much fun
+</p>
 `;
 
 exports[`should be able to render inline html with self-closing tags properly with HTML parser plugin 1`] = `
-<div>
-  <p>
-    I am having 
-    <wbr />
-     so much fun
-  </p>
-</div>
+<p>
+  I am having 
+  <wbr />
+   so much fun
+</p>
 `;
 
 exports[`should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin 1`] = `
-<div>
-  <p>
-    I am having 
-    <wbr
-      className="foo"
-    />
-     so much fun
-  </p>
-</div>
+<p>
+  I am having 
+  <wbr
+    className="foo"
+  />
+   so much fun
+</p>
 `;
 
 exports[`should call function to get target attribute for links if specified 1`] = `
-<div>
-  <p>
-    This is 
-    <a
-      href="https://espen.codes/"
-      target="_blank"
-    >
-      a link
-    </a>
-     to Espen.Codes.
-  </p>
-</div>
+<p>
+  This is 
+  <a
+    href="https://espen.codes/"
+    target="_blank"
+  >
+    a link
+  </a>
+   to Espen.Codes.
+</p>
 `;
 
 exports[`should escape html blocks by default (with HTML parser plugin) 1`] = `
-<div>
+Array [
   <p>
     This is a regular paragraph.
-  </p>
-  &lt;table&gt;
-    &lt;tr&gt;
-        &lt;td&gt;Foo&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
+  </p>,
+  "<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>",
   <p>
     This is another regular paragraph.
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should escape html blocks by default 1`] = `
-<div>
+Array [
   <p>
     This is a regular paragraph.
-  </p>
-  &lt;table&gt;
-    &lt;tr&gt;
-        &lt;td&gt;Foo&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
+  </p>,
+  "<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>",
   <p>
     This is another regular paragraph.
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should escape html blocks if escapeHtml prop is set (with HTML parser plugin) 1`] = `
-<div>
+Array [
   <p>
     This is a regular paragraph.
-  </p>
-  &lt;table&gt;
-    &lt;tr&gt;
-        &lt;td&gt;Foo&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
+  </p>,
+  "<table>
+    <tr>
+        <td>Foo</td>
+    </tr>
+</table>",
   <p>
     This is another regular paragraph.
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should handle blockquotes 1`] = `
-<div>
-  <blockquote>
-    <p>
-      Moo
+<blockquote>
+  <p>
+    Moo
 Tools
 FTW
-    </p>
-  </blockquote>
-</div>
+  </p>
+</blockquote>
 `;
 
 exports[`should handle bold/strong text 1`] = `
-<div>
-  <p>
-    React is 
-    <strong>
-      totally
-    </strong>
-     
-    <strong>
-      awesome
-    </strong>
-  </p>
-</div>
+<p>
+  React is 
+  <strong>
+    totally
+  </strong>
+   
+  <strong>
+    awesome
+  </strong>
+</p>
+`;
+
+exports[`should handle code blocks by indentation 1`] = `
+"<pre><code>&lt;footer class=&quot;footer&quot;&gt;
+    &amp;copy; 2014 Foo Bar
+&lt;/footer&gt;</code></pre>"
 `;
 
 exports[`should handle code tags with language specification 1`] = `
-<div>
-  <pre>
-    <code
-      className="language-js"
-    >
-      var foo = require('bar');
+<pre>
+  <code
+    className="language-js"
+  >
+    var foo = require('bar');
 foo();
-    </code>
-  </pre>
-</div>
+  </code>
+</pre>
 `;
 
 exports[`should handle code tags without any language specification 1`] = `
-<div>
-  <pre>
-    <code>
-      var foo = require('bar');
+<pre>
+  <code>
+    var foo = require('bar');
 foo();
-    </code>
-  </pre>
-</div>
+  </code>
+</pre>
 `;
 
 exports[`should handle emphasis 1`] = `
-<div>
-  <p>
-    React is 
-    <em>
-      totally
-    </em>
-     
-    <em>
-      awesome
-    </em>
-  </p>
-</div>
+<p>
+  React is 
+  <em>
+    totally
+  </em>
+   
+  <em>
+    awesome
+  </em>
+</p>
 `;
 
 exports[`should handle horizontal rules 1`] = `
-<div>
+Array [
   <p>
     Foo
-  </p>
-  <hr />
+  </p>,
+  <hr />,
   <p>
     Bar
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should handle html blocks 1`] = `
-<div>
+Array [
   <p>
     This is a regular paragraph.
-  </p>
+  </p>,
   <div
     dangerouslySetInnerHTML={
       Object {
@@ -1479,18 +1453,18 @@ exports[`should handle html blocks 1`] = `
 </table>",
       }
     }
-  />
+  />,
   <p>
     This is another regular paragraph.
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should handle html blocks with HTML parser plugin 1`] = `
-<div>
+Array [
   <p>
     This is a regular paragraph.
-  </p>
+  </p>,
   <table>
     
     
@@ -1505,341 +1479,299 @@ exports[`should handle html blocks with HTML parser plugin 1`] = `
     </tr>
     
 
-  </table>
+  </table>,
   <p>
     This is another regular paragraph.
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should handle image references with custom uri transformer 1`] = `
-<div>
-  <p>
-    This is 
-    <img
-      alt="The Waffle Ninja"
-      src="https://some.host/img.jpg"
-    />
-    .
-  </p>
-</div>
+<p>
+  This is 
+  <img
+    alt="The Waffle Ninja"
+    src="https://some.host/img.jpg"
+  />
+  .
+</p>
 `;
 
 exports[`should handle images with custom uri transformer 1`] = `
-<div>
-  <p>
-    This is 
-    <img
-      alt="an image"
-      src="/ninja.jpg"
-    />
-    .
-  </p>
-</div>
+<p>
+  This is 
+  <img
+    alt="an image"
+    src="/ninja.jpg"
+  />
+  .
+</p>
 `;
 
 exports[`should handle images with special characters in alternative text 1`] = `
-<div>
-  <p>
-    This is 
-    <img
-      alt="a ninja's image"
-      src="/ninja.png"
-    />
-    .
-  </p>
-</div>
+<p>
+  This is 
+  <img
+    alt="a ninja's image"
+    src="/ninja.png"
+  />
+  .
+</p>
 `;
 
 exports[`should handle images with title attribute 1`] = `
-<div>
-  <p>
-    This is 
-    <img
-      alt="an image"
-      src="/ninja.png"
-      title="foo bar"
-    />
-    .
-  </p>
-</div>
+<p>
+  This is 
+  <img
+    alt="an image"
+    src="/ninja.png"
+    title="foo bar"
+  />
+  .
+</p>
 `;
 
 exports[`should handle images without title attribute 1`] = `
-<div>
-  <p>
-    This is 
-    <img
-      alt="an image"
-      src="/ninja.png"
-    />
-    .
-  </p>
-</div>
+<p>
+  This is 
+  <img
+    alt="an image"
+    src="/ninja.png"
+  />
+  .
+</p>
 `;
 
 exports[`should handle inline html with escapeHtml option enabled 1`] = `
-<div>
-  <p>
-    I am having 
-    &lt;strong&gt;
-    so
-    &lt;/strong&gt;
-     much fun
-  </p>
-</div>
+<p>
+  I am having 
+  &lt;strong&gt;
+  so
+  &lt;/strong&gt;
+   much fun
+</p>
 `;
 
 exports[`should handle invalid HTML with HTML parser plugin 1`] = `
-<div>
-  <p>
-    I am having 
-    <div />
-     so much
-     fun
-  </p>
-</div>
+<p>
+  I am having 
+  <div />
+   so much
+   fun
+</p>
 `;
 
 exports[`should handle links with custom uri transformer 1`] = `
-<div>
-  <p>
-    This is 
-    <a
-      href="//espen.codes/"
-    >
-      a link
-    </a>
-     to Espen.Codes.
-  </p>
-</div>
+<p>
+  This is 
+  <a
+    href="//espen.codes/"
+  >
+    a link
+  </a>
+   to Espen.Codes.
+</p>
 `;
 
 exports[`should handle links with title attribute 1`] = `
-<div>
-  <p>
-    This is 
-    <a
-      href="https://espen.codes/"
-      title="some title"
-    >
-      a link
-    </a>
-     to Espen.Codes.
-  </p>
-</div>
+<p>
+  This is 
+  <a
+    href="https://espen.codes/"
+    title="some title"
+  >
+    a link
+  </a>
+   to Espen.Codes.
+</p>
 `;
 
 exports[`should handle links with uppercase protocol 1`] = `
-<div>
-  <p>
-    This is 
-    <a
-      href="HTTPS://ESPEN.CODES/"
-    >
-      a link
-    </a>
-     to Espen.Codes.
-  </p>
-</div>
+<p>
+  This is 
+  <a
+    href="HTTPS://ESPEN.CODES/"
+  >
+    a link
+  </a>
+   to Espen.Codes.
+</p>
 `;
 
 exports[`should handle links without title attribute 1`] = `
-<div>
-  <p>
-    This is 
-    <a
-      href="https://espen.codes/"
-    >
-      a link
-    </a>
-     to Espen.Codes.
-  </p>
-</div>
+<p>
+  This is 
+  <a
+    href="https://espen.codes/"
+  >
+    a link
+  </a>
+   to Espen.Codes.
+</p>
 `;
 
 exports[`should handle loose, unordered lists 1`] = `
-<div>
-  <ul>
-    <li>
-      <p>
-        foo
-      </p>
-    </li>
-    <li>
-      bar
-    </li>
-  </ul>
-</div>
+<ul>
+  <li>
+    <p>
+      foo
+    </p>
+  </li>
+  <li>
+    bar
+  </li>
+</ul>
 `;
 
 exports[`should handle loose, unordered lists with sublists 1`] = `
-<div>
-  <ul>
-    <li>
-      <p>
-        foo
-      </p>
-      <ul>
-        <li>
-          bar
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>
+<ul>
+  <li>
+    <p>
+      foo
+    </p>
+    <ul>
+      <li>
+        bar
+      </li>
+    </ul>
+  </li>
+</ul>
 `;
 
 exports[`should handle multiline paragraphs properly (softbreak, paragraphs) 1`] = `
-<div>
-  <p>
-    React is awesome
+<p>
+  React is awesome
 And so is markdown
-    <br />
-    Combining = epic
-  </p>
-</div>
+  <br />
+  Combining = epic
+</p>
 `;
 
 exports[`should handle multiple paragraphs properly 1`] = `
-<div>
+Array [
   <p>
     React is awesome
 And so is markdown
-  </p>
+  </p>,
   <p>
     Combining = epic
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should handle nested blockquotes 1`] = `
-<div>
+<blockquote>
   <blockquote>
-    <blockquote>
-      <p>
-        Lots of ex-Mootoolers on the React team
-      </p>
-    </blockquote>
     <p>
-      Totally didn't know that.
-    </p>
-    <blockquote>
-      <p>
-        There's a reason why it turned out so awesome
-      </p>
-    </blockquote>
-    <p>
-      Haha I guess you're right!
+      Lots of ex-Mootoolers on the React team
     </p>
   </blockquote>
-</div>
+  <p>
+    Totally didn't know that.
+  </p>
+  <blockquote>
+    <p>
+      There's a reason why it turned out so awesome
+    </p>
+  </blockquote>
+  <p>
+    Haha I guess you're right!
+  </p>
+</blockquote>
 `;
 
 exports[`should handle ordered lists 1`] = `
-<div>
-  <ol>
-    <li>
-      Ordered
-    </li>
-    <li>
-      Lists
-    </li>
-    <li>
-      Are cool
-    </li>
-  </ol>
-</div>
+<ol>
+  <li>
+    Ordered
+  </li>
+  <li>
+    Lists
+  </li>
+  <li>
+    Are cool
+  </li>
+</ol>
 `;
 
 exports[`should handle ordered lists with a start index 1`] = `
-<div>
-  <ol
-    start="7"
-  >
-    <li>
-      Ordered
-    </li>
-    <li>
-      Lists
-    </li>
-    <li>
-      Are cool
-    </li>
-  </ol>
-</div>
+<ol
+  start="7"
+>
+  <li>
+    Ordered
+  </li>
+  <li>
+    Lists
+  </li>
+  <li>
+    Are cool
+  </li>
+</ol>
 `;
 
 exports[`should handle tight, unordered lists 1`] = `
-<div>
-  <ul>
-    <li>
-      Unordered
-    </li>
-    <li>
-      Lists
-    </li>
-    <li>
-      Are cool
-    </li>
-  </ul>
-</div>
+<ul>
+  <li>
+    Unordered
+  </li>
+  <li>
+    Lists
+  </li>
+  <li>
+    Are cool
+  </li>
+</ul>
 `;
 
 exports[`should handle tight, unordered lists with sublists 1`] = `
-<div>
-  <ul>
-    <li>
-      Unordered
-      <ul>
-        <li>
-          Lists
-          <ul>
-            <li>
-              Are cool
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>
+<ul>
+  <li>
+    Unordered
+    <ul>
+      <li>
+        Lists
+        <ul>
+          <li>
+            Are cool
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 `;
 
 exports[`should only use first language definition on code blocks 1`] = `
-<div>
-  <pre>
-    <code
-      className="language-js"
-    >
-      var foo = require('bar');
+<pre>
+  <code
+    className="language-js"
+  >
+    var foo = require('bar');
 foo();
-    </code>
-  </pre>
-</div>
+  </code>
+</pre>
 `;
 
 exports[`should pass depth, index and ordered props to list/listItem 1`] = `
-<div>
-  <ul>
-    <li>
-      foo
-      <ol
-        start="2"
-      >
-        <li>
-          bar
-        </li>
-        <li>
-          baz
-        </li>
-      </ol>
-    </li>
-    <li>
-      root
-    </li>
-  </ul>
-</div>
+<ul>
+  <li>
+    foo
+    <ol
+      start="2"
+    >
+      <li>
+        bar
+      </li>
+      <li>
+        baz
+      </li>
+    </ol>
+  </li>
+  <li>
+    root
+  </li>
+</ul>
 `;
 
 exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 1`] = `
@@ -1873,17 +1805,17 @@ Object {
 `;
 
 exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 4`] = `
-<div>
+Array [
   <p>
     Foo
-  </p>
+  </p>,
   <p>
     Bar
-  </p>
+  </p>,
   <p>
     Baz
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 1`] = `
@@ -1903,21 +1835,21 @@ Position {
 `;
 
 exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 2`] = `
-<div>
+Array [
   <p>
     <em
       className="custom"
     >
       Foo
     </em>
-  </p>
-  <hr />
+  </p>,
+  <hr />,
   <p>
     <strong>
       Bar
     </strong>
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should render empty link references 1`] = `"<p>Stuff were changed in <a href=\\"\\"></a>. Check out the changelog for reference.</p>"`;
@@ -1931,92 +1863,86 @@ exports[`should render partial tables 1`] = `"<p>User is writing a table by hand
 exports[`should render tables 1`] = `"<p>Languages are fun, right?</p><table><thead><tr><th style=\\"text-align:left\\">ID</th><th style=\\"text-align:center\\">English</th><th style=\\"text-align:right\\">Norwegian</th><th>Italian</th></tr></thead><tbody><tr><td style=\\"text-align:left\\">1</td><td style=\\"text-align:center\\">one</td><td style=\\"text-align:right\\">en</td><td>uno</td></tr><tr><td style=\\"text-align:left\\">2</td><td style=\\"text-align:center\\">two</td><td style=\\"text-align:right\\">to</td><td>due</td></tr><tr><td style=\\"text-align:left\\">3</td><td style=\\"text-align:center\\">three</td><td style=\\"text-align:right\\">tre</td><td>tre</td></tr></tbody></table>"`;
 
 exports[`should sanititize language strings in code blocks 1`] = `
-<div>
-  <pre>
-    <code
-      className="language-js"
-    >
-        woop
-    </code>
-  </pre>
-</div>
+<pre>
+  <code
+    className="language-js"
+  >
+      woop
+  </code>
+</pre>
 `;
 
 exports[`should set source position attributes if sourcePos option is enabled 1`] = `
-<div
-  data-sourcepos="1:1-5:4"
->
+Array [
   <p
     data-sourcepos="1:1-1:4"
   >
     Foo
-  </p>
+  </p>,
   <hr
     data-sourcepos="3:1-3:13"
-  />
+  />,
   <p
     data-sourcepos="5:1-5:4"
   >
     Bar
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should skip html blocks if skipHtml prop is set (with HTML parser plugin) 1`] = `
-<div>
+Array [
   <p>
     This is a regular paragraph.
-  </p>
+  </p>,
   <p>
     This is another regular paragraph.
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should skip html blocks if skipHtml prop is set 1`] = `
-<div>
+Array [
   <p>
     This is a regular paragraph.
-  </p>
+  </p>,
   <p>
     This is another regular paragraph.
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should skip inline html with skipHtml option enabled 1`] = `
-<div>
-  <p>
-    I am having 
-    so
-     much fun
-  </p>
-</div>
+<p>
+  I am having 
+  so
+   much fun
+</p>
 `;
 
 exports[`should skip nodes that are defined as disallowed 1`] = `
-<div>
+Array [
   <h1>
     Header
-  </h1>
+  </h1>,
   <p>
     Paragraph
-  </p>
+  </p>,
   <h2>
     New header
-  </h2>
-  <ol />
+  </h2>,
+  <ol />,
   <p>
     Foo
-  </p>
-</div>
+  </p>,
+]
 `;
 
 exports[`should skip nodes that are not defined as allowed 1`] = `
-<div>
+Array [
   <p>
     Paragraph
-  </p>
+  </p>,
   <ol>
     <li>
       List item
@@ -2024,41 +1950,37 @@ exports[`should skip nodes that are not defined as allowed 1`] = `
     <li>
       List item 2
     </li>
-  </ol>
-</div>
+  </ol>,
+]
 `;
 
 exports[`should unwrap child nodes from disallowed nodes, if unwrapDisallowed option is enabled 1`] = `
-<div>
-  <p>
-    Espen 
-    <del>
-      initiated
-    </del>
-     had the initial commit
-    , but has had several 
-    contributors
-  </p>
-</div>
+<p>
+  Espen 
+  <del>
+    initiated
+  </del>
+   had the initial commit
+  , but has had several 
+  contributors
+</p>
 `;
 
 exports[`should use target attribute for links if specified 1`] = `
-<div>
-  <p>
-    This is 
-    <a
-      href="https://espen.codes/"
-      target="_blank"
-    >
-      a link
-    </a>
-     to Espen.Codes.
-  </p>
-</div>
+<p>
+  This is 
+  <a
+    href="https://espen.codes/"
+    target="_blank"
+  >
+    a link
+  </a>
+   to Espen.Codes.
+</p>
 `;
 
 exports[`supports checkbox lists 1`] = `
-<div>
+Array [
   <ul>
     <li>
       <input
@@ -2076,8 +1998,8 @@ exports[`supports checkbox lists 1`] = `
       />
       Bar
     </li>
-  </ul>
-  <hr />
+  </ul>,
+  <hr />,
   <ul>
     <li>
       Foo
@@ -2085,8 +2007,8 @@ exports[`supports checkbox lists 1`] = `
     <li>
       Bar
     </li>
-  </ul>
-</div>
+  </ul>,
+]
 `;
 
 exports[`uses passed classname for root component 1`] = `
