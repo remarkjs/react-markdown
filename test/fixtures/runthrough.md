@@ -154,4 +154,17 @@ Some characters, like &aelig;, &amp; and similar should be handled properly.
 
 Does anyone actually like the fact that you can embed HTML in markdown?
 
-<p>Well, you can put blocks of HTML in here. It'll kind of work.</p>
+<iframe
+  src="https://foo.bar/"
+  width="640"
+  height="480"
+/>
+
+We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
+<code>code</code>, as long as it doesn't contain any <span class="attrs">attributes</span>. If you
+have weird ordering on your tags, it won't work either. It does support <strong>nested
+<em>tags</em>, however</strong>. And with the <code class="name">html-parser</code> plugin, it can now properly handle HTML! Which is pretty sweet.
+
+<hr /><hr />
+
+Cool, eh?

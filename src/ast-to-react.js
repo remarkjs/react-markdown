@@ -185,6 +185,11 @@ function assignDefined(target, attrs) {
 
 function mergeNodeChildren(reactNode, parsedChildren) {
   const el = reactNode.element
+  if (Array.isArray(el)) {
+    const Fragment = React.Fragment || 'div'
+    return React.createElement(Fragment, null, el)
+  }
+
   const children = (el.props.children || []).concat(parsedChildren)
   return React.cloneElement(el, null, children)
 }
