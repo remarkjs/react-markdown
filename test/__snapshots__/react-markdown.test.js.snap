@@ -989,6 +989,20 @@ exports[`should handle links with title attribute 1`] = `
 </div>
 `;
 
+exports[`should handle links with uppercase protocol 1`] = `
+<div>
+  <p>
+    This is 
+    <a
+      href="HTTPS://ESPEN.CODES/"
+    >
+      a link
+    </a>
+     to Espen.Codes.
+  </p>
+</div>
+`;
+
 exports[`should handle links without title attribute 1`] = `
 <div>
   <p>

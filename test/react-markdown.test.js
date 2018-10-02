@@ -58,6 +58,12 @@ test('should handle links with title attribute', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should handle links with uppercase protocol', () => {
+  const input = 'This is [a link](HTTPS://ESPEN.CODES/) to Espen.Codes.'
+  const component = renderer.create(<Markdown source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle links with custom uri transformer', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
   const transform = uri => uri.replace(/^https?:/, '')
