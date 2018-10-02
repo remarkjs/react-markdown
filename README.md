@@ -43,6 +43,7 @@ ReactDOM.render(
 Should be straightforward. You might need to alter you code slightly if you:
 - Are using `allowedTypes` (add `text` to the list)
 - Rely on there being a container `<div>` without a class name around your rendered markdown
+- Have implemented a custom `text` renderer
 
 See [CHANGELOG](CHANGELOG.md) for more details. 
 
