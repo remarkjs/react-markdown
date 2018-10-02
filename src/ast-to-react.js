@@ -153,7 +153,9 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     case 'reactNode':
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
-      props.element = mergeNodeChildren(node, (node.children || []).map((child, i) => astToReact(child, opts, {node, props}, i)))
+      props.element = mergeNodeChildren(node, (node.children || []).map(
+        (child, i) => astToReact(child, opts, {node, props}, i))
+      )
       break
     default:
       assignDefined(
