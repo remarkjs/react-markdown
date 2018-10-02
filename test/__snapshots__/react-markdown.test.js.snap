@@ -722,6 +722,58 @@ exports[`should be able to render inline html in totally unsatisfying, weird way
 </div>
 `;
 
+exports[`should be able to render inline html properly with HTML parser plugin 1`] = `
+<div>
+  <p>
+    I am having 
+    <span
+      className="foo"
+    >
+      so
+    </span>
+     much fun
+  </p>
+</div>
+`;
+
+exports[`should be able to render inline html with nested markdown properly with HTML parser plugin 1`] = `
+<div>
+  <p>
+    I am having 
+    <span
+      className="foo"
+    >
+      <em>
+        so
+      </em>
+    </span>
+     much fun
+  </p>
+</div>
+`;
+
+exports[`should be able to render inline html with self-closing tags properly with HTML parser plugin 1`] = `
+<div>
+  <p>
+    I am having 
+    <wbr />
+     so much fun
+  </p>
+</div>
+`;
+
+exports[`should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin 1`] = `
+<div>
+  <p>
+    I am having 
+    <wbr
+      className="foo"
+    />
+     so much fun
+  </p>
+</div>
+`;
+
 exports[`should call function to get target attribute for links if specified 1`] = `
 <div>
   <p>
@@ -737,7 +789,39 @@ exports[`should call function to get target attribute for links if specified 1`]
 </div>
 `;
 
+exports[`should escape html blocks by default (with HTML parser plugin) 1`] = `
+<div>
+  <p>
+    This is a regular paragraph.
+  </p>
+  &lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Foo&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+  <p>
+    This is another regular paragraph.
+  </p>
+</div>
+`;
+
 exports[`should escape html blocks by default 1`] = `
+<div>
+  <p>
+    This is a regular paragraph.
+  </p>
+  &lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Foo&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+  <p>
+    This is another regular paragraph.
+  </p>
+</div>
+`;
+
+exports[`should escape html blocks if escapeHtml prop is set (with HTML parser plugin) 1`] = `
 <div>
   <p>
     This is a regular paragraph.
@@ -853,6 +937,32 @@ exports[`should handle html blocks 1`] = `
 </div>
 `;
 
+exports[`should handle html blocks with HTML parser plugin 1`] = `
+<div>
+  <p>
+    This is a regular paragraph.
+  </p>
+  <table>
+    
+    
+    <tr>
+      
+        
+      <td>
+        Foo
+      </td>
+      
+    
+    </tr>
+    
+
+  </table>
+  <p>
+    This is another regular paragraph.
+  </p>
+</div>
+`;
+
 exports[`should handle image references with custom uri transformer 1`] = `
 <div>
   <p>
@@ -927,6 +1037,17 @@ exports[`should handle inline html with escapeHtml option enabled 1`] = `
     so
     &lt;/strong&gt;
      much fun
+  </p>
+</div>
+`;
+
+exports[`should handle invalid HTML with HTML parser plugin 1`] = `
+<div>
+  <p>
+    I am having 
+    <div />
+     so much
+     fun
   </p>
 </div>
 `;
@@ -1288,6 +1409,17 @@ exports[`should set source position attributes if sourcePos option is enabled 1`
     data-sourcepos="5:1-5:4"
   >
     Bar
+  </p>
+</div>
+`;
+
+exports[`should skip html blocks if skipHtml prop is set (with HTML parser plugin) 1`] = `
+<div>
+  <p>
+    This is a regular paragraph.
+  </p>
+  <p>
+    This is another regular paragraph.
   </p>
 </div>
 `;

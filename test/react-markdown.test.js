@@ -8,6 +8,7 @@ const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
 const shortcodes = require('remark-shortcodes')
 const Markdown = require('../src/react-markdown')
+const htmlParser = require('../src/plugins/html-parser');
 
 const render = input => renderer.create(<Markdown source={input} />).toJSON().children
 const renderHTML = input => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
@@ -253,10 +254,49 @@ test('should be able to render basic inline html without containers', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
-// @todo need better handling of inline HTML. hard. need help. plz help.
 test('should be able to render inline html in totally unsatisfying, weird ways', () => {
   const input = 'I am having <span class="foo">so</span> much fun'
   const component = renderer.create(<Markdown source={input} escapeHtml={false} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should be able to render inline html properly with HTML parser plugin', () => {
+  const input = 'I am having <span class="foo">so</span> much fun'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should be able to render inline html with nested markdown properly with HTML parser plugin', () => {
+  const input = 'I am having <span class="foo">*so*</span> much fun'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should be able to render inline html with self-closing tags properly with HTML parser plugin', () => {
+  const input = 'I am having <wbr/> so much fun'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin', () => {
+  const input = 'I am having <wbr class="foo"/> so much fun'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should handle invalid HTML with HTML parser plugin', () => {
+  const input = 'I am having <div> so much</em> fun'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -295,7 +335,51 @@ test('should skip html blocks if skipHtml prop is set', () => {
     ' regular paragraph.'
   ].join('')
 
-  const component = renderer.create(<Markdown source={input} skipHtml />)
+  const component = renderer.create(<Markdown source={input} escapeHtml={false} skipHtml />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should skip html blocks if skipHtml prop is set (with HTML parser plugin)', () => {
+  const input = [
+    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
+    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
+    ' regular paragraph.'
+  ].join('')
+
+  const component = renderer.create(<Markdown source={input} escapeHtml={false} skipHtml astPlugins={[htmlParser()]} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should escape html blocks if escapeHtml prop is set (with HTML parser plugin)', () => {
+  const input = [
+    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
+    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
+    ' regular paragraph.'
+  ].join('')
+
+  const component = renderer.create(<Markdown source={input} escapeHtml astPlugins={[htmlParser()]} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should escape html blocks by default (with HTML parser plugin)', () => {
+  const input = [
+    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
+    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
+    ' regular paragraph.'
+  ].join('')
+
+  const component = renderer.create(<Markdown source={input} astPlugins={[htmlParser()]} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should handle html blocks with HTML parser plugin', () => {
+  const input = [
+    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
+    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
+    ' regular paragraph.'
+  ].join('')
+
+  const component = renderer.create(<Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -427,6 +511,12 @@ describe('should skip nodes that are defined as disallowed', () => {
       )
     })
   })
+})
+
+test('should throw if html parser is used without config', () => {
+  expect(() => {
+    renderHTML(<Markdown source="" astPlugins={[htmlParser]} />)
+  }).toThrow(/called before use/i)
 })
 
 test('should throw if both allowed and disallowed types is specified', () => {
