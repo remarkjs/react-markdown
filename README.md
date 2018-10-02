@@ -38,6 +38,14 @@ ReactDOM.render(
 )
 ```
 
+## Upgrading to 4.0
+
+Should be straightforward. You might need to alter you code slightly if you:
+- Are using `allowedTypes` (add `text` to the list)
+- Rely on there being a container `<div>` without a class name around your rendered markdown
+
+See [CHANGELOG](CHANGELOG.md) for more details. 
+
 ## Notes
 
 If you don't need to render HTML, this component does not use `dangerouslySetInnerHTML` at all -
