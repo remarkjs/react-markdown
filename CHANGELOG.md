@@ -6,7 +6,9 @@ All notable changes will be documented in this file.
 
 ### BREAKING
 
+* On React >= 16.2, if no `className` prop is provided, a fragment will be used instead of a div. To always render a div, pass `'div'` as the `root` renderer.
 * On React >= 16.2, escaped HTML will no longer be rendered with div/span containers
+* The UMD bundle now exports the component as `window.ReactMarkdown` instead of `window.reactMarkdown`
 
 ## 3.6.0 - 2018-09-05
 
