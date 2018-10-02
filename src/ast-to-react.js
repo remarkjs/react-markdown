@@ -9,10 +9,6 @@ function astToReact(node, options, parent = {}, index = 0) {
   const pos = node.position.start
   const key = [node.type, pos.line, pos.column].join('-')
 
-  if (node.type === 'text') {
-    return renderer ? renderer(node.value, key) : node.value
-  }
-
   if (typeof renderer !== 'function' && typeof renderer !== 'string' && !isReactFragment(renderer)) {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
@@ -65,6 +61,10 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
   switch (node.type) {
     case 'root':
       assignDefined(props, {className: opts.className})
+      break
+    case 'text':
+      props.nodeKey = key
+      props.children = node.value
       break
     case 'heading':
       props.level = node.depth
@@ -150,7 +150,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
       break
-    case 'reactNode':
+    case 'parsedHtml':
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
       props.element = mergeNodeChildren(node, (node.children || []).map(
@@ -183,8 +183,8 @@ function assignDefined(target, attrs) {
   }
 }
 
-function mergeNodeChildren(reactNode, parsedChildren) {
-  const el = reactNode.element
+function mergeNodeChildren(node, parsedChildren) {
+  const el = node.element
   if (Array.isArray(el)) {
     const Fragment = React.Fragment || 'div'
     return React.createElement(Fragment, null, el)

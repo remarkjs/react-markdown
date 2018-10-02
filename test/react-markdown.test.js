@@ -408,7 +408,7 @@ test('should pass on raw source position to non-tag renderers if rawSourcePos op
 
 test('should skip nodes that are not defined as allowed', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
-  const allowed = ['paragraph', 'list', 'listItem']
+  const allowed = ['paragraph', 'list', 'listItem', 'text']
   const component = renderer.create(<Markdown source={input} allowedTypes={allowed} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -692,15 +692,15 @@ test('supports checkbox lists', () => {
 
 test('should be able to override text renderer', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
-  const textRenderer = text => text.toUpperCase()
+  const textRenderer = props => props.children.toUpperCase()
   const component = renderer.create(<Markdown source={input} renderers={{text: textRenderer}} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should pass the key to an overriden text renderer', () => {
-  const textRenderer = (text, key) => {
-    expect(key).toEqual('text-1-1');
-    return <marquee key={key}>{text}</marquee>;
+  const textRenderer = (props) => {
+    expect(props.nodeKey).toEqual('text-1-1');
+    return <marquee key={props.nodeKey}>{props.children}</marquee>;
   }
 
   renderer.create(<Markdown source={'foo'} renderers={{ text: textRenderer }} />)

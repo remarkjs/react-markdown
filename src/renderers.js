@@ -24,6 +24,7 @@ module.exports = {
   tableCell: TableCell,
 
   root: Root,
+  text: TextRenderer,
   list: List,
   listItem: ListItem,
   definition: NullRenderer,
@@ -32,7 +33,11 @@ module.exports = {
   code: CodeBlock,
   html: Html,
   virtualHtml: VirtualHtml,
-  reactNode: ReactNode
+  parsedHtml: ParsedHtml
+}
+
+function TextRenderer(props) {
+  return props.children
 }
 
 function Root(props) {
@@ -103,7 +108,7 @@ function Html(props) {
   return createElement(tag, nodeProps)
 }
 
-function ReactNode(props) {
+function ParsedHtml(props) {
   return props['data-sourcepos']
     ? React.cloneElement(props.element, {'data-sourcepos': props['data-sourcepos']})
     : props.element

@@ -9,7 +9,7 @@ const visit = require('unist-util-visit')
 const HtmlToReact = require('html-to-react')
 const symbols = require('../symbols')
 
-const type = 'reactNode'
+const type = 'parsedHtml'
 const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i
 const closingTagRe = /^<\/([a-z]+)\s*>$/
 
@@ -70,7 +70,7 @@ function parseHtml(config, tree, props) {
       const matching = findAndPull(open, current.tag)
 
       if (matching) {
-        parent.children.splice(index, 0, reactNode(current, matching, parent))
+        parent.children.splice(index, 0, parsedHtml(current, matching, parent))
       } else if (!current.opening) {
         open.push(current)
       }
@@ -151,7 +151,7 @@ function getSelfClosingTagName(node) {
   return match ? match[1] : false
 }
 
-function reactNode(fromNode, toNode, parent) {
+function parsedHtml(fromNode, toNode, parent) {
   const fromIndex = parent.children.indexOf(fromNode.node)
   const toIndex = parent.children.indexOf(toNode.node)
 
