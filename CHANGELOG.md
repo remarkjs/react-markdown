@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.1 - 2018-10-03
+
+### Fixes
+
+* [TypeScript] Fix TypeScript index signature for renderers (Linus Unnebäck)
+
 ## 4.0.0 - 2018-10-03
 
 ### BREAKING
