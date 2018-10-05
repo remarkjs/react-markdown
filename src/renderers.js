@@ -3,6 +3,8 @@
 
 const xtend = require('xtend')
 const React = require('react')
+
+const supportsStringRender = parseInt((React.version || '16').slice(0, 2), 10) >= 16
 const createElement = React.createElement
 
 module.exports = {
@@ -37,7 +39,9 @@ module.exports = {
 }
 
 function TextRenderer(props) {
-  return props.children
+  return supportsStringRender
+    ? props.children
+    : createElement('span', null, props.children)
 }
 
 function Root(props) {

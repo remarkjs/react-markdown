@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.2 - 2018-10-05
+
+### Fixes
+
+* Fix text rendering in React versions lower than or equal to 15 (Espen Hovlandsdal)
+
 ## 4.0.1 - 2018-10-03
 
 ### Fixes
