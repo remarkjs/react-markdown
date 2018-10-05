@@ -1,6 +1,6 @@
 const React = require('react')
-const CodeMirror = window.CodeMirrorEditor
 const PropTypes = require('prop-types')
+const CodeMirror = require('./codemirror')
 
 function Editor(props) {
   return (
