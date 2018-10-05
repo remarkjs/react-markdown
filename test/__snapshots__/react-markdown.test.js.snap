@@ -1742,6 +1742,25 @@ exports[`should handle tight, unordered lists with sublists 1`] = `
 </ul>
 `;
 
+exports[`should not process tokens that are defined to ignore 1`] = `
+<div>
+  <p>
+    # Header
+  </p>
+  <p>
+    Paragraph
+## New header
+1. List item
+2. List item 2
+  </p>
+  <p>
+    \`code\`
+__italic__
+**bold**
+  </p>
+</div>
+`;
+
 exports[`should only use first language definition on code blocks 1`] = `
 <pre>
   <code

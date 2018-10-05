@@ -406,6 +406,41 @@ test('should pass on raw source position to non-tag renderers if rawSourcePos op
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should not process tokens that are defined to ignore', () => {
+  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\n`code`\n__italic__\n**bold**'
+  const ignore = [
+    // blockMethods
+    // 'newline',
+    'indentedCode',
+    'fencedCode',
+    'blockquote',
+    'atxHeading',
+    'thematicBreak',
+    // 'list',
+    'setextHeading',
+    // 'html',
+    'footnote',
+    'definition',
+    'table',
+    // 'paragraph',
+    // inlineMethods
+    // 'escape',
+    'autoLink',
+    'url',
+    // 'html',
+    'link',
+    'reference',
+    'strong',
+    'emphasis',
+    'deletion',
+    'code',
+    'break',
+    // 'text'
+  ]
+  const component = renderer.create(<Markdown source={input} ignoreTokens={ignore} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should skip nodes that are not defined as allowed', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
   const allowed = ['paragraph', 'list', 'listItem', 'text']
