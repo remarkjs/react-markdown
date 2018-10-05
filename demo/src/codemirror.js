@@ -1,4 +1,5 @@
 const React = require('react')
+const PropTypes = require('prop-types')
 const CodeMirror = window.CodeMirror
 
 // adapted from:
@@ -75,15 +76,20 @@ class CodeMirrorEditor extends React.Component {
       readOnly: this.props.readOnly,
       defaultValue: this.props.defaultValue,
       onChange: this.props.onChange,
-      style: this.props.textAreaStyle,
-      className: this.props.textAreaClassName || this.props.textAreaClass
+      className: this.props.textAreaClassName
     })
 
-    return React.createElement('div', {
-      style: this.props.style,
-      className: this.props.className
-    }, editor);
+    return React.createElement('div', null, editor);
   }
+}
+
+CodeMirrorEditor.propTypes = {
+  readOnly: PropTypes.bool,
+  defaultValue: PropTypes.string,
+  textAreaClassName: PropTypes.string,
+  onChange: PropTypes.func,
+  forceTextArea: PropTypes.bool,
+  value: PropTypes.string
 }
 
 module.exports = CodeMirrorEditor
