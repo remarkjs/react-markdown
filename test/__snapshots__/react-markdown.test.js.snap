@@ -186,7 +186,9 @@ Array [
       </p>
     </li>
     <li>
-      bar
+      <p>
+        bar
+      </p>
     </li>
   </ul>,
   <h2>
@@ -657,7 +659,9 @@ Array [
       </p>
     </li>
     <li>
-      bar
+      <p>
+        bar
+      </p>
     </li>
   </ul>,
   <h2>
@@ -1618,7 +1622,9 @@ exports[`should handle loose, unordered lists 1`] = `
     </p>
   </li>
   <li>
-    bar
+    <p>
+      bar
+    </p>
   </li>
 </ul>
 `;

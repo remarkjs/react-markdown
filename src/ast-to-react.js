@@ -80,7 +80,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.tight = !node.loose
       props.ordered = node.ordered
       props.index = node.index
-      props.children = (props.tight ? unwrapParagraphs(node) : node.children).map((childNode, i) => {
+      props.children = getListItemChildren(node, parent).map((childNode, i) => {
         return astToReact(childNode, opts, {node: node, props: props}, i)
       })
       break
@@ -198,6 +198,18 @@ function flattenPosition(pos) {
   return [pos.start.line, ':', pos.start.column, '-', pos.end.line, ':', pos.end.column]
     .map(String)
     .join('')
+}
+
+function getListItemChildren(node, parent) {
+  if (node.loose) {
+    return node.children;
+  }
+
+  if (parent.node && node.index > 0 && parent.node.children[node.index - 1].loose) {
+    return node.children;
+  }
+
+  return unwrapParagraphs(node);
 }
 
 function unwrapParagraphs(node) {
