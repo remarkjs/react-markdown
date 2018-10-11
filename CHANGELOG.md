@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.3 - 2018-10-11
+
+### Fixes
+
+* Output paragraph element for last item in loose list (Jeremy Moseley)
+
 ## 4.0.2 - 2018-10-05
 
 ### Fixes
