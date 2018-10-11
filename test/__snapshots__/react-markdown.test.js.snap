@@ -75,15 +75,33 @@ Array [
   <h2>
     Blockquotes
   </h2>,
-  <blockquote>
+  <blockquote
+    style={
+      Object {
+        "whiteSpace": "pre-line",
+      }
+    }
+  >
     <p>
       Blockquotes can also be nested...
     </p>
-    <blockquote>
+    <blockquote
+      style={
+        Object {
+          "whiteSpace": "pre-line",
+        }
+      }
+    >
       <p>
         ...by using additional greater-than signs right next to each other...
       </p>
-      <blockquote>
+      <blockquote
+        style={
+          Object {
+            "whiteSpace": "pre-line",
+          }
+        }
+      >
         <p>
           ...or with spaces between arrows.
         </p>
@@ -546,15 +564,33 @@ Array [
   <h2>
     Blockquotes
   </h2>,
-  <blockquote>
+  <blockquote
+    style={
+      Object {
+        "whiteSpace": "pre-line",
+      }
+    }
+  >
     <p>
       Blockquotes can also be nested...
     </p>
-    <blockquote>
+    <blockquote
+      style={
+        Object {
+          "whiteSpace": "pre-line",
+        }
+      }
+    >
       <p>
         ...by using additional greater-than signs right next to each other...
       </p>
-      <blockquote>
+      <blockquote
+        style={
+          Object {
+            "whiteSpace": "pre-line",
+          }
+        }
+      >
         <p>
           ...or with spaces between arrows.
         </p>
@@ -1037,7 +1073,13 @@ Array [
       XSS links
     </a>
   </p>,
-  <blockquote>
+  <blockquote
+    style={
+      Object {
+        "whiteSpace": "pre-line",
+      }
+    }
+  >
     <p>
       And 
       <a
@@ -1365,7 +1407,13 @@ Array [
 `;
 
 exports[`should handle blockquotes 1`] = `
-<blockquote>
+<blockquote
+  style={
+    Object {
+      "whiteSpace": "pre-line",
+    }
+  }
+>
   <p>
     Moo
 Tools
@@ -1660,8 +1708,20 @@ And so is markdown
 `;
 
 exports[`should handle nested blockquotes 1`] = `
-<blockquote>
-  <blockquote>
+<blockquote
+  style={
+    Object {
+      "whiteSpace": "pre-line",
+    }
+  }
+>
+  <blockquote
+    style={
+      Object {
+        "whiteSpace": "pre-line",
+      }
+    }
+  >
     <p>
       Lots of ex-Mootoolers on the React team
     </p>
@@ -1669,7 +1729,13 @@ exports[`should handle nested blockquotes 1`] = `
   <p>
     Totally didn't know that.
   </p>
-  <blockquote>
+  <blockquote
+    style={
+      Object {
+        "whiteSpace": "pre-line",
+      }
+    }
+  >
     <p>
       There's a reason why it turned out so awesome
     </p>

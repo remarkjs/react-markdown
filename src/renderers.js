@@ -13,7 +13,7 @@ module.exports = {
   emphasis: 'em',
   strong: 'strong',
   thematicBreak: 'hr',
-  blockquote: 'blockquote',
+  blockquote: BlockQuote,
   delete: 'del',
   link: 'a',
   image: 'img',
@@ -66,6 +66,15 @@ function TableCell(props) {
 
 function Heading(props) {
   return createElement(`h${props.level}`, getCoreProps(props), props.children)
+}
+
+function BlockQuote(props) {
+  const style = {whiteSpace: "pre-line"}
+  const coreProps = getCoreProps(props)
+  return createElement(
+    'blockquote', xtend({style}, coreProps),
+    props.children
+  )
 }
 
 function List(props) {
