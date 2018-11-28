@@ -45,7 +45,7 @@ Should be straightforward. You might need to alter you code slightly if you:
 - Rely on there being a container `<div>` without a class name around your rendered markdown
 - Have implemented a custom `text` renderer
 
-See [CHANGELOG](CHANGELOG.md) for more details. 
+See [CHANGELOG](CHANGELOG.md) for more details.
 
 ## Notes
 
@@ -135,33 +135,35 @@ const parseHtml = htmlParser({
 The node types available are the following, and applies to both `renderers` and
 `allowedTypes`/`disallowedTypes`:
 
-* `root` - Root container element that contains the rendered markdown
-* `text` - Text rendered inside of other elements, such as paragraphs
-* `break` - Hard-break (`<br>`)
-* `paragraph` - Paragraph (`<p>`)
-* `emphasis` - Emphasis (`<em>`)
-* `strong` - Strong/bold (`<strong>`)
-* `thematicBreak` - Horizontal rule / thematic break (`<hr>`)
-* `blockquote` - Block quote (`<blockquote>`)
-* `delete` - Deleted/strike-through (`<del>`)
-* `link` - Link (`<a>`)
-* `image` - Image (`<img>`)
-* `linkReference` - Link (through a reference) (`<a>`)
-* `imageReference` - Image (through a reference) (`<img>`)
-* `table` - Table (`<table>`)
-* `tableHead` - Table head (`<thead>`)
-* `tableBody` - Table body (`<tbody>`)
-* `tableRow` - Table row (`<tr>`)
-* `tableCell` - Table cell (`<td>`/`<th>`)
-* `list` - List (`<ul>`/`<ol>`)
-* `listItem` - List item (`<li>`)
-* `definition` - Definition (not rendered by default)
-* `heading` - Heading (`<h1>`-`<h6>`)
-* `inlineCode` - Inline code (`<code>`)
-* `code` - Block of code (`<pre><code>`)
-* `html` - HTML node (Best-effort rendering)
-* `virtualHtml` - When not using the HTML parser plugin, a cheap and dirty approach to supporting simple HTML elements without a complete parser.
-* `parsedHtml` - When using the HTML parser plugin, HTML parsed to a React element.
+| Node type        | Description                                                                                                                     | Default tag                     | Props                              |
+|------------------|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------|------------------------------------|
+| `root`           | Root container element that contains the rendered markdown                                                                      | `React.Fragment` or `div`       | `children`                         |
+| `text`           | Text rendered inside of other elements, such as paragraphs                                                                      | none or `span`                  | `children`                         |
+| `break`          | Hard-break                                                                                                                      | `<br>`                          | `children`                         |
+| `paragraph`      | Paragraph                                                                                                                       | `<p>`                           | `children`                         |
+| `emphasis`       | Emphasis                                                                                                                        | `<em>`                          | `children`                         |
+| `strong`         | Strong/bold                                                                                                                     | `<strong>`                      | `children`                         |
+| `thematicBreak`  | Horizontal rule / thematic break                                                                                                | `<hr>`                          | `children`                         |
+| `blockquote`     | Block quote                                                                                                                     | `<blockquote>`                  | `children`                         |
+| `delete`         | Deleted/strike-through                                                                                                          | `<del>`                         | `children`                         |
+| `link`           | Link                                                                                                                            | `<a>`                           | `children`                         |
+| `image`          | Image                                                                                                                           | `<img>`                         | `children`                         |
+| `linkReference`  | Link (through a reference)                                                                                                      | `<a>`                           | `children`                         |
+| `imageReference` | Image (through a reference)                                                                                                     | `<img>`                         | `children`                         |
+| `table`          | Table                                                                                                                           | `<table>`                       | `children`                         |
+| `tableHead`      | Table head                                                                                                                      | `<thead>`                       | `children`                         |
+| `tableBody`      | Table body                                                                                                                      | `<tbody>`                       | `children`                         |
+| `tableRow`       | Table row                                                                                                                       | `<tr>`                          | `children`                         |
+| `tableCell`      | Table cell                                                                                                                      | `<td>`/`<th>`                   | `children`                         |
+| `list`           | List                                                                                                                            | `<ul>`/`<ol>`                   | `children`, `ordered`, `start`     |
+| `listItem`       | List item                                                                                                                       | `<li>`                          | `children`, `checked`              |
+| `definition`     | Definition (not rendered by default)                                                                                            | `null`                          | `null`                             |
+| `heading`        | Heading                                                                                                                         | `<h1>`-`<h6>`                   | `children`, `level`                |
+| `inlineCode`     | Inline code                                                                                                                     | `<code>`                        | `children`                         |
+| `code`           | Block of code                                                                                                                   | `<pre><code>`                   | `children`, `language`             |
+| `html`           | HTML node (dangerouslySetInnerHTML in either a div or span based on the `isBlock` prop)                                         | `React.Fragment`, `div`, `span` | `children`, `skipHtml`, `isBlock`, |
+| `virtualHtml`    | When not using the HTML parser plugin, a cheap and dirty approach to supporting simple HTML elements without a complete parser. | as per the `tag` prop           | `children`, `tag`                  |
+| `parsedHtml`     | When using the HTML parser plugin, HTML parsed to a React element.                                                              | as per the `element` prop       | `element`                          |
 
 Note: Disallowing a node will also prevent the rendering of any children of that node, unless the
 `unwrapDisallowed` option is set to `true`. E.g., disallowing a paragraph will not render its
