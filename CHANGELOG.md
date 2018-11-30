@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.4 - 2018-11-30
+
+### Changed
+
+* Upgrade dependencies (Espen Hovlandsdal)
+
 ## 4.0.3 - 2018-10-11
 
 ### Fixes
