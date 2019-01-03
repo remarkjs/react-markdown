@@ -181,14 +181,10 @@ Array [
   </p>,
   <ul>
     <li>
-      <p>
-        foo
-      </p>
+      foo
     </li>
     <li>
-      <p>
-        bar
-      </p>
+      bar
     </li>
   </ul>,
   <h2>
@@ -654,14 +650,10 @@ Array [
   </p>,
   <ul>
     <li>
-      <p>
-        foo
-      </p>
+      foo
     </li>
     <li>
-      <p>
-        bar
-      </p>
+      bar
     </li>
   </ul>,
   <h2>
@@ -1617,14 +1609,10 @@ exports[`should handle links without title attribute 1`] = `
 exports[`should handle loose, unordered lists 1`] = `
 <ul>
   <li>
-    <p>
-      foo
-    </p>
+    foo
   </li>
   <li>
-    <p>
-      bar
-    </p>
+    bar
   </li>
 </ul>
 `;
@@ -1632,9 +1620,7 @@ exports[`should handle loose, unordered lists 1`] = `
 exports[`should handle loose, unordered lists with sublists 1`] = `
 <ul>
   <li>
-    <p>
-      foo
-    </p>
+    foo
     <ul>
       <li>
         bar
