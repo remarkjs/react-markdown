@@ -2,6 +2,14 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.6 - 2019-01-04
+
+### Fixes
+
+* Mitigate regex ddos by upgrading html-to-react (Christoph Werner)
+* Update typings to allow arbitrary node types (Jesse Pinho)
+* Readme: Add note about only parsing plugins working (Vincent Tunru)
+
 ## 4.0.4 - 2018-11-30
 
 ### Changed
