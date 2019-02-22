@@ -167,6 +167,24 @@ Note: Disallowing a node will also prevent the rendering of any children of that
 `unwrapDisallowed` option is set to `true`. E.g., disallowing a paragraph will not render its
 children text nodes.
 
+## Line Breaking
+
+There are different ways of line breaking; you can use two whitespaces for a single line break, or (```&nbsp;``` + two whitespaces) for multiple whitespaces.
+
+eg.
+
+```js
+This is a paragraph with two whitespace in the end.
+New paragraph.
+```
+
+```js
+This is a paragraph
+&nbsp;  
+&nbsp;  
+with multiple withespaces.
+```
+
 ## Developing
 
 ```bash
