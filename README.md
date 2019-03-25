@@ -107,7 +107,7 @@ This block of Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTM
 <ReactMarkdown
   source={markdown}
   escapeHtml={false}
->
+/>
 ```
 
 If you want to specify options for the HTML parsing step, you can instead import the HTML parser plugin directly:
@@ -127,7 +127,7 @@ const parseHtml = htmlParser({
   source={markdown}
   escapeHtml={false}
   astPlugins={[parseHtml]}
->
+/>
 ```
 
 ## Node types
