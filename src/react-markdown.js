@@ -154,7 +154,7 @@ ReactMarkdown.propTypes = {
   renderers: PropTypes.object,
   plugins: PropTypes.array,
   webWorker: PropTypes.shape({
-    addEventListener: PropTypes.func.isRequired,
+    onmessage: PropTypes.func.isRequired,
     postMessage: PropTypes.func.isRequired
   })
 }
