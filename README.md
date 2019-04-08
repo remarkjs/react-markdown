@@ -130,6 +130,24 @@ const parseHtml = htmlParser({
 />
 ```
 
+## Using web workers
+
+If you want to do the parsing in web workers, import `react-markdown/with-web-worker` instead of the default:
+
+```js
+const ReactMarkdown = require('react-markdown/with-web-worker')
+
+const markdown = ```# Obsessa medio
+
+## Matrisque spatium paene
+
+Lorem markdownum. Acta ab aegida, saucia, iuvenemque rex et auras possunt per.```
+
+<ReactMarkdown source={markdown} />
+```
+
+Since function objects cannot be duplicated by the structured clone algorithm it is not possible to pass the list of plugins to the web worker.
+
 ## Node types
 
 The node types available are the following, and applies to both `renderers` and

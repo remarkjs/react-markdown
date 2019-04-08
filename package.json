@@ -72,7 +72,8 @@
     "uglify-js": "^3.4.5",
     "webpack": "^4.26.1",
     "webpack-bundle-analyzer": "^3.0.2",
-    "webpack-cli": "^3.1.1"
+    "webpack-cli": "^3.1.1",
+    "worker-loader": "^2.0.0"
   },
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0"

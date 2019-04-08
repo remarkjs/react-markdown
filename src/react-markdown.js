@@ -1,5 +1,6 @@
 'use strict'
 
+const React = require('react');
 const xtend = require('xtend')
 const unified = require('unified')
 const parse = require('remark-parse')
@@ -16,28 +17,75 @@ const symbols = require('./symbols')
 
 const allTypes = Object.keys(defaultRenderers)
 
-const ReactMarkdown = function ReactMarkdown(props) {
-  const src = props.source || props.children || ''
-
-  if (props.allowedTypes && props.disallowedTypes) {
-    throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
+class ReactMarkdown extends React.Component {
+  constructor(props) {
+    super(props)
+    if ('webWorker' in props) {
+      this.state = { rawAst: null }
+    } else {
+      this.state = { rawAst: this.parse() }
+    }
   }
 
-  const renderers = xtend(defaultRenderers, props.renderers)
+  getSource() {
+    return this.props.source || this.props.children || ''
+  }
 
-  const plugins = [parse].concat(props.plugins || [])
-  const parser = plugins.reduce(applyParserPlugin, unified())
+  parse() {
+    const plugins = [parse].concat(this.props.plugins || [])
+    const parser = plugins.reduce(applyParserPlugin, unified())
+    return parser.parse(this.getSource())
+  }
 
-  const rawAst = parser.parse(src)
-  const renderProps = xtend(props, {
-    renderers: renderers,
-    definitions: getDefinitions(rawAst)
-  })
+  parseWebWorker() {
+    this.props.webWorker.onmessage = ({ data: rawAst }) => this.setState({ rawAst })
+    this.props.webWorker.postMessage(this.getSource())
+  }
 
-  const astPlugins = determineAstPlugins(props)
-  const ast = astPlugins.reduce((node, plugin) => plugin(node, renderProps), rawAst)
+  componentDidMount() {
+    if ('webWorker' in this.props) {
+      this.parseWebWorker();
+    }
+  }
 
-  return astToReact(ast, renderProps)
+  componentDidUpdate(prevProps) {
+    const parseProps = ['source', 'children', 'plugins']
+
+    if (parseProps.some(propName => this.props[propName] !== prevProps[propName])) {
+      if ('webWorker' in this.props) {
+        this.parseWebWorker();
+      } else {
+        this.setState({ rawAst: this.parse() })
+      }
+    }
+  }
+
+  renderAst() {
+    const renderers = xtend(defaultRenderers, this.props.renderers)
+
+    const renderProps = xtend(this.props, {
+      renderers: renderers,
+      definitions: getDefinitions(this.state.rawAst)
+    })
+
+    const astPlugins = determineAstPlugins(this.props)
+
+    const ast = astPlugins.reduce((node, plugin) => plugin(node, renderProps), this.state.rawAst)
+
+    return astToReact(ast, renderProps)
+  }
+
+  render() {
+    if (this.props.allowedTypes && this.props.disallowedTypes) {
+      throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
+    }
+
+    if (this.state.rawAst === null) {
+      return null;
+    }
+
+    return this.renderAst();
+  }
 }
 
 function applyParserPlugin(parser, plugin) {
@@ -104,7 +152,11 @@ ReactMarkdown.propTypes = {
   astPlugins: PropTypes.arrayOf(PropTypes.func),
   unwrapDisallowed: PropTypes.bool,
   renderers: PropTypes.object,
-  plugins: PropTypes.array
+  plugins: PropTypes.array,
+  webWorker: PropTypes.shape({
+    addEventListener: PropTypes.func.isRequired,
+    postMessage: PropTypes.func.isRequired
+  })
 }
 
 ReactMarkdown.types = allTypes
