@@ -150,13 +150,18 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
       break
-    case 'parsedHtml':
+    case 'parsedHtml': {
+      let parsedChildren;
+      if (node.children) {
+        parsedChildren = node.children.map(
+          (child, i) => astToReact(child, opts, {node, props}, i)
+        )
+      }
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
-      props.element = mergeNodeChildren(node, (node.children || []).map(
-        (child, i) => astToReact(child, opts, {node, props}, i))
-      )
+      props.element = mergeNodeChildren(node, parsedChildren)
       break
+    }
     default:
       assignDefined(
         props,
@@ -190,8 +195,11 @@ function mergeNodeChildren(node, parsedChildren) {
     return React.createElement(Fragment, null, el)
   }
 
-  const children = (el.props.children || []).concat(parsedChildren)
-  return React.cloneElement(el, null, children)
+  if (el.props.children || parsedChildren) {
+    const children = (el.props.children || []).concat(parsedChildren)
+    return React.cloneElement(el, null, children)
+  }
+  return React.cloneElement(el, null)
 }
 
 function flattenPosition(pos) {
