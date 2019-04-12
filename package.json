@@ -20,7 +20,7 @@
     "posttest": "eslint .",
     "prepublishOnly": "npm run qa",
     "qa": "npm test && npm run build",
-    "test": "jest --coverage",
+    "test": "jest --coverage --env=jsdom",
     "watch": "webpack --watch",
     "watch:demo": "webpack --watch --config webpack.config.demo.js"
   },
