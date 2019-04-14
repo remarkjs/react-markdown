@@ -20,7 +20,7 @@
     "posttest": "eslint .",
     "prepublishOnly": "npm run qa",
     "qa": "npm test && npm run build",
-    "test": "jest --coverage",
+    "test": "jest --coverage --env=jsdom",
     "watch": "webpack --watch",
     "watch:demo": "webpack --watch --config webpack.config.demo.js"
   },
@@ -55,6 +55,8 @@
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.20",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.12.1",
     "eslint": "^5.6.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-config-sanity": "^4.0.2",
