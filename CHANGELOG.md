@@ -2,6 +2,14 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.7 - 2019-04-14
+
+### Fixes
+
+* Fix matching of replaced non-void elements in HTML parser plugin (Nicolas Venegas)
+* Fix HTML parsing of multiple void elements (Nicolas Venegas)
+* Fix void element children invariant violation (Nicolas Venegas)
+
 ## 4.0.6 - 2019-01-04
 
 ### Fixes
