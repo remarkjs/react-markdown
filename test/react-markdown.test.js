@@ -312,6 +312,24 @@ test('should be able to render multiple inline html elements with self-closing t
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should be able to render replaced non-void html elements with HTML parser plugin', () => {
+  const input = 'I am having <code>so much</code> fun'
+  const config = {
+    isValidNode: () => true,
+    processingInstructions: [
+      {
+        shouldProcessNode: ({ name }) => name === 'code',
+        // eslint-disable-next-line react/display-name
+        processNode: (node, children) => <kbd>{children}</kbd>
+      }
+    ]
+  }
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser(config)]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle invalid HTML with HTML parser plugin', () => {
   const input = 'I am having <div> so much</em> fun'
   const component = renderer.create(
