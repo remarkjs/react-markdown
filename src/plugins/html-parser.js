@@ -63,7 +63,7 @@ function parseHtml(config, tree, props) {
       }
 
       const current = parseNode(node, config)
-      if (!current) {
+      if (!current || current.type === type) {
         return true
       }
 

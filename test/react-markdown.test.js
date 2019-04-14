@@ -297,11 +297,19 @@ test('should be able to render inline html with self-closing tags with attribute
   expect(component.toJSON()).toMatchSnapshot()
 })
 
-test('should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin via enzyme', () => {
+test('should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin (#2)', () => {
   const input = 'I am having <wbr class="foo"/> so much fun'
   Enzyme.mount(
     <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
   )
+})
+
+test('should be able to render multiple inline html elements with self-closing tags with attributes properly with HTML parser plugin', () => {
+  const input = 'I am having <wbr class="foo"/> so much <wbr class="bar"/> fun'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should handle invalid HTML with HTML parser plugin', () => {

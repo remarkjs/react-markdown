@@ -1307,6 +1307,20 @@ exports[`should be able to render inline html with self-closing tags with attrib
 </p>
 `;
 
+exports[`should be able to render multiple inline html elements with self-closing tags with attributes properly with HTML parser plugin 1`] = `
+<p>
+  I am having 
+  <wbr
+    className="foo"
+  />
+   so much 
+  <wbr
+    className="bar"
+  />
+   fun
+</p>
+`;
+
 exports[`should call function to get target attribute for links if specified 1`] = `
 <p>
   This is 
