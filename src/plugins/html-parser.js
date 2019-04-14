@@ -11,6 +11,7 @@ const symbols = require('../symbols')
 
 const type = 'parsedHtml'
 const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i
+const startTagRe = /^<([a-z]+)\b/i
 const closingTagRe = /^<\/([a-z]+)\s*>$/
 
 const parser = new HtmlToReact.Parser()
@@ -143,7 +144,9 @@ function parseNode(node, config) {
     }
   }
 
-  return {tag: el.type, opening: true, node, element: el}
+  const startTagMatch = node.value.trim().match(startTagRe)
+  const tag = startTagMatch ? startTagMatch[1] : el.type
+  return {tag, opening: true, node, element: el}
 }
 
 function getSelfClosingTagName(node) {

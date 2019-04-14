@@ -1321,6 +1321,16 @@ exports[`should be able to render multiple inline html elements with self-closin
 </p>
 `;
 
+exports[`should be able to render replaced non-void html elements with HTML parser plugin 1`] = `
+<p>
+  I am having 
+  <kbd>
+    so much
+  </kbd>
+   fun
+</p>
+`;
+
 exports[`should call function to get target attribute for links if specified 1`] = `
 <p>
   This is 
