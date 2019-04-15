@@ -1209,6 +1209,37 @@ Array [
 ]
 `;
 
+exports[`should be able to render a table with a single child with HTML parser plugin 1`] = `
+<table>
+  <tbody>
+    <tr>
+      <td>
+        I am having so much fun
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`should be able to render a table with multiple children with HTML parser plugin 1`] = `
+<table>
+  <thead>
+    <tr>
+      <th>
+        Title
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        I am having so much fun
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
 exports[`should be able to render basic inline html without containers 1`] = `
 <p>
   I am having 

@@ -196,7 +196,7 @@ function mergeNodeChildren(node, parsedChildren) {
   }
 
   if (el.props.children || parsedChildren) {
-    const children = (el.props.children || []).concat(parsedChildren)
+    const children = React.Children.toArray(el.props.children).concat(parsedChildren)
     return React.cloneElement(el, null, children)
   }
   return React.cloneElement(el, null)

@@ -312,6 +312,22 @@ test('should be able to render multiple inline html elements with self-closing t
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should be able to render a table with a single child with HTML parser plugin', () => {
+  const input = '<table><tbody><tr><td>I am having so much fun</td></tr></tbody></table>'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should be able to render a table with multiple children with HTML parser plugin', () => {
+  const input = '<table><thead><tr><th>Title</th></tr></thead><tbody><tr><td>I am having so much fun</td></tr></tbody></table>'
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should be able to render replaced non-void html elements with HTML parser plugin', () => {
   const input = 'I am having <code>so much</code> fun'
   const config = {
