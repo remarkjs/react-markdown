@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.8 - 2019-04-14
+
+### Fixes
+
+* Fix HTML parsing of elements with a single child vs. multiple children (Nicolas Venegas)
+
 ## 4.0.7 - 2019-04-14
 
 ### Fixes
