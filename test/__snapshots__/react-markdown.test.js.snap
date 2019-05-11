@@ -1851,7 +1851,7 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
-      nodeKey="text-1-1"
+      nodeKey="text-1-1-0"
       parentChildCount={1}
       value="Foo"
     >
@@ -1868,7 +1868,7 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
-      nodeKey="text-3-1"
+      nodeKey="text-3-1-0"
       parentChildCount={1}
       value="Bar"
     >
@@ -1885,7 +1885,7 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
-      nodeKey="text-5-1"
+      nodeKey="text-5-1-0"
       parentChildCount={1}
       value="Baz"
     >
@@ -1911,21 +1911,7 @@ Array [
 ]
 `;
 
-exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 1`] = `
-Position {
-  "end": Object {
-    "column": 6,
-    "line": 1,
-    "offset": 5,
-  },
-  "indent": Array [],
-  "start": Object {
-    "column": 1,
-    "line": 1,
-    "offset": 0,
-  },
-}
-`;
+exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 1`] = `undefined`;
 
 exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 2`] = `
 Array [

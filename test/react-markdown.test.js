@@ -754,8 +754,8 @@ test('should be able to override text renderer', () => {
 })
 
 test('should pass the key to an overriden text renderer', () => {
-  const textRenderer = props => {
-    expect(props.nodeKey).toEqual('text-1-1')
+  const textRenderer = (props) => {
+    expect(props.nodeKey).toEqual('text-1-1-0')
     return <marquee key={props.nodeKey}>{props.children}</marquee>
   }
 
