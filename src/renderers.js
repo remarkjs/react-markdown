@@ -68,7 +68,7 @@ function Heading(props) {
 
 function List(props) {
   const attrs = getCoreProps(props)
-  if (props.start !== null && props.start !== 1) {
+  if (props.start !== null && props.start !== 1 && props.start !== undefined) {
     attrs.start = props.start.toString()
   }
 
@@ -77,7 +77,7 @@ function List(props) {
 
 function ListItem(props) {
   let checkbox = null
-  if (props.checked !== null) {
+  if (props.checked !== null && props.checked !== undefined) {
     const checked = props.checked
     checkbox = createElement('input', {type: 'checkbox', checked, readOnly: true})
   }
