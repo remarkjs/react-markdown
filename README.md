@@ -182,7 +182,7 @@ New paragraph.
 This is a paragraph
 &nbsp;  
 &nbsp;  
-with multiple withespaces.
+with multiple whitespaces.
 ```
 
 ## Developing
