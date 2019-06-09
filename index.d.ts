@@ -76,8 +76,8 @@ declare namespace ReactMarkdown {
     readonly allowedTypes?: NodeType[]
     readonly disallowedTypes?: NodeType[]
     readonly linkTarget?: string | LinkTargetResolver
-    readonly transformLinkUri?: (uri: string, children?: ReactNode, title?: string) => string
-    readonly transformImageUri?: (uri: string, children?: ReactNode, title?: string, alt?: string) => string
+    readonly transformLinkUri?: ((uri: string, children?: ReactNode, title?: string) => string) | null
+    readonly transformImageUri?: ((uri: string, children?: ReactNode, title?: string, alt?: string) => string) | null
     readonly unwrapDisallowed?: boolean
     readonly renderers?: {[nodeType: string]: ReactType}
     readonly astPlugins?: MdastPlugin[]
