@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.0.9 - 2019-06-22
+
+### Fixes
+
+* (Typings) Make transformLinkUri & transformImageUri actually nullable (Florentin Luca Rieger)
+
 ## 4.0.8 - 2019-04-14
 
 ### Fixes
