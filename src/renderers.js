@@ -43,9 +43,10 @@ function TextRenderer(props) {
 }
 
 function Root(props) {
-  const useFragment = !props.className
+  const {className} = props
+  const useFragment = !className
   const root = useFragment ? React.Fragment || 'div' : 'div'
-  return createElement(root, useFragment ? null : props, props.children)
+  return createElement(root, useFragment ? null : {className}, props.children)
 }
 
 function SimpleRenderer(tag, props) {

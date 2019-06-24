@@ -1265,6 +1265,45 @@ exports[`should be able to render components with forwardRef in HOC 1`] = `
 <p>
   <a
     href="https://example.com/"
+    node={
+      Object {
+        "children": Array [
+          Object {
+            "position": Position {
+              "end": Object {
+                "column": 6,
+                "line": 1,
+                "offset": 5,
+              },
+              "indent": Array [],
+              "start": Object {
+                "column": 2,
+                "line": 1,
+                "offset": 1,
+              },
+            },
+            "type": "text",
+            "value": "Link",
+          },
+        ],
+        "position": Position {
+          "end": Object {
+            "column": 29,
+            "line": 1,
+            "offset": 28,
+          },
+          "indent": Array [],
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "title": null,
+        "type": "link",
+        "url": "https://example.com/",
+      }
+    }
   >
     Link
   </a>
@@ -1861,6 +1900,25 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
+      node={
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 4,
+              "line": 1,
+              "offset": 3,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 1,
+              "offset": 0,
+            },
+          },
+          "type": "text",
+          "value": "Foo",
+        }
+      }
       nodeKey="text-1-1-0"
       parentChildCount={1}
       value="Foo"
@@ -1878,6 +1936,25 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
+      node={
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 4,
+              "line": 3,
+              "offset": 8,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 3,
+              "offset": 5,
+            },
+          },
+          "type": "text",
+          "value": "Bar",
+        }
+      }
       nodeKey="text-3-1-0"
       parentChildCount={1}
       value="Bar"
@@ -1895,6 +1972,25 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
+      node={
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 4,
+              "line": 5,
+              "offset": 13,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 5,
+              "offset": 10,
+            },
+          },
+          "type": "text",
+          "value": "Baz",
+        }
+      }
       nodeKey="text-5-1-0"
       parentChildCount={1}
       value="Baz"
