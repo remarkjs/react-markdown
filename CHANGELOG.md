@@ -2,6 +2,40 @@
 
 All notable changes will be documented in this file.
 
+## UNRELEASED
+
+### BREAKING
+
+#### New serializer property: `node`
+
+A new `node` prop is passed to all non-tag/non-fragment renderers. This contains the raw [mdast](https://github.com/syntax-tree/mdast) AST node, which opens up a number of interesting possibilities. The breaking change is for renderers which blindly spread their props to an underlying component/tag. For instance:
+
+```js
+<ReactMarkdown source="[foo](https://foo.bar/)" renderers={{link: props => <a {...props} />}} />
+```
+
+Should now be written as:
+
+```js
+<ReactMarkdown
+  source="[foo](https://foo.bar/)"
+  renderers={{link: ({node ...props}) => <a {...props} />}}
+/>
+```
+
+#### List/ list item `tight` property replaced by `spread`
+
+Previously, the `tight` property would hint as to whether or not list items should be wrapped in paragraphs. This logic has now been replaced by a new `spread` property, which behaves slightly differently. [Read more](https://github.com/remarkjs/remark/pull/364).
+
+#### Upgrade remark-parse
+
+The parser used in react-markdown has been upgraded to the latest version. This introduces a few breaking changes:
+
+- Empty list items are now allowed and rendered as list items instead of as a paragraph. [Read more](https://github.com/remarkjs/remark/commit/41dd27f091a67909b70f016da8601ef7c5f1ad9a)
+- Support for whitespace in references is removed. [Read more](https://github.com/remarkjs/remark/commit/ddc948a779d3078b5119d333a261745c8874f1ff)
+- Fix whitespace only lines in paragraphs. [Read more](https://github.com/remarkjs/remark/commit/4e9940460d732e8ec6d455dd1882fd49fc71fe2f)
+- Fix markdown in literal URLs. [Read more](https://github.com/remarkjs/remark/commit/0658d95839beb010b31f6f327180e52c44e3cdad)
+
 ## 4.1.0 - 2019-06-24
 
 ### Added
@@ -422,3 +456,7 @@ All notable changes will be documented in this file.
 ### Changed
 
 - Moved React from dependency to peer dependency.
+
+```
+
+```

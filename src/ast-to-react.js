@@ -79,12 +79,12 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     case 'list':
       props.start = node.start
       props.ordered = node.ordered
-      props.tight = !node.loose
+      props.spread = node.spread
       props.depth = node.depth
       break
     case 'listItem':
       props.checked = node.checked
-      props.tight = !node.loose
+      props.spread = node.spread
       props.ordered = node.ordered
       props.index = node.index
       props.children = getListItemChildren(node, parent).map((childNode, i) => {
@@ -225,21 +225,31 @@ function flattenPosition(pos) {
 }
 
 function getListItemChildren(node, parent) {
-  if (node.loose) {
-    return node.children
-  }
-
-  if (parent.node && node.index > 0 && parent.node.children[node.index - 1].loose) {
-    return node.children
-  }
-
-  return unwrapParagraphs(node)
+  const loose = parent && parent.node ? listLoose(parent.node) : listItemLoose(node)
+  return loose ? node.children : unwrapParagraphs(node)
 }
 
 function unwrapParagraphs(node) {
   return node.children.reduce((array, child) => {
     return array.concat(child.type === 'paragraph' ? child.children || [] : [child])
   }, [])
+}
+
+function listLoose(node) {
+  const children = node.children
+  let loose = node.spread
+  let index = -1
+
+  while (!loose && ++index < children.length) {
+    loose = listItemLoose(children[index])
+  }
+
+  return loose
+}
+
+function listItemLoose(node) {
+  const spread = node.spread
+  return spread === undefined || spread === null ? node.children.length > 1 : spread
 }
 
 module.exports = astToReact
