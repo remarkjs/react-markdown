@@ -1851,6 +1851,25 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
+      node={
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 4,
+              "line": 1,
+              "offset": 3,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 1,
+              "offset": 0,
+            },
+          },
+          "type": "text",
+          "value": "Foo",
+        }
+      }
       nodeKey="text-1-1"
       parentChildCount={1}
       value="Foo"
@@ -1868,6 +1887,25 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
+      node={
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 4,
+              "line": 3,
+              "offset": 8,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 3,
+              "offset": 5,
+            },
+          },
+          "type": "text",
+          "value": "Bar",
+        }
+      }
       nodeKey="text-3-1"
       parentChildCount={1}
       value="Bar"
@@ -1885,6 +1923,25 @@ Object {
   "children": Array [
     <TextRenderer
       index={0}
+      node={
+        Object {
+          "position": Position {
+            "end": Object {
+              "column": 4,
+              "line": 5,
+              "offset": 13,
+            },
+            "indent": Array [],
+            "start": Object {
+              "column": 1,
+              "line": 5,
+              "offset": 10,
+            },
+          },
+          "type": "text",
+          "value": "Baz",
+        }
+      }
       nodeKey="text-5-1"
       parentChildCount={1}
       value="Baz"

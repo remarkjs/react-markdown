@@ -43,19 +43,19 @@ function isReactFragment(renderer) {
 function getNodeProps(node, key, opts, renderer, parent, index) {
   const props = {key}
 
-  const isTagRenderer = typeof renderer === 'string'
+  const isSimpleRenderer = typeof renderer === 'string' || renderer === React.Fragment
 
   // `sourcePos` is true if the user wants source information (line/column info from markdown source)
   if (opts.sourcePos && node.position) {
     props['data-sourcepos'] = flattenPosition(node.position)
   }
 
-  if (opts.rawSourcePos && !isTagRenderer) {
+  if (opts.rawSourcePos && !isSimpleRenderer) {
     props.sourcePosition = node.position
   }
 
   // If `includeNodeIndex` is true, pass node index info to all non-tag renderers
-  if (opts.includeNodeIndex && parent.node && parent.node.children && !isTagRenderer) {
+  if (opts.includeNodeIndex && parent.node && parent.node.children && !isSimpleRenderer) {
     props.index = parent.node.children.indexOf(node)
     props.parentChildCount = parent.node.children.length
   }
@@ -185,8 +185,12 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       )
   }
 
-  if (!isTagRenderer && node.value) {
+  if (!isSimpleRenderer && node.value) {
     props.value = node.value
+  }
+
+  if (!isSimpleRenderer) {
+    props.node = node
   }
 
   return props

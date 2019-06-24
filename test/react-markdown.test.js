@@ -6,6 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const React = require('react')
 const breaks = require('remark-breaks')
+const visit = require('unist-util-visit')
 const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
 const shortcodes = require('remark-shortcodes')
@@ -764,9 +765,9 @@ test('should pass the key to an overriden text renderer', () => {
 
 test('should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled', () => {
   const input = 'Foo\n\nBar\n\nBaz'
-  const paragraph = props => {
-    expect(props).toMatchSnapshot()
-    return <p>{props.children}</p>
+  const paragraph = ({node, ...otherProps}) => {
+    expect(otherProps).toMatchSnapshot()
+    return <p>{otherProps.children}</p>
   }
 
   const component = renderer.create(
@@ -784,4 +785,18 @@ test('should be able to override remark-parse plugin options', () => {
 
   expect(pedantic.toJSON()).toMatchSnapshot()
   expect(unscholarly.toJSON()).not.toBe(pedantic.toJSON())
+})
+
+test('should pass `node` as prop to all non-tag/non-fragment renderers', () => {
+  const input = "# So, *headers... they're _cool_*\n\n"
+  const heading = props => {
+    let text = ''
+    visit(props.node, 'text', child => {
+      text += child.value
+    })
+    return text
+  }
+
+  const component = renderer.create(<Markdown renderers={{heading}} source={input} />)
+  expect(component.toJSON()).toBe("So, headers... they're cool")
 })
