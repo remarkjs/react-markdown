@@ -9,7 +9,11 @@ function astToReact(node, options, parent = {}, index = 0) {
   const pos = node.position.start
   const key = [node.type, pos.line, pos.column].join('-')
 
-  if (typeof renderer !== 'function' && typeof renderer !== 'string' && !isReactFragment(renderer)) {
+  if (
+    typeof renderer !== 'function' &&
+    typeof renderer !== 'string' &&
+    !isReactFragment(renderer)
+  ) {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
 
@@ -32,7 +36,7 @@ function astToReact(node, options, parent = {}, index = 0) {
 }
 
 function isReactFragment(renderer) {
-  return React.Fragment && React.Fragment === renderer;
+  return React.Fragment && React.Fragment === renderer
 }
 
 // eslint-disable-next-line max-params, complexity
@@ -52,11 +56,14 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
 
   // If `includeNodeIndex` is true, pass node index info to all non-tag renderers
   if (opts.includeNodeIndex && parent.node && parent.node.children && !isTagRenderer) {
-    props.index = parent.node.children.indexOf(node);
-    props.parentChildCount = parent.node.children.length;
+    props.index = parent.node.children.indexOf(node)
+    props.parentChildCount = parent.node.children.length
   }
 
-  const ref = (node.identifier !== null && node.identifier !== undefined) ? opts.definitions[node.identifier] || {} : null
+  const ref =
+    node.identifier !== null && node.identifier !== undefined
+      ? opts.definitions[node.identifier] || {}
+      : null
 
   switch (node.type) {
     case 'root':
@@ -97,15 +104,22 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     case 'link':
       assignDefined(props, {
         title: node.title || undefined,
-        target: typeof opts.linkTarget === 'function' ? opts.linkTarget(node.url, node.children, node.title) : opts.linkTarget,
-        href: opts.transformLinkUri ? opts.transformLinkUri(node.url, node.children, node.title) : node.url
+        target:
+          typeof opts.linkTarget === 'function'
+            ? opts.linkTarget(node.url, node.children, node.title)
+            : opts.linkTarget,
+        href: opts.transformLinkUri
+          ? opts.transformLinkUri(node.url, node.children, node.title)
+          : node.url
       })
       break
     case 'image':
       assignDefined(props, {
         alt: node.alt || undefined,
         title: node.title || undefined,
-        src: opts.transformImageUri ? opts.transformImageUri(node.url, node.children, node.title, node.alt) : node.url
+        src: opts.transformImageUri
+          ? opts.transformImageUri(node.url, node.children, node.title, node.alt)
+          : node.url
       })
       break
     case 'linkReference':
@@ -151,11 +165,9 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.skipHtml = opts.skipHtml
       break
     case 'parsedHtml': {
-      let parsedChildren;
+      let parsedChildren
       if (node.children) {
-        parsedChildren = node.children.map(
-          (child, i) => astToReact(child, opts, {node, props}, i)
-        )
+        parsedChildren = node.children.map((child, i) => astToReact(child, opts, {node, props}, i))
       }
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
@@ -168,8 +180,8 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
         xtend(node, {
           type: undefined,
           position: undefined,
-          children: undefined,
-        }),
+          children: undefined
+        })
       )
   }
 
@@ -210,14 +222,14 @@ function flattenPosition(pos) {
 
 function getListItemChildren(node, parent) {
   if (node.loose) {
-    return node.children;
+    return node.children
   }
 
   if (parent.node && node.index > 0 && parent.node.children[node.index - 1].loose) {
-    return node.children;
+    return node.children
   }
 
-  return unwrapParagraphs(node);
+  return unwrapParagraphs(node)
 }
 
 function unwrapParagraphs(node) {

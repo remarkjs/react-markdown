@@ -39,9 +39,7 @@ module.exports = {
 }
 
 function TextRenderer(props) {
-  return supportsStringRender
-    ? props.children
-    : createElement('span', null, props.children)
+  return supportsStringRender ? props.children : createElement('span', null, props.children)
 }
 
 function Root(props) {

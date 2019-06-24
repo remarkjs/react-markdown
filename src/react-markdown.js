@@ -18,7 +18,7 @@ const allTypes = Object.keys(defaultRenderers)
 
 const ReactMarkdown = function ReactMarkdown(props) {
   const src = props.source || props.children || ''
-  const parserOptions = props.parserOptions;
+  const parserOptions = props.parserOptions
 
   if (props.allowedTypes && props.disallowedTypes) {
     throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
@@ -86,7 +86,7 @@ ReactMarkdown.defaultProps = {
   transformLinkUri: uriTransformer,
   astPlugins: [],
   plugins: [],
-  parserOptions: {},
+  parserOptions: {}
 }
 
 ReactMarkdown.propTypes = {
@@ -107,7 +107,7 @@ ReactMarkdown.propTypes = {
   unwrapDisallowed: PropTypes.bool,
   renderers: PropTypes.object,
   plugins: PropTypes.array,
-  parserOptions: PropTypes.object,
+  parserOptions: PropTypes.object
 }
 
 ReactMarkdown.types = allTypes

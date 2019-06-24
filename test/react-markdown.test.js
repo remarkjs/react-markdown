@@ -1,7 +1,7 @@
 /* eslint-env jest */
 /* eslint-disable react/prop-types */
-const Enzyme = require('enzyme');
-const Adapter = require('enzyme-adapter-react-16');
+const Enzyme = require('enzyme')
+const Adapter = require('enzyme-adapter-react-16')
 const fs = require('fs')
 const path = require('path')
 const React = require('react')
@@ -13,7 +13,7 @@ const htmlParser = require('../src/plugins/html-parser')
 const Markdown = require('../src/react-markdown')
 const MarkdownWithHtml = require('../src/with-html')
 
-Enzyme.configure({ adapter: new Adapter() })
+Enzyme.configure({adapter: new Adapter()})
 
 const renderHTML = input => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
 
@@ -84,7 +84,7 @@ test('should use target attribute for links if specified', () => {
 
 test('should call function to get target attribute for links if specified', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-  const getTarget = (uri) => uri.match(/^http/) ? '_blank' : undefined;
+  const getTarget = uri => (uri.match(/^http/) ? '_blank' : undefined)
   const component = renderer.create(<Markdown linkTarget={getTarget} source={input} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -267,9 +267,7 @@ test('should be able to render inline html properly with HTML parser plugin', ()
 
 test('should be able to render inline html properly with HTML parser plugin (through require)', () => {
   const input = 'I am having <span class="foo">so</span> much fun'
-  const component = renderer.create(
-    <MarkdownWithHtml source={input} escapeHtml={false}  />
-  )
+  const component = renderer.create(<MarkdownWithHtml source={input} escapeHtml={false} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -299,9 +297,7 @@ test('should be able to render inline html with self-closing tags with attribute
 
 test('should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin (#2)', () => {
   const input = 'I am having <wbr class="foo"/> so much fun'
-  Enzyme.mount(
-    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
-  )
+  Enzyme.mount(<Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />)
 })
 
 test('should be able to render multiple inline html elements with self-closing tags with attributes properly with HTML parser plugin', () => {
@@ -321,7 +317,8 @@ test('should be able to render a table with a single child with HTML parser plug
 })
 
 test('should be able to render a table with multiple children with HTML parser plugin', () => {
-  const input = '<table><thead><tr><th>Title</th></tr></thead><tbody><tr><td>I am having so much fun</td></tr></tbody></table>'
+  const input =
+    '<table><thead><tr><th>Title</th></tr></thead><tbody><tr><td>I am having so much fun</td></tr></tbody></table>'
   const component = renderer.create(
     <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
   )
@@ -334,7 +331,7 @@ test('should be able to render replaced non-void html elements with HTML parser 
     isValidNode: () => true,
     processingInstructions: [
       {
-        shouldProcessNode: ({ name }) => name === 'code',
+        shouldProcessNode: ({name}) => name === 'code',
         // eslint-disable-next-line react/display-name
         processNode: (node, children) => <kbd>{children}</kbd>
       }
@@ -400,7 +397,9 @@ test('should skip html blocks if skipHtml prop is set (with HTML parser plugin)'
     ' regular paragraph.'
   ].join('')
 
-  const component = renderer.create(<Markdown source={input} escapeHtml={false} skipHtml astPlugins={[htmlParser()]} />)
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} skipHtml astPlugins={[htmlParser()]} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -411,7 +410,9 @@ test('should escape html blocks if escapeHtml prop is set (with HTML parser plug
     ' regular paragraph.'
   ].join('')
 
-  const component = renderer.create(<Markdown source={input} escapeHtml astPlugins={[htmlParser()]} />)
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml astPlugins={[htmlParser()]} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -433,7 +434,9 @@ test('should handle html blocks with HTML parser plugin', () => {
     ' regular paragraph.'
   ].join('')
 
-  const component = renderer.create(<Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />)
+  const component = renderer.create(
+    <Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -514,7 +517,7 @@ test('should render link references', () => {
 })
 
 test('should render empty link references', () => {
-  const input = 'Stuff were changed in [][]. Check out the changelog for reference.';
+  const input = 'Stuff were changed in [][]. Check out the changelog for reference.'
 
   expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
 })
@@ -751,12 +754,12 @@ test('should be able to override text renderer', () => {
 })
 
 test('should pass the key to an overriden text renderer', () => {
-  const textRenderer = (props) => {
-    expect(props.nodeKey).toEqual('text-1-1');
-    return <marquee key={props.nodeKey}>{props.children}</marquee>;
+  const textRenderer = props => {
+    expect(props.nodeKey).toEqual('text-1-1')
+    return <marquee key={props.nodeKey}>{props.children}</marquee>
   }
 
-  renderer.create(<Markdown source={'foo'} renderers={{ text: textRenderer }} />)
+  renderer.create(<Markdown source={'foo'} renderers={{text: textRenderer}} />)
 })
 
 test('should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled', () => {
@@ -764,9 +767,11 @@ test('should pass index of a node under its parent to non-tag renderers if inclu
   const paragraph = props => {
     expect(props).toMatchSnapshot()
     return <p>{props.children}</p>
-  };
+  }
 
-  const component = renderer.create(<Markdown renderers={{ paragraph }} source={input} includeNodeIndex />)
+  const component = renderer.create(
+    <Markdown renderers={{paragraph}} source={input} includeNodeIndex />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -774,8 +779,8 @@ test('should be able to override remark-parse plugin options', () => {
   // gfm is used by default in remark-parse which will not autolink URLs
   // containing a space unless the pedantic option is set to true.
   const input = '[Spaces in URLs](https://example.com/so much space "Title")'
-  const pedantic = renderer.create(<Markdown source={input} parserOptions={{ pedantic: true }} />)
-  const unscholarly = renderer.create(<Markdown source={input} parserOptions={{ pedantic: false }} />)
+  const pedantic = renderer.create(<Markdown source={input} parserOptions={{pedantic: true}} />)
+  const unscholarly = renderer.create(<Markdown source={input} parserOptions={{pedantic: false}} />)
 
   expect(pedantic.toJSON()).toMatchSnapshot()
   expect(unscholarly.toJSON()).not.toBe(pedantic.toJSON())
