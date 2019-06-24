@@ -774,7 +774,9 @@ test('should be able to override remark-parse plugin options', () => {
   // gfm is used by default in remark-parse which will not autolink URLs
   // containing a space unless the pedantic option is set to true.
   const input = '[Spaces in URLs](https://example.com/so much space "Title")'
-  const component = renderer.create(<Markdown source={input} remarkParseOptions={{ pedantic: true }} />)
+  const pedantic = renderer.create(<Markdown source={input} parserOptions={{ pedantic: true }} />)
+  const unscholarly = renderer.create(<Markdown source={input} parserOptions={{ pedantic: false }} />)
 
-  expect(component.toJSON()).toMatchSnapshot()
+  expect(pedantic.toJSON()).toMatchSnapshot()
+  expect(unscholarly.toJSON()).not.toBe(pedantic.toJSON())
 })

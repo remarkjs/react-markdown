@@ -18,7 +18,7 @@ const allTypes = Object.keys(defaultRenderers)
 
 const ReactMarkdown = function ReactMarkdown(props) {
   const src = props.source || props.children || ''
-  const remarkParseOptions = props.remarkParseOptions;
+  const parserOptions = props.parserOptions;
 
   if (props.allowedTypes && props.disallowedTypes) {
     throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
@@ -26,7 +26,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const renderers = xtend(defaultRenderers, props.renderers)
 
-  const plugins = [[parse, remarkParseOptions]].concat(props.plugins || [])
+  const plugins = [[parse, parserOptions]].concat(props.plugins || [])
   const parser = plugins.reduce(applyParserPlugin, unified())
 
   const rawAst = parser.parse(src)
@@ -86,7 +86,7 @@ ReactMarkdown.defaultProps = {
   transformLinkUri: uriTransformer,
   astPlugins: [],
   plugins: [],
-  remarkParseOptions: {},
+  parserOptions: {},
 }
 
 ReactMarkdown.propTypes = {
@@ -107,7 +107,7 @@ ReactMarkdown.propTypes = {
   unwrapDisallowed: PropTypes.bool,
   renderers: PropTypes.object,
   plugins: PropTypes.array,
-  remarkParseOptions: PropTypes.object,
+  parserOptions: PropTypes.object,
 }
 
 ReactMarkdown.types = allTypes
