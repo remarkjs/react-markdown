@@ -12,6 +12,7 @@ const shortcodes = require('remark-shortcodes')
 const htmlParser = require('../src/plugins/html-parser')
 const Markdown = require('../src/react-markdown')
 const MarkdownWithHtml = require('../src/with-html')
+const toc = require('remark-toc')
 
 Enzyme.configure({adapter: new Adapter()})
 
@@ -784,4 +785,18 @@ test('should be able to override remark-parse plugin options', () => {
 
   expect(pedantic.toJSON()).toMatchSnapshot()
   expect(unscholarly.toJSON()).not.toBe(pedantic.toJSON())
+})
+
+test('should render table of contents plugin', () => {
+  const input = [
+    '# Header',
+    '## Table of Contents',
+    '## First Section',
+    '## Second Section',
+    '### Subsection',
+    '## Third Section'
+  ].join('\n')
+  
+  const component = renderer.create(<Markdown source={input} plugins={[toc]} />)
+  expect(component.toJSON()).toMatchSnapshot()
 })

@@ -36,6 +36,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
   })
   
   const astPlugins = determineAstPlugins(props)
+  // eslint-disable-next-line no-sync
   const transformedAst = parser.runSync(rawAst)
   const ast = astPlugins.reduce((node, plugin) => plugin(node, renderProps), transformedAst)
 

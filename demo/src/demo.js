@@ -1,5 +1,6 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
+const toc = require('remark-toc')
 const Markdown = require('../../src/with-html')
 const Editor = require('./editor')
 const CodeBlock = require('./code-block')
@@ -9,6 +10,8 @@ const initialSource = `
 # Live demo
 
 Changes are automatically rendered as you type.
+
+## Table of Contents
 
 * Implements [GitHub Flavored Markdown](https://github.github.com/gfm/)
 * Renders actual, "native" React DOM elements
@@ -87,6 +90,7 @@ class Demo extends React.PureComponent {
             skipHtml={this.state.htmlMode === 'skip'}
             escapeHtml={this.state.htmlMode === 'escape'}
             renderers={{code: CodeBlock}}
+            plugins={[toc]}
           />
         </div>
       </div>
