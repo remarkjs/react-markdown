@@ -63,7 +63,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
   const ref =
     node.identifier !== null && node.identifier !== undefined
       ? opts.definitions[node.identifier] || {}
-      : null
+      : {}
 
   switch (node.type) {
     case 'root':
