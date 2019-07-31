@@ -1261,6 +1261,16 @@ exports[`should be able to render basic inline html without containers 1`] = `
 </p>
 `;
 
+exports[`should be able to render components with forwardRef in HOC 1`] = `
+<p>
+  <a
+    href="https://example.com/"
+  >
+    Link
+  </a>
+</p>
+`;
+
 exports[`should be able to render inline code 1`] = `
 <p>
   Just call 

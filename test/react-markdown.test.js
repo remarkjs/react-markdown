@@ -785,3 +785,19 @@ test('should be able to override remark-parse plugin options', () => {
   expect(pedantic.toJSON()).toMatchSnapshot()
   expect(unscholarly.toJSON()).not.toBe(pedantic.toJSON())
 })
+
+test('should be able to render components with forwardRef in HOC', () => {
+  const componentWrapper = (WrappedComponent) => {
+    // eslint-disable-next-line react/display-name
+    return React.forwardRef((props, ref) => <WrappedComponent ref={ref} {...props} />);
+  }
+
+  const renderers = {
+    link: componentWrapper((props) => (
+      <a {...props} />
+    )),
+  }
+
+  const component = renderer.create(<Markdown renderers={renderers}>[Link](https://example.com/)</Markdown>);
+  expect(component.toJSON()).toMatchSnapshot();
+})

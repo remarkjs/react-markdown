@@ -2,6 +2,7 @@
 
 const React = require('react')
 const xtend = require('xtend')
+const ReactIs = require('react-is');
 
 function astToReact(node, options, parent = {}, index = 0) {
   const renderer = options.renderers[node.type]
@@ -9,11 +10,7 @@ function astToReact(node, options, parent = {}, index = 0) {
   const pos = node.position.start
   const key = [node.type, pos.line, pos.column].join('-')
 
-  if (
-    typeof renderer !== 'function' &&
-    typeof renderer !== 'string' &&
-    !isReactFragment(renderer)
-  ) {
+  if (!ReactIs.isValidElementType(renderer)) {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
 
@@ -33,10 +30,6 @@ function astToReact(node, options, parent = {}, index = 0) {
       )
     )
   }
-}
-
-function isReactFragment(renderer) {
-  return React.Fragment && React.Fragment === renderer
 }
 
 // eslint-disable-next-line max-params, complexity
