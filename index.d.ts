@@ -7,6 +7,7 @@
 // - Espen Hovlandsdal <https://espen.codes/>
 
 import {Component, ReactElement, ReactNode, ReactType} from 'react'
+import {RemarkParserOptions} from 'remark-parse'
 
 declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
@@ -82,6 +83,7 @@ declare namespace ReactMarkdown {
     readonly renderers?: {[nodeType: string]: ReactType}
     readonly astPlugins?: MdastPlugin[]
     readonly plugins?: any[] | (() => void)
+    readonly parserOptions?: Partial<RemarkParserOptions>
   }
 
   interface RenderProps extends ReactMarkdownProps {
