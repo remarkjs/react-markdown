@@ -12,6 +12,7 @@ const shortcodes = require('remark-shortcodes')
 const htmlParser = require('../src/plugins/html-parser')
 const Markdown = require('../src/react-markdown')
 const MarkdownWithHtml = require('../src/with-html')
+const toc = require('remark-toc')
 
 Enzyme.configure({adapter: new Adapter()})
 
@@ -754,8 +755,8 @@ test('should be able to override text renderer', () => {
 })
 
 test('should pass the key to an overriden text renderer', () => {
-  const textRenderer = props => {
-    expect(props.nodeKey).toEqual('text-1-1')
+  const textRenderer = (props) => {
+    expect(props.nodeKey).toEqual('text-1-1-0')
     return <marquee key={props.nodeKey}>{props.children}</marquee>
   }
 
@@ -789,15 +790,29 @@ test('should be able to override remark-parse plugin options', () => {
 test('should be able to render components with forwardRef in HOC', () => {
   const componentWrapper = (WrappedComponent) => {
     // eslint-disable-next-line react/display-name
-    return React.forwardRef((props, ref) => <WrappedComponent ref={ref} {...props} />);
+    return React.forwardRef((props, ref) => <WrappedComponent ref={ref} {...props} />)
   }
 
   const renderers = {
     link: componentWrapper((props) => (
       <a {...props} />
-    )),
+    ))
   }
 
-  const component = renderer.create(<Markdown renderers={renderers}>[Link](https://example.com/)</Markdown>);
-  expect(component.toJSON()).toMatchSnapshot();
+  const component = renderer.create(<Markdown renderers={renderers}>[Link](https://example.com/)</Markdown>)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should render table of contents plugin', () => {
+  const input = [
+    '# Header',
+    '## Table of Contents',
+    '## First Section',
+    '## Second Section',
+    '### Subsection',
+    '## Third Section'
+  ].join('\n')
+  
+  const component = renderer.create(<Markdown source={input} plugins={[toc]} />)
+  expect(component.toJSON()).toMatchSnapshot()
 })

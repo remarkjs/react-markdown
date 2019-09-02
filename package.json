@@ -71,6 +71,7 @@
     "react-test-renderer": "^16.8.6",
     "remark-breaks": "^1.0.2",
     "remark-shortcodes": "^0.2.1",
+    "remark-toc": "^5.1.1",
     "rimraf": "^2.6.3",
     "uglify-js": "^3.5.4",
     "webpack": "^4.30.0",
