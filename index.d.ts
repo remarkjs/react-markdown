@@ -8,7 +8,7 @@
 // - Ted Piotrowski <https://github.com/ted-piotrowski>
 
 import {Component, ReactElement, ReactNode, ReactType} from 'react'
-import {RemarkParserOptions} from 'remark-parse'
+import {RemarkParseOptions} from 'remark-parse'
 
 declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
@@ -84,7 +84,7 @@ declare namespace ReactMarkdown {
     readonly renderers?: {[nodeType: string]: ReactType}
     readonly astPlugins?: MdastPlugin[]
     readonly plugins?: any[] | (() => void)
-    readonly parserOptions?: Partial<RemarkParserOptions>
+    readonly parserOptions?: Partial<RemarkParseOptions>
   }
 
   interface RenderProps extends ReactMarkdownProps {
