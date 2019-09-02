@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.2.1 - 2019-09-01
+
+### Fixes
+
+- (Typings) Fix incorrect import - `RemarkParseOptions` (Jakub Chrzanowski)
+
 ## 4.2.0 - 2019-09-01
 
 ### Added
