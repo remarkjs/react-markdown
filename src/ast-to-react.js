@@ -2,6 +2,7 @@
 
 const React = require('react')
 const xtend = require('xtend')
+const ReactIs = require('react-is');
 
 const defaultNodePosition = {
   start: {line: 1, column: 1, offset: 0},
@@ -21,11 +22,7 @@ function astToReact(node, options, parent = {}, index = 0) {
   const pos = node.position.start
   const key = [node.type, pos.line, pos.column, index].join('-')
 
-  if (
-    typeof renderer !== 'function' &&
-    typeof renderer !== 'string' &&
-    !isReactFragment(renderer)
-  ) {
+  if (!ReactIs.isValidElementType(renderer)) {
     throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
   }
 
@@ -45,10 +42,6 @@ function astToReact(node, options, parent = {}, index = 0) {
       )
     )
   }
-}
-
-function isReactFragment(renderer) {
-  return React.Fragment && React.Fragment === renderer
 }
 
 // eslint-disable-next-line max-params, complexity
