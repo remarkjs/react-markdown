@@ -2,6 +2,17 @@
 
 All notable changes will be documented in this file.
 
+## 4.2.0 - 2019-09-01
+
+### Added
+
+- Add support for plugins that use AST transformations (Frankie Ali)
+
+### Fixes
+
+- (Typings) Add `parserOptions` to type defintions (Ted Piotrowski)
+- Allow renderer to be any React element type (Nathan Bierema)
+
 ## 4.1.0 - 2019-06-24
 
 ### Added
