@@ -8,7 +8,6 @@
 // - Ted Piotrowski <https://github.com/ted-piotrowski>
 
 import {Component, ReactElement, ReactNode, ReactType} from 'react'
-import {RemarkParseOptions} from 'remark-parse'
 
 declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
@@ -23,6 +22,14 @@ declare namespace ReactMarkdown {
     readonly start: Point
     readonly end: Point
     readonly indent?: number[]
+  }
+
+  interface RemarkParseOptions {
+    gfm: boolean
+    commonmark: boolean
+    footnotes: boolean
+    blocks: string[]
+    pedantic: boolean
   }
 
   export type NodeType =
