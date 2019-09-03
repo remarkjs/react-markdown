@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.2.2 - 2019-09-03
+
+### Fixes
+
+- (Typings) Inline `RemarkParseOptions` for now (Espen Hovlandsdal)
+
 ## 4.2.1 - 2019-09-01
 
 ### Fixes
