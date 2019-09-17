@@ -88,7 +88,7 @@ declare namespace ReactMarkdown {
     readonly transformLinkUri?: ((uri: string, children?: ReactNode, title?: string) => string) | null
     readonly transformImageUri?: ((uri: string, children?: ReactNode, title?: string, alt?: string) => string) | null
     readonly unwrapDisallowed?: boolean
-    readonly renderers?: {[nodeType: string]: ReactType}
+    readonly renderers?: Partial<Record<NodeType, ReactType>>
     readonly astPlugins?: MdastPlugin[]
     readonly plugins?: any[] | (() => void)
     readonly parserOptions?: Partial<RemarkParseOptions>
