@@ -90,6 +90,19 @@ test('should call function to get target attribute for links if specified', () =
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should use rel attribute for links if specified', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const component = renderer.create(<Markdown linkRel="noopener" source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should call function to get rel attribute for links if specified', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const getRel = uri => (uri.match(/^http/) ? 'noopener' : undefined)
+  const component = renderer.create(<Markdown linkRel={getRel} source={input} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should handle images without title attribute', () => {
   const input = 'This is ![an image](/ninja.png).'
   const component = renderer.create(<Markdown source={input} />)
@@ -812,7 +825,7 @@ test('should render table of contents plugin', () => {
     '### Subsection',
     '## Third Section'
   ].join('\n')
-  
+
   const component = renderer.create(<Markdown source={input} plugins={[toc]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })

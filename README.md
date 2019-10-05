@@ -75,6 +75,9 @@ this is a Good Thing™.
   `allowedTypes` (or specified as a `disallowedType`), it won't be included. The function will
   receive three arguments argument (`node`, `index`, `parent`), where `node` contains different
   properties depending on the node type.
+- `linkRel` - _function|string_ Sets the default rel attribute for links. If a function is
+  provided, it will be called with `url`, `text`, and `title` and should return a string
+  (e.g. `noopener`). Default is `undefined` (no rel attribute).
 - `linkTarget` - _function|string_ Sets the default target attribute for links. If a function is
   provided, it will be called with `url`, `text`, and `title` and should return a string
   (e.g. `_blank` for a new tab). Default is `undefined` (no target attribute).
