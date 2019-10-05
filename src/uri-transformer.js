@@ -1,4 +1,4 @@
-const protocols = ['http', 'https', 'mailto', 'tel']
+const protocols = ['http', 'https', 'mailto', 'tel', 'data']
 
 module.exports = function uriTransformer(uri) {
   const url = (uri || '').trim()
