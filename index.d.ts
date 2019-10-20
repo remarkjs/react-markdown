@@ -32,33 +32,7 @@ declare namespace ReactMarkdown {
     pedantic: boolean
   }
 
-  export type NodeType =
-    | 'root'
-    | 'text'
-    | 'break'
-    | 'paragraph'
-    | 'emphasis'
-    | 'strong'
-    | 'thematicBreak'
-    | 'blockquote'
-    | 'delete'
-    | 'link'
-    | 'image'
-    | 'linkReference'
-    | 'imageReference'
-    | 'table'
-    | 'tableHead'
-    | 'tableBody'
-    | 'tableRow'
-    | 'tableCell'
-    | 'list'
-    | 'listItem'
-    | 'definition'
-    | 'heading'
-    | 'inlineCode'
-    | 'code'
-    | 'html'
-    | 'virtualHtml'
+  export type NodeType = keyof Renderers
 
   export type AlignType =
     | "left"
@@ -88,7 +62,7 @@ declare namespace ReactMarkdown {
     readonly transformLinkUri?: ((uri: string, children?: ReactNode, title?: string) => string) | null
     readonly transformImageUri?: ((uri: string, children?: ReactNode, title?: string, alt?: string) => string) | null
     readonly unwrapDisallowed?: boolean
-    readonly renderers?: {[nodeType: string]: ReactType}
+    readonly renderers?: Renderers
     readonly astPlugins?: MdastPlugin[]
     readonly plugins?: any[] | (() => void)
     readonly parserOptions?: Partial<RemarkParseOptions>
@@ -98,9 +72,47 @@ declare namespace ReactMarkdown {
     readonly definitions?: object
   }
 
-  type Renderer<T> = (props: T) => ReactElement<T>
+  type Renderer<T = any> = (props: T) => ReactElement<T> | string
+  type RootRenderer = Renderer<{
+    className: string
+  }>
+
+  type TextRenderer = Renderer<{
+    nodeKey: string
+  }>
+
+  type HeadingRenderer = Renderer<{
+    level: number
+  }>
+
   interface Renderers {
-    [key: string]: string | Renderer<any>
+    root?: RootRenderer
+    text?: TextRenderer,
+    break?: Renderer,
+    paragraph?: Renderer,
+    emphasis?: Renderer,
+    strong?: Renderer,
+    thematicBreak?: Renderer,
+    blockquote?: Renderer,
+    delete?: Renderer,
+    link?: Renderer,
+    image?: Renderer,
+    linkReference?: Renderer,
+    imageReference?: Renderer,
+    table?: Renderer
+    tableHead?: Renderer
+    tableBody?: Renderer
+    tableRow?: Renderer
+    tableCell?: Renderer
+    list?: ListRenderer,
+    listItem?: Renderer,
+    definition?: Renderer,
+    heading?: HeadingRenderer,
+    inlineCode?: Renderer,
+    code?: Renderer
+    html?:Renderer,
+    virtualHtml?: Renderer,
+    parsedHtml: Renderer
   }
 
   interface MarkdownAbstractSyntaxTree {
