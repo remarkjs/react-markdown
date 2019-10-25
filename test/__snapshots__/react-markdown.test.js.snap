@@ -2054,6 +2054,16 @@ Array [
 ]
 `;
 
+exports[`should not pass on non core props to root 1`] = `
+<div
+  className="test"
+>
+  <h1>
+    Hello World
+  </h1>
+</div>
+`;
+
 exports[`should skip html blocks if skipHtml prop is set (with HTML parser plugin) 1`] = `
 Array [
   <p>

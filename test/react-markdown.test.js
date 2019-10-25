@@ -453,6 +453,12 @@ test('should set source position attributes if sourcePos option is enabled', () 
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should not pass on non core props to root', () => {
+  const input = '# Hello World'
+  const component = renderer.create(<Markdown className="test" source={input} rawSourcePos />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should pass on raw source position to non-tag renderers if rawSourcePos option is enabled', () => {
   const input = '*Foo*\n\n------------\n\n__Bar__'
   const emphasis = props => {
