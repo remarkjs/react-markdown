@@ -6,6 +6,7 @@
 // - ClassicDarkChocolate <https://github.com/ClassicDarkChocolate>
 // - Espen Hovlandsdal <https://espen.codes/>
 // - Ted Piotrowski <https://github.com/ted-piotrowski>
+// - Luke Sanwick <https://github.com/lsanwick>
 
 import { Component, ReactElement, ReactNode, ReactType } from 'react'
 
