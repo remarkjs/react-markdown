@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.3.0 - 2020-01-02
+
+### Fixes
+
+- (Typings) Add typings for `react-markdown/html-parser` (Peng Guanwen)
+
 ## 4.2.2 - 2019-09-03
 
 ### Fixes
