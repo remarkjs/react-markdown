@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import ReactMarkdownRoot from 'react-markdown'
+import ReactMarkdownRoot = require('react-markdown')
 
-export default class ReactMarkdown extends Component<ReactMarkdownRoot.ReactMarkdownProps, {}> {}
-
+declare class ReactMarkdown extends Component<ReactMarkdownRoot.ReactMarkdownProps, {}> {}
+export = ReactMarkdown
