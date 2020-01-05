@@ -2,6 +2,12 @@
 
 All notable changes will be documented in this file.
 
+## 4.3.1 - 2020-01-05
+
+### Fixes
+
+- (Typings) Fix incorrect typescript definitions (Peng Guanwen)
+
 ## 4.3.0 - 2020-01-02
 
 ### Fixes
