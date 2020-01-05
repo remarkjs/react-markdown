@@ -135,9 +135,3 @@ declare namespace ReactMarkdown {
 
 export = ReactMarkdown
 
-declare module 'react-markdown/with-html' {
-    import {Component} from 'react'
-    import ReactMarkdownRoot from 'react-markdown'
-
-    export default class ReactMarkdown extends Component<ReactMarkdownRoot.ReactMarkdownProps, {}> {}
-}
