@@ -61,9 +61,9 @@ this is a Good Thing™.
   indicating where in the markdown source they were rendered from (default: `false`).
 - `rawSourcePos` - _boolean_ Setting to `true` will pass a `sourcePosition` property to all renderers with structured source position information (default: `false`).
 - `includeNodeIndex` - _boolean_ Setting to `true` will pass `index` and `parentChildCount` props to all renderers (default: `false`).
-- `allowedTypes` - _array_ Defines which types of nodes should be allowed (rendered). (default: all
+- `allowedTypes` - _array_ Defines which [types of nodes](#node_types) should be allowed (rendered). (default: all
   types).
-- `disallowedTypes` - _array_ Defines which types of nodes should be disallowed (not rendered).
+- `disallowedTypes` - _array_ Defines which [types of nodes](#node_types) should be disallowed (not rendered).
   (default: none).
 - `unwrapDisallowed` - _boolean_ Setting to `true` will try to extract/unwrap the children of
   disallowed nodes. For instance, if disallowing `Strong`, the default behaviour is to simply skip
@@ -86,7 +86,7 @@ this is a Good Thing™.
   transformer, pass `null` to this option.
 - `transformImageUri` - _function|null_ Function that gets called for each encountered image with a
   single argument - `uri`. The returned value is used in place of the original.
-- `renderers` - _object_ An object where the keys represent the node type and the value is a React
+- `renderers` - _object_ An object where the keys represent the [node type](#node_types) and the value is a React
   component. The object is merged with the default renderers. The props passed to the component
   varies based on the type of node.
 - `plugins` - _array_ An array of unified/remark parser plugins. If you need to pass options to the plugin, pass an array with two elements, the first being the plugin and the second being the options - for instance: `{plugins: [[require('remark-shortcodes'), {your: 'options'}]]`. (default: `[]`) Note that [not all plugins can be used](https://github.com/rexxars/react-markdown/issues/188#issuecomment-404710893).
@@ -129,7 +129,7 @@ const parseHtml = htmlParser({
 />
 ```
 
-## Node types
+## Node types <a name="node_types"></a>
 
 The node types available are the following, and applies to both `renderers` and
 `allowedTypes`/`disallowedTypes`:
