@@ -10,6 +10,7 @@ const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|p
 const simpleTagRe = /^<(\/?)([a-z]+)\s*>$/
 
 module.exports = function(tree) {
+  const openersByParent = new Map()
   let open
   let currentParent
   visit(
@@ -17,7 +18,12 @@ module.exports = function(tree) {
     'html',
     (node, index, parent) => {
       if (currentParent !== parent) {
-        open = []
+        if (openersByParent.has(parent)) {
+          open = openersByParent.get(parent)
+        } else {
+          open = []
+          openersByParent.set(parent, open)
+        }
         currentParent = parent
       }
 
@@ -36,7 +42,7 @@ module.exports = function(tree) {
         return true
       }
 
-      const matching = findAndPull(open, current.tag)
+      const matching = current.opening && findAndPull(open, current.tag)
 
       if (matching) {
         parent.children.splice(index, 0, virtual(current, matching, parent))

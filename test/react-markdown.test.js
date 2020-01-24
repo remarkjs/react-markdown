@@ -816,3 +816,41 @@ test('should render table of contents plugin', () => {
   const component = renderer.create(<Markdown source={input} plugins={[toc]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
+
+test('should render nested tags and blocks of markdown', () => {
+  const markdown = [
+    '<details>',
+    '',  // creates a <p>
+    '<abbr>import stage</abbr>',
+    '</details>'
+  ].join('\n')
+
+  const component = renderer.create(<Markdown source={markdown} escapeHtml={false} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should render nested tags and blocks of markdown (when using htmlParser)', () => {
+  const markdown = [
+    '<details>',
+    '',  // creates a <p>
+    '<abbr>import stage</abbr>',
+    '</details>'
+  ].join('\n')
+
+  const component = renderer.create(<Markdown source={markdown} escapeHtml={false} plugins={[htmlParser]} />)
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should render nested HTML tags', () => {
+  const input = '<span><span>Text</span></span>'
+
+  const component = renderer.create(
+    <Markdown
+      source={input}
+      escapeHtml={false}
+      plugins={[htmlParser]}
+    />
+  )
+
+  expect(component.toJSON()).toMatchSnapshot()
+});

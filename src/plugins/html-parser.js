@@ -28,6 +28,7 @@ const defaultConfig = {
 }
 
 function parseHtml(config, tree, props) {
+  const openersByParent = new Map()
   let open
   let currentParent
   visit(
@@ -49,7 +50,12 @@ function parseHtml(config, tree, props) {
       }
 
       if (currentParent !== parent) {
-        open = []
+        if (openersByParent.has(parent)) {
+          open = openersByParent.get(parent)
+        } else {
+          open = []
+          openersByParent.set(parent, open)
+        }
         currentParent = parent
       }
 
@@ -68,7 +74,7 @@ function parseHtml(config, tree, props) {
         return true
       }
 
-      const matching = findAndPull(open, current.tag)
+      const matching = current.opening && findAndPull(open, current.tag)
 
       if (matching) {
         parent.children.splice(index, 0, parsedHtml(current, matching, parent))
