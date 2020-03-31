@@ -115,7 +115,8 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
             : opts.linkTarget,
         href: opts.transformLinkUri
           ? opts.transformLinkUri(node.url, node.children, node.title)
-          : node.url
+          : node.url,
+        rel: opts.linkTarget ? " rel="noopener noreferrer" : undefined
       })
       break
     case 'image':
