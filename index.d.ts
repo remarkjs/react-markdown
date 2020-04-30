@@ -72,6 +72,7 @@ declare namespace ReactMarkdown {
     | "full"
 
   export type LinkTargetResolver = (uri: string, text: string, title?: string) => string
+  export type LinkRelResolver = (uri: string, text: string, title?: string) => string
 
   export interface ReactMarkdownProps {
     readonly className?: string
@@ -85,6 +86,7 @@ declare namespace ReactMarkdown {
     readonly allowedTypes?: NodeType[]
     readonly disallowedTypes?: NodeType[]
     readonly linkTarget?: string | LinkTargetResolver
+    readonly linkRel?: string | LinkRelResolver
     readonly transformLinkUri?: ((uri: string, children?: ReactNode, title?: string) => string) | null
     readonly transformImageUri?: ((uri: string, children?: ReactNode, title?: string, alt?: string) => string) | null
     readonly unwrapDisallowed?: boolean
