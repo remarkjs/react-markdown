@@ -117,6 +117,16 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
           ? opts.transformLinkUri(node.url, node.children, node.title)
           : node.url
       })
+      assignDefined(props, {
+        title: node.title || undefined,
+        rel:
+          typeof opts.linkRel === 'function'
+            ? opts.linkRel(node.url, node.children, node.title)
+            : opts.linkRel,
+        href: opts.transformLinkUri
+          ? opts.transformLinkUri(node.url, node.children, node.title)
+          : node.url
+      })
       break
     case 'image':
       assignDefined(props, {

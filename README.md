@@ -78,6 +78,9 @@ this is a Good Thing™.
 - `linkTarget` - _function|string_ Sets the default target attribute for links. If a function is
   provided, it will be called with `url`, `text`, and `title` and should return a string
   (e.g. `_blank` for a new tab). Default is `undefined` (no target attribute).
+- `linkRel` - _function|string_ Sets the default rel attribute for links. If a function is
+  provided, it will be called with `url`, `text`, and `title` and should return a string
+  (e.g. `noopener noreferrer` is highly recommended when `linkTarget` is set to `_blank`). Default is `undefined` (no rel attribute).
 - `transformLinkUri` - _function|null_ Function that gets called for each encountered link with a
   single argument - `uri`. The returned value is used in place of the original. The default link URI
   transformer acts as an XSS-filter, neutralizing things like `javascript:`, `vbscript:` and `file:`

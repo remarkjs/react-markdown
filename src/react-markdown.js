@@ -34,7 +34,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
     renderers: renderers,
     definitions: getDefinitions(rawAst)
   })
-  
+
   const astPlugins = determineAstPlugins(props)
   // eslint-disable-next-line no-sync
   const transformedAst = parser.runSync(rawAst)
@@ -104,6 +104,7 @@ ReactMarkdown.propTypes = {
   disallowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
   transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   linkTarget: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  linkRel: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   transformImageUri: PropTypes.func,
   astPlugins: PropTypes.arrayOf(PropTypes.func),
   unwrapDisallowed: PropTypes.bool,
