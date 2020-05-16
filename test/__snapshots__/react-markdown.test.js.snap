@@ -1828,7 +1828,9 @@ foo();
 exports[`should pass depth, index and ordered props to list/listItem 1`] = `
 <ul>
   <li>
-    foo
+    <p>
+      foo
+    </p>
     <ol
       start="2"
     >
@@ -1841,7 +1843,9 @@ exports[`should pass depth, index and ordered props to list/listItem 1`] = `
     </ol>
   </li>
   <li>
-    root
+    <p>
+      root
+    </p>
   </li>
 </ul>
 `;

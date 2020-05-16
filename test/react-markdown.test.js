@@ -224,7 +224,7 @@ test('should handle ordered lists with a start index', () => {
 })
 
 test('should pass depth, index and ordered props to list/listItem', () => {
-  const input = '- foo\n  2. bar\n  3. baz\n- root\n'
+  const input = '- foo\n\n  2. bar\n  3. baz\n\n- root\n'
   const renderers = {
     listItem: item => {
       expect(item.index).toBeGreaterThanOrEqual(0)
