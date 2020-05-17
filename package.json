@@ -1,88 +1,80 @@
 {
+  "version": "5.0.0",
   "name": "react-markdown",
   "description": "Renders Markdown as React components",
-  "version": "4.1.0",
-  "keywords": [
-    "markdown",
-    "react",
-    "react-component"
-  ],
-  "main": "lib/react-markdown.js",
-  "unpkg": "umd/react-markdown.js",
-  "scripts": {
-    "analyze": "npm run clean && npm run compile && NODE_ENV=production ANALYZE_BUNDLE=1 webpack -p",
-    "build": "npm run clean && npm run compile && NODE_ENV=production webpack -p && npm run build:demo",
-    "build:demo": "NODE_ENV=production webpack -p --config webpack.config.demo.js",
-    "postbuild": "echo 'Ensuring ES5 compatibility...' && uglifyjs umd/react-markdown.js > /dev/null && echo 'Yep!'",
-    "clean": "rimraf lib/",
-    "compile": "babel --copy-files -d lib/ src/",
-    "deploy": "gh-pages-deploy",
-    "posttest": "eslint .",
-    "prepublishOnly": "npm run qa",
-    "qa": "npm test && npm run build",
-    "test": "jest --coverage --env=jsdom",
-    "watch": "webpack --watch",
-    "watch:demo": "webpack --watch --config webpack.config.demo.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:rexxars/react-markdown.git"
-  },
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
+  "contributors": [
+    "Espen Hovlandsdal <espen@hovlandsdal.com>",
+    "Christian Murphy <christian.murphy.42@gmail.com"
+  ],
   "license": "MIT",
-  "gh-pages-deploy": {
-    "noprompt": true,
-    "prep": [
-      "build"
-    ],
-    "staticpath": "demo/dist"
+  "main": "dist/index.js",
+  "module": "dist/react-markdown.esm.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
   },
-  "dependencies": {
-    "html-to-react": "^1.3.4",
-    "mdast-add-list-metadata": "1.0.1",
-    "prop-types": "^15.7.2",
-    "remark-parse": "^6.0.3",
-    "unified": "^7.1.0",
-    "unist-util-visit": "^1.4.1",
-    "xtend": "^4.0.1"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "^6.0.0",
-    "eslint-config-prettier": "^5.0.0",
-    "eslint-config-sanity": "^4.0.2",
-    "eslint-plugin-react": "^7.14.2",
-    "gh-pages-deploy": "^0.5.1",
-    "jest": "^24.8.0",
-    "prettier": "^1.18.2",
-    "react": "^16.8.6",
-    "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^16.8.6",
-    "react-test-renderer": "^16.8.6",
-    "remark-breaks": "^1.0.3",
-    "remark-shortcodes": "^0.2.1",
-    "rimraf": "^2.6.3",
-    "uglify-js": "^3.6.0",
-    "webpack": "^4.35.0",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.5"
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --env=jest-environment-jsdom-sixteen",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "peerDependencies": {
-    "react": "^15.0.0 || ^16.0.0"
+    "react": ">=16.8"
   },
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "node",
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "src/**.js"
-    ]
+  "dependencies": {
+    "rehype-react": "^5.0.1",
+    "remark-parse": "^8.0.2",
+    "remark-rehype": "^6.0.0",
+    "unified": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/addon-docs": "^5.3.18",
+    "@storybook/addon-info": "^5.3.18",
+    "@storybook/addon-knobs": "^5.3.18",
+    "@storybook/addon-links": "^5.3.18",
+    "@storybook/addons": "^5.3.18",
+    "@storybook/react": "^5.3.18",
+    "@testing-library/jest-dom": "^5.7.0",
+    "@testing-library/react": "^10.0.4",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "babel-loader": "^8.1.0",
+    "husky": "^4.2.5",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "katex": "^0.11.1",
+    "react": "^16.13.1",
+    "react-docgen-typescript-loader": "^3.7.2",
+    "react-dom": "^16.13.1",
+    "react-is": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
+    "rehype-katex": "^3.0.0",
+    "remark-math": "^2.0.1",
+    "ts-loader": "^7.0.4",
+    "tsdx": "^0.13.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }

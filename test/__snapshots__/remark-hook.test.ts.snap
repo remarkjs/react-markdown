@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useRemark should render content 1`] = `
+<React.Fragment>
+  <h1>
+    header
+  </h1>
+</React.Fragment>
+`;

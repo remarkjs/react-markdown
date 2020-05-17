@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [12, 14]
+
+    name: '${{ matrix.platform }}: node.js ${{ matrix.node-version }}'
+
+    runs-on: ${{ matrix.platform }}
+
+    steps:
+      - name: Begin CI...
+        uses: actions/checkout@v2
+
+      - name: Use Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Use cached node_modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: nodeModules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            nodeModules-
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          CI: true
+
+      - name: Lint
+        run: npm run lint
+        env:
+          CI: true
+
+      - name: Test
+        run: npm test --ci --coverage --maxWorkers=2
+        env:
+          CI: true
+
+      - name: Build
+        run: npm run build
+        env:
+          CI: true

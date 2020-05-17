@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remark should render content 1`] = `
+<h1>
+  header
+</h1>
+`;
