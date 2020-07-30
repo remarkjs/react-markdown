@@ -86,7 +86,8 @@ function parseHtml(config, tree, props) {
     const element = parser.parseWithInstructions(
       node.value,
       config.isValidNode,
-      config.processingInstructions
+      config.processingInstructions,
+      config.preprocessingInstructions
     )
 
     if (!element) {
