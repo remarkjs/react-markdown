@@ -7,7 +7,7 @@
 // - Espen Hovlandsdal <https://espen.codes/>
 // - Ted Piotrowski <https://github.com/ted-piotrowski>
 
-import {Component, ReactElement, ReactNode, ReactType} from 'react'
+import { Component, ElementType, ReactNode } from 'react'
 
 declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
@@ -32,33 +32,7 @@ declare namespace ReactMarkdown {
     pedantic: boolean
   }
 
-  export type NodeType =
-    | 'root'
-    | 'text'
-    | 'break'
-    | 'paragraph'
-    | 'emphasis'
-    | 'strong'
-    | 'thematicBreak'
-    | 'blockquote'
-    | 'delete'
-    | 'link'
-    | 'image'
-    | 'linkReference'
-    | 'imageReference'
-    | 'table'
-    | 'tableHead'
-    | 'tableBody'
-    | 'tableRow'
-    | 'tableCell'
-    | 'list'
-    | 'listItem'
-    | 'definition'
-    | 'heading'
-    | 'inlineCode'
-    | 'code'
-    | 'html'
-    | 'virtualHtml'
+  export type NodeType = keyof Renderers
 
   export type AlignType =
     | "left"
@@ -88,7 +62,7 @@ declare namespace ReactMarkdown {
     readonly transformLinkUri?: ((uri: string, children?: ReactNode, title?: string) => string) | null
     readonly transformImageUri?: ((uri: string, children?: ReactNode, title?: string, alt?: string) => string) | null
     readonly unwrapDisallowed?: boolean
-    readonly renderers?: {[nodeType: string]: ReactType}
+    readonly renderers?: Partial<Renderers>
     readonly astPlugins?: MdastPlugin[]
     readonly plugins?: any[] | (() => void)
     readonly parserOptions?: Partial<RemarkParseOptions>
@@ -98,9 +72,135 @@ declare namespace ReactMarkdown {
     readonly definitions?: object
   }
 
-  type Renderer<T> = (props: T) => ReactElement<T>
+  type Renderer<P> = string | ElementType<P>
+
   interface Renderers {
-    [key: string]: string | Renderer<any>
+    blockquote: Renderer<{
+      children: ReactNode
+    }>
+    break: Renderer<{
+      children: undefined
+    }>
+    code: Renderer<{
+      children: ReactNode
+      language: string | null
+      value: string
+    }>
+    definition: Renderer<{
+      children: undefined
+      identifier: string
+      src: string
+      title: string
+    }>
+    delete: Renderer<{ children: ReactNode }>
+    emphasis: Renderer<{ children: ReactNode }>
+    heading: Renderer<{
+      children: ReactNode
+      level: 1 | 2 | 3 | 4 | 5 | 6
+    }>
+    html: Renderer<{
+      children: undefined
+      escapeHtml: boolean
+      isBlock: boolean
+      skipHtml: boolean
+      value: string
+    }>
+    image: Renderer<{
+      alt: string
+      children: undefined
+      src: string
+      title: string
+    }>
+    imageReference: Renderer<{
+      alt: string
+      children: undefined
+      src: string
+      title: string
+    }>
+    inlineCode: Renderer<{
+      children: string
+      inline: boolean
+      value: string
+    }>
+    link: Renderer<{
+      children: ReactNode
+      href: string
+    }>
+    linkReference: Renderer<{
+      children: ReactNode
+      href: string
+    }>
+    list: Renderer<
+      {
+        children: ReactNode
+        tight: boolean
+        depth: number
+      } & (
+        {
+          start: number
+          ordered: true
+        } | {
+          start: null
+          ordered: false
+        }
+      )
+    >
+    listItem: Renderer<{
+      checked: null | boolean
+      children: ReactNode
+      index: number
+      ordered: boolean
+      tight: boolean
+    }>
+    paragraph: Renderer<{
+      children: undefined
+    }>
+    parsedHtml: Renderer<{
+      children: undefined
+      element: ReactNode
+      escapeHtml: boolean
+      skipHtml: boolean
+      value: string
+    }>
+    root: Renderer<{
+      children: ReactNode
+    }>
+    strong: Renderer<{
+      children: ReactNode
+    }>
+    table: Renderer<{
+      children: ReactNode
+      columnAlignment: AlignType[]
+    }>
+    tableBody: Renderer<{
+      children: ReactNode
+      columnAlignment: AlignType[]
+    }>
+    tableCell: Renderer<{
+      align: AlignType
+      isHeader: boolean
+    }>
+    tableHead: Renderer<{
+      children: ReactNode
+      columnAlignment: AlignType[]
+    }>
+    tableRow: Renderer<{
+      children: ReactNode
+      columnAlignment: AlignType[]
+      isHeader: boolean
+    }>
+    text: Renderer<{
+      children: string
+      nodeKey: string
+      value: string
+    }>
+    thematicBreak: Renderer<{
+      children: undefined
+    }>
+    virtualHtml: Renderer<{
+      children: ReactNode
+      tag: string
+    }>
   }
 
   interface MarkdownAbstractSyntaxTree {
