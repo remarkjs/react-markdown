@@ -6,10 +6,11 @@
 // - ClassicDarkChocolate <https://github.com/ClassicDarkChocolate>
 // - Espen Hovlandsdal <https://espen.codes/>
 // - Ted Piotrowski <https://github.com/ted-piotrowski>
+// - Christian Murphy <https://github.com/ChristianMurphy>
 
-import {Component, ReactElement, ReactNode, ReactType} from 'react'
-
-declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
+import {Component, ReactElement, ReactNode} from 'react'
+import {PluggableList} from 'unified'
+import {Content} from 'mdast'
 
 declare namespace ReactMarkdown {
   interface Point {
@@ -32,33 +33,7 @@ declare namespace ReactMarkdown {
     pedantic: boolean
   }
 
-  export type NodeType =
-    | 'root'
-    | 'text'
-    | 'break'
-    | 'paragraph'
-    | 'emphasis'
-    | 'strong'
-    | 'thematicBreak'
-    | 'blockquote'
-    | 'delete'
-    | 'link'
-    | 'image'
-    | 'linkReference'
-    | 'imageReference'
-    | 'table'
-    | 'tableHead'
-    | 'tableBody'
-    | 'tableRow'
-    | 'tableCell'
-    | 'list'
-    | 'listItem'
-    | 'definition'
-    | 'heading'
-    | 'inlineCode'
-    | 'code'
-    | 'html'
-    | 'virtualHtml'
+  export type NodeType = Content['type']
 
   export type AlignType =
     | "left"
@@ -73,6 +48,11 @@ declare namespace ReactMarkdown {
 
   export type LinkTargetResolver = (uri: string, text: string, title?: string) => string
 
+  type Renderer<T> = (props: T) => ReactElement<T>
+  interface Renderers {
+    [key: string]: string | Renderer<any>
+  }
+
   export interface ReactMarkdownProps {
     readonly className?: string
     readonly source?: string
@@ -81,57 +61,29 @@ declare namespace ReactMarkdown {
     readonly rawSourcePos?: boolean
     readonly escapeHtml?: boolean
     readonly skipHtml?: boolean
-    readonly allowNode?: (node: MarkdownAbstractSyntaxTree, index: number, parent: NodeType) => boolean
+    readonly allowNode?: (node: Content, index: number, parent: NodeType) => boolean
     readonly allowedTypes?: NodeType[]
     readonly disallowedTypes?: NodeType[]
     readonly linkTarget?: string | LinkTargetResolver
-    readonly transformLinkUri?: ((uri: string, children?: ReactNode, title?: string) => string) | null
-    readonly transformImageUri?: ((uri: string, children?: ReactNode, title?: string, alt?: string) => string) | null
+    readonly transformLinkUri?:
+      | ((uri: string, children?: ReactNode, title?: string) => string)
+      | null
+    readonly transformImageUri?:
+      | ((uri: string, children?: ReactNode, title?: string, alt?: string) => string)
+      | null
     readonly unwrapDisallowed?: boolean
     readonly renderers?: {[nodeType: string]: ReactType}
-    readonly astPlugins?: MdastPlugin[]
-    readonly plugins?: any[] | (() => void)
+    readonly astPlugins?: PluggableList
+    readonly plugins?: PluggableList
     readonly parserOptions?: Partial<RemarkParseOptions>
   }
-
-  interface RenderProps extends ReactMarkdownProps {
-    readonly definitions?: object
-  }
-
-  type Renderer<T> = (props: T) => ReactElement<T>
-  interface Renderers {
-    [key: string]: string | Renderer<any>
-  }
-
-  interface MarkdownAbstractSyntaxTree {
-    align?: AlignType[]
-    alt?: string | null
-    checked?: boolean | null
-    children?: MarkdownAbstractSyntaxTree[]
-    data?: {[key: string]: any}
-    index?: number
-    depth?: number
-    height?: number
-    identifier?: string
-    lang?: string | null
-    loose?: boolean
-    ordered?: boolean
-    position?: Position
-    referenceType?: ReferenceType
-    start?: number | null
-    title?: string | null
-    type: string
-    url?: string
-    value?: string
-    width?: number
-  }
-
-  type MdastPlugin = (node: MarkdownAbstractSyntaxTree, renderProps?: RenderProps) => MarkdownAbstractSyntaxTree
 
   export var types: NodeType[]
   export var renderers: Renderers
   export var uriTransformer: (uri: string) => string
 }
+
+declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
 export = ReactMarkdown
 
