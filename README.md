@@ -90,7 +90,7 @@ this is a Good Thing™.
   component. The object is merged with the default renderers. The props passed to the component
   varies based on the type of node.
 - `plugins` - _array_ An array of unified/remark parser plugins. If you need to pass options to the plugin, pass an array with two elements, the first being the plugin and the second being the options - for instance: `{plugins: [[require('remark-shortcodes'), {your: 'options'}]]`. (default: `[]`) Note that [not all plugins can be used](https://github.com/rexxars/react-markdown/issues/188#issuecomment-404710893).
-- `parserOptions` - _object_ An object containing options to pass to [remark-parse](https://github.com/remarkjs/remark/tree/master/packages/remark-parse).
+- `parserOptions` - _object_ An object containing options to pass to [remark-parse](https://github.com/remarkjs/remark/tree/main/packages/remark-parse).
 
 ## Parsing HTML
 
