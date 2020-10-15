@@ -1,8 +1,8 @@
 const visit = require('unist-util-visit')
 
-exports.ofType = function(types, mode) {
-  return function(node) {
-    types.forEach(type => visit(node, type, disallow, true))
+exports.ofType = function (types, mode) {
+  return function (node) {
+    types.forEach((type) => visit(node, type, disallow, true))
     return node
   }
 
@@ -13,8 +13,8 @@ exports.ofType = function(types, mode) {
   }
 }
 
-exports.ifNotMatch = function(allowNode, mode) {
-  return function(node) {
+exports.ifNotMatch = function (allowNode, mode) {
+  return function (node) {
     visit(node, disallow, true)
     return node
   }

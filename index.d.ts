@@ -1,5 +1,5 @@
 // Type definitions for react-markdown > v3.3.0
-// Project: https://github.com/rexxars/react-markdown
+// Project: https://github.com/remarkjs/react-markdown
 // Definitions by:
 // - Ruslan Ibragimov <https://github.com/IRus>
 // - Kohei Asai <me@axross.io>
@@ -25,26 +25,11 @@ declare namespace ReactMarkdown {
     readonly indent?: number[]
   }
 
-  interface RemarkParseOptions {
-    gfm: boolean
-    commonmark: boolean
-    footnotes: boolean
-    blocks: string[]
-    pedantic: boolean
-  }
-
   export type NodeType = Content['type']
 
-  export type AlignType =
-    | "left"
-    | "right"
-    | "center"
-    | null
+  export type AlignType = 'left' | 'right' | 'center' | null
 
-  export type ReferenceType =
-    | "shortcut"
-    | "collapsed"
-    | "full"
+  export type ReferenceType = 'shortcut' | 'collapsed' | 'full'
 
   export type LinkTargetResolver = (uri: string, text: string, title?: string) => string
 
@@ -75,7 +60,6 @@ declare namespace ReactMarkdown {
     readonly renderers?: {[nodeType: string]: ReactType}
     readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
-    readonly parserOptions?: Partial<RemarkParseOptions>
   }
 
   export var types: NodeType[]
@@ -86,4 +70,3 @@ declare namespace ReactMarkdown {
 declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
 export = ReactMarkdown
-

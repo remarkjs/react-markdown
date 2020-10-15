@@ -18,7 +18,6 @@ const allTypes = Object.keys(defaultRenderers)
 
 const ReactMarkdown = function ReactMarkdown(props) {
   const src = props.source || props.children || ''
-  const parserOptions = props.parserOptions
 
   if (props.allowedTypes && props.disallowedTypes) {
     throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
@@ -26,7 +25,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const renderers = xtend(defaultRenderers, props.renderers)
 
-  const plugins = [[parse, parserOptions]].concat(props.plugins || [])
+  const plugins = [parse].concat(props.plugins || [])
   const parser = plugins.reduce(applyParserPlugin, unified())
 
   const rawAst = parser.parse(src)
@@ -34,7 +33,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
     renderers: renderers,
     definitions: getDefinitions(rawAst)
   })
-  
+
   const astPlugins = determineAstPlugins(props)
   // eslint-disable-next-line no-sync
   const transformedAst = parser.runSync(rawAst)
@@ -53,7 +52,7 @@ function determineAstPlugins(props) {
   let disallowedTypes = props.disallowedTypes
   if (props.allowedTypes) {
     disallowedTypes = allTypes.filter(
-      type => type !== 'root' && props.allowedTypes.indexOf(type) === -1
+      (type) => type !== 'root' && props.allowedTypes.indexOf(type) === -1
     )
   }
 
@@ -67,7 +66,7 @@ function determineAstPlugins(props) {
   }
 
   const renderHtml = !props.escapeHtml && !props.skipHtml
-  const hasHtmlParser = (props.astPlugins || []).some(item => {
+  const hasHtmlParser = (props.astPlugins || []).some((item) => {
     const plugin = Array.isArray(item) ? item[0] : item
     return plugin.identity === symbols.HtmlParser
   })
@@ -87,8 +86,7 @@ ReactMarkdown.defaultProps = {
   rawSourcePos: false,
   transformLinkUri: uriTransformer,
   astPlugins: [],
-  plugins: [],
-  parserOptions: {}
+  plugins: []
 }
 
 ReactMarkdown.propTypes = {
@@ -108,8 +106,7 @@ ReactMarkdown.propTypes = {
   astPlugins: PropTypes.arrayOf(PropTypes.func),
   unwrapDisallowed: PropTypes.bool,
   renderers: PropTypes.object,
-  plugins: PropTypes.array,
-  parserOptions: PropTypes.object
+  plugins: PropTypes.array
 }
 
 ReactMarkdown.types = allTypes

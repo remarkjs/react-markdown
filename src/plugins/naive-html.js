@@ -9,7 +9,7 @@ const type = 'virtualHtml'
 const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i
 const simpleTagRe = /^<(\/?)([a-z]+)\s*>$/
 
-module.exports = function(tree) {
+module.exports = function (tree) {
   let open
   let currentParent
   visit(

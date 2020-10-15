@@ -18,7 +18,7 @@ const parser = new HtmlToReact.Parser()
 const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React)
 
 const defaultConfig = {
-  isValidNode: node => node.type !== 'script',
+  isValidNode: (node) => node.type !== 'script',
   processingInstructions: [
     {
       shouldProcessNode: () => true,
@@ -177,7 +177,7 @@ function parsedHtml(fromNode, toNode, parent) {
 module.exports = function getHtmlParserPlugin(config, props) {
   if (props && (typeof config.source !== 'undefined' || typeof config.children !== 'undefined')) {
     throw new Error(
-      'react-markdown: `html-parser` must be called before use - see https://github.com/rexxars/react-markdown#parsing-html'
+      'react-markdown: `html-parser` must be called before use - see https://github.com/remarkjs/react-markdown#parsing-html'
     )
   }
 

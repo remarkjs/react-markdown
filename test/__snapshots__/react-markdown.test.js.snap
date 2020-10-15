@@ -4,7 +4,7 @@ exports[`allows specifying a custom URI-transformer 1`] = `
 <p>
   Received a great 
   <a
-    href="/rexxars/react-markdown/pull/15"
+    href="/remarkjs/react-markdown/pull/15"
   >
     pull request
   </a>
@@ -152,6 +152,9 @@ Array [
       Integer molestie lorem at massa
     </li>
   </ol>,
+  <p>
+    Or:
+  </p>,
   <ol>
     <li>
       You can use sequential numbers...
@@ -384,9 +387,9 @@ console.log(foo(5));
   <p>
     Autoconverted link 
     <a
-      href="https://github.com/rexxars/react-markdown"
+      href="https://github.com/remarkjs/react-markdown"
     >
-      https://github.com/rexxars/react-markdown
+      https://github.com/remarkjs/react-markdown
     </a>
   </p>,
   <p>
@@ -419,6 +422,8 @@ console.log(foo(5));
   <p>
     <img
       alt="Alt text"
+      src="https://public.sanity.io/modell_@2x.png"
+      title="Headless CMS"
     />
   </p>,
   <p>
@@ -436,11 +441,7 @@ console.log(foo(5));
     HTML entities
   </h2>,
   <p>
-    Some characters, like 
-    æ
-    , 
-    &
-     and similar should be handled properly.
+    Some characters, like æ, & and similar should be handled properly.
   </p>,
   <h2>
     HTML
@@ -625,6 +626,9 @@ Array [
       Integer molestie lorem at massa
     </li>
   </ol>,
+  <p>
+    Or:
+  </p>,
   <ol>
     <li>
       You can use sequential numbers...
@@ -857,9 +861,9 @@ console.log(foo(5));
   <p>
     Autoconverted link 
     <a
-      href="https://github.com/rexxars/react-markdown"
+      href="https://github.com/remarkjs/react-markdown"
     >
-      https://github.com/rexxars/react-markdown
+      https://github.com/remarkjs/react-markdown
     </a>
   </p>,
   <p>
@@ -892,6 +896,8 @@ console.log(foo(5));
   <p>
     <img
       alt="Alt text"
+      src="https://public.sanity.io/modell_@2x.png"
+      title="Headless CMS"
     />
   </p>,
   <p>
@@ -909,11 +915,7 @@ console.log(foo(5));
     HTML entities
   </h2>,
   <p>
-    Some characters, like 
-    æ
-    , 
-    &
-     and similar should be handled properly.
+    Some characters, like æ, & and similar should be handled properly.
   </p>,
   <h2>
     HTML
@@ -996,32 +998,31 @@ have weird ordering on your tags, it won't work either. It does support
 `;
 
 exports[`can use parser plugins 1`] = `
-Array [
-  <p>
-    Just put
-    <br />
-    hard breaks
-    <br />
-    at each newline
-  </p>,
-  <pre>
-    <code>
-      but not inside
-code snippets
-    </code>
-  </pre>,
-]
+<p>
+  a 
+  <del>
+    b
+  </del>
+   c
+</p>
 `;
 
 exports[`passes along all props when the node type is unknown 1`] = `
-Array [
-  <p>
-    Paragraph
-  </p>,
-  <div>
-    Sanity
-  </div>,
-]
+<p>
+  Lift(
+  <span
+    className="math"
+  >
+    !L!
+  </span>
+  ) can be determined by Lift Coefficient (
+  <span
+    className="math"
+  >
+    !C_L!
+  </span>
+  )
+</p>
 `;
 
 exports[`sanitizes certain dangerous urls for links by default 1`] = `
@@ -1144,17 +1145,6 @@ Array [
 ]
 `;
 
-exports[`should be able to override remark-parse plugin options 1`] = `
-<p>
-  <a
-    href="https://example.com/so much space"
-    title="Title"
-  >
-    Spaces in URLs
-  </a>
-</p>
-`;
-
 exports[`should be able to override renderers 1`] = `
 Array [
   <span
@@ -1269,13 +1259,12 @@ exports[`should be able to render components with forwardRef in HOC 1`] = `
       Object {
         "children": Array [
           Object {
-            "position": Position {
+            "position": Object {
               "end": Object {
                 "column": 6,
                 "line": 1,
                 "offset": 5,
               },
-              "indent": Array [],
               "start": Object {
                 "column": 2,
                 "line": 1,
@@ -1286,13 +1275,12 @@ exports[`should be able to render components with forwardRef in HOC 1`] = `
             "value": "Link",
           },
         ],
-        "position": Position {
+        "position": Object {
           "end": Object {
             "column": 29,
             "line": 1,
             "offset": 28,
           },
-          "indent": Array [],
           "start": Object {
             "column": 1,
             "line": 1,
@@ -1906,13 +1894,12 @@ Object {
       index={0}
       node={
         Object {
-          "position": Position {
+          "position": Object {
             "end": Object {
               "column": 4,
               "line": 1,
               "offset": 3,
             },
-            "indent": Array [],
             "start": Object {
               "column": 1,
               "line": 1,
@@ -1942,13 +1929,12 @@ Object {
       index={0}
       node={
         Object {
-          "position": Position {
+          "position": Object {
             "end": Object {
               "column": 4,
               "line": 3,
               "offset": 8,
             },
-            "indent": Array [],
             "start": Object {
               "column": 1,
               "line": 3,
@@ -1978,13 +1964,12 @@ Object {
       index={0}
       node={
         Object {
-          "position": Position {
+          "position": Object {
             "end": Object {
               "column": 4,
               "line": 5,
               "offset": 13,
             },
-            "indent": Array [],
             "start": Object {
               "column": 1,
               "line": 5,
@@ -2022,13 +2007,12 @@ Array [
 `;
 
 exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 1`] = `
-Position {
+Object {
   "end": Object {
     "column": 6,
     "line": 1,
     "offset": 5,
   },
-  "indent": Array [],
   "start": Object {
     "column": 1,
     "line": 1,
@@ -2055,11 +2039,11 @@ Array [
 ]
 `;
 
-exports[`should render empty link references 1`] = `"<p>Stuff were changed in <a href=\\"\\"></a>. Check out the changelog for reference.</p>"`;
+exports[`should render empty link references 1`] = `"<p>Stuff were changed in [][]. Check out the changelog for reference.</p>"`;
 
 exports[`should render image references 1`] = `"<p>Checkout out this ninja: <img src=\\"/assets/ninja.png\\" alt=\\"The Waffle Ninja\\"/>. Pretty neat, eh?</p>"`;
 
-exports[`should render link references 1`] = `"<p>Stuff were changed in <a href=\\"https://github.com/rexxars/react-markdown/compare/v1.1.3...v1.1.4\\">1.1.4</a>. Check out the changelog for reference.</p>"`;
+exports[`should render link references 1`] = `"<p>Stuff were changed in <a href=\\"https://github.com/remarkjs/react-markdown/compare/v1.1.3...v1.1.4\\">1.1.4</a>. Check out the changelog for reference.</p>"`;
 
 exports[`should render partial tables 1`] = `"<p>User is writing a table by hand</p><table><thead><tr><th>Test</th><th>Test</th></tr></thead></table>"`;
 

@@ -8,15 +8,15 @@ const CodeMirror = window.CodeMirror
 // also used as an example:
 // https://github.com/facebook/react/blob/master/src/browser/ui/dom/components/ReactDOMInput.js
 
-const IS_MOBILE = typeof navigator === 'undefined' || (
-  navigator.userAgent.match(/Android/i)
-    || navigator.userAgent.match(/webOS/i)
-    || navigator.userAgent.match(/iPhone/i)
-    || navigator.userAgent.match(/iPad/i)
-    || navigator.userAgent.match(/iPod/i)
-    || navigator.userAgent.match(/BlackBerry/i)
-    || navigator.userAgent.match(/Windows Phone/i)
-)
+const IS_MOBILE =
+  typeof navigator === 'undefined' ||
+  navigator.userAgent.match(/Android/i) ||
+  navigator.userAgent.match(/webOS/i) ||
+  navigator.userAgent.match(/iPhone/i) ||
+  navigator.userAgent.match(/iPad/i) ||
+  navigator.userAgent.match(/iPod/i) ||
+  navigator.userAgent.match(/BlackBerry/i) ||
+  navigator.userAgent.match(/Windows Phone/i)
 
 class CodeMirrorEditor extends React.Component {
   constructor(props) {
@@ -27,10 +27,10 @@ class CodeMirrorEditor extends React.Component {
   }
 
   componentDidMount() {
-    const isTextArea = this.props.forceTextArea || IS_MOBILE;
+    const isTextArea = this.props.forceTextArea || IS_MOBILE
     if (!isTextArea) {
-      this.editor = CodeMirror.fromTextArea(this.editorRef.current, this.props);
-      this.editor.on('change', this.handleChange);
+      this.editor = CodeMirror.fromTextArea(this.editorRef.current, this.props)
+      this.editor.on('change', this.handleChange)
     }
   }
 
@@ -41,7 +41,7 @@ class CodeMirrorEditor extends React.Component {
 
     if (this.props.value) {
       if (this.editor.getValue() !== this.props.value) {
-        this.editor.setValue(this.props.value);
+        this.editor.setValue(this.props.value)
       }
     }
   }
@@ -79,7 +79,7 @@ class CodeMirrorEditor extends React.Component {
       className: this.props.textAreaClassName
     })
 
-    return React.createElement('div', null, editor);
+    return React.createElement('div', null, editor)
   }
 }
 

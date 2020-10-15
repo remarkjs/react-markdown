@@ -2,7 +2,7 @@
 
 Renders Markdown as pure React components.
 
-[![npm version](https://img.shields.io/npm/v/react-markdown.svg?style=flat-square)](https://www.npmjs.com/package/react-markdown)[![Build Status](https://img.shields.io/travis/rexxars/react-markdown/master.svg?style=flat-square)](https://travis-ci.org/rexxars/react-markdown)
+[![npm version](https://img.shields.io/npm/v/react-markdown.svg?style=flat-square)](https://www.npmjs.com/package/react-markdown)[![Build Status](https://img.shields.io/travis/remarkjs/react-markdown/master.svg?style=flat-square)](https://travis-ci.org/remarkjs/react-markdown)
 
 Demo available at https://remarkjs.github.io/react-markdown/
 
@@ -89,8 +89,7 @@ this is a Good Thing™.
 - `renderers` - _object_ An object where the keys represent the node type and the value is a React
   component. The object is merged with the default renderers. The props passed to the component
   varies based on the type of node.
-- `plugins` - _array_ An array of unified/remark parser plugins. If you need to pass options to the plugin, pass an array with two elements, the first being the plugin and the second being the options - for instance: `{plugins: [[require('remark-shortcodes'), {your: 'options'}]]`. (default: `[]`) Note that [not all plugins can be used](https://github.com/rexxars/react-markdown/issues/188#issuecomment-404710893).
-- `parserOptions` - _object_ An object containing options to pass to [remark-parse](https://github.com/remarkjs/remark/tree/main/packages/remark-parse).
+- `plugins` - _array_ An array of unified/remark parser plugins. If you need to pass options to the plugin, pass an array with two elements, the first being the plugin and the second being the options - for instance: `{plugins: [[require('remark-gfm'), {singleTilde: false}]]`. (default: `[]`) Note that [not all plugins can be used](https://github.com/remarkjs/react-markdown/issues/188#issuecomment-404710893).
 
 ## Parsing HTML
 
@@ -169,7 +168,7 @@ children text nodes.
 ## Developing
 
 ```bash
-git clone git@github.com:rexxars/react-markdown.git
+git clone git@github.com:remarkjs/react-markdown.git
 cd react-markdown
 npm install
 npm test
