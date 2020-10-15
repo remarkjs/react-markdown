@@ -177,7 +177,7 @@ function parsedHtml(fromNode, toNode, parent) {
 module.exports = function getHtmlParserPlugin(config, props) {
   if (props && (typeof config.source !== 'undefined' || typeof config.children !== 'undefined')) {
     throw new Error(
-      'react-markdown: `html-parser` must be called before use - see https://github.com/rexxars/react-markdown#parsing-html'
+      'react-markdown: `html-parser` must be called before use - see https://github.com/remarkjs/react-markdown#parsing-html'
     )
   }
 

@@ -47,7 +47,7 @@ Pretty neat, eh?
 
 ## More info?
 
-Read usage information and more on [GitHub](//github.com/rexxars/react-markdown)
+Read usage information and more on [GitHub](//github.com/remarkjs/react-markdown)
 
 ---------------
 
@@ -98,8 +98,4 @@ class Demo extends React.PureComponent {
   }
 }
 
-if (typeof window !== 'undefined') {
-  ReactDOM.render(<Demo />, document.getElementById('main'))
-}
-
-module.exports = Demo
+ReactDOM.render(<Demo />, document.getElementById('main'))

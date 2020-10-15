@@ -512,7 +512,7 @@ test('should render link references', () => {
   const input = [
     'Stuff were changed in [1.1.4]. Check out the changelog for reference.',
     '',
-    '[1.1.4]: https://github.com/rexxars/react-markdown/compare/v1.1.3...v1.1.4'
+    '[1.1.4]: https://github.com/remarkjs/react-markdown/compare/v1.1.3...v1.1.4'
   ].join('\n')
 
   expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
@@ -587,7 +587,7 @@ test('should throw if both allowed and disallowed types is specified', () => {
 test('should be able to use a custom function to determine if the node should be allowed', () => {
   const input = [
     '# Header',
-    '[react-markdown](https://github.com/rexxars/react-markdown/) is a nice helper',
+    '[react-markdown](https://github.com/remarkjs/react-markdown/) is a nice helper',
     'Also check out [my website](https://espen.codes/)'
   ].join('\n\n')
   const allow = node => node.type !== 'link' || node.url.indexOf('https://github.com/') === 0
@@ -595,7 +595,7 @@ test('should be able to use a custom function to determine if the node should be
   expect(renderHTML(<Markdown allowNode={allow} source={input} />)).toEqual(
     [
       '<h1>Header</h1>',
-      '<p><a href="https://github.com/rexxars/react-markdown/">react-markdown</a> is a nice helper</p>',
+      '<p><a href="https://github.com/remarkjs/react-markdown/">react-markdown</a> is a nice helper</p>',
       '<p>Also check out </p>'
     ].join('')
   )
@@ -727,7 +727,7 @@ test('sanitizes certain dangerous urls for links by default', () => {
 
 test('allows specifying a custom URI-transformer', () => {
   const input =
-    'Received a great [pull request](https://github.com/rexxars/react-markdown/pull/15) today'
+    'Received a great [pull request](https://github.com/remarkjs/react-markdown/pull/15) today'
 
   const transform = uri => uri.replace(/^https?:\/\/github\.com\//i, '/')
   const component = renderer.create(<Markdown source={input} transformLinkUri={transform} />)

@@ -121,7 +121,7 @@ Left/right aligned columns
 
 [Sanity](https://www.sanity.io/ "Sanity, the headless CMS and PaaS")
 
-Autoconverted link https://github.com/rexxars/react-markdown
+Autoconverted link https://github.com/remarkjs/react-markdown
 
 [Link references][React]
 

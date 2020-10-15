@@ -4,7 +4,7 @@ exports[`allows specifying a custom URI-transformer 1`] = `
 <p>
   Received a great 
   <a
-    href="/rexxars/react-markdown/pull/15"
+    href="/remarkjs/react-markdown/pull/15"
   >
     pull request
   </a>
@@ -384,9 +384,9 @@ console.log(foo(5));
   <p>
     Autoconverted link 
     <a
-      href="https://github.com/rexxars/react-markdown"
+      href="https://github.com/remarkjs/react-markdown"
     >
-      https://github.com/rexxars/react-markdown
+      https://github.com/remarkjs/react-markdown
     </a>
   </p>,
   <p>
@@ -857,9 +857,9 @@ console.log(foo(5));
   <p>
     Autoconverted link 
     <a
-      href="https://github.com/rexxars/react-markdown"
+      href="https://github.com/remarkjs/react-markdown"
     >
-      https://github.com/rexxars/react-markdown
+      https://github.com/remarkjs/react-markdown
     </a>
   </p>,
   <p>
@@ -2059,7 +2059,7 @@ exports[`should render empty link references 1`] = `"<p>Stuff were changed in <a
 
 exports[`should render image references 1`] = `"<p>Checkout out this ninja: <img src=\\"/assets/ninja.png\\" alt=\\"The Waffle Ninja\\"/>. Pretty neat, eh?</p>"`;
 
-exports[`should render link references 1`] = `"<p>Stuff were changed in <a href=\\"https://github.com/rexxars/react-markdown/compare/v1.1.3...v1.1.4\\">1.1.4</a>. Check out the changelog for reference.</p>"`;
+exports[`should render link references 1`] = `"<p>Stuff were changed in <a href=\\"https://github.com/remarkjs/react-markdown/compare/v1.1.3...v1.1.4\\">1.1.4</a>. Check out the changelog for reference.</p>"`;
 
 exports[`should render partial tables 1`] = `"<p>User is writing a table by hand</p><table><thead><tr><th>Test</th><th>Test</th></tr></thead></table>"`;
 

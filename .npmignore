@@ -12,7 +12,5 @@ package-lock.json
 src
 test
 test/**/*
-webpack.config.demo.js
-webpack.config.js
 yarn.lock
 *.log
