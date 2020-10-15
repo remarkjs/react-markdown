@@ -43,7 +43,7 @@
     "mdast-add-list-metadata": "1.0.1",
     "prop-types": "^15.7.2",
     "react-is": "^16.8.6",
-    "remark-parse": "^8.0.0",
+    "remark-parse": "^9.0.0",
     "unified": "^9.0.0",
     "unist-util-visit": "^2.0.0",
     "xtend": "^4.0.1"
@@ -76,8 +76,7 @@
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.8.6",
     "react-test-renderer": "^16.8.6",
-    "remark-breaks": "^1.0.3",
-    "remark-shortcodes": "^0.3.1",
+    "remark-gfm": "^1.0.0",
     "remark-toc": "^7.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^2.0.0",

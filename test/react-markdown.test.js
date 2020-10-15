@@ -5,11 +5,11 @@ const Adapter = require('enzyme-adapter-react-16')
 const fs = require('fs')
 const path = require('path')
 const React = require('react')
-const breaks = require('remark-breaks')
+const gfm = require('remark-gfm')
 const visit = require('unist-util-visit')
 const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
-const shortcodes = require('remark-shortcodes')
+const math = require('remark-math')
 const htmlParser = require('../src/plugins/html-parser')
 const Markdown = require('../src/react-markdown')
 const MarkdownWithHtml = require('../src/with-html')
@@ -480,7 +480,12 @@ test('should skip nodes that are defined as disallowed', () => {
 test('should unwrap child nodes from disallowed nodes, if unwrapDisallowed option is enabled', () => {
   const input = 'Espen *~~initiated~~ had the initial commit*, but has had several **contributors**'
   const component = renderer.create(
-    <Markdown source={input} disallowedTypes={['emphasis', 'strong']} unwrapDisallowed />
+    <Markdown
+      source={input}
+      disallowedTypes={['emphasis', 'strong']}
+      unwrapDisallowed
+      plugins={[gfm]}
+    />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -497,15 +502,13 @@ test('should render tables', () => {
     ''
   ].join('\n')
 
-  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+  expect(renderHTML(<Markdown source={input} plugins={[gfm]} />)).toMatchSnapshot()
 })
 
 test('should render partial tables', () => {
-  const input = ['User is writing a table by hand', '', '| Test | Test |', '|------|', ''].join(
-    '\n'
-  )
+  const input = 'User is writing a table by hand\n\n| Test | Test |\n|-|-|'
 
-  expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+  expect(renderHTML(<Markdown source={input} plugins={[gfm]} />)).toMatchSnapshot()
 })
 
 test('should render link references', () => {
@@ -632,7 +635,9 @@ test('can render the whole spectrum of markdown within a single run', (done) => 
       return
     }
 
-    const component = renderer.create(<Markdown source={fixture} escapeHtml={false} />)
+    const component = renderer.create(
+      <Markdown source={fixture} plugins={[gfm]} escapeHtml={false} />
+    )
     expect(component.toJSON()).toMatchSnapshot()
     done()
   })
@@ -645,27 +650,27 @@ test('can render the whole spectrum of markdown within a single run (with html p
       return
     }
 
-    const component = renderer.create(<MarkdownWithHtml source={fixture} escapeHtml={false} />)
+    const component = renderer.create(
+      <MarkdownWithHtml source={fixture} plugins={[gfm]} escapeHtml={false} />
+    )
     expect(component.toJSON()).toMatchSnapshot()
     done()
   })
 })
 
 test('passes along all props when the node type is unknown', () => {
-  expect.assertions(3)
+  expect.assertions(1)
 
-  const ShortcodeRenderer = (props) => {
-    expect(props.identifier).toBe('GeoMarker')
-    expect(props.attributes).toEqual({lat: '59.924082', lng: '10.758460', title: 'Sanity'})
-    return <div>{props.attributes.title}</div>
+  const MathRenderer = (props) => {
+    return <span className="math">{`!${props.node.value}!`}</span>
   }
 
-  const input = 'Paragraph\n\n[[ GeoMarker lat="59.924082" lng="10.758460" title="Sanity" ]]'
+  const input = 'Lift($L$) can be determined by Lift Coefficient ($C_L$)'
   const component = renderer.create(
     <Markdown
       source={input}
-      plugins={[shortcodes]}
-      renderers={{shortcode: ShortcodeRenderer}}
+      plugins={[math]}
+      renderers={{inlineMath: MathRenderer}}
       escapeHtml={false}
     />
   )
@@ -737,16 +742,15 @@ test('allows specifying a custom URI-transformer', () => {
 })
 
 test('can use parser plugins', () => {
-  const input =
-    'Just put\nhard breaks\nat each newline\n\n```\nbut not inside\ncode snippets\n```\n'
+  const input = 'a ~b~ c'
 
-  const component = renderer.create(<Markdown source={input} plugins={[breaks]} />)
+  const component = renderer.create(<Markdown source={input} plugins={[gfm]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('supports checkbox lists', () => {
   const input = '- [ ] Foo\n- [x] Bar\n\n---\n\n- Foo\n- Bar'
-  const component = renderer.create(<Markdown source={input} />)
+  const component = renderer.create(<Markdown source={input} plugins={[gfm]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -777,17 +781,6 @@ test('should pass index of a node under its parent to non-tag renderers if inclu
     <Markdown renderers={{paragraph}} source={input} includeNodeIndex />
   )
   expect(component.toJSON()).toMatchSnapshot()
-})
-
-test('should be able to override remark-parse plugin options', () => {
-  // gfm is used by default in remark-parse which will not autolink URLs
-  // containing a space unless the pedantic option is set to true.
-  const input = '[Spaces in URLs](https://example.com/so much space "Title")'
-  const pedantic = renderer.create(<Markdown source={input} parserOptions={{pedantic: true}} />)
-  const unscholarly = renderer.create(<Markdown source={input} parserOptions={{pedantic: false}} />)
-
-  expect(pedantic.toJSON()).toMatchSnapshot()
-  expect(unscholarly.toJSON()).not.toBe(pedantic.toJSON())
 })
 
 test('should be able to render components with forwardRef in HOC', () => {

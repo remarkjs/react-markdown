@@ -25,14 +25,6 @@ declare namespace ReactMarkdown {
     readonly indent?: number[]
   }
 
-  interface RemarkParseOptions {
-    gfm: boolean
-    commonmark: boolean
-    footnotes: boolean
-    blocks: string[]
-    pedantic: boolean
-  }
-
   export type NodeType = Content['type']
 
   export type AlignType = 'left' | 'right' | 'center' | null
@@ -68,7 +60,6 @@ declare namespace ReactMarkdown {
     readonly renderers?: {[nodeType: string]: ReactType}
     readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
-    readonly parserOptions?: Partial<RemarkParseOptions>
   }
 
   export var types: NodeType[]

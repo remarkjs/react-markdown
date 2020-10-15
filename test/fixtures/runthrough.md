@@ -54,6 +54,7 @@ Ordered
 2. Consectetur adipiscing elit
 3. Integer molestie lorem at massa
 
+Or:
 
 1. You can use sequential numbers...
 1. ...or keep all the numbers as `1.`
@@ -139,7 +140,7 @@ Like links, Images also have a footnote style syntax
 
 With a reference later in the document defining the URL location:
 
-[somref]: https://public.sanity.io/modell_@2x.png  "Headless CMS"
+[someref]: https://public.sanity.io/modell_@2x.png  "Headless CMS"
 
 ## Hard breaks
 
