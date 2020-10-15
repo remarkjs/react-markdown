@@ -77,6 +77,7 @@
     "react-dom": "^16.8.6",
     "react-test-renderer": "^16.8.6",
     "remark-gfm": "^1.0.0",
+    "remark-math": "^4.0.0",
     "remark-toc": "^7.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^2.0.0",
