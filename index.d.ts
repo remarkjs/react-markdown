@@ -35,16 +35,9 @@ declare namespace ReactMarkdown {
 
   export type NodeType = Content['type']
 
-  export type AlignType =
-    | "left"
-    | "right"
-    | "center"
-    | null
+  export type AlignType = 'left' | 'right' | 'center' | null
 
-  export type ReferenceType =
-    | "shortcut"
-    | "collapsed"
-    | "full"
+  export type ReferenceType = 'shortcut' | 'collapsed' | 'full'
 
   export type LinkTargetResolver = (uri: string, text: string, title?: string) => string
 
@@ -86,4 +79,3 @@ declare namespace ReactMarkdown {
 declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
 
 export = ReactMarkdown
-

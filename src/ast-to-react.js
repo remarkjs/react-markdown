@@ -2,7 +2,7 @@
 
 const React = require('react')
 const xtend = require('xtend')
-const ReactIs = require('react-is');
+const ReactIs = require('react-is')
 
 const defaultNodePosition = {
   start: {line: 1, column: 1, offset: 0},

@@ -2,7 +2,7 @@
 
 const visit = require('unist-util-visit')
 
-module.exports = node => {
+module.exports = (node) => {
   visit(node, 'table', wrap)
   return node
 }

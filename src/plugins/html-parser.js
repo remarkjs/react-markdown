@@ -18,7 +18,7 @@ const parser = new HtmlToReact.Parser()
 const processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React)
 
 const defaultConfig = {
-  isValidNode: node => node.type !== 'script',
+  isValidNode: (node) => node.type !== 'script',
   processingInstructions: [
     {
       shouldProcessNode: () => true,

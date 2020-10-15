@@ -1,41 +1,41 @@
 {
   "name": "react-markdown",
-  "description": "Renders Markdown as React components",
   "version": "4.3.1",
+  "description": "Render Markdown as React components",
+  "license": "MIT",
   "keywords": [
+    "remark",
+    "unified",
     "markdown",
+    "commonmark",
+    "gfm",
+    "ast",
     "react",
-    "react-component"
+    "react-component",
+    "component"
   ],
-  "main": "lib/react-markdown.js",
-  "unpkg": "umd/react-markdown.js",
-  "scripts": {
-    "build": "npm run clean && npm run compile && rollup -c && npm run build:demo",
-    "build:demo": "rollup -c rollup.config.demo.js",
-    "postbuild": "echo 'Ensuring ES5 compatibility...' && uglifyjs umd/react-markdown.js > /dev/null && echo 'Yep!'",
-    "clean": "rimraf lib/",
-    "compile": "babel --copy-files -d lib/ src/",
-    "deploy": "gh-pages-deploy",
-    "posttest": "eslint .",
-    "prepublishOnly": "npm run qa",
-    "qa": "npm test && npm run build",
-    "test": "jest --coverage --env=jsdom",
-    "watch": "rollup -wc --watch",
-    "watch:demo": "rollup -wc rollup.config.demo.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:remarkjs/react-markdown.git"
+  "repository": "remarkjs/react-markdown",
+  "bugs": "https://github.com/remarkjs/react-markdown/issues",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
   },
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
-  "license": "MIT",
-  "gh-pages-deploy": {
-    "noprompt": true,
-    "prep": [
-      "build"
-    ],
-    "staticpath": "demo/dist"
-  },
+  "contributors": [
+    "Espen Hovlandsdal <espen@hovlandsdal.com>",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)"
+  ],
+  "types": "index.d.ts",
+  "main": "lib/react-markdown.js",
+  "unpkg": "umd/react-markdown.js",
+  "files": [
+    "lib/",
+    "plugins/",
+    "umd/",
+    "index.d.ts",
+    "with-html.d.ts",
+    "with-html.js"
+  ],
   "dependencies": {
     "@types/mdast": "^3.0.3",
     "@types/unist": "^2.0.3",
@@ -47,6 +47,9 @@
     "unified": "^9.0.0",
     "unist-util-visit": "^2.0.0",
     "xtend": "^4.0.1"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -82,16 +85,75 @@
     "rollup-plugin-terser": "^7.0.0",
     "uglify-js": "^3.6.0"
   },
+  "scripts": {
+    "demo": "rollup --silent -c rollup.config.demo.js",
+    "build-lib": "rimraf lib/ && babel src/ --quiet --copy-files -d lib/",
+    "build-umd": "rollup --silent -c",
+    "postbuild-umd": "printf 'ES5? ' && uglifyjs umd/react-markdown.js > /dev/null && echo 'Yes'",
+    "build": "npm run build-lib && npm run build-umd",
+    "format": "prettier . -w --loglevel warn && eslint . --fix",
+    "deploy": "gh-pages-deploy",
+    "test-api": "jest",
+    "test-coverage": "jest --coverage",
+    "test": "npm run build && npm run format && npm run test-coverage"
+  },
   "browserslist": "> 0.25%, not dead",
-  "peerDependencies": {
-    "react": "^15.0.0 || ^16.0.0"
+  "gh-pages-deploy": {
+    "noprompt": true,
+    "prep": [
+      "build"
+    ],
+    "staticpath": "demo/dist"
   },
   "jest": {
-    "verbose": true,
-    "testEnvironment": "node",
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "src/**.js"
-    ]
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false
+  },
+  "eslintConfig": {
+    "extends": [
+      "sanity",
+      "prettier",
+      "plugin:react/recommended"
+    ],
+    "plugins": [
+      "react"
+    ],
+    "env": {
+      "node": true,
+      "browser": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "strict": 0,
+      "complexity": [
+        "warn",
+        15
+      ]
+    },
+    "settings": {
+      "react": {
+        "version": "15.0"
+      }
+    }
   }
 }

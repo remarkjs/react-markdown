@@ -17,7 +17,7 @@ const toc = require('remark-toc')
 
 Enzyme.configure({adapter: new Adapter()})
 
-const renderHTML = input => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
+const renderHTML = (input) => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
 
 test('can render the most basic of documents (single paragraph)', () => {
   const component = renderer.create(<Markdown>Test</Markdown>)
@@ -73,7 +73,7 @@ test('should handle links with uppercase protocol', () => {
 
 test('should handle links with custom uri transformer', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-  const transform = uri => uri.replace(/^https?:/, '')
+  const transform = (uri) => uri.replace(/^https?:/, '')
   const component = renderer.create(<Markdown transformLinkUri={transform} source={input} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -86,7 +86,7 @@ test('should use target attribute for links if specified', () => {
 
 test('should call function to get target attribute for links if specified', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-  const getTarget = uri => (uri.match(/^http/) ? '_blank' : undefined)
+  const getTarget = (uri) => (uri.match(/^http/) ? '_blank' : undefined)
   const component = renderer.create(<Markdown linkTarget={getTarget} source={input} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -105,14 +105,14 @@ test('should handle images with title attribute', () => {
 
 test('should handle images with custom uri transformer', () => {
   const input = 'This is ![an image](/ninja.png).'
-  const transform = uri => uri.replace(/\.png$/, '.jpg')
+  const transform = (uri) => uri.replace(/\.png$/, '.jpg')
   const component = renderer.create(<Markdown transformImageUri={transform} source={input} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should handle image references with custom uri transformer', () => {
   const input = 'This is ![The Waffle Ninja][ninja].\n\n[ninja]: https://some.host/img.png'
-  const transform = uri => uri.replace(/\.png$/, '.jpg')
+  const transform = (uri) => uri.replace(/\.png$/, '.jpg')
   const component = renderer.create(<Markdown transformImageUri={transform} source={input} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -227,12 +227,12 @@ test('should handle ordered lists with a start index', () => {
 test('should pass depth, index and ordered props to list/listItem', () => {
   const input = '- foo\n\n  2. bar\n  3. baz\n\n- root\n'
   const renderers = {
-    listItem: item => {
+    listItem: (item) => {
       expect(item.index).toBeGreaterThanOrEqual(0)
       expect(item.ordered).not.toBeUndefined()
       return Markdown.renderers.listItem(item)
     },
-    list: item => {
+    list: (item) => {
       expect(item.depth).toBeGreaterThanOrEqual(0)
       return Markdown.renderers.list(item)
     }
@@ -456,7 +456,7 @@ test('should set source position attributes if sourcePos option is enabled', () 
 
 test('should pass on raw source position to non-tag renderers if rawSourcePos option is enabled', () => {
   const input = '*Foo*\n\n------------\n\n__Bar__'
-  const emphasis = props => {
+  const emphasis = (props) => {
     expect(props.sourcePosition).toMatchSnapshot()
     return <em className="custom">{props.children}</em>
   }
@@ -556,7 +556,7 @@ describe('should skip nodes that are defined as disallowed', () => {
     return `${input + samples[sampleType].input}\n`
   }, '')
 
-  Object.keys(samples).forEach(type => {
+  Object.keys(samples).forEach((type) => {
     test(type, () => {
       const sample = samples[type]
 
@@ -590,7 +590,7 @@ test('should be able to use a custom function to determine if the node should be
     '[react-markdown](https://github.com/remarkjs/react-markdown/) is a nice helper',
     'Also check out [my website](https://espen.codes/)'
   ].join('\n\n')
-  const allow = node => node.type !== 'link' || node.url.indexOf('https://github.com/') === 0
+  const allow = (node) => node.type !== 'link' || node.url.indexOf('https://github.com/') === 0
 
   expect(renderHTML(<Markdown allowNode={allow} source={input} />)).toEqual(
     [
@@ -603,7 +603,9 @@ test('should be able to use a custom function to determine if the node should be
 
 test('should be able to override renderers', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
-  const heading = props => <span className={`heading level-${props.level}`}>{props.children}</span>
+  const heading = (props) => (
+    <span className={`heading level-${props.level}`}>{props.children}</span>
+  )
   const component = renderer.create(<Markdown source={input} renderers={{heading: heading}} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -623,7 +625,7 @@ test('should be able to override root renderer with fragment renderer', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
-test('can render the whole spectrum of markdown within a single run', done => {
+test('can render the whole spectrum of markdown within a single run', (done) => {
   fs.readFile(path.join(__dirname, 'fixtures', 'runthrough.md'), 'utf8', (err, fixture) => {
     if (err) {
       done(err)
@@ -636,7 +638,7 @@ test('can render the whole spectrum of markdown within a single run', done => {
   })
 })
 
-test('can render the whole spectrum of markdown within a single run (with html parser)', done => {
+test('can render the whole spectrum of markdown within a single run (with html parser)', (done) => {
   fs.readFile(path.join(__dirname, 'fixtures', 'runthrough.md'), 'utf8', (err, fixture) => {
     if (err) {
       done(err)
@@ -652,7 +654,7 @@ test('can render the whole spectrum of markdown within a single run (with html p
 test('passes along all props when the node type is unknown', () => {
   expect.assertions(3)
 
-  const ShortcodeRenderer = props => {
+  const ShortcodeRenderer = (props) => {
     expect(props.identifier).toBe('GeoMarker')
     expect(props.attributes).toEqual({lat: '59.924082', lng: '10.758460', title: 'Sanity'})
     return <div>{props.attributes.title}</div>
@@ -729,7 +731,7 @@ test('allows specifying a custom URI-transformer', () => {
   const input =
     'Received a great [pull request](https://github.com/remarkjs/react-markdown/pull/15) today'
 
-  const transform = uri => uri.replace(/^https?:\/\/github\.com\//i, '/')
+  const transform = (uri) => uri.replace(/^https?:\/\/github\.com\//i, '/')
   const component = renderer.create(<Markdown source={input} transformLinkUri={transform} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -750,7 +752,7 @@ test('supports checkbox lists', () => {
 
 test('should be able to override text renderer', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
-  const textRenderer = props => props.children.toUpperCase()
+  const textRenderer = (props) => props.children.toUpperCase()
   const component = renderer.create(<Markdown source={input} renderers={{text: textRenderer}} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -795,12 +797,12 @@ test('should be able to render components with forwardRef in HOC', () => {
   }
 
   const renderers = {
-    link: componentWrapper((props) => (
-      <a {...props} />
-    ))
+    link: componentWrapper((props) => <a {...props} />)
   }
 
-  const component = renderer.create(<Markdown renderers={renderers}>[Link](https://example.com/)</Markdown>)
+  const component = renderer.create(
+    <Markdown renderers={renderers}>[Link](https://example.com/)</Markdown>
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -813,16 +815,16 @@ test('should render table of contents plugin', () => {
     '### Subsection',
     '## Third Section'
   ].join('\n')
-  
+
   const component = renderer.create(<Markdown source={input} plugins={[toc]} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should pass `node` as prop to all non-tag/non-fragment renderers', () => {
   const input = "# So, *headers... they're _cool_*\n\n"
-  const heading = props => {
+  const heading = (props) => {
     let text = ''
-    visit(props.node, 'text', child => {
+    visit(props.node, 'text', (child) => {
       text += child.value
     })
     return text

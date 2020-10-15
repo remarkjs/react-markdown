@@ -34,7 +34,7 @@ const ReactMarkdown = function ReactMarkdown(props) {
     renderers: renderers,
     definitions: getDefinitions(rawAst)
   })
-  
+
   const astPlugins = determineAstPlugins(props)
   // eslint-disable-next-line no-sync
   const transformedAst = parser.runSync(rawAst)
@@ -53,7 +53,7 @@ function determineAstPlugins(props) {
   let disallowedTypes = props.disallowedTypes
   if (props.allowedTypes) {
     disallowedTypes = allTypes.filter(
-      type => type !== 'root' && props.allowedTypes.indexOf(type) === -1
+      (type) => type !== 'root' && props.allowedTypes.indexOf(type) === -1
     )
   }
 
@@ -67,7 +67,7 @@ function determineAstPlugins(props) {
   }
 
   const renderHtml = !props.escapeHtml && !props.skipHtml
-  const hasHtmlParser = (props.astPlugins || []).some(item => {
+  const hasHtmlParser = (props.astPlugins || []).some((item) => {
     const plugin = Array.isArray(item) ? item[0] : item
     return plugin.identity === symbols.HtmlParser
   })
