@@ -354,7 +354,7 @@ render(<ReactMarkdownWithHtml children={markdown} escapeHtml={false} />, documen
 If you want to specify options for the HTML parsing step, you can instead import
 the extension directly:
 
-```js
+```jsx
 const ReactMarkdown = require('react-markdown')
 const htmlParser = require('react-markdown/plugins/html-parser')
 
