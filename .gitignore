@@ -1,8 +1,8 @@
 coverage/
 lib/
 node_modules/
-umd/
 *.log
 .DS_Store
 package-lock.json
+react-markdown.min.js
 yarn.lock

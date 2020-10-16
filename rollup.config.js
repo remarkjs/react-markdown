@@ -6,9 +6,9 @@ import {terser} from 'rollup-plugin-terser'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
 
 const config = {
-  input: './lib/react-markdown.js',
+  input: '.',
   output: {
-    file: './umd/react-markdown.js',
+    file: './react-markdown.min.js',
     format: 'cjs',
     name: 'ReactMarkdown',
     exports: 'default',

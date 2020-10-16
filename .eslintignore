@@ -1,4 +1,3 @@
 coverage/
-demo/dist/
 lib/
-umd/
+react-markdown.min.js
