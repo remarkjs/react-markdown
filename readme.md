@@ -242,7 +242,7 @@ In this case, we apply syntax highlighting with the seriously super amazing
 [`react-syntax-highlighter`][react-syntax-highlighter] by
 [**@conorhastings**][conor]:
 
-```js
+```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
