@@ -28,8 +28,8 @@ The two main reasons are that they often rely on `dangerouslySetInnerHTML` or
 have bugs with how they handle markdown.
 `react-markdown` uses a syntax tree to build the virtual dom which allows for
 updating only the changing DOM instead of completely overwriting.
-And `react-markdown` is 100% CommonMark (optionally GFM) compliant and has the
-syntax extensions and plugins you may want.
+`react-markdown` is 100% CommonMark (optionally GFM) compliant and has
+extensions to support custom syntax.
 
 ## Use
 
