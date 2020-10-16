@@ -209,7 +209,7 @@ To do that, use an array with the plugin at the first place, and the options
 second.
 [`remark-gfm`][gfm] has an option to allow only double tildes for strikethrough:
 
-```js
+```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import {render} from 'react-dom'
