@@ -58,7 +58,7 @@ Here is an example using `require`s, passing the markdown as a string, and how
 to use a plugin ([`remark-gfm`][gfm], which adds support for strikethrough,
 tables, tasklists and URLs directly):
 
-```js
+```jsx
 const React = require('react')
 const ReactMarkdown = require('react-markdown')
 const render = require('react-dom').render
