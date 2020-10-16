@@ -284,7 +284,7 @@ This example shows how a syntax extension is used to support math in markdown
 that adds new node types ([`remark-math`][math]), which are then handled by
 renderers to use [`react-katex`][react-katex]:
 
-```js
+```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import {InlineMath, BlockMath} from 'react-katex'
