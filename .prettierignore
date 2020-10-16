@@ -1,7 +1,6 @@
 coverage/
-demo/dist/js/demo.js
 lib/
-umd/
 *.html
 *.json
 *.md
+react-markdown.min.js

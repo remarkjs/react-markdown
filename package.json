@@ -27,12 +27,12 @@
   ],
   "types": "index.d.ts",
   "main": "lib/react-markdown.js",
-  "unpkg": "umd/react-markdown.js",
+  "unpkg": "react-markdown.min.js",
   "files": [
     "lib/",
     "plugins/",
-    "umd/",
     "index.d.ts",
+    "react-markdown.min.js",
     "with-html.d.ts",
     "with-html.js"
   ],
@@ -61,7 +61,6 @@
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.0.0",
-    "babel-loader": "^8.0.6",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
@@ -69,7 +68,6 @@
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-sanity": "^4.0.2",
     "eslint-plugin-react": "^7.14.2",
-    "gh-pages-deploy": "^0.5.1",
     "jest": "^26.0.1",
     "prettier": "^2.0.0",
     "react": "^16.0.0",
@@ -86,25 +84,16 @@
     "uglify-js": "^3.6.0"
   },
   "scripts": {
-    "demo": "rollup --silent -c rollup.config.demo.js",
     "build-lib": "rimraf lib/ && babel src/ --quiet --copy-files -d lib/",
     "build-umd": "rollup --silent -c",
-    "postbuild-umd": "printf 'ES5? ' && uglifyjs umd/react-markdown.js > /dev/null && echo 'Yes'",
+    "postbuild-umd": "printf 'ES5? ' && uglifyjs react-markdown.min.js > /dev/null && echo 'Yes'",
     "build": "npm run build-lib && npm run build-umd",
     "format": "prettier . -w --loglevel warn && eslint . --fix",
-    "deploy": "gh-pages-deploy",
     "test-api": "jest",
     "test-coverage": "jest --coverage",
     "test": "npm run build && npm run format && npm run test-coverage"
   },
   "browserslist": "> 0.25%, not dead",
-  "gh-pages-deploy": {
-    "noprompt": true,
-    "prep": [
-      "build"
-    ],
-    "staticpath": "demo/dist"
-  },
   "jest": {
     "coverageThreshold": {
       "global": {
