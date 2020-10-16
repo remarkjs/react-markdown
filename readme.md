@@ -142,7 +142,7 @@ This example shows how to use a plugin.
 In this case, [`remark-gfm`][gfm], which adds support for which adds support for
 strikethrough, tables, tasklists and URLs directly:
 
-```js
+```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import {render} from 'react-dom'
