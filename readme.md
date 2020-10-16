@@ -35,7 +35,7 @@ syntax extensions and plugins you may want.
 
 A basic hello world:
 
-```js
+```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import {render} from 'react-dom'
