@@ -21,7 +21,7 @@ For instance:
 
 Should now be written as:
 
-```js
+```jsx
 <ReactMarkdown
   source="[foo](https://foo.bar/)"
   renderers={{link: ({node, ...props}) => <a {...props} />}}
