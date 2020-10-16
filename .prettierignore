@@ -1,0 +1,4 @@
+dest/index.js
+*.html
+*.json
+*.md
