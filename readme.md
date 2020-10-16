@@ -326,7 +326,7 @@ because it is dangerous and defeats the purpose of this library.
 However, if you are in a trusted environment (you trust the markdown), you can
 `react-markdown/with-html`:
 
-```js
+```jsx
 const React = require('react')
 const ReactMarkdownWithHtml = require('react-markdown/with-html')
 const render = require('react-dom').render
