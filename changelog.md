@@ -15,7 +15,7 @@ The breaking change is for renderers which blindly spread their props to an
 underlying component/tag.
 For instance:
 
-```js
+```jsx
 <ReactMarkdown source="[foo](https://foo.bar/)" renderers={{link: props => <a {...props} />}} />
 ```
 
