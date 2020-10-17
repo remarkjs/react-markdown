@@ -92,6 +92,13 @@ test('should call function to get target attribute for links if specified', () =
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should support images without alt, url, or title', () => {
+  const input = '![]()'
+  const actual = renderHTML(<Markdown source={input} transformLinkUri={null} />)
+  const expected = '<p><img src="" alt=""/></p>'
+  expect(actual).toEqual(expected)
+})
+
 test('should handle images without title attribute', () => {
   const input = 'This is ![an image](/ninja.png).'
   const component = renderer.create(<Markdown source={input} />)
@@ -116,6 +123,13 @@ test('should handle image references with custom uri transformer', () => {
   const transform = (uri) => uri.replace(/\.png$/, '.jpg')
   const component = renderer.create(<Markdown transformImageUri={transform} source={input} />)
   expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should support images references without alt, url, or title', () => {
+  const input = '![][a]\n\n[a]: <>'
+  const actual = renderHTML(<Markdown source={input} transformLinkUri={null} />)
+  const expected = '<p><img src="" alt=""/></p>'
+  expect(actual).toEqual(expected)
 })
 
 test('should handle images with special characters in alternative text', () => {
@@ -455,6 +469,13 @@ test('should set source position attributes if sourcePos option is enabled', () 
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should support `sourcePos` with html', () => {
+  const input = '<i>!</i>'
+  const actual = renderHTML(<MarkdownWithHtml source={input} sourcePos escapeHtml={false} />)
+  const expected = '<p data-sourcepos="1:1-1:9"><i data-sourcepos="1:1-1:9">!</i></p>'
+  expect(actual).toEqual(expected)
+})
+
 test('should pass on raw source position to non-tag renderers if rawSourcePos option is enabled', () => {
   const input = '*Foo*\n\n------------\n\n__Bar__'
   const emphasis = (props) => {
@@ -476,6 +497,13 @@ test('should skip nodes that are defined as disallowed', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
   const component = renderer.create(<Markdown source={input} disallowedTypes={['listItem']} />)
   expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should not support disallowing `root`', () => {
+  const input = 'x'
+  const actual = renderHTML(<Markdown source={input} disallowedTypes={['root']} />)
+  const expected = '<p>x</p>'
+  expect(actual).toEqual(expected)
 })
 
 test('should unwrap child nodes from disallowed nodes, if unwrapDisallowed option is enabled', () => {
@@ -536,6 +564,20 @@ test('should render image references', () => {
   ].join('\n')
 
   expect(renderHTML(<Markdown source={input} />)).toMatchSnapshot()
+})
+
+test('should support definitions with funky keys', () => {
+  const input = '[][__proto__] and [][constructor]\n\n[__proto__]: a\n[constructor]: b'
+  const actual = renderHTML(<Markdown source={input} transformLinkUri={null} />)
+  const expected = '<p><a href="a"></a> and <a href="b"></a></p>'
+  expect(actual).toEqual(expected)
+})
+
+test('should support duplicate definitions', () => {
+  const input = '[a][]\n\n[a]: b\n[a]: c'
+  const actual = renderHTML(<Markdown source={input} transformLinkUri={null} />)
+  const expected = '<p><a href="b">a</a></p>'
+  expect(actual).toEqual(expected)
 })
 
 describe('should skip nodes that are defined as disallowed', () => {
@@ -748,6 +790,13 @@ test('allows specifying a custom URI-transformer', () => {
   const transform = (uri) => uri.replace(/^https?:\/\/github\.com\//i, '/')
   const component = renderer.create(<Markdown source={input} transformLinkUri={transform} />)
   expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should support turning off the default URI transform', () => {
+  const input = '[a](data:text/html,<script>alert(1)</script>)'
+  const actual = renderHTML(<Markdown source={input} transformLinkUri={null} />)
+  const expected = '<p><a href="data:text/html,&lt;script&gt;alert(1)&lt;/script&gt;">a</a></p>'
+  expect(actual).toEqual(expected)
 })
 
 test('can use parser plugins', () => {

@@ -1,14 +1,12 @@
 'use strict'
 
-module.exports = function getDefinitions(node, defs = {}) {
-  return (node.children || []).reduce((definitions, child) => {
-    if (child.type === 'definition') {
-      definitions[child.identifier] = {
-        href: child.url,
-        title: child.title
-      }
-    }
+const visit = require('unist-util-visit')
 
-    return getDefinitions(child, definitions)
-  }, defs)
+module.exports = function getDefinitions(tree, definitions = {}) {
+  visit(tree, 'definition', (node) => {
+    const identifier = node.identifier.toUpperCase()
+    if (identifier in definitions) return
+    definitions[identifier] = {href: node.url, title: node.title}
+  })
+  return definitions
 }

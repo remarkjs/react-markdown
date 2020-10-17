@@ -25,29 +25,24 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const renderers = xtend(defaultRenderers, props.renderers)
 
-  const plugins = [parse].concat(props.plugins || [])
-  const parser = plugins.reduce(applyParserPlugin, unified())
+  const processor = unified()
+    .use(parse)
+    .use(props.plugins || [])
 
-  const rawAst = parser.parse(src)
-  const renderProps = xtend(props, {
-    renderers: renderers,
-    definitions: getDefinitions(rawAst)
+  // eslint-disable-next-line no-sync
+  let tree = processor.runSync(processor.parse(src))
+
+  const renderProps = xtend(props, {renderers: renderers, definitions: getDefinitions(tree)})
+
+  determineAstToReactTransforms(props).forEach((transform) => {
+    tree = transform(tree, renderProps)
   })
 
-  const astPlugins = determineAstPlugins(props)
-  // eslint-disable-next-line no-sync
-  const transformedAst = parser.runSync(rawAst)
-  const ast = astPlugins.reduce((node, plugin) => plugin(node, renderProps), transformedAst)
-
-  return astToReact(ast, renderProps)
+  return tree
 }
 
-function applyParserPlugin(parser, plugin) {
-  return Array.isArray(plugin) ? parser.use(...plugin) : parser.use(plugin)
-}
-
-function determineAstPlugins(props) {
-  const plugins = [wrapTableRows, addListMetadata()]
+function determineAstToReactTransforms(props) {
+  let transforms = [wrapTableRows, addListMetadata()]
 
   let disallowedTypes = props.disallowedTypes
   if (props.allowedTypes) {
@@ -58,35 +53,35 @@ function determineAstPlugins(props) {
 
   const removalMethod = props.unwrapDisallowed ? 'unwrap' : 'remove'
   if (disallowedTypes && disallowedTypes.length > 0) {
-    plugins.push(disallowNode.ofType(disallowedTypes, removalMethod))
+    transforms.push(disallowNode.ofType(disallowedTypes, removalMethod))
   }
 
   if (props.allowNode) {
-    plugins.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
+    transforms.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
   }
 
   const renderHtml = !props.escapeHtml && !props.skipHtml
-  const hasHtmlParser = (props.astPlugins || []).some((item) => {
-    const plugin = Array.isArray(item) ? item[0] : item
-    return plugin.identity === symbols.HtmlParser
-  })
+  const hasHtmlParser = (props.astPlugins || []).some(
+    (transform) => transform.identity === symbols.HtmlParser
+  )
 
   if (renderHtml && !hasHtmlParser) {
-    plugins.push(naiveHtml)
+    transforms.push(naiveHtml)
   }
 
-  return props.astPlugins ? plugins.concat(props.astPlugins) : plugins
+  if (props.astPlugins) {
+    transforms = transforms.concat(props.astPlugins)
+  }
+
+  // Add the final transform to turn everything into React.
+  transforms.push(astToReact)
+
+  return transforms
 }
 
 ReactMarkdown.defaultProps = {
-  renderers: {},
   escapeHtml: true,
-  skipHtml: false,
-  sourcePos: false,
-  rawSourcePos: false,
-  transformLinkUri: uriTransformer,
-  astPlugins: [],
-  plugins: []
+  transformLinkUri: uriTransformer
 }
 
 ReactMarkdown.propTypes = {
