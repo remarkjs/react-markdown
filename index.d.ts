@@ -1,21 +1,18 @@
 // TypeScript Version: 3.4
 
-import {Component, ElementType, ReactNode} from 'react'
+import {ElementType, ReactNode, ReactElement} from 'react'
 import {PluggableList} from 'unified'
+import * as unist from 'unist'
 import * as mdast from 'mdast'
 
 declare namespace ReactMarkdown {
-  interface Point {
-    readonly line: number
-    readonly column: number
-    readonly offset?: number
+  type Not<T> = {
+    [key in keyof T]?: never
   }
 
-  interface Position {
-    readonly start: Point
-    readonly end: Point
-    readonly indent?: number[]
-  }
+  type Point = unist.Point
+
+  type Position = unist.Position
 
   type NodeType = mdast.Content['type']
 
@@ -30,17 +27,12 @@ declare namespace ReactMarkdown {
     [key: string]: string | Renderer<any>
   }
 
-  interface ReactMarkdownProps {
+  interface ReactMarkdownPropsBase {
     readonly className?: string
-    readonly source?: string
     readonly sourcePos?: boolean
     readonly includeNodeIndex?: boolean
     readonly rawSourcePos?: boolean
-    readonly escapeHtml?: boolean
-    readonly skipHtml?: boolean
     readonly allowNode?: (node: mdast.Content, index: number, parent: NodeType) => boolean
-    readonly allowedTypes?: NodeType[]
-    readonly disallowedTypes?: NodeType[]
     readonly linkTarget?: string | LinkTargetResolver
     readonly transformLinkUri?:
       | ((uri: string, children?: ReactNode, title?: string) => string)
@@ -48,17 +40,49 @@ declare namespace ReactMarkdown {
     readonly transformImageUri?:
       | ((uri: string, children?: ReactNode, title?: string, alt?: string) => string)
       | null
-    readonly unwrapDisallowed?: boolean
     readonly renderers?: {[nodeType: string]: ElementType}
+    /**
+     * @deprecated please use plugins
+     */
     readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
   }
 
+  interface SourceProp {
+    readonly source: string
+  }
+
+  interface ChildrenProp {
+    readonly children: string
+  }
+
+  interface AllowedTypesProp {
+    readonly allowedTypes?: NodeType[]
+  }
+
+  interface DisallowedTypesProp {
+    readonly disallowedTypes: NodeType[]
+    readonly unwrapDisallowed?: boolean
+  }
+
+  interface EscapeHtmlProp {
+    readonly escapeHtml?: boolean
+  }
+
+  interface SkipHtmlProp {
+    readonly skipHtml?: boolean
+  }
+
+  type ReactMarkdownProps = ReactMarkdownPropsBase &
+    ((SourceProp & Not<ChildrenProp>) | (ChildrenProp & Not<SourceProp>)) &
+    ((AllowedTypesProp & Not<DisallowedTypesProp>) | (DisallowedTypesProp & Not<AllowedTypesProp>)) &
+    ((EscapeHtmlProp & Not<SkipHtmlProp>) | (SkipHtmlProp & Not<EscapeHtmlProp>))
+
   const types: NodeType[]
   const renderers: Renderers
-  function uriTransformer(uri: string): string
+  function uriTransformer(uri: string): string | string[]
 }
 
-declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps> {}
+declare function ReactMarkdown(props: ReactMarkdown.ReactMarkdownProps): ReactElement
 
 export = ReactMarkdown
