@@ -5,11 +5,13 @@ import {PluggableList} from 'unified'
 import * as unist from 'unist'
 import * as mdast from 'mdast'
 
-declare namespace ReactMarkdown {
-  type Not<T> = {
-    [key in keyof T]?: never
-  }
+type Not<T> = {
+  [key in keyof T]?: never
+}
 
+type MutuallyExclusive<T, U> = (T & Not<U>) | (U & Not<T>)
+
+declare namespace ReactMarkdown {
   type Point = unist.Point
 
   type Position = unist.Position
@@ -75,12 +77,9 @@ declare namespace ReactMarkdown {
   }
 
   type ReactMarkdownProps = ReactMarkdownPropsBase &
-    ((SourceProp & Not<ChildrenProp>) | (ChildrenProp & Not<SourceProp>)) &
-    (
-      | (AllowedTypesProp & Not<DisallowedTypesProp>)
-      | (DisallowedTypesProp & Not<AllowedTypesProp>)
-    ) &
-    ((EscapeHtmlProp & Not<SkipHtmlProp>) | (SkipHtmlProp & Not<EscapeHtmlProp>))
+    MutuallyExclusive<ChildrenProp, SourceProp> &
+    MutuallyExclusive<AllowedTypesProp, DisallowedTypesProp> &
+    MutuallyExclusive<EscapeHtmlProp, SkipHtmlProp>
 
   const types: NodeType[]
   const renderers: Renderers
