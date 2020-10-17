@@ -41,6 +41,7 @@ declare namespace ReactMarkdown {
   export interface ReactMarkdownProps {
     readonly className?: string
     readonly source?: string
+    readonly children?: string
     readonly sourcePos?: boolean
     readonly includeNodeIndex?: boolean
     readonly rawSourcePos?: boolean

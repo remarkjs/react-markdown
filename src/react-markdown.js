@@ -17,6 +17,7 @@ const symbols = require('./symbols')
 const allTypes = Object.keys(defaultRenderers)
 
 const ReactMarkdown = function ReactMarkdown(props) {
+  // To do in next major: remove `source`.
   const src = props.source || props.children || ''
 
   if (props.allowedTypes && props.disallowedTypes) {
