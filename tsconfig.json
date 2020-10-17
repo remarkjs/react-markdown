@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2015", "DOM"],
+    "strict": true,
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "react-markdown": ["index.d.ts"],
+      "react-markdown/with-html": ["with-html.d.ts"]
+    }
+  }
+}
