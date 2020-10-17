@@ -12,6 +12,13 @@ Markdown component for React using [**remark**][remark].
 
 [Learn markdown here][learn] and [check out the demo here][demo].
 
+## Note
+
+We’re currently really busy updating this project!
+See [GH-470](https://github.com/remarkjs/react-markdown/issues/470) for more
+info.
+Expect a new release (documented below) in a couple days!
+
 ## Install
 
 [npm][]:
