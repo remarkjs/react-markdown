@@ -130,6 +130,8 @@ function parseNode(node, config) {
     config.processingInstructions
   )
 
+  /* istanbul ignore if - seems to never happen. Hiding it because we plan on
+   * moving to rehype. */
   if (!el) {
     return false
   }
@@ -145,6 +147,8 @@ function parseNode(node, config) {
   }
 
   const startTagMatch = node.value.trim().match(startTagRe)
+  /* istanbul ignore next - seems it’s always a start tag, hiding it because we
+   * plan on moving to rehype. */
   const tag = startTagMatch ? startTagMatch[1] : el.type
   return {tag, opening: true, node, element: el}
 }

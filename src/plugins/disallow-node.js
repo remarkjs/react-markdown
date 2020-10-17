@@ -1,41 +1,35 @@
 const visit = require('unist-util-visit')
 
+const splice = [].splice
+
 exports.ofType = function (types, mode) {
-  return function (node) {
-    types.forEach((type) => visit(node, type, disallow, true))
-    return node
-  }
-
-  function disallow(node, index, parent) {
-    if (parent) {
-      untangle(node, index, parent, mode)
-    }
+  return ifNotMatch(allow, mode)
+  function allow(node, index, parent) {
+    return !types.includes(node.type)
   }
 }
 
-exports.ifNotMatch = function (allowNode, mode) {
-  return function (node) {
-    visit(node, disallow, true)
-    return node
+exports.ifNotMatch = ifNotMatch
+
+function ifNotMatch(allow, mode) {
+  return transform
+
+  function transform(tree) {
+    visit(tree, filter)
+    return tree
   }
 
-  function disallow(node, index, parent) {
-    if (parent && !allowNode(node, index, parent)) {
-      untangle(node, index, parent, mode)
+  // eslint-disable-next-line consistent-return
+  function filter(node, index, parent) {
+    if (parent && !allow(node, index, parent)) {
+      let parameters = [index, 1]
+
+      if (mode === 'unwrap' && node.children) {
+        parameters = parameters.concat(node.children)
+      }
+
+      splice.apply(parent.children, parameters)
+      return index
     }
-  }
-}
-
-function untangle(node, index, parent, mode) {
-  if (mode === 'remove') {
-    parent.children.splice(index, 1)
-  } else if (mode === 'unwrap') {
-    let args = [index, 1]
-
-    if (node.children) {
-      args = args.concat(node.children)
-    }
-
-    Array.prototype.splice.apply(parent.children, args)
   }
 }

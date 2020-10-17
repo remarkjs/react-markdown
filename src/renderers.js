@@ -4,6 +4,7 @@
 const xtend = require('xtend')
 const React = require('react')
 
+/* istanbul ignore next - Don’t crash on old React. */
 const supportsStringRender = parseInt((React.version || '16').slice(0, 2), 10) >= 16
 const createElement = React.createElement
 
@@ -39,14 +40,14 @@ module.exports = {
 }
 
 function TextRenderer(props) {
+  /* istanbul ignore next - `span` is a fallback for old React. */
   return supportsStringRender ? props.children : createElement('span', null, props.children)
 }
 
 function Root(props) {
   const {className} = props
-  const useFragment = !className
-  const root = useFragment ? React.Fragment || 'div' : 'div'
-  return createElement(root, useFragment ? null : {className}, props.children)
+  const root = (!className && React.Fragment) || 'div'
+  return createElement(root, className ? {className} : null, props.children)
 }
 
 function SimpleRenderer(tag, props) {
@@ -103,8 +104,8 @@ function Html(props) {
 
   const tag = props.isBlock ? 'div' : 'span'
   if (props.escapeHtml) {
-    const comp = React.Fragment || tag
-    return createElement(comp, null, props.value)
+    /* istanbul ignore next - `tag` is a fallback for old React. */
+    return createElement(React.Fragment || tag, null, props.value)
   }
 
   const nodeProps = {dangerouslySetInnerHTML: {__html: props.value}}
@@ -112,6 +113,7 @@ function Html(props) {
 }
 
 function ParsedHtml(props) {
+  /* To do: `React.cloneElement` is slow, is it really needed? */
   return props['data-sourcepos']
     ? React.cloneElement(props.element, {'data-sourcepos': props['data-sourcepos']})
     : props.element
@@ -126,5 +128,7 @@ function NullRenderer() {
 }
 
 function getCoreProps(props) {
-  return props['data-sourcepos'] ? {'data-sourcepos': props['data-sourcepos']} : {}
+  const source = props['data-sourcepos']
+  /* istanbul ignore next - nodes from plugins w/o position */
+  return source ? {'data-sourcepos': source} : {}
 }
