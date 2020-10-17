@@ -73,9 +73,12 @@
     "react": "^16.0.0",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.8.6",
+    "react-katex": "^2.0.0",
     "react-test-renderer": "^16.8.6",
+    "remark-cli": "^9.0.0",
     "remark-gfm": "^1.0.0",
     "remark-math": "^4.0.0",
+    "remark-preset-wooorm": "^8.0.0",
     "remark-toc": "^7.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^2.0.0",
@@ -88,12 +91,21 @@
     "build-umd": "rollup --silent -c",
     "postbuild-umd": "printf 'ES5? ' && uglifyjs react-markdown.min.js > /dev/null && echo 'Yes'",
     "build": "npm run build-lib && npm run build-umd",
-    "format": "prettier . -w --loglevel warn && eslint . --fix",
+    "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && eslint . --fix",
     "test-api": "jest",
     "test-coverage": "jest --coverage",
     "test": "npm run build && npm run format && npm run test-coverage"
   },
   "browserslist": "> 0.25%, not dead",
+  "remarkConfig": {
+    "plugins": [
+      "preset-wooorm",
+      [
+        "lint-no-html",
+        false
+      ]
+    ]
+  },
   "jest": {
     "coverageThreshold": {
       "global": {
