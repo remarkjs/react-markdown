@@ -151,6 +151,7 @@
       }
     },
     "rules": {
+      "react/no-children-prop": 0,
       "strict": 0,
       "complexity": [
         "warn",

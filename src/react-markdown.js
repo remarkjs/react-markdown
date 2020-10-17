@@ -17,6 +17,7 @@ const symbols = require('./symbols')
 const allTypes = Object.keys(defaultRenderers)
 
 const ReactMarkdown = function ReactMarkdown(props) {
+  // To do in next major: remove `source`.
   const src = props.source || props.children || ''
 
   if (props.allowedTypes && props.disallowedTypes) {
@@ -60,7 +61,8 @@ function determineAstToReactTransforms(props) {
     transforms.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
   }
 
-  const renderHtml = !props.escapeHtml && !props.skipHtml
+  // To do in next major: remove `escapeHtml`.
+  const renderHtml = (props.allowDangerousHtml || props.escapeHtml === false) && !props.skipHtml
   const hasHtmlParser = (props.astPlugins || []).some(
     (transform) => transform.identity === symbols.HtmlParser
   )
@@ -80,7 +82,6 @@ function determineAstToReactTransforms(props) {
 }
 
 ReactMarkdown.defaultProps = {
-  escapeHtml: true,
   transformLinkUri: uriTransformer
 }
 
@@ -91,6 +92,7 @@ ReactMarkdown.propTypes = {
   sourcePos: PropTypes.bool,
   rawSourcePos: PropTypes.bool,
   escapeHtml: PropTypes.bool,
+  allowDangerousHtml: PropTypes.bool,
   skipHtml: PropTypes.bool,
   allowNode: PropTypes.func,
   allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),

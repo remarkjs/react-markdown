@@ -41,14 +41,13 @@ declare namespace ReactMarkdown {
       | ((uri: string, children?: ReactNode, title?: string, alt?: string) => string)
       | null
     readonly renderers?: {[nodeType: string]: ElementType}
-    /**
-     * @deprecated please use plugins
-     */
+    /** @deprecated use plugins */
     readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
   }
 
   interface SourceProp {
+    /** @deprecated use children */
     readonly source: string
   }
 
@@ -66,7 +65,9 @@ declare namespace ReactMarkdown {
   }
 
   interface EscapeHtmlProp {
+    /** @deprecated use allowDangerousHtml */
     readonly escapeHtml?: boolean
+    readonly allowDangerousHtml?: boolean
   }
 
   interface SkipHtmlProp {
@@ -75,12 +76,15 @@ declare namespace ReactMarkdown {
 
   type ReactMarkdownProps = ReactMarkdownPropsBase &
     ((SourceProp & Not<ChildrenProp>) | (ChildrenProp & Not<SourceProp>)) &
-    ((AllowedTypesProp & Not<DisallowedTypesProp>) | (DisallowedTypesProp & Not<AllowedTypesProp>)) &
+    (
+      | (AllowedTypesProp & Not<DisallowedTypesProp>)
+      | (DisallowedTypesProp & Not<AllowedTypesProp>)
+    ) &
     ((EscapeHtmlProp & Not<SkipHtmlProp>) | (SkipHtmlProp & Not<EscapeHtmlProp>))
 
   const types: NodeType[]
   const renderers: Renderers
-  function uriTransformer(uri: string): string | string[]
+  function uriTransformer(uri: string): string
 }
 
 declare function ReactMarkdown(props: ReactMarkdown.ReactMarkdownProps): ReactElement

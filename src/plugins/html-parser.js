@@ -34,7 +34,7 @@ function parseHtml(config, tree, props) {
     tree,
     'html',
     (node, index, parent) => {
-      if (props.escapeHtml) {
+      if (!props.allowDangerousHtml && props.escapeHtml !== false) {
         parent.children.splice(index, 1, {
           type: 'text',
           position: node.position,
