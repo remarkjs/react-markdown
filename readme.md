@@ -1,8 +1,7 @@
 # react-markdown
 
-<!-- [![Coverage][coverage-badge]][coverage] -->
-
 [![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
 [![Downloads][downloads-badge]][downloads]
 [![Size][size-badge]][size]
 [![Sponsors][sponsors-badge]][collective]
@@ -439,9 +438,9 @@ abide by its terms.
 
 [build]: https://travis-ci.org/remarkjs/react-markdown
 
-<!-- [coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/react-markdown.svg -->
+[coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/react-markdown.svg
 
-<!-- [coverage]: https://codecov.io/github/remarkjs/react-markdown -->
+[coverage]: https://codecov.io/github/remarkjs/react-markdown
 
 [downloads-badge]: https://img.shields.io/npm/dm/react-markdown.svg
 
