@@ -87,9 +87,9 @@ render(<ReactMarkdown plugins={[gfm]} children={markdown} />, document.body)
     Markdown to parse
 *   `className` (`string?`)\
     Wrap the markdown in a `div` with this class name
-*   `escapeHtml` (`boolean`, default: `true`)\
+*   `allowDangerousHtml` (`boolean`, default: `false`)\
     This project is safe by default and escapes HTML.
-    Use `false` to allow dangerous html instead.
+    Use `allowDangerousHtml: true` to allow dangerous html instead.
     See [security][]
 *   `skipHtml` (`boolean`, default: `false`)\
     Ignore HTML in Markdown
@@ -331,10 +331,10 @@ const ReactMarkdownWithHtml = require('react-markdown/with-html')
 const render = require('react-dom').render
 
 const markdown = `
-This Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
+This Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">allowDangerousHtml</code> property to false.
 `
 
-render(<ReactMarkdownWithHtml children={markdown} escapeHtml={false} />, document.body)
+render(<ReactMarkdownWithHtml children={markdown} allowDangerousHtml />, document.body)
 ```
 
 <details>
@@ -344,7 +344,7 @@ render(<ReactMarkdownWithHtml children={markdown} escapeHtml={false} />, documen
 <p>
   This Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require
   the <code>html-parser</code> AST plugin to be loaded, in addition to setting the{' '}
-  <code className="prop">escapeHtml</code> property to false.
+  <code className="prop">allowDangerousHtml</code> property to false.
 </p>
 ```
 
@@ -366,7 +366,7 @@ const parseHtml = htmlParser({
   ]
 })
 
-<ReactMarkdown astPlugins={[parseHtml]} escapeHtml={false} children={markdown} />
+<ReactMarkdown astPlugins={[parseHtml]} allowDangerousHtml children={markdown} />
 ```
 
 ## Appendix B: Node types
@@ -392,10 +392,10 @@ The node types available by default are:
 *   `inlineCode` — Inline code (`<code>`)
 *   `code` — Block of code (`<pre><code>`)
 *   `html` — HTML node (Best-effort rendering)
-*   `virtualHtml` — If both `escapeHtml` and `skipHtml` are off, a naive HTML
-    parser is used to support basic HTML
-*   `parsedHtml` — If both `escapeHtml` and `skipHtml` are off and `html-parser`
-    is used, more advanced HTML is supported
+*   `virtualHtml` — If `allowDangerousHtml` is not on and `skipHtml` is off, a
+    naive HTML parser is used to support basic HTML
+*   `parsedHtml` — If `allowDangerousHtml` is on, `skipHtml` is off, and
+    `html-parser` is used, more advanced HTML is supported
 
 With [`remark-gfm`][gfm], the following are also available:
 
@@ -410,7 +410,7 @@ With [`remark-gfm`][gfm], the following are also available:
 
 Use of `react-markdown` is secure by default.
 Overwriting `transformLinkUri` or `transformImageUri` to something insecure or
-turning `escapeHtml` to `false`, will open you up to XSS vectors.
+turning `allowDangerousHtml` on, will open you up to XSS vectors.
 Furthermore, the `plugins` you use and `renderers` you write may be insecure.
 
 ## Related

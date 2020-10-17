@@ -1468,7 +1468,7 @@ Array [
 ]
 `;
 
-exports[`should escape html blocks if escapeHtml prop is set (with HTML parser plugin) 1`] = `
+exports[`should escape html blocks if escapeHtml prop is set (default) (with HTML parser plugin) 1`] = `
 Array [
   <p>
     This is a regular paragraph.
@@ -1662,7 +1662,7 @@ exports[`should handle images without title attribute 1`] = `
 </p>
 `;
 
-exports[`should handle inline html with escapeHtml option enabled 1`] = `
+exports[`should handle inline html with allowDangerousHtml option enabled 1`] = `
 <p>
   I am having 
   &lt;strong&gt;

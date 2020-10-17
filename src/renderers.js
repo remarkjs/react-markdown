@@ -102,8 +102,11 @@ function Html(props) {
     return null
   }
 
+  const dangerous = props.allowDangerousHtml || props.escapeHtml === false
+
   const tag = props.isBlock ? 'div' : 'span'
-  if (props.escapeHtml) {
+
+  if (!dangerous) {
     /* istanbul ignore next - `tag` is a fallback for old React. */
     return createElement(React.Fragment || tag, null, props.value)
   }
