@@ -1,5 +1,9 @@
-import {Component} from 'react'
-import ReactMarkdownRoot = require('react-markdown')
+// TypeScript Version: 3.4
 
-declare class ReactMarkdown extends Component<ReactMarkdownRoot.ReactMarkdownProps, {}> {}
+import {ReactElement} from 'react'
+import {ReactMarkdownProps} from 'react-markdown'
+
+declare namespace ReactMarkdown {}
+declare function ReactMarkdown(props: ReactMarkdownProps): ReactElement
+
 export = ReactMarkdown

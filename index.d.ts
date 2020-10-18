@@ -1,56 +1,40 @@
-// Type definitions for react-markdown > v3.3.0
-// Project: https://github.com/remarkjs/react-markdown
-// Definitions by:
-// - Ruslan Ibragimov <https://github.com/IRus>
-// - Kohei Asai <me@axross.io>
-// - ClassicDarkChocolate <https://github.com/ClassicDarkChocolate>
-// - Espen Hovlandsdal <https://espen.codes/>
-// - Ted Piotrowski <https://github.com/ted-piotrowski>
-// - Christian Murphy <https://github.com/ChristianMurphy>
+// TypeScript Version: 3.4
 
-import {Component, ReactElement, ReactNode} from 'react'
+import {ElementType, ReactNode, ReactElement} from 'react'
 import {PluggableList} from 'unified'
-import {Content} from 'mdast'
+import * as unist from 'unist'
+import * as mdast from 'mdast'
+
+type Not<T> = {
+  [key in keyof T]?: never
+}
+
+type MutuallyExclusive<T, U> = (T & Not<U>) | (U & Not<T>)
 
 declare namespace ReactMarkdown {
-  interface Point {
-    readonly line: number
-    readonly column: number
-    readonly offset?: number
-  }
+  type Point = unist.Point
 
-  interface Position {
-    readonly start: Point
-    readonly end: Point
-    readonly indent?: number[]
-  }
+  type Position = unist.Position
 
-  export type NodeType = Content['type']
+  type NodeType = mdast.Content['type']
 
-  export type AlignType = 'left' | 'right' | 'center' | null
+  type AlignType = mdast.AlignType
 
-  export type ReferenceType = 'shortcut' | 'collapsed' | 'full'
+  type ReferenceType = mdast.ReferenceType
 
-  export type LinkTargetResolver = (uri: string, text: string, title?: string) => string
+  type LinkTargetResolver = (uri: string, text: string, title?: string) => string
 
-  type Renderer<T> = (props: T) => ReactElement<T>
+  type Renderer<T> = (props: T) => ElementType<T>
   interface Renderers {
     [key: string]: string | Renderer<any>
   }
 
-  export interface ReactMarkdownProps {
+  interface ReactMarkdownPropsBase {
     readonly className?: string
-    readonly source?: string
-    readonly children?: string
     readonly sourcePos?: boolean
     readonly includeNodeIndex?: boolean
     readonly rawSourcePos?: boolean
-    readonly escapeHtml?: boolean
-    readonly allowDangerousHtml?: boolean
-    readonly skipHtml?: boolean
-    readonly allowNode?: (node: Content, index: number, parent: NodeType) => boolean
-    readonly allowedTypes?: NodeType[]
-    readonly disallowedTypes?: NodeType[]
+    readonly allowNode?: (node: mdast.Content, index: number, parent: NodeType) => boolean
     readonly linkTarget?: string | LinkTargetResolver
     readonly transformLinkUri?:
       | ((uri: string, children?: ReactNode, title?: string) => string)
@@ -58,17 +42,52 @@ declare namespace ReactMarkdown {
     readonly transformImageUri?:
       | ((uri: string, children?: ReactNode, title?: string, alt?: string) => string)
       | null
-    readonly unwrapDisallowed?: boolean
-    readonly renderers?: {[nodeType: string]: ReactType}
+    readonly renderers?: {[nodeType: string]: ElementType}
     readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
   }
 
-  export var types: NodeType[]
-  export var renderers: Renderers
-  export var uriTransformer: (uri: string) => string
+  interface SourceProp {
+    /** @deprecated use children */
+    readonly source: string
+  }
+
+  interface ChildrenProp {
+    readonly children: string
+  }
+
+  interface AllowedTypesProp {
+    readonly allowedTypes?: NodeType[]
+  }
+
+  interface DisallowedTypesProp {
+    readonly disallowedTypes: NodeType[]
+    readonly unwrapDisallowed?: boolean
+  }
+
+  interface AllowDangerousHtmlProp {
+    readonly allowDangerousHtml?: boolean
+  }
+
+  interface EscapeHtmlProp {
+    /** @deprecated use allowDangerousHtml */
+    readonly escapeHtml?: boolean
+  }
+
+  interface SkipHtmlProp {
+    readonly skipHtml?: boolean
+  }
+
+  type ReactMarkdownProps = ReactMarkdownPropsBase &
+    MutuallyExclusive<ChildrenProp, SourceProp> &
+    MutuallyExclusive<AllowedTypesProp, DisallowedTypesProp> &
+    MutuallyExclusive<EscapeHtmlProp, MutuallyExclusive<SkipHtmlProp, AllowDangerousHtmlProp>>
+
+  const types: NodeType[]
+  const renderers: Renderers
+  function uriTransformer(uri: string): string
 }
 
-declare class ReactMarkdown extends Component<ReactMarkdown.ReactMarkdownProps, {}> {}
+declare function ReactMarkdown(props: ReactMarkdown.ReactMarkdownProps): ReactElement
 
 export = ReactMarkdown
