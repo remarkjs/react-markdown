@@ -43,7 +43,6 @@ declare namespace ReactMarkdown {
       | ((uri: string, children?: ReactNode, title?: string, alt?: string) => string)
       | null
     readonly renderers?: {[nodeType: string]: ElementType}
-    /** @deprecated use plugins */
     readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
   }
@@ -66,10 +65,13 @@ declare namespace ReactMarkdown {
     readonly unwrapDisallowed?: boolean
   }
 
+  interface AllowDangerousHtmlProp {
+    readonly allowDangerousHtml?: boolean
+  }
+
   interface EscapeHtmlProp {
     /** @deprecated use allowDangerousHtml */
     readonly escapeHtml?: boolean
-    readonly allowDangerousHtml?: boolean
   }
 
   interface SkipHtmlProp {
@@ -79,7 +81,7 @@ declare namespace ReactMarkdown {
   type ReactMarkdownProps = ReactMarkdownPropsBase &
     MutuallyExclusive<ChildrenProp, SourceProp> &
     MutuallyExclusive<AllowedTypesProp, DisallowedTypesProp> &
-    MutuallyExclusive<EscapeHtmlProp, SkipHtmlProp>
+    MutuallyExclusive<EscapeHtmlProp, MutuallyExclusive<SkipHtmlProp, AllowDangerousHtmlProp>>
 
   const types: NodeType[]
   const renderers: Renderers

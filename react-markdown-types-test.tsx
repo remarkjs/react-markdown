@@ -38,9 +38,10 @@ test = (
 /* should support skipHtml or escapeHtml, but not both */
 test = <ReactMarkdown escapeHtml># header</ReactMarkdown>
 test = <ReactMarkdown skipHtml># header</ReactMarkdown>
+test = <ReactMarkdown allowDangerousHtml># header</ReactMarkdown>
 test = (
   // $ExpectError
-  <ReactMarkdown escapeHtml skipHtml>
+  <ReactMarkdown escapeHtml skipHtml allowDangerousHtml>
     # header
   </ReactMarkdown>
 )
