@@ -2,7 +2,7 @@
 
 All notable changes will be documented in this file.
 
-## UNRELEASED
+## 5.0.0 - 2020-10-19
 
 ### BREAKING
 
