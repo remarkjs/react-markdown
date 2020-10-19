@@ -6,6 +6,28 @@ All notable changes will be documented in this file.
 
 ### BREAKING
 
+#### Maintained by [unified](https://unifiedjs.com)
+
+This project is now maintained by the unified collective, which also houses the
+underlying tools used in `react-markdown`: hundreds of projects for working with
+markdown and markup related things (including MDX).
+We have cleaned the project: updated dependencies, improved
+docs/tests/coverage/types, cleaned the issue tracker, and fixed a couple of
+bugs, but otherwise *much should be the same*.
+
+#### Upgrade `remark-parse`
+
+The parser used in `react-markdown` has been upgraded to the latest version.
+It is now 100% CommonMark compliant: that means it works the same as in other
+places, such as Discourse, Reddit, Stack Overflow, and GitHub.
+Note that GitHub does extend CommonMark: to match how Markdown works on GitHub,
+use the [`remark-gfm`](https://github.com/remarkjs/remark-gfm) plugin.
+
+*   [`remark-parse@9.0.0`](https://github.com/remarkjs/remark/releases/tag/remark-parse%409.0.0)
+*   [`remark-parse@8.0.0`](https://github.com/remarkjs/remark/releases/tag/remark-parse%408.0.0)
+*   [`remark-parse@7.0.0`](https://github.com/remarkjs/remark/releases/tag/remark-parse%407.0.0)
+*   [`remark-parse@6.0.0`](https://github.com/remarkjs/remark/releases/tag/remark-parse%406.0.0)
+
 #### New serializer property: `node`
 
 A new `node` prop is passed to all non-tag/non-fragment renderers.
@@ -16,40 +38,22 @@ underlying component/tag.
 For instance:
 
 ```jsx
-<ReactMarkdown source="[foo](https://foo.bar/)" renderers={{link: props => <a {...props} />}} />
+<ReactMarkdown renderers={{link: props => <a {...props} />}} … />
 ```
 
 Should now be written as:
 
 ```jsx
-<ReactMarkdown
-  source="[foo](https://foo.bar/)"
-  renderers={{link: ({node, ...props}) => <a {...props} />}}
-/>
+<ReactMarkdown renderers={{link: ({node, ...props}) => <a {...props} />}} … />
 ```
 
-#### List/ list item `tight` property replaced by `spread`
+#### List/list item `tight` property replaced by `spread`
 
 Previously, the `tight` property would hint as to whether or not list items
 should be wrapped in paragraphs.
 This logic has now been replaced by a new `spread` property, which behaves
 slightly differently.
 [Read more](https://github.com/remarkjs/remark/pull/364).
-
-#### Upgrade remark-parse
-
-The parser used in react-markdown has been upgraded to the latest version.
-This introduces a few breaking changes:
-
-*   Empty list items are now allowed and rendered as list items instead of as a
-    paragraph.
-    [Read more](https://github.com/remarkjs/remark/commit/41dd27f091a67909b70f016da8601ef7c5f1ad9a)
-*   Support for whitespace in references is removed.
-    [Read more](https://github.com/remarkjs/remark/commit/ddc948a779d3078b5119d333a261745c8874f1ff)
-*   Fix whitespace only lines in paragraphs.
-    [Read more](https://github.com/remarkjs/remark/commit/4e9940460d732e8ec6d455dd1882fd49fc71fe2f)
-*   Fix markdown in literal URLs.
-    [Read more](https://github.com/remarkjs/remark/commit/0658d95839beb010b31f6f327180e52c44e3cdad)
 
 ## 4.3.1 - 2020-01-05
 
