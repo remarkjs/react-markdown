@@ -92,14 +92,13 @@
     "uglify-js": "^3.0.0"
   },
   "scripts": {
-    "build-lib": "rimraf lib/ && babel src/ --quiet --copy-files -d lib/",
-    "build-umd": "rollup --silent -c",
-    "postbuild-umd": "printf 'ES5? ' && uglifyjs react-markdown.min.js > /dev/null && echo 'Yes'",
-    "build": "npm run build-lib && npm run build-umd",
+    "build:lib": "rimraf lib/ && babel src/ --quiet --copy-files -d lib/",
+    "build:umd": "rollup --silent -c",
+    "build:umdcheck": "printf 'ES5? ' && uglifyjs react-markdown.min.js > /dev/null && echo 'Yes'",
+    "build": "run-s build:*",
     "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && eslint . --fix",
     "test": "run-s build format test:*",
     "test:unit": "jest --coverage",
-    "test:lint": "eslint .",
     "test:types": "dtslint ."
   },
   "browserslist": "> 0.25%, not dead",
