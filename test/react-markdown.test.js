@@ -886,3 +886,10 @@ test('should pass `node` as prop to all non-tag/non-fragment renderers', () => {
   const component = renderer.create(<Markdown renderers={{heading}} children={input} />)
   expect(component.toJSON()).toBe("So, headers... they're cool")
 })
+
+test('should support formatting at the start of a GFM tasklist (GH-494)', () => {
+  const input = '- [ ] *a*'
+  const actual = renderHTML(<Markdown children={input} plugins={[gfm]} />)
+  const expected = '<ul><li><input type="checkbox" readonly=""/><em>a</em></li></ul>'
+  expect(actual).toEqual(expected)
+})

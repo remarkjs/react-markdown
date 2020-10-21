@@ -40,8 +40,9 @@ module.exports = {
 }
 
 function TextRenderer(props) {
+  const children = props.children || ''
   /* istanbul ignore next - `span` is a fallback for old React. */
-  return supportsStringRender ? props.children : createElement('span', null, props.children)
+  return supportsStringRender ? children : createElement('span', null, children)
 }
 
 function Root(props) {
