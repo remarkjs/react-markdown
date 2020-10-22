@@ -45,6 +45,7 @@ declare namespace ReactMarkdown {
     readonly renderers?: {[nodeType: string]: ElementType}
     readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
+    readonly unwrapDisallowed?: boolean
   }
 
   interface SourceProp {
@@ -62,7 +63,6 @@ declare namespace ReactMarkdown {
 
   interface DisallowedTypesProp {
     readonly disallowedTypes: NodeType[]
-    readonly unwrapDisallowed?: boolean
   }
 
   interface AllowDangerousHtmlProp {

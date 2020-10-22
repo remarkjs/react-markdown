@@ -23,14 +23,13 @@ test = (
   </ReactMarkdown>
 )
 test = (
-  // $ExpectError
-  <ReactMarkdown allowedTypes={['heading']} disallowedTypes={['heading']}>
+  <ReactMarkdown allowedTypes={['heading']} unwrapDisallowed>
     # header
   </ReactMarkdown>
 )
 test = (
   // $ExpectError
-  <ReactMarkdown allowedTypes={['heading']} unwrapDisallowed>
+  <ReactMarkdown allowedTypes={['heading']} disallowedTypes={['heading']}>
     # header
   </ReactMarkdown>
 )
