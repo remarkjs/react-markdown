@@ -2,6 +2,11 @@
 
 All notable changes will be documented in this file.
 
+## 5.0.2 - 2020-10-23
+
+*   [`4dadaba`](https://github.com/remarkjs/react-markdown/commit/4dadaba)
+    Fix to allow combining `allowedTypes`, `unwrapDisallowed` in types
+
 ## 5.0.1 - 2020-10-21
 
 *   [`c3dc5ee`](https://github.com/remarkjs/react-markdown/commit/c3dc5ee)
