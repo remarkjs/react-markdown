@@ -414,7 +414,8 @@ turning `allowDangerousHtml` on, will open you up to XSS vectors.
 Furthermore, the `plugins` you use and `renderers` you write may be insecure.
 
 ## Default Styling
-By default, react-markdown does not include any CSS. You can roll your own css solution or use something pre-built like https://github.com/remarkjs/react-markdown/issues/100#issuecomment-504505123
+
+By default, react-markdown does not include any CSS.  You can roll your own css solution or use something pre-built like https://github.com/remarkjs/react-markdown/issues/100#issuecomment-504505123
 
 ## Related
 
