@@ -211,6 +211,11 @@ function assignDefined(target, attrs) {
 
 function mergeNodeChildren(node, parsedChildren) {
   const el = node.element
+  if (el === undefined) {
+    /* istanbul ignore next - `div` fallback for old React. */
+    const Fragment = React.Fragment || 'div'
+    return React.createElement(Fragment, null, null)
+  }
   if (Array.isArray(el)) {
     /* istanbul ignore next - `div` fallback for old React. */
     const Fragment = React.Fragment || 'div'

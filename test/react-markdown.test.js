@@ -893,3 +893,10 @@ test('should support formatting at the start of a GFM tasklist (GH-494)', () => 
   const expected = '<ul><li><input type="checkbox" readonly=""/><em>a</em></li></ul>'
   expect(actual).toEqual(expected)
 })
+
+test('should not crush on ending tag at start', () => {
+  const input = '<ruby><ruby></ruby></ruby>'
+  expect(() =>
+    renderHTML(<Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />)
+  ).not.toThrow()
+})
