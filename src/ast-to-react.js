@@ -176,7 +176,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.allowDangerousHtml = opts.allowDangerousHtml
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
-      props.element = mergeNodeChildren(node, parsedChildren)
+      props.element = node.element ? mergeNodeChildren(node, parsedChildren) : null
       break
     }
     default:
@@ -211,11 +211,6 @@ function assignDefined(target, attrs) {
 
 function mergeNodeChildren(node, parsedChildren) {
   const el = node.element
-  if (el === undefined) {
-    /* istanbul ignore next - `div` fallback for old React. */
-    const Fragment = React.Fragment || 'div'
-    return React.createElement(Fragment, null, null)
-  }
   if (Array.isArray(el)) {
     /* istanbul ignore next - `div` fallback for old React. */
     const Fragment = React.Fragment || 'div'

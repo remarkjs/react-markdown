@@ -894,9 +894,10 @@ test('should support formatting at the start of a GFM tasklist (GH-494)', () => 
   expect(actual).toEqual(expected)
 })
 
-test('should not crush on ending tag at start', () => {
+test('should not crash on weird `html-to-react` results', () => {
   const input = '<ruby><ruby></ruby></ruby>'
-  expect(() =>
-    renderHTML(<Markdown source={input} escapeHtml={false} astPlugins={[htmlParser()]} />)
-  ).not.toThrow()
+  const actual = renderHTML(<MarkdownWithHtml allowDangerousHtml children={input} />)
+  // Note: this is not conforming to how browsers deal with it.
+  const expected = '<p><ruby></ruby><ruby></ruby></p>'
+  expect(actual).toEqual(expected)
 })
