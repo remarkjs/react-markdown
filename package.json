@@ -49,8 +49,8 @@
     "xtend": "^4.0.1"
   },
   "peerDependencies": {
-    "@types/react": "^15.0.0 || ^16.0.0",
-    "react": "^15.0.0 || ^16.0.0"
+    "@types/react": ">=16",
+    "react": ">=16"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
