@@ -1,0 +1,21 @@
+name: main
+on:
+  - pull_request
+  - push
+jobs:
+  main:
+    name: ${{matrix.node}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: ${{matrix.node}}
+      - run: npm install
+      - run: npm test
+      - uses: codecov/codecov-action@v1
+    strategy:
+      matrix:
+        node:
+          - lts/dubnium
+          - node
