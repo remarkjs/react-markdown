@@ -9,7 +9,7 @@ const config = {
   input: '.',
   output: {
     file: './react-markdown.min.js',
-    format: 'cjs',
+    format: 'umd',
     name: 'ReactMarkdown',
     exports: 'default',
     plugins: [
