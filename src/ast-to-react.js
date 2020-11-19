@@ -176,7 +176,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       props.allowDangerousHtml = opts.allowDangerousHtml
       props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
-      props.element = mergeNodeChildren(node, parsedChildren)
+      props.element = node.element ? mergeNodeChildren(node, parsedChildren) : null
       break
     }
     default:

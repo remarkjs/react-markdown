@@ -893,3 +893,11 @@ test('should support formatting at the start of a GFM tasklist (GH-494)', () => 
   const expected = '<ul><li><input type="checkbox" readonly=""/><em>a</em></li></ul>'
   expect(actual).toEqual(expected)
 })
+
+test('should not crash on weird `html-to-react` results', () => {
+  const input = '<ruby><ruby></ruby></ruby>'
+  const actual = renderHTML(<MarkdownWithHtml allowDangerousHtml children={input} />)
+  // Note: this is not conforming to how browsers deal with it.
+  const expected = '<p><ruby></ruby><ruby></ruby></p>'
+  expect(actual).toEqual(expected)
+})
