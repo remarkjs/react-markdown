@@ -44,6 +44,7 @@ declare namespace ReactMarkdown {
       | null
     readonly renderers?: {[nodeType: string]: ElementType}
     readonly astPlugins?: PluggableList
+    readonly tree?: unist.Node
     readonly plugins?: PluggableList
     readonly unwrapDisallowed?: boolean
   }

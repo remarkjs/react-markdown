@@ -26,12 +26,15 @@ const ReactMarkdown = function ReactMarkdown(props) {
 
   const renderers = xtend(defaultRenderers, props.renderers)
 
-  const processor = unified()
-    .use(parse)
-    .use(props.plugins || [])
+  let tree = props.tree
+  if (!tree) {
+    const processor = unified()
+      .use(parse)
+      .use(props.plugins || [])
 
-  // eslint-disable-next-line no-sync
-  let tree = processor.runSync(processor.parse(src))
+    // eslint-disable-next-line no-sync
+    tree = processor.runSync(processor.parse(src))
+  }
 
   const renderProps = xtend(props, {renderers: renderers, definitions: getDefinitions(tree)})
 
@@ -103,6 +106,7 @@ ReactMarkdown.propTypes = {
   astPlugins: PropTypes.arrayOf(PropTypes.func),
   unwrapDisallowed: PropTypes.bool,
   renderers: PropTypes.object,
+  tree: PropTypes.object,
   plugins: PropTypes.array
 }
 
