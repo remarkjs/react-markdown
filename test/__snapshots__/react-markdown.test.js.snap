@@ -1389,6 +1389,16 @@ exports[`should be able to render inline html with self-closing tags properly wi
 </p>
 `;
 
+exports[`should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin (#2) 1`] = `
+<p>
+  I am having 
+  <wbr
+    className="foo"
+  />
+   so much fun
+</p>
+`;
+
 exports[`should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin 1`] = `
 <p>
   I am having 

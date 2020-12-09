@@ -1,7 +1,5 @@
 /* eslint-env jest */
 /* eslint-disable react/prop-types */
-const Enzyme = require('enzyme')
-const Adapter = require('enzyme-adapter-react-16')
 const fs = require('fs')
 const path = require('path')
 const React = require('react')
@@ -15,8 +13,6 @@ const htmlParser = require('../src/plugins/html-parser')
 const Markdown = require('../src/react-markdown')
 const MarkdownWithHtml = require('../src/with-html')
 const toc = require('remark-toc')
-
-Enzyme.configure({adapter: new Adapter()})
 
 const renderHTML = (input) => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
 
@@ -314,7 +310,10 @@ test('should be able to render inline html with self-closing tags with attribute
 
 test('should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin (#2)', () => {
   const input = 'I am having <wbr class="foo"/> so much fun'
-  Enzyme.mount(<Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />)
+  const component = renderer.create(
+    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+  )
+  expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should be able to render multiple inline html elements with self-closing tags with attributes properly with HTML parser plugin', () => {
