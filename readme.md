@@ -434,9 +434,9 @@ abide by its terms.
 
 [MIT][license] © [Espen Hovlandsdal][author]
 
-[build-badge]: https://img.shields.io/travis/remarkjs/react-markdown/main.svg
+[build-badge]: https://github.com/remarkjs/react-markdown/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/remarkjs/react-markdown
+[build]: https://github.com/remarkjs/react-markdown/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/react-markdown.svg
 

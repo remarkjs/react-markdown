@@ -2,6 +2,15 @@
 
 All notable changes will be documented in this file.
 
+## 5.0.3 - 2020-10-23
+
+*   [`bb0bdde`](https://github.com/remarkjs/react-markdown/commit/bb0bdde)
+    Unlock peer dependency on React to allow v17
+*   [`24e42bd`](https://github.com/remarkjs/react-markdown/commit/24e42bd)
+    Fix exception on missing element from `html-to-react`
+*   [`3d363e9`](https://github.com/remarkjs/react-markdown/commit/3d363e9)
+    Fix umd browser build
+
 ## 5.0.2 - 2020-10-23
 
 *   [`4dadaba`](https://github.com/remarkjs/react-markdown/commit/4dadaba)
