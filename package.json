@@ -66,8 +66,6 @@
     "@types/react-dom": "^16.0.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "dtslint": "^4.0.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.0.0",
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-sanity": "^4.0.0",
