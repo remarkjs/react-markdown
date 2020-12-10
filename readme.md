@@ -281,19 +281,19 @@ render(<ReactMarkdown renderers={renderers} children={markdown} />, document.bod
 
 This example shows how a syntax extension is used to support math in markdown
 that adds new node types ([`remark-math`][math]), which are then handled by
-renderers to use [`react-katex`][react-katex]:
+renderers to use [`@matejmazur/react-katex`][react-katex]:
 
 ```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import {InlineMath, BlockMath} from 'react-katex'
+import Tex from '@matejmazur/react-katex'
 import {render} from 'react-dom'
 import math from 'remark-math'
 import 'katex/dist/katex.min.css' // `react-katex` does not import the CSS for you
 
 const renderers = {
-  inlineMath: ({value}) => <InlineMath math={value} />,
-  math: ({value}) => <BlockMath math={value} />
+  inlineMath: ({value}) => <Tex math={value} />,
+  math: ({value}) => <Tex block math={value} />
 }
 
 render(
@@ -494,7 +494,7 @@ abide by its terms.
 
 [security]: #security
 
-[react-katex]: https://github.com/talyssonoc/react-katex
+[react-katex]: https://github.com/MatejBransky/react-katex
 
 [react-syntax-highlighter]: https://github.com/react-syntax-highlighter/react-syntax-highlighter
 
