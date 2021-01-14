@@ -390,7 +390,7 @@ The node types available by default are:
 *   `definition` — Definition for a reference (not rendered)
 *   `heading` — Heading (`<h1>` through `<h6>`)
 *   `inlineCode` — Inline code (`<code>`)
-*   `code` — Block of code (`<pre><code>`)
+*   `code` — Block of code (`<pre>`)
 *   `html` — HTML node (Best-effort rendering)
 *   `virtualHtml` — If `allowDangerousHtml` is not on and `skipHtml` is off, a
     naive HTML parser is used to support basic HTML
