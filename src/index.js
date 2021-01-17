@@ -40,11 +40,18 @@ Pretty neat, eh?
 
 ## Tables?
 
+Use [\`remark-gfm\`](https://github.com/remarkjs/react-markdown#use) to support tables, strikethrough, tasklists, and literal URLs.
+Theses features **do not work by default**.
+
 | Feature   | Support |
 | :-------: | ------- |
-| tables    | ✔ |
-| alignment | ✔ |
-| wewt      | ✔ |
+| tables    | \`remark-gfm\` |
+
+~~strikethrough~~
+
+- [ ] task list
+
+https://example.com
 
 ## More info?
 
