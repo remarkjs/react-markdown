@@ -490,7 +490,7 @@ abide by its terms.
 
 [remark-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins
 
-[uri]: https://github.com/remarkjs/react-markdown/blob/v5/src/uri-transformer.js
+[uri]: https://github.com/remarkjs/react-markdown/blob/main/src/uri-transformer.js
 
 [security]: #security
 
