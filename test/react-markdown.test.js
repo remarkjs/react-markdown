@@ -22,6 +22,26 @@ test('can render the most basic of documents (single paragraph)', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should warn when passed `source`', () => {
+  const warn = console.warn
+  console.warn = jest.fn()
+  expect(renderHTML(<Markdown source="a">b</Markdown>)).toEqual('<p>b</p>')
+  expect(console.warn).toHaveBeenCalledWith(
+    '[react-markdown] Warning: please use `children` instead of `source`'
+  )
+  console.warn = warn
+})
+
+test('should warn when passed `escapeHtml`', () => {
+  const warn = console.warn
+  console.warn = jest.fn()
+  expect(renderHTML(<Markdown escapeHtml>b</Markdown>)).toEqual('<p>b</p>')
+  expect(console.warn).toHaveBeenCalledWith(
+    '[react-markdown] Warning: please use `allowDangerousHtml` instead of `escapeHtml`'
+  )
+  console.warn = warn
+})
+
 test('uses passed classname for root component', () => {
   const component = renderer.create(<Markdown className="md">Test</Markdown>)
   expect(component.toJSON()).toMatchSnapshot()
@@ -416,19 +436,6 @@ test('should skip html blocks if skipHtml prop is set (with HTML parser plugin)'
 
   const component = renderer.create(
     <Markdown children={input} allowDangerousHtml skipHtml astPlugins={[htmlParser()]} />
-  )
-  expect(component.toJSON()).toMatchSnapshot()
-})
-
-test('should escape html blocks if escapeHtml prop is set (default) (with HTML parser plugin)', () => {
-  const input = [
-    'This is a regular paragraph.\n\n<table>\n    <tr>\n        ',
-    '<td>Foo</td>\n    </tr>\n</table>\n\nThis is another',
-    ' regular paragraph.'
-  ].join('')
-
-  const component = renderer.create(
-    <Markdown children={input} escapeHtml astPlugins={[htmlParser()]} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })

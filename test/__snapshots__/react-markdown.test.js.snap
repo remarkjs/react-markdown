@@ -1449,22 +1449,6 @@ Array [
 ]
 `;
 
-exports[`should escape html blocks if escapeHtml prop is set (default) (with HTML parser plugin) 1`] = `
-Array [
-  <p>
-    This is a regular paragraph.
-  </p>,
-  "<table>
-    <tr>
-        <td>Foo</td>
-    </tr>
-</table>",
-  <p>
-    This is another regular paragraph.
-  </p>,
-]
-`;
-
 exports[`should handle blockquotes 1`] = `
 <blockquote>
   <p>

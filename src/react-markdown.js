@@ -16,9 +16,23 @@ const symbols = require('./symbols')
 
 const allTypes = Object.keys(defaultRenderers)
 
+let warningIssuesSource
+let warningIssuesEscapeHtml
+
 const ReactMarkdown = function ReactMarkdown(props) {
-  // To do in next major: remove `source`.
-  const src = props.source || props.children || ''
+  if ('source' in props && !warningIssuesSource) {
+    console.warn('[react-markdown] Warning: please use `children` instead of `source`')
+    warningIssuesSource = true
+  }
+
+  if ('escapeHtml' in props && !warningIssuesEscapeHtml) {
+    console.warn(
+      '[react-markdown] Warning: please use `allowDangerousHtml` instead of `escapeHtml`'
+    )
+    warningIssuesEscapeHtml = true
+  }
+
+  const src = props.children || ''
 
   if (props.allowedTypes && props.disallowedTypes) {
     throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
@@ -61,8 +75,7 @@ function determineAstToReactTransforms(props) {
     transforms.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
   }
 
-  // To do in next major: remove `escapeHtml`.
-  const renderHtml = (props.allowDangerousHtml || props.escapeHtml === false) && !props.skipHtml
+  const renderHtml = props.allowDangerousHtml && !props.skipHtml
   const hasHtmlParser = (props.astPlugins || []).some(
     (transform) => transform.identity === symbols.HtmlParser
   )
@@ -87,11 +100,9 @@ ReactMarkdown.defaultProps = {
 
 ReactMarkdown.propTypes = {
   className: PropTypes.string,
-  source: PropTypes.string,
   children: PropTypes.string,
   sourcePos: PropTypes.bool,
   rawSourcePos: PropTypes.bool,
-  escapeHtml: PropTypes.bool,
   allowDangerousHtml: PropTypes.bool,
   skipHtml: PropTypes.bool,
   allowNode: PropTypes.func,

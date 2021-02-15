@@ -165,7 +165,6 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
       // @todo find a better way than this
       props.isBlock = node.position.start.line !== node.position.end.line
       props.allowDangerousHtml = opts.allowDangerousHtml
-      props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
       break
     case 'parsedHtml': {
@@ -174,7 +173,6 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
         parsedChildren = node.children.map((child, i) => astToReact(child, opts, {node, props}, i))
       }
       props.allowDangerousHtml = opts.allowDangerousHtml
-      props.escapeHtml = opts.escapeHtml
       props.skipHtml = opts.skipHtml
       props.element = node.element ? mergeNodeChildren(node, parsedChildren) : null
       break

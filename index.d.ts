@@ -48,11 +48,6 @@ declare namespace ReactMarkdown {
     readonly unwrapDisallowed?: boolean
   }
 
-  interface SourceProp {
-    /** @deprecated use children */
-    readonly source: string
-  }
-
   interface ChildrenProp {
     readonly children: string
   }
@@ -69,19 +64,14 @@ declare namespace ReactMarkdown {
     readonly allowDangerousHtml?: boolean
   }
 
-  interface EscapeHtmlProp {
-    /** @deprecated use allowDangerousHtml */
-    readonly escapeHtml?: boolean
-  }
-
   interface SkipHtmlProp {
     readonly skipHtml?: boolean
   }
 
   type ReactMarkdownProps = ReactMarkdownPropsBase &
-    MutuallyExclusive<ChildrenProp, SourceProp> &
+    ChildrenProp &
     MutuallyExclusive<AllowedTypesProp, DisallowedTypesProp> &
-    MutuallyExclusive<EscapeHtmlProp, MutuallyExclusive<SkipHtmlProp, AllowDangerousHtmlProp>>
+    MutuallyExclusive<SkipHtmlProp, AllowDangerousHtmlProp>
 
   const types: NodeType[]
   const renderers: Renderers
