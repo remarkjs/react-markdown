@@ -2,12 +2,17 @@
 
 const visit = require('unist-util-visit')
 
-module.exports = (node) => {
-  visit(node, 'table', wrap)
-  return node
+module.exports = remarkWrapTableRows
+
+function remarkWrapTableRows() {
+  return transform
 }
 
-function wrap(table) {
+function transform(tree) {
+  visit(tree, 'table', ontable)
+}
+
+function ontable(table) {
   const children = table.children
   table.children = [
     {

@@ -1,17 +1,29 @@
+'use strict'
+
+const visit = require('unist-util-visit')
+
+const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i
+const simpleTagRe = /^<(\/?)([a-z]+)\s*>$/
+
+module.exports = remarkParseHtml
+
+function remarkParseHtml(options) {
+  if (options.skipHtml || !options.allowDangerousHtml) {
+    return undefined
+  }
+
+  return options.htmlParser || naiveHtml
+}
+
 /**
  * Naive, simple plugin to match inline nodes without attributes
  * This allows say <strong>foo</strong>, but not <strong class="very">foo</strong>
  * For proper HTML support, you'll want a different plugin
  **/
-const visit = require('unist-util-visit')
-
-const type = 'virtualHtml'
-const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i
-const simpleTagRe = /^<(\/?)([a-z]+)\s*>$/
-
-module.exports = function (tree) {
+function naiveHtml(tree) {
   let open
   let currentParent
+
   visit(
     tree,
     'html',
@@ -23,17 +35,17 @@ module.exports = function (tree) {
 
       const selfClosing = getSelfClosing(node)
       if (selfClosing) {
-        parent.children.splice(index, 1, {
-          type,
+        parent.children[index] = {
+          type: 'virtualHtml',
           tag: selfClosing,
           position: node.position
-        })
-        return true
+        }
+        return
       }
 
       const current = getSimpleTag(node, parent)
       if (!current) {
-        return true
+        return
       }
 
       const matching = findAndPull(open, current.tag)
@@ -43,8 +55,6 @@ module.exports = function (tree) {
       } else if (!current.opening) {
         open.push(current)
       }
-
-      return true
     },
     true // Iterate in reverse
   )
@@ -80,7 +90,7 @@ function virtual(fromNode, toNode, parent) {
   const extracted = parent.children.splice(fromIndex, toIndex - fromIndex + 1)
   const children = extracted.slice(1, -1)
   return {
-    type,
+    type: 'virtualHtml',
     children,
     tag: fromNode.tag,
     position: {

@@ -359,14 +359,12 @@ const htmlParser = require('react-markdown/plugins/html-parser')
 
 // For more info on the processing instructions, see
 // <https://github.com/aknuds1/html-to-react#with-custom-processing-instructions>
-const parseHtml = htmlParser({
+const parse = htmlParser({
   isValidNode: (node) => node.type !== 'script',
-  processingInstructions: [
-    /* ... */
-  ]
+  processingInstructions: [/* ... */]
 })
 
-<ReactMarkdown astPlugins={[parseHtml]} allowDangerousHtml children={markdown} />
+<ReactMarkdown htmlParser={parse} allowDangerousHtml children={markdown} />
 ```
 
 ## Appendix B: Node types
