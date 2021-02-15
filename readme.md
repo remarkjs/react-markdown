@@ -311,7 +311,7 @@ render(
 
 ```jsx
 <p>
-  The lift coefficient (<InlineMath math="C_L" />) is a dimensionless coefficient.
+  The lift coefficient (<Tex math="C_L" />) is a dimensionless coefficient.
 </p>
 ```
 
