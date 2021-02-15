@@ -34,7 +34,7 @@ function parseHtml(config, tree, props) {
     tree,
     'html',
     (node, index, parent) => {
-      if (!props.allowDangerousHtml && props.escapeHtml !== false) {
+      if (!props.allowDangerousHtml) {
         parent.children.splice(index, 1, {
           type: 'text',
           position: node.position,
@@ -179,7 +179,7 @@ function parsedHtml(fromNode, toNode, parent) {
 }
 
 module.exports = function getHtmlParserPlugin(config, props) {
-  if (props && (typeof config.source !== 'undefined' || typeof config.children !== 'undefined')) {
+  if (props && typeof config.children !== 'undefined') {
     throw new Error(
       'react-markdown: `html-parser` must be called before use - see https://github.com/remarkjs/react-markdown#parsing-html'
     )
