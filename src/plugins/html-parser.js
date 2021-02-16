@@ -7,7 +7,6 @@ const React = require('react')
 const xtend = require('xtend')
 const visit = require('unist-util-visit')
 const HtmlToReact = require('html-to-react')
-const symbols = require('../symbols')
 
 const type = 'parsedHtml'
 const selfClosingRe = /^<(area|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)\s*\/?>$/i
@@ -25,86 +24,6 @@ const defaultConfig = {
       processNode: processNodeDefinitions.processDefaultNode
     }
   ]
-}
-
-function parseHtml(config, tree, props) {
-  let open
-  let currentParent
-  visit(
-    tree,
-    'html',
-    (node, index, parent) => {
-      if (!props.allowDangerousHtml) {
-        parent.children.splice(index, 1, {
-          type: 'text',
-          position: node.position,
-          value: node.value
-        })
-        return true
-      }
-
-      if (props.skipHtml) {
-        parent.children.splice(index, 1)
-        return true
-      }
-
-      if (currentParent !== parent) {
-        open = []
-        currentParent = parent
-      }
-
-      const selfClosing = getSelfClosingTagName(node)
-      if (selfClosing) {
-        parent.children.splice(index, 1, {
-          type: 'virtualHtml',
-          tag: selfClosing,
-          position: node.position
-        })
-        return true
-      }
-
-      const current = parseNode(node, config)
-      if (!current || current.type === type) {
-        return true
-      }
-
-      const matching = findAndPull(open, current.tag)
-
-      if (matching) {
-        parent.children.splice(index, 0, parsedHtml(current, matching, parent))
-      } else if (!current.opening) {
-        open.push(current)
-      }
-
-      return true
-    },
-    true // Iterate in reverse
-  )
-
-  // Find any leftover HTML elements and blindly replace them with a parsed version
-  visit(tree, 'html', (node, index, parent) => {
-    const element = parser.parseWithInstructions(
-      node.value,
-      config.isValidNode,
-      config.processingInstructions
-    )
-
-    if (!element) {
-      parent.children.splice(index, 1)
-      return true
-    }
-
-    parent.children.splice(index, 1, {
-      type,
-      element,
-      value: node.value,
-      position: node.position
-    })
-
-    return true
-  })
-
-  return tree
 }
 
 function findAndPull(open, matchingTag) {
@@ -178,15 +97,78 @@ function parsedHtml(fromNode, toNode, parent) {
   }
 }
 
-module.exports = function getHtmlParserPlugin(config, props) {
-  if (props && typeof config.children !== 'undefined') {
+module.exports = function getHtmlParserPlugin(options, _2) {
+  if (_2 && typeof options.children !== 'undefined') {
     throw new Error(
       'react-markdown: `html-parser` must be called before use - see https://github.com/remarkjs/react-markdown#parsing-html'
     )
   }
 
-  const htmlConfig = xtend(defaultConfig, config || {})
-  const plugin = parseHtml.bind(null, htmlConfig)
-  plugin.identity = symbols.HtmlParser
-  return plugin
+  const config = xtend(defaultConfig, options || {})
+
+  return parseHtml
+
+  function parseHtml(tree) {
+    let open
+    let currentParent
+    visit(
+      tree,
+      'html',
+      (node, index, parent) => {
+        if (currentParent !== parent) {
+          open = []
+          currentParent = parent
+        }
+
+        const selfClosing = getSelfClosingTagName(node)
+        if (selfClosing) {
+          parent.children[index] = {
+            type: 'virtualHtml',
+            tag: selfClosing,
+            position: node.position
+          }
+          return
+        }
+
+        const current = parseNode(node, config)
+        if (!current || current.type === type) {
+          return
+        }
+
+        const matching = findAndPull(open, current.tag)
+
+        if (matching) {
+          parent.children.splice(index, 0, parsedHtml(current, matching, parent))
+        } else if (!current.opening) {
+          open.push(current)
+        }
+      },
+      true // Iterate in reverse
+    )
+
+    // Find any leftover HTML elements and blindly replace them with a parsed version
+    visit(tree, 'html', (node, index, parent) => {
+      const element = parser.parseWithInstructions(
+        node.value,
+        config.isValidNode,
+        config.processingInstructions
+      )
+
+      if (!element) {
+        parent.children.splice(index, 1)
+        return index
+      }
+
+      parent.children[index] = {
+        type,
+        element,
+        value: node.value,
+        position: node.position
+      }
+
+      return undefined
+    })
+
+    return tree
+  }
 }

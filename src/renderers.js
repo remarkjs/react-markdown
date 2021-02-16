@@ -104,15 +104,15 @@ function Html(props) {
     return null
   }
 
-  const tag = props.isBlock ? 'div' : 'span'
-
   if (!props.allowDangerousHtml) {
-    /* istanbul ignore next - `tag` is a fallback for old React. */
-    return createElement(React.Fragment || tag, null, props.value)
+    return props.value
   }
 
-  const nodeProps = {dangerouslySetInnerHTML: {__html: props.value}}
-  return createElement(tag, nodeProps)
+  // Otherwise, if there still is an `html` node, that means the naive HTML
+  // implementation was used, but it couldn’t handle this one.
+  return createElement(props.isBlock ? 'div' : 'span', {
+    dangerouslySetInnerHTML: {__html: props.value}
+  })
 }
 
 function ParsedHtml(props) {

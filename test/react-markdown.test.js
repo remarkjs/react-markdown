@@ -294,7 +294,7 @@ test('should be able to render inline html in totally unsatisfying, weird ways',
 test('should be able to render inline html properly with HTML parser plugin', () => {
   const input = 'I am having <span class="foo">so</span> much fun'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -308,7 +308,7 @@ test('should be able to render inline html properly with HTML parser plugin (thr
 test('should be able to render inline html with nested markdown properly with HTML parser plugin', () => {
   const input = 'I am having <span class="foo">*so*</span> much fun'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -316,7 +316,7 @@ test('should be able to render inline html with nested markdown properly with HT
 test('should be able to render inline html with self-closing tags properly with HTML parser plugin', () => {
   const input = 'I am having <wbr/> so much fun'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -324,7 +324,7 @@ test('should be able to render inline html with self-closing tags properly with 
 test('should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin', () => {
   const input = 'I am having <wbr class="foo"/> so much fun'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -332,7 +332,7 @@ test('should be able to render inline html with self-closing tags with attribute
 test('should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin (#2)', () => {
   const input = 'I am having <wbr class="foo"/> so much fun'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -340,7 +340,7 @@ test('should be able to render inline html with self-closing tags with attribute
 test('should be able to render multiple inline html elements with self-closing tags with attributes properly with HTML parser plugin', () => {
   const input = 'I am having <wbr class="foo"/> so much <wbr class="bar"/> fun'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -348,7 +348,7 @@ test('should be able to render multiple inline html elements with self-closing t
 test('should be able to render a table with a single child with HTML parser plugin', () => {
   const input = '<table><tbody><tr><td>I am having so much fun</td></tr></tbody></table>'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -357,7 +357,7 @@ test('should be able to render a table with multiple children with HTML parser p
   const input =
     '<table><thead><tr><th>Title</th></tr></thead><tbody><tr><td>I am having so much fun</td></tr></tbody></table>'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -375,7 +375,7 @@ test('should be able to render replaced non-void html elements with HTML parser 
     ]
   }
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser(config)]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser(config)} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -383,7 +383,7 @@ test('should be able to render replaced non-void html elements with HTML parser 
 test('should handle invalid HTML with HTML parser plugin', () => {
   const input = 'I am having <div> so much</em> fun'
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -435,7 +435,7 @@ test('should skip html blocks if skipHtml prop is set (with HTML parser plugin)'
   ].join('')
 
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml skipHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml skipHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -447,7 +447,7 @@ test('should escape html blocks by default (with HTML parser plugin)', () => {
     ' regular paragraph.'
   ].join('')
 
-  const component = renderer.create(<Markdown children={input} astPlugins={[htmlParser()]} />)
+  const component = renderer.create(<Markdown children={input} htmlParser={htmlParser()} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -459,7 +459,7 @@ test('should handle html blocks with HTML parser plugin', () => {
   ].join('')
 
   const component = renderer.create(
-    <Markdown children={input} allowDangerousHtml astPlugins={[htmlParser()]} />
+    <Markdown children={input} allowDangerousHtml htmlParser={htmlParser()} />
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -629,7 +629,7 @@ describe('should skip nodes that are defined as disallowed', () => {
 
 test('should throw if html parser is used without config', () => {
   expect(() => {
-    renderHTML(<Markdown children="" astPlugins={[htmlParser]} />)
+    renderHTML(<Markdown children="" htmlParser={htmlParser} allowDangerousHtml />)
   }).toThrow(/called before use/i)
 })
 

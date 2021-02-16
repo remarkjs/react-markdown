@@ -43,7 +43,6 @@ declare namespace ReactMarkdown {
       | ((uri: string, children?: ReactNode, title?: string, alt?: string) => string)
       | null
     readonly renderers?: {[nodeType: string]: ElementType}
-    readonly astPlugins?: PluggableList
     readonly plugins?: PluggableList
     readonly unwrapDisallowed?: boolean
   }

@@ -5,21 +5,18 @@ const unified = require('unified')
 const parse = require('remark-parse')
 const PropTypes = require('prop-types')
 const addListMetadata = require('mdast-add-list-metadata')
-const naiveHtml = require('./plugins/naive-html')
-const disallowNode = require('./plugins/disallow-node')
 const astToReact = require('./ast-to-react')
-const wrapTableRows = require('./wrap-table-rows')
+const wrapTableRows = require('./remark-wrap-table-rows')
+const filterNodes = require('./remark-filter-nodes')
+const parseHtml = require('./remark-parse-html')
 const getDefinitions = require('./get-definitions')
 const uriTransformer = require('./uri-transformer')
 const defaultRenderers = require('./renderers')
-const symbols = require('./symbols')
-
-const allTypes = Object.keys(defaultRenderers)
 
 let warningIssuesSource
 let warningIssuesEscapeHtml
 
-const ReactMarkdown = function ReactMarkdown(props) {
+function ReactMarkdown(props) {
   if ('source' in props && !warningIssuesSource) {
     console.warn('[react-markdown] Warning: please use `children` instead of `source`')
     warningIssuesSource = true
@@ -32,66 +29,24 @@ const ReactMarkdown = function ReactMarkdown(props) {
     warningIssuesEscapeHtml = true
   }
 
-  const src = props.children || ''
-
-  if (props.allowedTypes && props.disallowedTypes) {
-    throw new Error('Only one of `allowedTypes` and `disallowedTypes` should be defined')
-  }
-
-  const renderers = xtend(defaultRenderers, props.renderers)
-
   const processor = unified()
     .use(parse)
     .use(props.plugins || [])
+    .use(wrapTableRows)
+    .use(addListMetadata)
+    .use(filterNodes, props)
+    .use(parseHtml, props)
 
   // eslint-disable-next-line no-sync
-  let tree = processor.runSync(processor.parse(src))
+  const tree = processor.runSync(processor.parse(props.children || ''))
 
-  const renderProps = xtend(props, {renderers: renderers, definitions: getDefinitions(tree)})
-
-  determineAstToReactTransforms(props).forEach((transform) => {
-    tree = transform(tree, renderProps)
-  })
-
-  return tree
-}
-
-function determineAstToReactTransforms(props) {
-  let transforms = [wrapTableRows, addListMetadata()]
-
-  let disallowedTypes = props.disallowedTypes
-  if (props.allowedTypes) {
-    disallowedTypes = allTypes.filter(
-      (type) => type !== 'root' && props.allowedTypes.indexOf(type) === -1
-    )
-  }
-
-  const removalMethod = props.unwrapDisallowed ? 'unwrap' : 'remove'
-  if (disallowedTypes && disallowedTypes.length > 0) {
-    transforms.push(disallowNode.ofType(disallowedTypes, removalMethod))
-  }
-
-  if (props.allowNode) {
-    transforms.push(disallowNode.ifNotMatch(props.allowNode, removalMethod))
-  }
-
-  const renderHtml = props.allowDangerousHtml && !props.skipHtml
-  const hasHtmlParser = (props.astPlugins || []).some(
-    (transform) => transform.identity === symbols.HtmlParser
+  return astToReact(
+    tree,
+    xtend(props, {
+      renderers: xtend(defaultRenderers, props.renderers),
+      definitions: getDefinitions(tree)
+    })
   )
-
-  if (renderHtml && !hasHtmlParser) {
-    transforms.push(naiveHtml)
-  }
-
-  if (props.astPlugins) {
-    transforms = transforms.concat(props.astPlugins)
-  }
-
-  // Add the final transform to turn everything into React.
-  transforms.push(astToReact)
-
-  return transforms
 }
 
 ReactMarkdown.defaultProps = {
@@ -106,18 +61,18 @@ ReactMarkdown.propTypes = {
   allowDangerousHtml: PropTypes.bool,
   skipHtml: PropTypes.bool,
   allowNode: PropTypes.func,
-  allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
-  disallowedTypes: PropTypes.arrayOf(PropTypes.oneOf(allTypes)),
+  allowedTypes: PropTypes.arrayOf(PropTypes.string),
+  disallowedTypes: PropTypes.arrayOf(PropTypes.string),
   transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   linkTarget: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   transformImageUri: PropTypes.func,
-  astPlugins: PropTypes.arrayOf(PropTypes.func),
+  htmlParser: PropTypes.func,
   unwrapDisallowed: PropTypes.bool,
   renderers: PropTypes.object,
   plugins: PropTypes.array
 }
 
-ReactMarkdown.types = allTypes
+ReactMarkdown.types = Object.keys(defaultRenderers)
 ReactMarkdown.renderers = defaultRenderers
 ReactMarkdown.uriTransformer = uriTransformer
 
