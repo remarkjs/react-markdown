@@ -1,12 +1,7 @@
 /* eslint-disable react/prop-types, react/no-multi-comp */
 'use strict'
 
-const xtend = require('xtend')
 const React = require('react')
-
-/* istanbul ignore next - Don’t crash on old React. */
-const supportsStringRender = parseInt((React.version || '16').slice(0, 2), 10) >= 16
-const createElement = React.createElement
 
 module.exports = {
   break: 'br',
@@ -41,33 +36,32 @@ module.exports = {
 
 function TextRenderer(props) {
   /* istanbul ignore next - a text node w/o a value could be injected by plugins */
-  const children = props.children || ''
-  /* istanbul ignore next - `span` is a fallback for old React. */
-  return supportsStringRender ? children : createElement('span', null, children)
+  return props.children || ''
 }
 
 function Root(props) {
   const {className} = props
-  const root = (!className && React.Fragment) || 'div'
-  return createElement(root, className ? {className} : null, props.children)
+  return className
+    ? React.createElement('div', {className}, props.children)
+    : React.createElement(React.Fragment, {}, props.children)
 }
 
 function SimpleRenderer(tag, props) {
-  return createElement(tag, getCoreProps(props), props.children)
+  return React.createElement(tag, getCoreProps(props), props.children)
 }
 
 function TableCell(props) {
   const style = props.align ? {textAlign: props.align} : undefined
   const coreProps = getCoreProps(props)
-  return createElement(
+  return React.createElement(
     props.isHeader ? 'th' : 'td',
-    style ? xtend({style}, coreProps) : coreProps,
+    Object.assign({style}, coreProps),
     props.children
   )
 }
 
 function Heading(props) {
-  return createElement(`h${props.level}`, getCoreProps(props), props.children)
+  return React.createElement(`h${props.level}`, getCoreProps(props), props.children)
 }
 
 function List(props) {
@@ -76,27 +70,27 @@ function List(props) {
     attrs.start = props.start.toString()
   }
 
-  return createElement(props.ordered ? 'ol' : 'ul', attrs, props.children)
+  return React.createElement(props.ordered ? 'ol' : 'ul', attrs, props.children)
 }
 
 function ListItem(props) {
   let checkbox = null
   if (props.checked !== null && props.checked !== undefined) {
     const checked = props.checked
-    checkbox = createElement('input', {type: 'checkbox', checked, readOnly: true})
+    checkbox = React.createElement('input', {type: 'checkbox', checked, readOnly: true})
   }
 
-  return createElement('li', getCoreProps(props), checkbox, props.children)
+  return React.createElement('li', getCoreProps(props), checkbox, props.children)
 }
 
 function CodeBlock(props) {
   const className = props.language && `language-${props.language}`
-  const code = createElement('code', className ? {className: className} : null, props.value)
-  return createElement('pre', getCoreProps(props), code)
+  const code = React.createElement('code', className ? {className: className} : null, props.value)
+  return React.createElement('pre', getCoreProps(props), code)
 }
 
 function InlineCode(props) {
-  return createElement('code', getCoreProps(props), props.children)
+  return React.createElement('code', getCoreProps(props), props.children)
 }
 
 function Html(props) {
@@ -110,7 +104,7 @@ function Html(props) {
 
   // Otherwise, if there still is an `html` node, that means the naive HTML
   // implementation was used, but it couldn’t handle this one.
-  return createElement(props.isBlock ? 'div' : 'span', {
+  return React.createElement(props.isBlock ? 'div' : 'span', {
     dangerouslySetInnerHTML: {__html: props.value}
   })
 }
@@ -123,7 +117,7 @@ function ParsedHtml(props) {
 }
 
 function VirtualHtml(props) {
-  return createElement(props.tag, getCoreProps(props), props.children)
+  return React.createElement(props.tag, getCoreProps(props), props.children)
 }
 
 function NullRenderer() {
