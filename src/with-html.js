@@ -1,11 +1,10 @@
 'use strict'
 
-const xtend = require('xtend')
 const ReactMarkdown = require('./react-markdown')
 const htmlParser = require('./plugins/html-parser')
 
 function ReactMarkdownWithHtml(props) {
-  return ReactMarkdown(xtend(props, {htmlParser: htmlParser()}))
+  return ReactMarkdown(Object.assign({}, props, {htmlParser: htmlParser()}))
 }
 
 ReactMarkdownWithHtml.defaultProps = ReactMarkdown.defaultProps

@@ -1,6 +1,5 @@
 'use strict'
 
-const xtend = require('xtend')
 const unified = require('unified')
 const parse = require('remark-parse')
 const PropTypes = require('prop-types')
@@ -13,20 +12,20 @@ const getDefinitions = require('./get-definitions')
 const uriTransformer = require('./uri-transformer')
 const defaultRenderers = require('./renderers')
 
-let warningIssuesSource
-let warningIssuesEscapeHtml
+let warningIssuedSource
+let warningIssuedEscapeHtml
 
 function ReactMarkdown(props) {
-  if ('source' in props && !warningIssuesSource) {
+  if ('source' in props && !warningIssuedSource) {
     console.warn('[react-markdown] Warning: please use `children` instead of `source`')
-    warningIssuesSource = true
+    warningIssuedSource = true
   }
 
-  if ('escapeHtml' in props && !warningIssuesEscapeHtml) {
+  if ('escapeHtml' in props && !warningIssuedEscapeHtml) {
     console.warn(
       '[react-markdown] Warning: please use `allowDangerousHtml` instead of `escapeHtml`'
     )
-    warningIssuesEscapeHtml = true
+    warningIssuedEscapeHtml = true
   }
 
   const processor = unified()
@@ -42,8 +41,8 @@ function ReactMarkdown(props) {
 
   return astToReact(
     tree,
-    xtend(props, {
-      renderers: xtend(defaultRenderers, props.renderers),
+    Object.assign({}, props, {
+      renderers: Object.assign({}, defaultRenderers, props.renderers),
       definitions: getDefinitions(tree)
     })
   )

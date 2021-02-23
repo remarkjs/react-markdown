@@ -1,7 +1,6 @@
 'use strict'
 
 const React = require('react')
-const xtend = require('xtend')
 const ReactIs = require('react-is')
 
 function astToReact(node, options, parent = {}, index = 0) {
@@ -128,7 +127,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     case 'linkReference':
       assignDefined(
         props,
-        xtend(ref, {
+        Object.assign({}, ref, {
           href: opts.transformLinkUri ? opts.transformLinkUri(ref.href) : ref.href
         })
       )
@@ -180,7 +179,7 @@ function getNodeProps(node, key, opts, renderer, parent, index) {
     default:
       assignDefined(
         props,
-        xtend(node, {
+        Object.assign({}, node, {
           type: undefined,
           position: undefined,
           children: undefined
@@ -210,9 +209,7 @@ function assignDefined(target, attrs) {
 function mergeNodeChildren(node, parsedChildren) {
   const el = node.element
   if (Array.isArray(el)) {
-    /* istanbul ignore next - `div` fallback for old React. */
-    const Fragment = React.Fragment || 'div'
-    return React.createElement(Fragment, null, el)
+    return React.createElement(React.Fragment, null, el)
   }
 
   if (el.props.children || parsedChildren) {

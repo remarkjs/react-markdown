@@ -45,8 +45,7 @@
     "react-is": "^17.0.0",
     "remark-parse": "^9.0.0",
     "unified": "^9.0.0",
-    "unist-util-visit": "^2.0.0",
-    "xtend": "^4.0.1"
+    "unist-util-visit": "^2.0.0"
   },
   "peerDependencies": {
     "@types/react": ">=16",
@@ -71,6 +70,7 @@
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-config-sanity": "^5.0.0",
+    "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "jest": "^26.0.0",
     "katex": "^0.12.0",
@@ -136,31 +136,42 @@
       "prettier",
       "plugin:react/recommended"
     ],
-    "plugins": [
-      "react"
-    ],
     "env": {
       "node": true,
       "browser": true
     },
     "parserOptions": {
-      "ecmaVersion": 2018,
+      "ecmaVersion": 2020,
       "ecmaFeatures": {
         "jsx": true
       }
     },
-    "rules": {
-      "react/no-children-prop": 0,
-      "strict": 0,
-      "complexity": [
-        "warn",
-        15
-      ]
-    },
     "settings": {
       "react": {
-        "version": "15.0"
+        "version": "detect"
       }
-    }
+    },
+    "rules": {
+      "strict": 0
+    },
+    "overrides": [
+      {
+        "files": [
+          "src/**/*.js",
+          "with-html.js"
+        ],
+        "extends": [
+          "plugin:es/restrict-to-es2015"
+        ]
+      },
+      {
+        "files": [
+          "test/**/*.js"
+        ],
+        "rules": {
+          "react/no-children-prop": 0
+        }
+      }
+    ]
   }
 }
