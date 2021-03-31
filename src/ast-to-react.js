@@ -208,6 +208,9 @@ function assignDefined(target, attrs) {
 
 function mergeNodeChildren(node, parsedChildren) {
   const el = node.element
+  
+  if(!el || !el.props) return '';
+  
   if (Array.isArray(el)) {
     return React.createElement(React.Fragment, null, el)
   }
