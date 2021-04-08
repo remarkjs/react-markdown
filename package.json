@@ -74,15 +74,12 @@
     "lib/",
     "plugins/",
     "index.d.ts",
-    "react-markdown.min.js",
-    "with-html.d.ts",
-    "with-html.js"
+    "react-markdown.min.js"
   ],
   "dependencies": {
     "@types/hast": "^2.3.0",
     "@types/unist": "^2.0.3",
     "comma-separated-tokens": "^1.0.0",
-    "html-to-react": "^1.4.5",
     "prop-types": "^15.7.2",
     "property-information": "^5.0.0",
     "react-is": "^17.0.0",
@@ -126,6 +123,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-test-renderer": "^17.0.0",
+    "rehype-raw": "^5.0.0",
     "remark-cli": "^9.0.0",
     "remark-gfm": "^1.0.0",
     "remark-math": "^4.0.0",
@@ -204,8 +202,7 @@
     "overrides": [
       {
         "files": [
-          "src/**/*.js",
-          "with-html.js"
+          "src/**/*.js"
         ],
         "extends": [
           "plugin:es/restrict-to-es2015"

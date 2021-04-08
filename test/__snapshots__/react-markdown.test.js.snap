@@ -23,80 +23,138 @@ Array [
   <h1>
     h1 Heading
   </h1>,
+  "
+",
   <h2>
     h2 Heading
   </h2>,
+  "
+",
   <h3>
     h3 Heading
   </h3>,
+  "
+",
   <h4>
     h4 Heading
   </h4>,
+  "
+",
   <h5>
     h5 Heading
   </h5>,
+  "
+",
   <h6>
     h6 Heading
   </h6>,
+  "
+",
   <h2>
     Horizontal Rules
   </h2>,
+  "
+",
   <hr />,
+  "
+",
   <hr />,
+  "
+",
   <hr />,
+  "
+",
   <h2>
     Emphasis
   </h2>,
+  "
+",
   <p>
     <strong>
       This is bold text
     </strong>
   </p>,
+  "
+",
   <p>
     <strong>
       This is bold text
     </strong>
   </p>,
+  "
+",
   <p>
     <em>
       This is italic text
     </em>
   </p>,
+  "
+",
   <p>
     <em>
       This is italic text
     </em>
   </p>,
+  "
+",
   <p>
     <del>
       Strikethrough
     </del>
   </p>,
+  "
+",
   <h2>
     Blockquotes
   </h2>,
+  "
+",
   <blockquote>
+    
+
     <p>
       Blockquotes can also be nested...
     </p>
+    
+
     <blockquote>
+      
+
       <p>
         ...by using additional greater-than signs right next to each other...
       </p>
+      
+
       <blockquote>
+        
+
         <p>
           ...or with spaces between arrows.
         </p>
+        
+
       </blockquote>
+      
+
     </blockquote>
+    
+
   </blockquote>,
+  "
+",
   <h2>
     Lists
   </h2>,
+  "
+",
   <p>
     Unordered
   </p>,
+  "
+",
   <ul>
+    
+
     <li>
       Create a list by starting a line with 
       <code>
@@ -111,120 +169,220 @@ Array [
         *
       </code>
     </li>
+    
+
     <li>
       Sub-lists are made by indenting 2 spaces:
+
       <ul>
+        
+
         <li>
           Marker character change forces new list start:
+
           <ul>
+            
+
             <li>
               Ac tristique libero volutpat at
             </li>
+            
+
           </ul>
+          
+
           <ul>
+            
+
             <li>
               Facilisis in pretium nisl aliquet
             </li>
+            
+
           </ul>
+          
+
           <ul>
+            
+
             <li>
               Nulla volutpat aliquam velit
             </li>
+            
+
           </ul>
+          
+
         </li>
+        
+
       </ul>
+      
+
     </li>
+    
+
     <li>
       Very easy!
     </li>
+    
+
   </ul>,
+  "
+",
   <p>
     Ordered
   </p>,
+  "
+",
   <ol>
+    
+
     <li>
       Lorem ipsum dolor sit amet
     </li>
+    
+
     <li>
       Consectetur adipiscing elit
     </li>
+    
+
     <li>
       Integer molestie lorem at massa
     </li>
+    
+
   </ol>,
+  "
+",
   <p>
     Or:
   </p>,
+  "
+",
   <ol>
+    
+
     <li>
       You can use sequential numbers...
     </li>
+    
+
     <li>
       ...or keep all the numbers as 
       <code>
         1.
       </code>
     </li>
+    
+
   </ol>,
+  "
+",
   <p>
     Start numbering with offset:
   </p>,
+  "
+",
   <ol
-    start="57"
+    start={57}
   >
+    
+
     <li>
       foo
     </li>
+    
+
     <li>
       bar
     </li>
+    
+
   </ol>,
+  "
+",
   <p>
     Loose lists?
   </p>,
+  "
+",
   <ul>
+    
+
     <li>
+      
+
       <p>
         foo
       </p>
+      
+
     </li>
+    
+
     <li>
+      
+
       <p>
         bar
       </p>
+      
+
     </li>
+    
+
   </ul>,
+  "
+",
   <h2>
     Code
   </h2>,
+  "
+",
   <p>
     Inline 
     <code>
       code
     </code>
   </p>,
+  "
+",
   <p>
     Indented code
   </p>,
+  "
+",
   <pre>
     <code>
       // Some comments
 line 1 of code
 line 2 of code
 line 3 of code
+
     </code>
   </pre>,
+  "
+",
   <p>
     Block code "fences"
   </p>,
+  "
+",
   <pre>
     <code>
       Sample text here...
+
     </code>
   </pre>,
+  "
+",
   <p>
     Syntax highlighting
   </p>,
+  "
+",
   <pre>
     <code
       className="language-js"
@@ -234,11 +392,37 @@ line 3 of code
 };
 
 console.log(foo(5));
+
     </code>
   </pre>,
+  "
+",
   <h2>
     Tables
   </h2>,
+  "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",
   <table>
     <thead>
       <tr>
@@ -277,9 +461,34 @@ console.log(foo(5));
       </tr>
     </tbody>
   </table>,
+  "
+",
   <p>
     Left/right aligned columns
   </p>,
+  "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",
   <table>
     <thead>
       <tr>
@@ -366,9 +575,13 @@ console.log(foo(5));
       </tr>
     </tbody>
   </table>,
+  "
+",
   <h2>
     Links
   </h2>,
+  "
+",
   <p>
     <a
       href="https://espen.codes/"
@@ -376,6 +589,8 @@ console.log(foo(5));
       Espen.Codes
     </a>
   </p>,
+  "
+",
   <p>
     <a
       href="https://www.sanity.io/"
@@ -384,6 +599,8 @@ console.log(foo(5));
       Sanity
     </a>
   </p>,
+  "
+",
   <p>
     Autoconverted link 
     <a
@@ -392,6 +609,8 @@ console.log(foo(5));
       https://github.com/remarkjs/react-markdown
     </a>
   </p>,
+  "
+",
   <p>
     <a
       href="https://reactjs.org"
@@ -400,9 +619,13 @@ console.log(foo(5));
       Link references
     </a>
   </p>,
+  "
+",
   <h2>
     Images
   </h2>,
+  "
+",
   <p>
     <img
       alt="React Markdown"
@@ -416,9 +639,13 @@ console.log(foo(5));
       title="Mead, on-the-fly image transformer"
     />
   </p>,
+  "
+",
   <p>
     Like links, Images also have a footnote style syntax
   </p>,
+  "
+",
   <p>
     <img
       alt="Alt text"
@@ -426,66 +653,85 @@ console.log(foo(5));
       title="Headless CMS"
     />
   </p>,
+  "
+",
   <p>
     With a reference later in the document defining the URL location:
   </p>,
+  "
+",
   <h2>
     Hard breaks
   </h2>,
+  "
+",
   <p>
     Yeah, hard breaks
     <br />
-    can be useful too.
+    
+can be useful too.
   </p>,
+  "
+",
   <h2>
     HTML entities
   </h2>,
+  "
+",
   <p>
     Some characters, like æ, & and similar should be handled properly.
   </p>,
+  "
+",
   <h2>
     HTML
   </h2>,
+  "
+",
   <p>
     Does anyone actually like the fact that you can embed HTML in markdown?
   </p>,
+  "
+",
   <iframe
-    height="480"
+    height={480}
     src="https://foo.bar/"
-    width="640"
-  />,
-  <p>
-    We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
+    width={640}
+  >
+    
+We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
+code
+  </iframe>,
+  ", as long as it doesn't contain any ",
+  <span
+    className="attrs"
+  >
+    attributes
+  </span>,
+  ". If you
+have weird ordering on your tags, it won't work either. It does support ",
+  <strong>
+    nested
 
-    <code>
-      code
-    </code>
-    , as long as it doesn't contain any 
-    <span
-      className="attrs"
-    >
-      attributes
-    </span>
-    . If you
-have weird ordering on your tags, it won't work either. It does support 
-    <strong>
-      nested
-
-      <em>
-        tags
-      </em>
-      , however
-    </strong>
-    . And with the 
-    <code
-      className="name"
-    >
-      html-parser
-    </code>
-     plugin, it can now properly handle HTML! Which is pretty sweet.
-  </p>,
+    <em>
+      tags
+    </em>
+    , however
+  </strong>,
+  ". And with the ",
+  <code
+    className="name"
+  >
+    rehype-raw
+  </code>,
+  " plugin, it can now properly handle HTML! Which is pretty sweet.",
+  <p />,
+  "
+",
   <hr />,
   <hr />,
+  "
+",
   <p>
     Cool, eh?
   </p>,
@@ -497,80 +743,138 @@ Array [
   <h1>
     h1 Heading
   </h1>,
+  "
+",
   <h2>
     h2 Heading
   </h2>,
+  "
+",
   <h3>
     h3 Heading
   </h3>,
+  "
+",
   <h4>
     h4 Heading
   </h4>,
+  "
+",
   <h5>
     h5 Heading
   </h5>,
+  "
+",
   <h6>
     h6 Heading
   </h6>,
+  "
+",
   <h2>
     Horizontal Rules
   </h2>,
+  "
+",
   <hr />,
+  "
+",
   <hr />,
+  "
+",
   <hr />,
+  "
+",
   <h2>
     Emphasis
   </h2>,
+  "
+",
   <p>
     <strong>
       This is bold text
     </strong>
   </p>,
+  "
+",
   <p>
     <strong>
       This is bold text
     </strong>
   </p>,
+  "
+",
   <p>
     <em>
       This is italic text
     </em>
   </p>,
+  "
+",
   <p>
     <em>
       This is italic text
     </em>
   </p>,
+  "
+",
   <p>
     <del>
       Strikethrough
     </del>
   </p>,
+  "
+",
   <h2>
     Blockquotes
   </h2>,
+  "
+",
   <blockquote>
+    
+
     <p>
       Blockquotes can also be nested...
     </p>
+    
+
     <blockquote>
+      
+
       <p>
         ...by using additional greater-than signs right next to each other...
       </p>
+      
+
       <blockquote>
+        
+
         <p>
           ...or with spaces between arrows.
         </p>
+        
+
       </blockquote>
+      
+
     </blockquote>
+    
+
   </blockquote>,
+  "
+",
   <h2>
     Lists
   </h2>,
+  "
+",
   <p>
     Unordered
   </p>,
+  "
+",
   <ul>
+    
+
     <li>
       Create a list by starting a line with 
       <code>
@@ -585,120 +889,220 @@ Array [
         *
       </code>
     </li>
+    
+
     <li>
       Sub-lists are made by indenting 2 spaces:
+
       <ul>
+        
+
         <li>
           Marker character change forces new list start:
+
           <ul>
+            
+
             <li>
               Ac tristique libero volutpat at
             </li>
+            
+
           </ul>
+          
+
           <ul>
+            
+
             <li>
               Facilisis in pretium nisl aliquet
             </li>
+            
+
           </ul>
+          
+
           <ul>
+            
+
             <li>
               Nulla volutpat aliquam velit
             </li>
+            
+
           </ul>
+          
+
         </li>
+        
+
       </ul>
+      
+
     </li>
+    
+
     <li>
       Very easy!
     </li>
+    
+
   </ul>,
+  "
+",
   <p>
     Ordered
   </p>,
+  "
+",
   <ol>
+    
+
     <li>
       Lorem ipsum dolor sit amet
     </li>
+    
+
     <li>
       Consectetur adipiscing elit
     </li>
+    
+
     <li>
       Integer molestie lorem at massa
     </li>
+    
+
   </ol>,
+  "
+",
   <p>
     Or:
   </p>,
+  "
+",
   <ol>
+    
+
     <li>
       You can use sequential numbers...
     </li>
+    
+
     <li>
       ...or keep all the numbers as 
       <code>
         1.
       </code>
     </li>
+    
+
   </ol>,
+  "
+",
   <p>
     Start numbering with offset:
   </p>,
+  "
+",
   <ol
-    start="57"
+    start={57}
   >
+    
+
     <li>
       foo
     </li>
+    
+
     <li>
       bar
     </li>
+    
+
   </ol>,
+  "
+",
   <p>
     Loose lists?
   </p>,
+  "
+",
   <ul>
+    
+
     <li>
+      
+
       <p>
         foo
       </p>
+      
+
     </li>
+    
+
     <li>
+      
+
       <p>
         bar
       </p>
+      
+
     </li>
+    
+
   </ul>,
+  "
+",
   <h2>
     Code
   </h2>,
+  "
+",
   <p>
     Inline 
     <code>
       code
     </code>
   </p>,
+  "
+",
   <p>
     Indented code
   </p>,
+  "
+",
   <pre>
     <code>
       // Some comments
 line 1 of code
 line 2 of code
 line 3 of code
+
     </code>
   </pre>,
+  "
+",
   <p>
     Block code "fences"
   </p>,
+  "
+",
   <pre>
     <code>
       Sample text here...
+
     </code>
   </pre>,
+  "
+",
   <p>
     Syntax highlighting
   </p>,
+  "
+",
   <pre>
     <code
       className="language-js"
@@ -708,11 +1112,37 @@ line 3 of code
 };
 
 console.log(foo(5));
+
     </code>
   </pre>,
+  "
+",
   <h2>
     Tables
   </h2>,
+  "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",
   <table>
     <thead>
       <tr>
@@ -751,9 +1181,34 @@ console.log(foo(5));
       </tr>
     </tbody>
   </table>,
+  "
+",
   <p>
     Left/right aligned columns
   </p>,
+  "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+",
   <table>
     <thead>
       <tr>
@@ -840,9 +1295,13 @@ console.log(foo(5));
       </tr>
     </tbody>
   </table>,
+  "
+",
   <h2>
     Links
   </h2>,
+  "
+",
   <p>
     <a
       href="https://espen.codes/"
@@ -850,6 +1309,8 @@ console.log(foo(5));
       Espen.Codes
     </a>
   </p>,
+  "
+",
   <p>
     <a
       href="https://www.sanity.io/"
@@ -858,6 +1319,8 @@ console.log(foo(5));
       Sanity
     </a>
   </p>,
+  "
+",
   <p>
     Autoconverted link 
     <a
@@ -866,6 +1329,8 @@ console.log(foo(5));
       https://github.com/remarkjs/react-markdown
     </a>
   </p>,
+  "
+",
   <p>
     <a
       href="https://reactjs.org"
@@ -874,9 +1339,13 @@ console.log(foo(5));
       Link references
     </a>
   </p>,
+  "
+",
   <h2>
     Images
   </h2>,
+  "
+",
   <p>
     <img
       alt="React Markdown"
@@ -890,9 +1359,13 @@ console.log(foo(5));
       title="Mead, on-the-fly image transformer"
     />
   </p>,
+  "
+",
   <p>
     Like links, Images also have a footnote style syntax
   </p>,
+  "
+",
   <p>
     <img
       alt="Alt text"
@@ -900,97 +1373,85 @@ console.log(foo(5));
       title="Headless CMS"
     />
   </p>,
+  "
+",
   <p>
     With a reference later in the document defining the URL location:
   </p>,
+  "
+",
   <h2>
     Hard breaks
   </h2>,
+  "
+",
   <p>
     Yeah, hard breaks
     <br />
-    can be useful too.
+    
+can be useful too.
   </p>,
+  "
+",
   <h2>
     HTML entities
   </h2>,
+  "
+",
   <p>
     Some characters, like æ, & and similar should be handled properly.
   </p>,
+  "
+",
   <h2>
     HTML
   </h2>,
+  "
+",
   <p>
     Does anyone actually like the fact that you can embed HTML in markdown?
   </p>,
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<iframe
-  src=\\"https://foo.bar/\\"
-  width=\\"640\\"
-  height=\\"480\\"
-/>",
-      }
-    }
-  />,
-  <p>
-    We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
-
-    <span
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<code>",
-        }
-      }
-    />
-    code
-    <code>
-      , as long as it doesn't contain any 
-      <span
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<span class=\\"attrs\\">",
-          }
-        }
-      />
-      attributes
-      <span
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "</span>",
-          }
-        }
-      />
-      . If you
-have weird ordering on your tags, it won't work either. It does support 
-      <strong>
-        nested
-
-        <em>
-          tags
-        </em>
-        , however
-      </strong>
-      . And with the 
-      <span
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<code class=\\"name\\">",
-          }
-        }
-      />
-      html-parser
-    </code>
-     plugin, it can now properly handle HTML! Which is pretty sweet.
-  </p>,
+  "
+",
+  <iframe
+    height={480}
+    src="https://foo.bar/"
+    width={640}
+  >
+    
+We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
+code
+  </iframe>,
+  ", as long as it doesn't contain any ",
   <span
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<hr /><hr />",
-      }
-    }
-  />,
+    className="attrs"
+  >
+    attributes
+  </span>,
+  ". If you
+have weird ordering on your tags, it won't work either. It does support ",
+  <strong>
+    nested
+
+    <em>
+      tags
+    </em>
+    , however
+  </strong>,
+  ". And with the ",
+  <code
+    className="name"
+  >
+    rehype-raw
+  </code>,
+  " plugin, it can now properly handle HTML! Which is pretty sweet.",
+  <p />,
+  "
+",
+  <hr />,
+  <hr />,
+  "
+",
   <p>
     Cool, eh?
   </p>,
@@ -1007,8 +1468,6 @@ exports[`can use parser plugins 1`] = `
 </p>
 `;
 
-exports[`passes along all props when the node type is unknown 1`] = `"<p>Lift(<span><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\"><semantics><mrow><mi>L</mi></mrow><annotation encoding=\\"application/x-tex\\">L</annotation></semantics></math></span><span class=\\"katex-html\\" aria-hidden=\\"true\\"><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:0.68333em;vertical-align:0em;\\"></span><span class=\\"mord mathnormal\\">L</span></span></span></span></span>) can be determined by Lift Coefficient (<span><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\"><semantics><mrow><msub><mi>C</mi><mi>L</mi></msub></mrow><annotation encoding=\\"application/x-tex\\">C_L</annotation></semantics></math></span><span class=\\"katex-html\\" aria-hidden=\\"true\\"><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:0.83333em;vertical-align:-0.15em;\\"></span><span class=\\"mord\\"><span class=\\"mord mathnormal\\" style=\\"margin-right:0.07153em;\\">C</span><span class=\\"msupsub\\"><span class=\\"vlist-t vlist-t2\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.32833099999999993em;\\"><span style=\\"top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;\\"><span class=\\"pstrut\\" style=\\"height:2.7em;\\"></span><span class=\\"sizing reset-size6 size3 mtight\\"><span class=\\"mord mathnormal mtight\\">L</span></span></span></span><span class=\\"vlist-s\\">​</span></span><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.15em;\\"><span></span></span></span></span></span></span></span></span></span></span>) like the following equation.</p><div><span class=\\"katex-display\\"><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\" display=\\"block\\"><semantics><mrow><mi>L</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>ρ</mi><msup><mi>v</mi><mn>2</mn></msup><mi>S</mi><msub><mi>C</mi><mi>L</mi></msub></mrow><annotation encoding=\\"application/x-tex\\">L = \\\\frac{1}{2} \\\\rho v^2 S C_L</annotation></semantics></math></span><span class=\\"katex-html\\" aria-hidden=\\"true\\"><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:0.68333em;vertical-align:0em;\\"></span><span class=\\"mord mathnormal\\">L</span><span class=\\"mspace\\" style=\\"margin-right:0.2777777777777778em;\\"></span><span class=\\"mrel\\">=</span><span class=\\"mspace\\" style=\\"margin-right:0.2777777777777778em;\\"></span></span><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:2.00744em;vertical-align:-0.686em;\\"></span><span class=\\"mord\\"><span class=\\"mopen nulldelimiter\\"></span><span class=\\"mfrac\\"><span class=\\"vlist-t vlist-t2\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:1.32144em;\\"><span style=\\"top:-2.314em;\\"><span class=\\"pstrut\\" style=\\"height:3em;\\"></span><span class=\\"mord\\"><span class=\\"mord\\">2</span></span></span><span style=\\"top:-3.23em;\\"><span class=\\"pstrut\\" style=\\"height:3em;\\"></span><span class=\\"frac-line\\" style=\\"border-bottom-width:0.04em;\\"></span></span><span style=\\"top:-3.677em;\\"><span class=\\"pstrut\\" style=\\"height:3em;\\"></span><span class=\\"mord\\"><span class=\\"mord\\">1</span></span></span></span><span class=\\"vlist-s\\">​</span></span><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.686em;\\"><span></span></span></span></span></span><span class=\\"mclose nulldelimiter\\"></span></span><span class=\\"mord mathnormal\\">ρ</span><span class=\\"mord\\"><span class=\\"mord mathnormal\\" style=\\"margin-right:0.03588em;\\">v</span><span class=\\"msupsub\\"><span class=\\"vlist-t\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.8641079999999999em;\\"><span style=\\"top:-3.113em;margin-right:0.05em;\\"><span class=\\"pstrut\\" style=\\"height:2.7em;\\"></span><span class=\\"sizing reset-size6 size3 mtight\\"><span class=\\"mord mtight\\">2</span></span></span></span></span></span></span></span><span class=\\"mord mathnormal\\" style=\\"margin-right:0.05764em;\\">S</span><span class=\\"mord\\"><span class=\\"mord mathnormal\\" style=\\"margin-right:0.07153em;\\">C</span><span class=\\"msupsub\\"><span class=\\"vlist-t vlist-t2\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.32833099999999993em;\\"><span style=\\"top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;\\"><span class=\\"pstrut\\" style=\\"height:2.7em;\\"></span><span class=\\"sizing reset-size6 size3 mtight\\"><span class=\\"mord mathnormal mtight\\">L</span></span></span></span><span class=\\"vlist-s\\">​</span></span><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.15em;\\"><span></span></span></span></span></span></span></span></span></span></span></div>"`;
-
 exports[`sanitizes certain dangerous urls for links by default 1`] = `
 Array [
   <h1>
@@ -1018,6 +1477,8 @@ Array [
       Much fun
     </a>
   </h1>,
+  "
+",
   <p>
     Can be had with 
     <a
@@ -1026,7 +1487,11 @@ Array [
       XSS links
     </a>
   </p>,
+  "
+",
   <blockquote>
+    
+
     <p>
       And 
       <a
@@ -1042,7 +1507,11 @@ Array [
       </a>
        for instance
     </p>
+    
+
   </blockquote>,
+  "
+",
   <h2>
     <a
       href="javascript:void(0)"
@@ -1051,6 +1520,8 @@ Array [
     </a>
      can be tricky, too
   </h2>,
+  "
+",
   <p>
     Regular 
     <a
@@ -1066,6 +1537,8 @@ Array [
     </a>
      allowed
   </p>,
+  "
+",
   <p>
     <a
       href="javascript:void(0)"
@@ -1074,6 +1547,8 @@ Array [
       Some ref
     </a>
   </p>,
+  "
+",
   <p>
     Should allow 
     <a
@@ -1089,6 +1564,8 @@ Array [
     </a>
      links tho
   </p>,
+  "
+",
   <p>
     Also, 
     <a
@@ -1098,6 +1575,8 @@ Array [
     </a>
      should be allowed
   </p>,
+  "
+",
   <p>
     local 
     <a
@@ -1112,6 +1591,8 @@ Array [
       allowed
     </a>
   </p>,
+  "
+",
   <p>
     allow 
     <a
@@ -1172,112 +1653,6 @@ Array [
 ]
 `;
 
-exports[`should be able to override renderers 1`] = `
-Array [
-  <span
-    className="heading level-1"
-  >
-    Header
-  </span>,
-  <p>
-    Paragraph
-  </p>,
-  <span
-    className="heading level-2"
-  >
-    New header
-  </span>,
-  <ol>
-    <li>
-      List item
-    </li>
-    <li>
-      List item 2
-    </li>
-  </ol>,
-  <p>
-    Foo
-  </p>,
-]
-`;
-
-exports[`should be able to override root renderer with fragment renderer 1`] = `
-Array [
-  <h1>
-    Header
-  </h1>,
-  <p>
-    foo
-  </p>,
-]
-`;
-
-exports[`should be able to override text renderer 1`] = `
-Array [
-  <h1>
-    HEADER
-  </h1>,
-  <p>
-    PARAGRAPH
-  </p>,
-  <h2>
-    NEW HEADER
-  </h2>,
-  <ol>
-    <li>
-      LIST ITEM
-    </li>
-    <li>
-      LIST ITEM 2
-    </li>
-  </ol>,
-  <p>
-    FOO
-  </p>,
-]
-`;
-
-exports[`should be able to render a table with a single child with HTML parser plugin 1`] = `
-<table>
-  <tbody>
-    <tr>
-      <td>
-        I am having so much fun
-      </td>
-    </tr>
-  </tbody>
-</table>
-`;
-
-exports[`should be able to render a table with multiple children with HTML parser plugin 1`] = `
-<table>
-  <thead>
-    <tr>
-      <th>
-        Title
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        I am having so much fun
-      </td>
-    </tr>
-  </tbody>
-</table>
-`;
-
-exports[`should be able to render basic inline html without containers 1`] = `
-<p>
-  I am having 
-  <strong>
-    so
-  </strong>
-   much fun
-</p>
-`;
-
 exports[`should be able to render components with forwardRef in HOC 1`] = `
 <p>
   <a
@@ -1314,9 +1689,11 @@ exports[`should be able to render components with forwardRef in HOC 1`] = `
             "offset": 0,
           },
         },
-        "title": null,
-        "type": "link",
-        "url": "https://example.com/",
+        "properties": Object {
+          "href": "https://example.com/",
+        },
+        "tagName": "a",
+        "type": "element",
       }
     }
   >
@@ -1332,118 +1709,6 @@ exports[`should be able to render inline code 1`] = `
     renderToStaticMarkup()
   </code>
   , already
-</p>
-`;
-
-exports[`should be able to render inline html in totally unsatisfying, weird ways 1`] = `
-<p>
-  I am having 
-  <span
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<span class=\\"foo\\">",
-      }
-    }
-  />
-  so
-  <span
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "</span>",
-      }
-    }
-  />
-   much fun
-</p>
-`;
-
-exports[`should be able to render inline html properly with HTML parser plugin (through require) 1`] = `
-<p>
-  I am having 
-  <span
-    className="foo"
-  >
-    so
-  </span>
-   much fun
-</p>
-`;
-
-exports[`should be able to render inline html properly with HTML parser plugin 1`] = `
-<p>
-  I am having 
-  <span
-    className="foo"
-  >
-    so
-  </span>
-   much fun
-</p>
-`;
-
-exports[`should be able to render inline html with nested markdown properly with HTML parser plugin 1`] = `
-<p>
-  I am having 
-  <span
-    className="foo"
-  >
-    <em>
-      so
-    </em>
-  </span>
-   much fun
-</p>
-`;
-
-exports[`should be able to render inline html with self-closing tags properly with HTML parser plugin 1`] = `
-<p>
-  I am having 
-  <wbr />
-   so much fun
-</p>
-`;
-
-exports[`should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin (#2) 1`] = `
-<p>
-  I am having 
-  <wbr
-    className="foo"
-  />
-   so much fun
-</p>
-`;
-
-exports[`should be able to render inline html with self-closing tags with attributes properly with HTML parser plugin 1`] = `
-<p>
-  I am having 
-  <wbr
-    className="foo"
-  />
-   so much fun
-</p>
-`;
-
-exports[`should be able to render multiple inline html elements with self-closing tags with attributes properly with HTML parser plugin 1`] = `
-<p>
-  I am having 
-  <wbr
-    className="foo"
-  />
-   so much 
-  <wbr
-    className="bar"
-  />
-   fun
-</p>
-`;
-
-exports[`should be able to render replaced non-void html elements with HTML parser plugin 1`] = `
-<p>
-  I am having 
-  <kbd>
-    so much
-  </kbd>
-   fun
 </p>
 `;
 
@@ -1465,11 +1730,15 @@ Array [
   <p>
     This is a regular paragraph.
   </p>,
+  "
+",
   "<table>
     <tr>
         <td>Foo</td>
     </tr>
 </table>",
+  "
+",
   <p>
     This is another regular paragraph.
   </p>,
@@ -1481,11 +1750,15 @@ Array [
   <p>
     This is a regular paragraph.
   </p>,
+  "
+",
   "<table>
     <tr>
         <td>Foo</td>
     </tr>
 </table>",
+  "
+",
   <p>
     This is another regular paragraph.
   </p>,
@@ -1494,11 +1767,15 @@ Array [
 
 exports[`should handle blockquotes 1`] = `
 <blockquote>
+  
+
   <p>
     Moo
 Tools
 FTW
   </p>
+  
+
 </blockquote>
 `;
 
@@ -1518,7 +1795,8 @@ exports[`should handle bold/strong text 1`] = `
 exports[`should handle code blocks by indentation 1`] = `
 "<pre><code>&lt;footer class=&quot;footer&quot;&gt;
     &amp;copy; 2014 Foo Bar
-&lt;/footer&gt;</code></pre>"
+&lt;/footer&gt;
+</code></pre>"
 `;
 
 exports[`should handle code tags with language specification 1`] = `
@@ -1528,6 +1806,7 @@ exports[`should handle code tags with language specification 1`] = `
   >
     var foo = require('bar');
 foo();
+
   </code>
 </pre>
 `;
@@ -1537,6 +1816,7 @@ exports[`should handle code tags without any language specification 1`] = `
   <code>
     var foo = require('bar');
 foo();
+
   </code>
 </pre>
 `;
@@ -1559,57 +1839,13 @@ Array [
   <p>
     Foo
   </p>,
+  "
+",
   <hr />,
+  "
+",
   <p>
     Bar
-  </p>,
-]
-`;
-
-exports[`should handle html blocks 1`] = `
-Array [
-  <p>
-    This is a regular paragraph.
-  </p>,
-  <div
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<table>
-    <tr>
-        <td>Foo</td>
-    </tr>
-</table>",
-      }
-    }
-  />,
-  <p>
-    This is another regular paragraph.
-  </p>,
-]
-`;
-
-exports[`should handle html blocks with HTML parser plugin 1`] = `
-Array [
-  <p>
-    This is a regular paragraph.
-  </p>,
-  <table>
-    
-    
-    <tr>
-      
-        
-      <td>
-        Foo
-      </td>
-      
-    
-    </tr>
-    
-
-  </table>,
-  <p>
-    This is another regular paragraph.
   </p>,
 ]
 `;
@@ -1670,25 +1906,6 @@ exports[`should handle images without title attribute 1`] = `
 </p>
 `;
 
-exports[`should handle inline html with allowDangerousHtml option enabled 1`] = `
-<p>
-  I am having 
-  &lt;strong&gt;
-  so
-  &lt;/strong&gt;
-   much fun
-</p>
-`;
-
-exports[`should handle invalid HTML with HTML parser plugin 1`] = `
-<p>
-  I am having 
-  <div />
-   so much
-   fun
-</p>
-`;
-
 exports[`should handle links with custom uri transformer 1`] = `
 <p>
   This is 
@@ -1740,31 +1957,59 @@ exports[`should handle links without title attribute 1`] = `
 
 exports[`should handle loose, unordered lists 1`] = `
 <ul>
+  
+
   <li>
+    
+
     <p>
       foo
     </p>
+    
+
   </li>
+  
+
   <li>
+    
+
     <p>
       bar
     </p>
+    
+
   </li>
+  
+
 </ul>
 `;
 
 exports[`should handle loose, unordered lists with sublists 1`] = `
 <ul>
+  
+
   <li>
+    
+
     <p>
       foo
     </p>
+    
+
     <ul>
+      
+
       <li>
         bar
       </li>
+      
+
     </ul>
+    
+
   </li>
+  
+
 </ul>
 `;
 
@@ -1773,6 +2018,8 @@ exports[`should handle multiline paragraphs properly (softbreak, paragraphs) 1`]
   React is awesome
 And so is markdown
   <br />
+  
+
   Combining = epic
 </p>
 `;
@@ -1783,6 +2030,8 @@ Array [
     React is awesome
 And so is markdown
   </p>,
+  "
+",
   <p>
     Combining = epic
   </p>,
@@ -1791,84 +2040,146 @@ And so is markdown
 
 exports[`should handle nested blockquotes 1`] = `
 <blockquote>
+  
+
   <blockquote>
+    
+
     <p>
       Lots of ex-Mootoolers on the React team
     </p>
+    
+
   </blockquote>
+  
+
   <p>
     Totally didn't know that.
   </p>
+  
+
   <blockquote>
+    
+
     <p>
       There's a reason why it turned out so awesome
     </p>
+    
+
   </blockquote>
+  
+
   <p>
     Haha I guess you're right!
   </p>
+  
+
 </blockquote>
 `;
 
 exports[`should handle ordered lists 1`] = `
 <ol>
+  
+
   <li>
     Ordered
   </li>
+  
+
   <li>
     Lists
   </li>
+  
+
   <li>
     Are cool
   </li>
+  
+
 </ol>
 `;
 
 exports[`should handle ordered lists with a start index 1`] = `
 <ol
-  start="7"
+  start={7}
 >
+  
+
   <li>
     Ordered
   </li>
+  
+
   <li>
     Lists
   </li>
+  
+
   <li>
     Are cool
   </li>
+  
+
 </ol>
 `;
 
 exports[`should handle tight, unordered lists 1`] = `
 <ul>
+  
+
   <li>
     Unordered
   </li>
+  
+
   <li>
     Lists
   </li>
+  
+
   <li>
     Are cool
   </li>
+  
+
 </ul>
 `;
 
 exports[`should handle tight, unordered lists with sublists 1`] = `
 <ul>
+  
+
   <li>
     Unordered
+    
+
     <ul>
+      
+
       <li>
         Lists
+        
+
         <ul>
+          
+
           <li>
             Are cool
           </li>
+          
+
         </ul>
+        
+
       </li>
+      
+
     </ul>
+    
+
   </li>
+  
+
 </ul>
 `;
 
@@ -1879,6 +2190,7 @@ exports[`should only use first language definition on code blocks 1`] = `
   >
     var foo = require('bar');
 foo();
+
   </code>
 </pre>
 `;
@@ -1930,31 +2242,6 @@ exports[`should pass \`ordered\`, \`depth\`, \`checked\`, \`index\` to list/list
 </ul>
 `;
 
-exports[`should pass depth, index and ordered props to list/listItem 1`] = `
-<ul>
-  <li>
-    <p>
-      foo
-    </p>
-    <ol
-      start="2"
-    >
-      <li>
-        bar
-      </li>
-      <li>
-        baz
-      </li>
-    </ol>
-  </li>
-  <li>
-    <p>
-      root
-    </p>
-  </li>
-</ul>
-`;
-
 exports[`should pass index of a node under its parent to components if \`includeElementIndex\` option is enabled 1`] = `
 Object {
   "children": Array [
@@ -2003,173 +2290,6 @@ Array [
 ]
 `;
 
-exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 1`] = `
-Object {
-  "children": Array [
-    "Foo",
-  ],
-  "index": 0,
-  "parentChildCount": 3,
-}
-`;
-
-exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 2`] = `
-Object {
-  "children": Array [
-    "Bar",
-  ],
-  "index": 1,
-  "parentChildCount": 3,
-}
-`;
-
-exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 3`] = `
-Object {
-  "children": Array [
-    "Baz",
-  ],
-  "index": 2,
-  "parentChildCount": 3,
-}
-`;
-
-exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 4`] = `
-Array [
-  <p>
-    Foo
-  </p>,
-  "
-",
-  <p>
-    Bar
-  </p>,
-  "
-",
-  <p>
-    Baz
-  </p>,
-]
-`;
-
-exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 1`] = `
-Object {
-  "children": Array [
-    <TextRenderer
-      index={0}
-      node={
-        Object {
-          "position": Object {
-            "end": Object {
-              "column": 4,
-              "line": 1,
-              "offset": 3,
-            },
-            "start": Object {
-              "column": 1,
-              "line": 1,
-              "offset": 0,
-            },
-          },
-          "type": "text",
-          "value": "Foo",
-        }
-      }
-      nodeKey="text-1-1-0"
-      parentChildCount={1}
-      value="Foo"
-    >
-      Foo
-    </TextRenderer>,
-  ],
-  "index": 0,
-  "parentChildCount": 3,
-}
-`;
-
-exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 2`] = `
-Object {
-  "children": Array [
-    <TextRenderer
-      index={0}
-      node={
-        Object {
-          "position": Object {
-            "end": Object {
-              "column": 4,
-              "line": 3,
-              "offset": 8,
-            },
-            "start": Object {
-              "column": 1,
-              "line": 3,
-              "offset": 5,
-            },
-          },
-          "type": "text",
-          "value": "Bar",
-        }
-      }
-      nodeKey="text-3-1-0"
-      parentChildCount={1}
-      value="Bar"
-    >
-      Bar
-    </TextRenderer>,
-  ],
-  "index": 1,
-  "parentChildCount": 3,
-}
-`;
-
-exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 3`] = `
-Object {
-  "children": Array [
-    <TextRenderer
-      index={0}
-      node={
-        Object {
-          "position": Object {
-            "end": Object {
-              "column": 4,
-              "line": 5,
-              "offset": 13,
-            },
-            "start": Object {
-              "column": 1,
-              "line": 5,
-              "offset": 10,
-            },
-          },
-          "type": "text",
-          "value": "Baz",
-        }
-      }
-      nodeKey="text-5-1-0"
-      parentChildCount={1}
-      value="Baz"
-    >
-      Baz
-    </TextRenderer>,
-  ],
-  "index": 2,
-  "parentChildCount": 3,
-}
-`;
-
-exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 4`] = `
-Array [
-  <p>
-    Foo
-  </p>,
-  <p>
-    Bar
-  </p>,
-  <p>
-    Baz
-  </p>,
-]
-`;
-
 exports[`should pass on raw source position to non-tag components if rawSourcePos option is enabled 1`] = `
 Object {
   "end": Object {
@@ -2207,57 +2327,42 @@ Array [
 ]
 `;
 
-exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 1`] = `
-Object {
-  "end": Object {
-    "column": 6,
-    "line": 1,
-    "offset": 5,
-  },
-  "start": Object {
-    "column": 1,
-    "line": 1,
-    "offset": 0,
-  },
-}
-`;
-
-exports[`should pass on raw source position to non-tag renderers if rawSourcePos option is enabled 2`] = `
-Array [
-  <p>
-    <em
-      className="custom"
-    >
-      Foo
-    </em>
-  </p>,
-  <hr />,
-  <p>
-    <strong>
-      Bar
-    </strong>
-  </p>,
-]
-`;
-
 exports[`should render empty link references 1`] = `"<p>Stuff were changed in [][]. Check out the changelog for reference.</p>"`;
 
 exports[`should render image references 1`] = `"<p>Checkout out this ninja: <img src=\\"/assets/ninja.png\\" alt=\\"The Waffle Ninja\\"/>. Pretty neat, eh?</p>"`;
 
 exports[`should render link references 1`] = `"<p>Stuff were changed in <a href=\\"https://github.com/remarkjs/react-markdown/compare/v1.1.3...v1.1.4\\">1.1.4</a>. Check out the changelog for reference.</p>"`;
 
-exports[`should render partial tables 1`] = `"<p>User is writing a table by hand</p><table><thead><tr><th>Test</th><th>Test</th></tr></thead></table>"`;
+exports[`should render partial tables 1`] = `
+"<p>User is writing a table by hand</p>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Test</th>
+</tr>
+</thead>
+</table>"
+`;
 
 exports[`should render table of contents plugin 1`] = `
 Array [
   <h1>
     Header
   </h1>,
+  "
+",
   <h2>
     Table of Contents
   </h2>,
+  "
+",
   <ul>
+    
+
     <li>
+      
+
       <p>
         <a
           href="#first-section"
@@ -2265,8 +2370,14 @@ Array [
           First Section
         </a>
       </p>
+      
+
     </li>
+    
+
     <li>
+      
+
       <p>
         <a
           href="#second-section"
@@ -2274,7 +2385,11 @@ Array [
           Second Section
         </a>
       </p>
+      
+
       <ul>
+        
+
         <li>
           <a
             href="#subsection"
@@ -2282,9 +2397,17 @@ Array [
             Subsection
           </a>
         </li>
+        
+
       </ul>
+      
+
     </li>
+    
+
     <li>
+      
+
       <p>
         <a
           href="#third-section"
@@ -2292,33 +2415,67 @@ Array [
           Third Section
         </a>
       </p>
+      
+
     </li>
+    
+
   </ul>,
+  "
+",
   <h2>
     First Section
   </h2>,
+  "
+",
   <h2>
     Second Section
   </h2>,
+  "
+",
   <h3>
     Subsection
   </h3>,
+  "
+",
   <h2>
     Third Section
   </h2>,
 ]
 `;
 
-exports[`should render tables 1`] = `"<p>Languages are fun, right?</p><table><thead><tr><th style=\\"text-align:left\\">ID</th><th style=\\"text-align:center\\">English</th><th style=\\"text-align:right\\">Norwegian</th><th>Italian</th></tr></thead><tbody><tr><td style=\\"text-align:left\\">1</td><td style=\\"text-align:center\\">one</td><td style=\\"text-align:right\\">en</td><td>uno</td></tr><tr><td style=\\"text-align:left\\">2</td><td style=\\"text-align:center\\">two</td><td style=\\"text-align:right\\">to</td><td>due</td></tr><tr><td style=\\"text-align:left\\">3</td><td style=\\"text-align:center\\">three</td><td style=\\"text-align:right\\">tre</td><td>tre</td></tr></tbody></table>"`;
-
-exports[`should sanititize language strings in code blocks 1`] = `
-<pre>
-  <code
-    className="language-js"
-  >
-      woop
-  </code>
-</pre>
+exports[`should render tables 1`] = `
+"<p>Languages are fun, right?</p>
+<table>
+<thead>
+<tr>
+<th style=\\"text-align:left\\">ID</th>
+<th style=\\"text-align:center\\">English</th>
+<th style=\\"text-align:right\\">Norwegian</th>
+<th>Italian</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style=\\"text-align:left\\">1</td>
+<td style=\\"text-align:center\\">one</td>
+<td style=\\"text-align:right\\">en</td>
+<td>uno</td>
+</tr>
+<tr>
+<td style=\\"text-align:left\\">2</td>
+<td style=\\"text-align:center\\">two</td>
+<td style=\\"text-align:right\\">to</td>
+<td>due</td>
+</tr>
+<tr>
+<td style=\\"text-align:left\\">3</td>
+<td style=\\"text-align:center\\">three</td>
+<td style=\\"text-align:right\\">tre</td>
+<td>tre</td>
+</tr>
+</tbody>
+</table>"
 `;
 
 exports[`should set source position attributes if sourcePos option is enabled 1`] = `
@@ -2328,24 +2485,17 @@ Array [
   >
     Foo
   </p>,
+  "
+",
   <hr
     data-sourcepos="3:1-3:13"
   />,
+  "
+",
   <p
     data-sourcepos="5:1-5:4"
   >
     Bar
-  </p>,
-]
-`;
-
-exports[`should skip html blocks if skipHtml prop is set (with HTML parser plugin) 1`] = `
-Array [
-  <p>
-    This is a regular paragraph.
-  </p>,
-  <p>
-    This is another regular paragraph.
   </p>,
 ]
 `;
@@ -2355,6 +2505,10 @@ Array [
   <p>
     This is a regular paragraph.
   </p>,
+  "
+",
+  "
+",
   <p>
     This is another regular paragraph.
   </p>,
@@ -2374,13 +2528,28 @@ Array [
   <h1>
     Header
   </h1>,
+  "
+",
   <p>
     Paragraph
   </p>,
+  "
+",
   <h2>
     New header
   </h2>,
-  <ol />,
+  "
+",
+  <ol>
+    
+
+    
+
+    
+
+  </ol>,
+  "
+",
   <p>
     Foo
   </p>,
@@ -2389,16 +2558,28 @@ Array [
 
 exports[`should skip nodes that are not defined as allowed 1`] = `
 Array [
+  "
+",
   <p>
     Paragraph
   </p>,
+  "
+",
+  "
+",
   <ol>
+    
+
     <li>
       List item
     </li>
+    
+
     <li>
       List item 2
     </li>
+    
+
   </ol>,
 ]
 `;
@@ -2453,32 +2634,56 @@ exports[`should use target attribute for links if specified 1`] = `
 
 exports[`supports checkbox lists 1`] = `
 Array [
-  <ul>
-    <li>
+  <ul
+    className="contains-task-list"
+  >
+    
+
+    <li
+      className="task-list-item"
+    >
       <input
         checked={false}
-        readOnly={true}
+        disabled={true}
         type="checkbox"
       />
+       
       Foo
     </li>
-    <li>
+    
+
+    <li
+      className="task-list-item"
+    >
       <input
         checked={true}
-        readOnly={true}
+        disabled={true}
         type="checkbox"
       />
+       
       Bar
     </li>
+    
+
   </ul>,
+  "
+",
   <hr />,
+  "
+",
   <ul>
+    
+
     <li>
       Foo
     </li>
+    
+
     <li>
       Bar
     </li>
+    
+
   </ul>,
 ]
 `;

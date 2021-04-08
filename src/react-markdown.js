@@ -8,7 +8,6 @@ const PropTypes = require('prop-types')
 const convert = require('unist-util-is/convert')
 const html = require('property-information/html')
 const filter = require('./rehype-filter')
-const parseHtml = require('./remark-parse-html')
 const uriTransformer = require('./uri-transformer')
 const childrenToReact = require('./ast-to-react.js').hastChildrenToReact
 
@@ -16,28 +15,19 @@ module.exports = ReactMarkdown
 
 const root = convert('root')
 
-let warningIssuedSource
-let warningIssuedEscapeHtml
+let warningIssued
 
 function ReactMarkdown(options) {
-  if ('source' in options && !warningIssuedSource) {
+  if ('source' in options && !warningIssued) {
     console.warn('[react-markdown] Warning: please use `children` instead of `source`')
-    warningIssuedSource = true
-  }
-
-  if ('escapeHtml' in options && !warningIssuedEscapeHtml) {
-    console.warn(
-      '[react-markdown] Warning: please use `allowDangerousHtml` instead of `escapeHtml`'
-    )
-    warningIssuedEscapeHtml = true
+    warningIssued = true
   }
 
   const processor = unified()
     .use(parse)
     // To do: deprecate `plugins` in v7.0.0.
     .use(options.remarkPlugins || options.plugins || [])
-    .use(parseHtml, options)
-    .use(remarkRehype)
+    .use(remarkRehype, {allowDangerousHtml: true})
     .use(options.rehypePlugins || [])
     .use(filter, options)
 
@@ -69,7 +59,6 @@ ReactMarkdown.propTypes = {
   children: PropTypes.string,
   sourcePos: PropTypes.bool,
   rawSourcePos: PropTypes.bool,
-  allowDangerousHtml: PropTypes.bool,
   skipHtml: PropTypes.bool,
   allowElement: PropTypes.func,
   allowedElements: PropTypes.arrayOf(PropTypes.string),

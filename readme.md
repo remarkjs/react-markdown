@@ -91,10 +91,6 @@ render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.bod
     Markdown to parse
 *   `className` (`string?`)\
     Wrap the markdown in a `div` with this class name
-*   `allowDangerousHtml` (`boolean`, default: `false`)\
-    This project is safe by default and escapes HTML.
-    Use `allowDangerousHtml: true` to allow dangerous html instead.
-    See [security][]
 *   `skipHtml` (`boolean`, default: `false`)\
     Ignore HTML in Markdown
 *   `sourcePos` (`boolean`, default: `false`)\
@@ -333,50 +329,8 @@ render(
 `react-markdown` typically escapes HTML (or ignores it, with `skipHtml`),
 because it is dangerous and defeats the purpose of this library.
 
-However, if you are in a trusted environment (you trust the markdown), you can
-`react-markdown/with-html`:
-
-```jsx
-const React = require('react')
-const ReactMarkdownWithHtml = require('react-markdown/with-html')
-const render = require('react-dom').render
-
-const markdown = `
-This Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">allowDangerousHtml</code> property to false.
-`
-
-render(<ReactMarkdownWithHtml children={markdown} allowDangerousHtml />, document.body)
-```
-
-<details>
-<summary>Show equivalent JSX</summary>
-
-```jsx
-<p>
-  This Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require
-  the <code>html-parser</code> AST plugin to be loaded, in addition to setting the{' '}
-  <code className="prop">allowDangerousHtml</code> property to false.
-</p>
-```
-
-</details>
-
-If you want to specify options for the HTML parsing step, you can instead import
-the extension directly:
-
-```jsx
-const ReactMarkdown = require('react-markdown')
-const htmlParser = require('react-markdown/plugins/html-parser')
-
-// For more info on the processing instructions, see
-// <https://github.com/aknuds1/html-to-react#with-custom-processing-instructions>
-const parse = htmlParser({
-  isValidNode: (node) => node.type !== 'script',
-  processingInstructions: [/* ... */]
-})
-
-<ReactMarkdown htmlParser={parse} allowDangerousHtml children={markdown} />
-```
+However, if you are in a trusted environment (you trust the markdown), and
+can spare the bundle size, the you can use `rehype-raw`.
 
 ## Appendix B: Node types
 
@@ -400,11 +354,6 @@ The node types available by default are:
 *   `heading` — Heading (`<h1>` through `<h6>`)
 *   `inlineCode` — Inline code (`<code>`)
 *   `code` — Block of code (`<pre><code>`)
-*   `html` — HTML node (Best-effort rendering)
-*   `virtualHtml` — If `allowDangerousHtml` is not on and `skipHtml` is off, a
-    naive HTML parser is used to support basic HTML
-*   `parsedHtml` — If `allowDangerousHtml` is on, `skipHtml` is off, and
-    `html-parser` is used, more advanced HTML is supported
 
 With [`remark-gfm`][gfm], the following are also available:
 
@@ -418,8 +367,8 @@ With [`remark-gfm`][gfm], the following are also available:
 ## Security
 
 Use of `react-markdown` is secure by default.
-Overwriting `transformLinkUri` or `transformImageUri` to something insecure or
-turning `allowDangerousHtml` on, will open you up to XSS vectors.
+Overwriting `transformLinkUri` or `transformImageUri` to something insecure will
+open you up to XSS vectors.
 Furthermore, the `remarkPlugins` and `rehypePlugins` you use and `components`
 you write may be insecure.
 

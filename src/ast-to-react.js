@@ -18,6 +18,34 @@ const text = convert('text')
 
 const own = {}.hasOwnProperty
 
+function childrenToReact(context, node) {
+  const children = []
+  let childIndex = -1
+  let child
+
+  /* istanbul ignore else - plugins could inject elements w/o children */
+  if (node.children) {
+    while (++childIndex < node.children.length) {
+      child = node.children[childIndex]
+
+      /* istanbul ignore else - plugins could inject comments and such */
+      if (element(child)) {
+        children.push(toReact(context, child, childIndex, node))
+      } else if (text(child)) {
+        children.push(child.value)
+      } else if (child.type === 'raw') {
+        if (context.options.skipHtml) {
+          // Empty.
+        } else {
+          children.push(child.value)
+        }
+      }
+    }
+  }
+
+  return children
+}
+
 // eslint-disable-next-line complexity, max-statements
 function toReact(context, node, index, parent) {
   const options = context.options
@@ -174,28 +202,6 @@ function getElementsBeforeCount(parent, node) {
   }
 
   return count
-}
-
-function childrenToReact(context, node) {
-  const children = []
-  let childIndex = -1
-  let value
-
-  /* istanbul ignore else - plugins could inject elements w/o children */
-  if (node.children) {
-    while (++childIndex < node.children.length) {
-      value = node.children[childIndex]
-
-      /* istanbul ignore else - plugins could inject comments and such */
-      if (element(value)) {
-        children.push(toReact(context, value, childIndex, node))
-      } else if (text(value)) {
-        children.push(value.value)
-      }
-    }
-  }
-
-  return children
 }
 
 function addProperty(props, prop, value, ctx, name) {

@@ -29,6 +29,7 @@ declare namespace ReactMarkdown {
 
   interface ReactMarkdownPropsBase {
     readonly className?: string
+    readonly skipHtml?: boolean
     readonly sourcePos?: boolean
     readonly includeElementIndex?: boolean
     readonly rawSourcePos?: boolean
@@ -64,18 +65,9 @@ declare namespace ReactMarkdown {
     readonly disallowedElements: string[]
   }
 
-  interface AllowDangerousHtmlProp {
-    readonly allowDangerousHtml?: boolean
-  }
-
-  interface SkipHtmlProp {
-    readonly skipHtml?: boolean
-  }
-
   type ReactMarkdownProps = ReactMarkdownPropsBase &
     ChildrenProp &
-    MutuallyExclusive<AllowedElementsProp, DisallowedElementsProp> &
-    MutuallyExclusive<SkipHtmlProp, AllowDangerousHtmlProp>
+    MutuallyExclusive<AllowedElementsProp, DisallowedElementsProp>
 
   function uriTransformer(url: string): string
 }
