@@ -239,7 +239,11 @@ render(
 
 ### Use custom components (syntax highlight)
 
+<<<<<<< HEAD
 This example shows how you can overwrite the normal handling of an element by
+=======
+This example shows how you can overwrite the normal handling of a node by
+>>>>>>> c18f4e9 (Replace renderers with components)
 passing a component.
 In this case, we apply syntax highlighting with the seriously super amazing
 [`react-syntax-highlighter`][react-syntax-highlighter] by
@@ -253,8 +257,13 @@ import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import {render} from 'react-dom'
 
 const components = {
+<<<<<<< HEAD
   code({node, className, ...props}) {
     const match = /language-(\w+)/.exec(className || '')
+=======
+  code({className, ...props}) {
+    var match = /language-(\w+)/.exec(className || '')
+>>>>>>> c18f4e9 (Replace renderers with components)
     return match
       ? <SyntaxHighlighter language={match[1]} PreTag="div" style={dark} {...props} />
       : <code className={className} {...props} />
@@ -286,15 +295,24 @@ render(<ReactMarkdown components={components} children={markdown} />, document.b
 
 </details>
 
+<<<<<<< HEAD
 ### Use remark and rehype plugins (math)
 
 This example shows how a syntax extension (through [`remark-math`][math])
 is used to support math in markdown, and a transform plugin
 ([`rehype-katex`][katex]) to render that math.
+=======
+### Use a plugin and custom components (math)
+
+This example shows how a syntax extension is used to support math in markdown
+that adds new node types ([`remark-math`][math]), which are then handled by
+components to use [`@matejmazur/react-katex`][react-katex]:
+>>>>>>> c18f4e9 (Replace renderers with components)
 
 ```jsx
 import React from 'react'
 import {render} from 'react-dom'
+<<<<<<< HEAD
 import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
@@ -304,6 +322,20 @@ render(
   <ReactMarkdown
     remarkPlugins={[remarkMath]}
     rehypePlugins={[rehypeKatex]}
+=======
+import math from 'remark-math'
+import 'katex/dist/katex.min.css' // `react-katex` does not import the CSS for you
+
+const components = {
+  inlineMath: ({value}) => <Tex math={value} />,
+  math: ({value}) => <Tex block math={value} />
+}
+
+render(
+  <ReactMarkdown
+    remarkPlugins={[math]}
+    components={components}
+>>>>>>> c18f4e9 (Replace renderers with components)
     children={`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
   />,
   document.body
@@ -465,6 +497,7 @@ Optionally, components will also receive:
 ## Security
 
 Use of `react-markdown` is secure by default.
+<<<<<<< HEAD
 Overwriting `transformLinkUri` or `transformImageUri` to something insecure will
 open you up to XSS vectors.
 Furthermore, the `remarkPlugins` and `rehypePlugins` you use and `components`
@@ -473,6 +506,12 @@ you write may be insecure.
 To make sure the content is completely safe, even after what plugins do,
 use [`rehype-sanitize`][sanitize].
 That plugin lets you define your own schema of what is and isn’t allowed.
+=======
+Overwriting `transformLinkUri` or `transformImageUri` to something insecure or
+turning `allowDangerousHtml` on, will open you up to XSS vectors.
+Furthermore, the `remarkPlugins` and `rehypePlugins` you use and `components`
+you write may be insecure.
+>>>>>>> c18f4e9 (Replace renderers with components)
 
 ## Related
 
@@ -557,8 +596,11 @@ abide by its terms.
 
 [rehype-plugins]: https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
 
+<<<<<<< HEAD
 [cm-html]: https://spec.commonmark.org/0.29/#html-blocks
 
+=======
+>>>>>>> c18f4e9 (Replace renderers with components)
 [uri]: https://github.com/remarkjs/react-markdown/blob/main/src/uri-transformer.js
 
 [security]: #security

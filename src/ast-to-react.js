@@ -59,6 +59,9 @@ function toReact(context, node, index, parent) {
       addProperty(properties, property, node.properties[property], context, name)
     }
   }
+  const component =
+    options.components && own.call(options.components, name) ? options.components[name] : name
+  const basic = typeof component === 'string' || component === React.Fragment
 
   if (name === 'ol' || name === 'ul') {
     context.listDepth++
