@@ -9,22 +9,22 @@ test = <ReactMarkdown children="# header" />
 // $ExpectError
 test = <ReactMarkdown />
 
-/* should support allowedTypes or disallowedTypes, but not both */
-test = <ReactMarkdown allowedTypes={['heading']}># header</ReactMarkdown>
-test = <ReactMarkdown disallowedTypes={['heading']}># header</ReactMarkdown>
+/* should support allowedElements or disallowedElements, but not both */
+test = <ReactMarkdown allowedElements={['h1']}># header</ReactMarkdown>
+test = <ReactMarkdown disallowedElements={['h1']}># header</ReactMarkdown>
 test = (
-  <ReactMarkdown disallowedTypes={['heading']} unwrapDisallowed>
+  <ReactMarkdown disallowedElements={['h1']} unwrapDisallowed>
     # header
   </ReactMarkdown>
 )
 test = (
-  <ReactMarkdown allowedTypes={['heading']} unwrapDisallowed>
+  <ReactMarkdown allowedElements={['h1']} unwrapDisallowed>
     # header
   </ReactMarkdown>
 )
 test = (
   // $ExpectError
-  <ReactMarkdown allowedTypes={['heading']} disallowedTypes={['heading']}>
+  <ReactMarkdown allowedElements={['h1']} disallowedElements={['h1']}>
     # header
   </ReactMarkdown>
 )

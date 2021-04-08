@@ -9,8 +9,6 @@ function ReactMarkdownWithHtml(props) {
 
 ReactMarkdownWithHtml.defaultProps = ReactMarkdown.defaultProps
 ReactMarkdownWithHtml.propTypes = ReactMarkdown.propTypes
-ReactMarkdownWithHtml.types = ReactMarkdown.types
-ReactMarkdownWithHtml.renderers = ReactMarkdown.renderers
 ReactMarkdownWithHtml.uriTransformer = ReactMarkdown.uriTransformer
 
 module.exports = ReactMarkdownWithHtml

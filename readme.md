@@ -8,6 +8,10 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
+⚠️ Note: the below readme is for the upcoming release of `react-markdown@6.0.0`.
+[See the last released readme (`5.0.3`) here
+»](https://github.com/remarkjs/react-markdown/tree/22bb78747d768181cb9ea8711b5e13c3768921d8#readme)
+
 Markdown component for React using [**remark**][remark].
 
 [Learn markdown here][learn] and [check out the demo here][demo].
@@ -65,7 +69,7 @@ const gfm = require('remark-gfm')
 
 const markdown = `Just a link: https://reactjs.com.`
 
-render(<ReactMarkdown plugins={[gfm]} children={markdown} />, document.body)
+render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.body)
 ```
 
 <details>
@@ -94,50 +98,54 @@ render(<ReactMarkdown plugins={[gfm]} children={markdown} />, document.body)
 *   `skipHtml` (`boolean`, default: `false`)\
     Ignore HTML in Markdown
 *   `sourcePos` (`boolean`, default: `false`)\
-    Pass a prop to all renderers with a serialized position
+    Pass a prop to all components with a serialized position
     (`data-sourcepos="3:1-3:13"`)
 *   `rawSourcePos` (`boolean`, default: `false`)\
-    Pass a prop to all renderers with their [position][]
+    Pass a prop to all components with their [position][]
     (`sourcePosition: {start: {line: 3, column: 1}, end:…}`)
-*   `includeNodeIndex` (`boolean`, default: `false`)\
-    Pass [`index`][index] and `parentChildCount` in props to all renderers
-*   `allowedTypes` (`Array.<string>`, default: list of all types)\
-    Node types to allow (can’t combine w/ `disallowedTypes`).
-    All types are available at `ReactMarkdown.types`
-*   `disallowedTypes` (`Array.<string>`, default: `[]`)\
-    Node types to disallow (can’t combine w/ `allowedTypes`)
-*   `allowNode` (`(node, index, parent) => boolean?`, optional)\
-    Function called to check if a node is allowed (when truthy) or not.
-    `allowedTypes` / `disallowedTypes` is used first!
+*   `includeElementIndex` (`boolean`, default: `false`)\
+    Pass the `index` (number of elements before it) and `siblingCount` (number
+    of elements in parent) in props to all components
+*   `allowedElements` (`Array.<string>`, default: `undefined`)\
+    Tag names to allow (can’t combine w/ `disallowedElements`).
+    By default all elements are allowed
+*   `disallowedElements` (`Array.<string>`, default: `undefined`)\
+    Tag names to disallow (can’t combine w/ `allowedElements`).
+    By default no elements are disallowed
+*   `allowElement` (`(element, index, parent) => boolean?`, optional)\
+    Function called to check if an element is allowed (when truthy) or not.
+    `allowedElements` / `disallowedElements` is used first!
 *   `unwrapDisallowed` (`boolean`, default: `false`)\
-    Extract (unwrap) the children of not allowed nodes.
-    By default, when `strong` is not allowed, it and it’s content is dropped,
-    but with `unwrapDisallowed` the node itself is dropped but the content used
-*   `linkTarget` (`string` or `(url, text, title) => string`, optional)\
+    Extract (unwrap) the children of not allowed elements.
+    By default, when `strong` is not allowed, it and it’s children is dropped,
+    but with `unwrapDisallowed` the element itself is dropped but the children
+    used
+*   `linkTarget` (`string` or `(href, children, title) => string`, optional)\
     Target to use on links (such as `_blank` for `<a target="_blank"…`)
-*   `transformLinkUri` (`(uri) => string`, default:
+*   `transformLinkUri` (`(href, children, title) => string`, default:
     [`./uri-transformer.js`][uri], optional)\
     URL to use for links.
     The default allows only `http`, `https`, `mailto`, and `tel`, and is
     available at `ReactMarkdown.uriTransformer`.
     Pass `null` to allow all URLs.
     See [security][]
-*   `transformImageUri` (`(uri) => string`, default:
+*   `transformImageUri` (`(src, alt, title) => string`, default:
     [`./uri-transformer.js`][uri], optional)\
     Same as `transformLinkUri` but for images
-*   `renderers` (`Object.<Component>`, default: `{}`)\
-    Object mapping node types to React components.
-    Merged with the default renderers (available at `ReactMarkdown.renderers`).
-    Which props are passed varies based on the node
-*   `plugins` (`Array.<Plugin>`, default: `[]`)\
+*   `components` (`Object.<string, Component>`, default: `{}`)\
+    Object mapping tag names to React components
+*   `remarkPlugins` (`Array.<Plugin>`, default: `[]`)\
     List of [remark plugins][remark-plugins] to use.
+    See the next section for examples on how to pass options
+*   `rehypePlugins` (`Array.<Plugin>`, default: `[]`)\
+    List of [rehype plugins][rehype-plugins] to use.
     See the next section for examples on how to pass options
 
 ## Examples
 
 ### Use a plugin
 
-This example shows how to use a plugin.
+This example shows how to use a remark plugin.
 In this case, [`remark-gfm`][gfm], which adds support for
 strikethrough, tables, tasklists and URLs directly:
 
@@ -161,7 +169,7 @@ A table:
 | - | - |
 `
 
-render(<ReactMarkdown plugins={[gfm]} children={markdown} />, document.body)
+render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.body)
 ```
 
 <details>
@@ -215,7 +223,7 @@ import {render} from 'react-dom'
 import gfm from 'remark-gfm'
 
 render(
-  <ReactMarkdown plugins={[[gfm, {singleTilde: false}]]}>
+  <ReactMarkdown remarkPlugins={[[gfm, {singleTilde: false}]]}>
     This ~is not~ strikethrough, but ~~this is~~!
   </ReactMarkdown>,
   document.body
@@ -233,10 +241,10 @@ render(
 
 </details>
 
-### Use custom renderers (syntax highlight)
+### Use custom components (syntax highlight)
 
 This example shows how you can overwrite the normal handling of a node by
-passing a renderer.
+passing a component.
 In this case, we apply syntax highlighting with the seriously super amazing
 [`react-syntax-highlighter`][react-syntax-highlighter] by
 [**@conorhastings**][conor]:
@@ -248,9 +256,12 @@ import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import {render} from 'react-dom'
 
-const renderers = {
-  code: ({language, value}) => {
-    return <SyntaxHighlighter style={dark} language={language} children={value} />
+const components = {
+  code({className, ...props}) {
+    var match = /language-(\w+)/.exec(className || '')
+    return match
+      ? <SyntaxHighlighter language={match[1]} PreTag="div" style={dark} {...props} />
+      : <code className={className} {...props} />
   }
 }
 
@@ -262,7 +273,7 @@ console.log('It works!')
 ~~~
 `
 
-render(<ReactMarkdown renderers={renderers} children={markdown} />, document.body)
+render(<ReactMarkdown components={components} children={markdown} />, document.body)
 ```
 
 <details>
@@ -277,11 +288,11 @@ render(<ReactMarkdown renderers={renderers} children={markdown} />, document.bod
 
 </details>
 
-### Use a plugin and custom renderers (math)
+### Use a plugin and custom components (math)
 
 This example shows how a syntax extension is used to support math in markdown
 that adds new node types ([`remark-math`][math]), which are then handled by
-renderers to use [`@matejmazur/react-katex`][react-katex]:
+components to use [`@matejmazur/react-katex`][react-katex]:
 
 ```jsx
 import React from 'react'
@@ -291,15 +302,15 @@ import {render} from 'react-dom'
 import math from 'remark-math'
 import 'katex/dist/katex.min.css' // `react-katex` does not import the CSS for you
 
-const renderers = {
+const components = {
   inlineMath: ({value}) => <Tex math={value} />,
   math: ({value}) => <Tex block math={value} />
 }
 
 render(
   <ReactMarkdown
-    plugins={[math]}
-    renderers={renderers}
+    remarkPlugins={[math]}
+    components={components}
     children={`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
   />,
   document.body
@@ -409,7 +420,8 @@ With [`remark-gfm`][gfm], the following are also available:
 Use of `react-markdown` is secure by default.
 Overwriting `transformLinkUri` or `transformImageUri` to something insecure or
 turning `allowDangerousHtml` on, will open you up to XSS vectors.
-Furthermore, the `plugins` you use and `renderers` you write may be insecure.
+Furthermore, the `remarkPlugins` and `rehypePlugins` you use and `components`
+you write may be insecure.
 
 ## Related
 
@@ -480,13 +492,13 @@ abide by its terms.
 
 [position]: https://github.com/syntax-tree/unist#position
 
-[index]: https://github.com/syntax-tree/unist#index
-
 [gfm]: https://github.com/remarkjs/remark-gfm
 
 [math]: https://github.com/remarkjs/remark-math
 
 [remark-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins
+
+[rehype-plugins]: https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
 
 [uri]: https://github.com/remarkjs/react-markdown/blob/main/src/uri-transformer.js
 

@@ -1,9 +1,9 @@
 // TypeScript Version: 3.4
 
-import {ElementType, ReactNode, ReactElement} from 'react'
+import {ElementType, ReactElement} from 'react'
 import {PluggableList} from 'unified'
 import * as unist from 'unist'
-import * as mdast from 'mdast'
+import * as hast from 'hast'
 
 type Not<T> = {
   [key in keyof T]?: never
@@ -16,34 +16,39 @@ declare namespace ReactMarkdown {
 
   type Position = unist.Position
 
-  type NodeType = mdast.Content['type']
+  type LinkTargetResolver = (
+    href: string,
+    children: Array<hast.Element | hast.Comment | hast.Text>,
+    title?: string
+  ) => string
 
-  type AlignType = mdast.AlignType
-
-  type ReferenceType = mdast.ReferenceType
-
-  type LinkTargetResolver = (uri: string, text: string, title?: string) => string
-
-  type Renderer<T> = (props: T) => ElementType<T>
-  interface Renderers {
-    [key: string]: string | Renderer<any>
+  type Component<T> = (props: T) => ElementType<T>
+  interface Components {
+    [key: string]: string | Component<any>
   }
 
   interface ReactMarkdownPropsBase {
     readonly className?: string
     readonly sourcePos?: boolean
-    readonly includeNodeIndex?: boolean
+    readonly includeElementIndex?: boolean
     readonly rawSourcePos?: boolean
-    readonly allowNode?: (node: mdast.Content, index: number, parent: NodeType) => boolean
+    readonly allowElement?: (
+      node: hast.Element,
+      index: number,
+      parent: hast.Element | hast.Root
+    ) => boolean
     readonly linkTarget?: string | LinkTargetResolver
     readonly transformLinkUri?:
-      | ((uri: string, children?: ReactNode, title?: string) => string)
+      | ((
+          href: string,
+          children: Array<hast.Element | hast.Comment | hast.Text>,
+          title?: string
+        ) => string)
       | null
-    readonly transformImageUri?:
-      | ((uri: string, children?: ReactNode, title?: string, alt?: string) => string)
-      | null
-    readonly renderers?: {[nodeType: string]: ElementType}
-    readonly plugins?: PluggableList
+    readonly transformImageUri?: ((src: string, alt: string, title?: string) => string) | null
+    readonly components?: {[tagName: string]: ElementType}
+    readonly remarkPlugins?: PluggableList
+    readonly rehypePlugins?: PluggableList
     readonly unwrapDisallowed?: boolean
   }
 
@@ -51,12 +56,12 @@ declare namespace ReactMarkdown {
     readonly children: string
   }
 
-  interface AllowedTypesProp {
-    readonly allowedTypes?: NodeType[]
+  interface AllowedElementsProp {
+    readonly allowedElements?: string[]
   }
 
-  interface DisallowedTypesProp {
-    readonly disallowedTypes: NodeType[]
+  interface DisallowedElementsProp {
+    readonly disallowedElements: string[]
   }
 
   interface AllowDangerousHtmlProp {
@@ -69,12 +74,10 @@ declare namespace ReactMarkdown {
 
   type ReactMarkdownProps = ReactMarkdownPropsBase &
     ChildrenProp &
-    MutuallyExclusive<AllowedTypesProp, DisallowedTypesProp> &
+    MutuallyExclusive<AllowedElementsProp, DisallowedElementsProp> &
     MutuallyExclusive<SkipHtmlProp, AllowDangerousHtmlProp>
 
-  const types: NodeType[]
-  const renderers: Renderers
-  function uriTransformer(uri: string): string
+  function uriTransformer(url: string): string
 }
 
 declare function ReactMarkdown(props: ReactMarkdown.ReactMarkdownProps): ReactElement

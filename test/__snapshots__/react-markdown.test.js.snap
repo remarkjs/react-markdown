@@ -1129,6 +1129,49 @@ Array [
 ]
 `;
 
+exports[`should be able to override components 1`] = `
+Array [
+  <span
+    className="heading level-1"
+  >
+    Header
+  </span>,
+  "
+",
+  <p>
+    Paragraph
+  </p>,
+  "
+",
+  <span
+    className="heading level-2"
+  >
+    New header
+  </span>,
+  "
+",
+  <ol>
+    
+
+    <li>
+      List item
+    </li>
+    
+
+    <li>
+      List item 2
+    </li>
+    
+
+  </ol>,
+  "
+",
+  <p>
+    Foo
+  </p>,
+]
+`;
+
 exports[`should be able to override renderers 1`] = `
 Array [
   <span
@@ -1840,6 +1883,53 @@ foo();
 </pre>
 `;
 
+exports[`should pass \`ordered\`, \`depth\`, \`checked\`, \`index\` to list/listItem 1`] = `
+<ul>
+  
+
+  <li>
+    
+
+    <p>
+      foo
+    </p>
+    
+
+    <ol
+      start={2}
+    >
+      
+
+      <li>
+        bar
+      </li>
+      
+
+      <li>
+        baz
+      </li>
+      
+
+    </ol>
+    
+
+  </li>
+  
+
+  <li>
+    
+
+    <p>
+      root
+    </p>
+    
+
+  </li>
+  
+
+</ul>
+`;
+
 exports[`should pass depth, index and ordered props to list/listItem 1`] = `
 <ul>
   <li>
@@ -1863,6 +1953,102 @@ exports[`should pass depth, index and ordered props to list/listItem 1`] = `
     </p>
   </li>
 </ul>
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeElementIndex\` option is enabled 1`] = `
+Object {
+  "children": Array [
+    "Foo",
+  ],
+  "index": 0,
+  "siblingCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeElementIndex\` option is enabled 2`] = `
+Object {
+  "children": Array [
+    "Bar",
+  ],
+  "index": 1,
+  "siblingCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeElementIndex\` option is enabled 3`] = `
+Object {
+  "children": Array [
+    "Baz",
+  ],
+  "index": 2,
+  "siblingCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeElementIndex\` option is enabled 4`] = `
+Array [
+  <p>
+    Foo
+  </p>,
+  "
+",
+  <p>
+    Bar
+  </p>,
+  "
+",
+  <p>
+    Baz
+  </p>,
+]
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 1`] = `
+Object {
+  "children": Array [
+    "Foo",
+  ],
+  "index": 0,
+  "parentChildCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 2`] = `
+Object {
+  "children": Array [
+    "Bar",
+  ],
+  "index": 1,
+  "parentChildCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 3`] = `
+Object {
+  "children": Array [
+    "Baz",
+  ],
+  "index": 2,
+  "parentChildCount": 3,
+}
+`;
+
+exports[`should pass index of a node under its parent to components if \`includeNodeIndex\` option is enabled 4`] = `
+Array [
+  <p>
+    Foo
+  </p>,
+  "
+",
+  <p>
+    Bar
+  </p>,
+  "
+",
+  <p>
+    Baz
+  </p>,
+]
 `;
 
 exports[`should pass index of a node under its parent to non-tag renderers if includeNodeIndex option is enabled 1`] = `
@@ -1980,6 +2166,43 @@ Array [
   </p>,
   <p>
     Baz
+  </p>,
+]
+`;
+
+exports[`should pass on raw source position to non-tag components if rawSourcePos option is enabled 1`] = `
+Object {
+  "end": Object {
+    "column": 6,
+    "line": 1,
+    "offset": 5,
+  },
+  "start": Object {
+    "column": 1,
+    "line": 1,
+    "offset": 0,
+  },
+}
+`;
+
+exports[`should pass on raw source position to non-tag components if rawSourcePos option is enabled 2`] = `
+Array [
+  <p>
+    <em
+      className="custom"
+    >
+      Foo
+    </em>
+  </p>,
+  "
+",
+  <hr />,
+  "
+",
+  <p>
+    <strong>
+      Bar
+    </strong>
   </p>,
 ]
 `;
@@ -2178,6 +2401,29 @@ Array [
     </li>
   </ol>,
 ]
+`;
+
+exports[`should support character references in code blocks 1`] = `
+<pre>
+  <code
+    className="language-js
+ololo
+i
+can
+haz
+class
+names
+!@#$%^&*()_"
+  >
+      woop
+
+  </code>
+</pre>
+`;
+
+exports[`should support math 1`] = `
+"<p>Lift(<span><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\"><semantics><mrow><mi>L</mi></mrow><annotation encoding=\\"application/x-tex\\">L</annotation></semantics></math></span><span class=\\"katex-html\\" aria-hidden=\\"true\\"><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:0.68333em;vertical-align:0em;\\"></span><span class=\\"mord mathnormal\\">L</span></span></span></span></span>) can be determined by Lift Coefficient (<span><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\"><semantics><mrow><msub><mi>C</mi><mi>L</mi></msub></mrow><annotation encoding=\\"application/x-tex\\">C_L</annotation></semantics></math></span><span class=\\"katex-html\\" aria-hidden=\\"true\\"><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:0.83333em;vertical-align:-0.15em;\\"></span><span class=\\"mord\\"><span class=\\"mord mathnormal\\" style=\\"margin-right:0.07153em;\\">C</span><span class=\\"msupsub\\"><span class=\\"vlist-t vlist-t2\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.32833099999999993em;\\"><span style=\\"top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;\\"><span class=\\"pstrut\\" style=\\"height:2.7em;\\"></span><span class=\\"sizing reset-size6 size3 mtight\\"><span class=\\"mord mathnormal mtight\\">L</span></span></span></span><span class=\\"vlist-s\\">​</span></span><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.15em;\\"><span></span></span></span></span></span></span></span></span></span></span>) like the following equation.</p>
+<div><span class=\\"katex-display\\"><span class=\\"katex\\"><span class=\\"katex-mathml\\"><math xmlns=\\"http://www.w3.org/1998/Math/MathML\\" display=\\"block\\"><semantics><mrow><mi>L</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>ρ</mi><msup><mi>v</mi><mn>2</mn></msup><mi>S</mi><msub><mi>C</mi><mi>L</mi></msub></mrow><annotation encoding=\\"application/x-tex\\">L = \\\\frac{1}{2} \\\\rho v^2 S C_L</annotation></semantics></math></span><span class=\\"katex-html\\" aria-hidden=\\"true\\"><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:0.68333em;vertical-align:0em;\\"></span><span class=\\"mord mathnormal\\">L</span><span class=\\"mspace\\" style=\\"margin-right:0.2777777777777778em;\\"></span><span class=\\"mrel\\">=</span><span class=\\"mspace\\" style=\\"margin-right:0.2777777777777778em;\\"></span></span><span class=\\"base\\"><span class=\\"strut\\" style=\\"height:2.00744em;vertical-align:-0.686em;\\"></span><span class=\\"mord\\"><span class=\\"mopen nulldelimiter\\"></span><span class=\\"mfrac\\"><span class=\\"vlist-t vlist-t2\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:1.32144em;\\"><span style=\\"top:-2.314em;\\"><span class=\\"pstrut\\" style=\\"height:3em;\\"></span><span class=\\"mord\\"><span class=\\"mord\\">2</span></span></span><span style=\\"top:-3.23em;\\"><span class=\\"pstrut\\" style=\\"height:3em;\\"></span><span class=\\"frac-line\\" style=\\"border-bottom-width:0.04em;\\"></span></span><span style=\\"top:-3.677em;\\"><span class=\\"pstrut\\" style=\\"height:3em;\\"></span><span class=\\"mord\\"><span class=\\"mord\\">1</span></span></span></span><span class=\\"vlist-s\\">​</span></span><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.686em;\\"><span></span></span></span></span></span><span class=\\"mclose nulldelimiter\\"></span></span><span class=\\"mord mathnormal\\">ρ</span><span class=\\"mord\\"><span class=\\"mord mathnormal\\" style=\\"margin-right:0.03588em;\\">v</span><span class=\\"msupsub\\"><span class=\\"vlist-t\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.8641079999999999em;\\"><span style=\\"top:-3.113em;margin-right:0.05em;\\"><span class=\\"pstrut\\" style=\\"height:2.7em;\\"></span><span class=\\"sizing reset-size6 size3 mtight\\"><span class=\\"mord mtight\\">2</span></span></span></span></span></span></span></span><span class=\\"mord mathnormal\\" style=\\"margin-right:0.05764em;\\">S</span><span class=\\"mord\\"><span class=\\"mord mathnormal\\" style=\\"margin-right:0.07153em;\\">C</span><span class=\\"msupsub\\"><span class=\\"vlist-t vlist-t2\\"><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.32833099999999993em;\\"><span style=\\"top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;\\"><span class=\\"pstrut\\" style=\\"height:2.7em;\\"></span><span class=\\"sizing reset-size6 size3 mtight\\"><span class=\\"mord mathnormal mtight\\">L</span></span></span></span><span class=\\"vlist-s\\">​</span></span><span class=\\"vlist-r\\"><span class=\\"vlist\\" style=\\"height:0.15em;\\"><span></span></span></span></span></span></span></span></span></span></span></div>"
 `;
 
 exports[`should unwrap child nodes from disallowed nodes, if unwrapDisallowed option is enabled 1`] = `
