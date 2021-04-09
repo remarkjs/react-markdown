@@ -23,23 +23,16 @@ function childrenToReact(context, node) {
   let childIndex = -1
   let child
 
-  /* istanbul ignore else - plugins could inject elements w/o children */
-  if (node.children) {
-    while (++childIndex < node.children.length) {
-      child = node.children[childIndex]
+  while (++childIndex < node.children.length) {
+    child = node.children[childIndex]
 
-      /* istanbul ignore else - plugins could inject comments and such */
-      if (element(child)) {
-        children.push(toReact(context, child, childIndex, node))
-      } else if (text(child)) {
-        children.push(child.value)
-      } else if (child.type === 'raw') {
-        if (context.options.skipHtml) {
-          // Empty.
-        } else {
-          children.push(child.value)
-        }
-      }
+    if (element(child)) {
+      children.push(toReact(context, child, childIndex, node))
+    } else if (text(child)) {
+      children.push(child.value)
+    } else if (child.type === 'raw' && !context.options.skipHtml) {
+      // Default behavior is to show (encoded) HTML.
+      children.push(child.value)
     }
   }
 
@@ -141,7 +134,6 @@ function toReact(context, node, index, parent) {
 
   if (name === 'td' || name === 'th') {
     if (properties.align) {
-      /* istanbul ignore else - plugins adding style. */
       if (!properties.style) properties.style = {}
       properties.style.textAlign = properties.align
       delete properties.align
@@ -231,7 +223,7 @@ function addProperty(props, prop, value, ctx, name) {
   }
 }
 
-function parseStyle(value, tagName) {
+function parseStyle(value) {
   const result = {}
 
   try {
@@ -248,7 +240,7 @@ function parseStyle(value, tagName) {
   }
 }
 
-function styleReplacer($0, $1) {
+function styleReplacer(_, $1) {
   return $1.toUpperCase()
 }
 

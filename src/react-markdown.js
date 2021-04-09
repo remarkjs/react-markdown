@@ -34,7 +34,6 @@ function ReactMarkdown(options) {
   // eslint-disable-next-line no-sync
   const hastNode = processor.runSync(processor.parse(options.children || ''))
 
-  /* istanbul ignore next - plugins could replace the root. */
   if (!root(hastNode)) {
     throw new Error('Expected a `root` node')
   }

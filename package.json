@@ -209,11 +209,17 @@
         ]
       },
       {
+        "env": {
+          "jest": true
+        },
         "files": [
           "test/**/*.js"
         ],
         "rules": {
-          "react/no-children-prop": 0
+          "react/no-children-prop": 0,
+          "react/display-name": 0,
+          "no-nested-ternary": 0,
+          "react/prop-types": 0
         }
       }
     ]

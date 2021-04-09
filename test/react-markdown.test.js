@@ -1,5 +1,3 @@
-/* eslint-env jest */
-/* eslint-disable react/prop-types */
 const fs = require('fs')
 const path = require('path')
 const React = require('react')
@@ -7,14 +5,14 @@ const gfm = require('remark-gfm')
 const visit = require('unist-util-visit')
 const ReactDom = require('react-dom/server')
 const renderer = require('react-test-renderer')
-const math = require('remark-math')
+const remarkMath = require('remark-math')
 const raw = require('rehype-raw')
 const TeX = require('@matejmazur/react-katex')
 const {render} = require('@testing-library/react')
 const Markdown = require('../src/react-markdown')
 const toc = require('remark-toc')
 
-const renderHTML = (input) => ReactDom.renderToStaticMarkup(input).replace(/^<div>|<\/div>$/g, '')
+const renderHTML = (input) => ReactDom.renderToStaticMarkup(input)
 
 test('can render the most basic of documents (single paragraph)', () => {
   const component = renderer.create(<Markdown>Test</Markdown>)
@@ -247,14 +245,10 @@ test('should handle ordered lists with a start index', () => {
 
 test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () => {
   const input = '- foo\n\n  2. bar\n  3. baz\n\n- root\n'
-  const list = (name) => {
-    const fn = ({node, ordered, depth, ...props}) => {
-      expect(ordered).toBe(name === 'ol')
-      expect(depth).toBeGreaterThanOrEqual(0)
-      return React.createElement(name, props)
-    }
-    fn.displayName = name
-    return fn
+  const list = (name) => ({node, ordered, depth, ...props}) => {
+    expect(ordered).toBe(name === 'ol')
+    expect(depth).toBeGreaterThanOrEqual(0)
+    return React.createElement(name, props)
   }
   const li = ({node, ordered, checked, index, ...props}) => {
     expect(ordered).not.toBeUndefined()
@@ -337,7 +331,6 @@ test('should pass `index: number`, `ordered: boolean`, `checked: boolean | null`
         li({node, checked, index, ordered, ...props}) {
           expect(index).toBe(count)
           expect(ordered).toBe(false)
-          // eslint-disable-next-line no-nested-ternary
           expect(checked).toBe(count === 0 ? true : count === 1 ? false : null)
           count++
           return React.createElement('li', props)
@@ -570,11 +563,9 @@ test('should be able to use a custom function to determine if the node should be
 
 test('should be able to override components', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
-  const heading = (level) => {
-    const fn = (props) => <span className={`heading level-${level}`}>{props.children}</span>
-    fn.displayName = `h${level}`
-    return fn
-  }
+  const heading = (level) => (props) => (
+    <span className={`heading level-${level}`}>{props.children}</span>
+  )
   const component = renderer.create(
     <Markdown children={input} components={{h1: heading(1), h2: heading(2)}} />
   )
@@ -637,7 +628,11 @@ test('should support math', () => {
     'Lift($L$) can be determined by Lift Coefficient ($C_L$) like the following equation.\n\n$$\nL = \\frac{1}{2} \\rho v^2 S C_L\n$$'
 
   const component = render(
-    <Markdown children={input} remarkPlugins={[math]} components={{div: handle, span: handle}} />
+    <Markdown
+      children={input}
+      remarkPlugins={[remarkMath]}
+      components={{div: handle, span: handle}}
+    />
   ).container.innerHTML
 
   expect(component).toMatchSnapshot()
@@ -706,7 +701,6 @@ test('should pass index of a node under its parent to components if `includeElem
 
 test('should be able to render components with forwardRef in HOC', () => {
   const componentWrapper = (WrappedComponent) => {
-    // eslint-disable-next-line react/display-name
     return React.forwardRef((props, ref) => <WrappedComponent ref={ref} {...props} />)
   }
 
@@ -868,4 +862,37 @@ test('should support SVG elements', () => {
   const expected =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><title>SVG `&lt;circle&gt;` element</title><circle cx="120" cy="120" r="100"></circle></svg><p>a</p>'
   expect(actual).toEqual(expected)
+})
+
+test('should support (ignore) comments', () => {
+  const input = 'a'
+  const plugin = () => (tree) => {
+    tree.children.unshift({type: 'comment', value: 'things!'})
+  }
+  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const expected = '<p>a</p>'
+  expect(actual).toEqual(expected)
+})
+
+test('should support table cells w/ style', () => {
+  const input = '| a  |\n| :- |'
+  const plugin = () => (tree) => {
+    const th = tree.children[0].children[1].children[1].children[1]
+    th.properties.style = 'color: red'
+  }
+  const actual = renderHTML(
+    <Markdown remarkPlugins={[gfm]} rehypePlugins={[plugin]} children={input} />
+  )
+  const expected =
+    '<table>\n<thead>\n<tr>\n<th style="color:red;text-align:left">a</th>\n</tr>\n</thead>\n</table>'
+
+  expect(actual).toEqual(expected)
+})
+
+test('should crash on a plugin replacing `root`', () => {
+  const input = 'a'
+  const plugin = () => () => ({type: 'comment', value: 'things!'})
+  expect(() => renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)).toThrow(
+    /Expected a `root` node/
+  )
 })
