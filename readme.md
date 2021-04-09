@@ -470,6 +470,10 @@ open you up to XSS vectors.
 Furthermore, the `remarkPlugins` and `rehypePlugins` you use and `components`
 you write may be insecure.
 
+To make sure the content is completely safe, even after what plugins do,
+use [`rehype-sanitize`][sanitize].
+That plugin lets you define your own schema of what is and isn’t allowed.
+
 ## Related
 
 *   [`MDX`](https://github.com/mdx-js/mdx)
@@ -546,6 +550,8 @@ abide by its terms.
 [katex]: https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex
 
 [raw]: https://github.com/rehypejs/rehype-raw
+
+[sanitize]: https://github.com/rehypejs/rehype-sanitize
 
 [remark-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins
 
