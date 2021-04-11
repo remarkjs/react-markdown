@@ -77,7 +77,7 @@
     "react-markdown.min.js"
   ],
   "dependencies": {
-    "@types/hast": "^2.3.0",
+    "@types/hast": "^2.0.0",
     "@types/unist": "^2.0.3",
     "comma-separated-tokens": "^1.0.0",
     "prop-types": "^15.7.2",
