@@ -1,6 +1,7 @@
 coverage/
 lib/
 node_modules/
+*.d.ts
 *.log
 .DS_Store
 package-lock.json

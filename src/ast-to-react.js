@@ -2,36 +2,181 @@
 
 const React = require('react')
 const ReactIs = require('react-is')
-const convert = require('unist-util-is/convert')
+// @ts-ignore remove when typed
 const svg = require('property-information/svg')
+// @ts-ignore remove when typed
 const find = require('property-information/find')
+// @ts-ignore remove when typed
 const hastToReact = require('property-information/hast-to-react.json')
+// @ts-ignore remove when typed
 const spaces = require('space-separated-tokens')
+// @ts-ignore remove when typed
 const commas = require('comma-separated-tokens')
 const style = require('style-to-object')
 
 exports.hastToReact = toReact
 exports.hastChildrenToReact = childrenToReact
 
-const element = convert('element')
-const text = convert('text')
+/**
+ * @typedef {JSX.IntrinsicElements} IntrinsicElements
+ * @typedef {import('react').ReactNode} ReactNode
+ * @typedef {import('unist').Position} Position
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('hast').Text} Text
+ * @typedef {import('hast').Comment} Comment
+ * @typedef {import('hast').DocType} Doctype
+ */
+
+/**
+ * @typedef {Object} Info
+ * @property {string?} space
+ * @property {string?} attribute
+ * @property {string?} property
+ * @property {boolean} boolean
+ * @property {boolean} booleanish
+ * @property {boolean} overloadedBoolean
+ * @property {boolean} number
+ * @property {boolean} commaSeparated
+ * @property {boolean} spaceSeparated
+ * @property {boolean} commaOrSpaceSeparated
+ * @property {boolean} mustUseProperty
+ * @property {boolean} defined
+ *
+ * @typedef {Object} Schema
+ * @property {Object.<string, Info>} property
+ * @property {Object.<string, string>} normal
+ * @property {string?} space
+ *
+ * @typedef {Object} Raw
+ * @property {'raw'} type
+ * @property {string} value
+ *
+ * @typedef {Object} Context
+ * @property {TransformOptions} options
+ * @property {Schema} schema
+ * @property {number} listDepth
+ *
+ * @callback TransformLink
+ * @param {string} href
+ * @param {Array.<Comment|Element|Text>} children
+ * @param {string?} title
+ * @returns {string}
+ *
+ * @callback TransformImage
+ * @param {string} src
+ * @param {string} alt
+ * @param {string?} title
+ * @returns {string}
+ *
+ * @callback TransformLinkTarget
+ * @param {string} href
+ * @param {Array.<Comment|Element|Text>} children
+ * @param {string?} title
+ * @returns {string}
+ *
+ * @typedef {keyof IntrinsicElements} ReactMarkdownNames
+ *
+ * @typedef {Object.<string, unknown>} ReactBaseProps
+ *
+ * To do: is `data-sourcepos` typeable?
+ *
+ * @typedef {Object} ReactMarkdownProps
+ * @property {Element} node
+ * @property {string} key
+ * @property {ReactNode[]} children
+ * @property {Position?} [sourcePosition] Passed when `options.rawSourcePos` is given
+ * @property {number} [index] Passed when `options.includeElementIndex` is given
+ * @property {number} [siblingCount] Passed when `options.includeElementIndex` is given
+ *
+ * @callback NormalComponent
+ * @param {ReactBaseProps & ReactMarkdownProps} props
+ * @returns {ReactNode}
+ *
+ * @callback CodeComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {inline?: boolean}} props
+ * @returns {ReactNode}
+ *
+ * @callback HeadingComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {level: number}} props
+ * @returns {ReactNode}
+ *
+ * @callback LiComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {checked: boolean|null, index: number, ordered: boolean}} props
+ * @returns {ReactNode}
+ *
+ * @callback OrderedListComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {depth: number, ordered: true}} props
+ * @returns {ReactNode}
+ *
+ * @callback TableCellComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {style?: Object.<string, unknown>, isHeader: boolean}} props
+ * @returns {ReactNode}
+ *
+ * @callback TableRowComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {isHeader: boolean}} props
+ * @returns {ReactNode}
+ *
+ * @callback UnorderedListComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {depth: number, ordered: false}} props
+ * @returns {ReactNode}
+ *
+ * @typedef {Object} SpecialComponents
+ * @property {CodeComponent|ReactMarkdownNames} code
+ * @property {HeadingComponent|ReactMarkdownNames} h1
+ * @property {HeadingComponent|ReactMarkdownNames} h2
+ * @property {HeadingComponent|ReactMarkdownNames} h3
+ * @property {HeadingComponent|ReactMarkdownNames} h4
+ * @property {HeadingComponent|ReactMarkdownNames} h5
+ * @property {HeadingComponent|ReactMarkdownNames} h6
+ * @property {LiComponent|ReactMarkdownNames} li
+ * @property {OrderedListComponent|ReactMarkdownNames} ol
+ * @property {TableCellComponent|ReactMarkdownNames} td
+ * @property {TableCellComponent|ReactMarkdownNames} th
+ * @property {TableRowComponent|ReactMarkdownNames} tr
+ * @property {UnorderedListComponent|ReactMarkdownNames} ul
+ *
+ * @typedef {Record<Exclude<ReactMarkdownNames, keyof SpecialComponents>, NormalComponent|ReactMarkdownNames>} NormalComponents
+ * @typedef {Partial<NormalComponents & SpecialComponents>} Components
+ */
+
+/**
+ * @typedef {Object} TransformOptions
+ * @property {boolean} [sourcePos=false]
+ * @property {boolean} [rawSourcePos=false]
+ * @property {boolean} [skipHtml=false]
+ * @property {boolean} [includeElementIndex=false]
+ * @property {false|TransformLink} [transformLinkUri]
+ * @property {TransformImage} [transformImageUri]
+ * @property {string|TransformLinkTarget} [linkTarget]
+ * @property {Components} [components]
+ */
 
 const own = {}.hasOwnProperty
 
+/**
+ * @param {Context} context
+ * @param {Element|Root} node
+ */
 function childrenToReact(context, node) {
+  /** @type {Array.<ReactNode>} */
   const children = []
   let childIndex = -1
+  /** @type {Comment|Doctype|Element|Raw|Text} */
   let child
 
   while (++childIndex < node.children.length) {
     child = node.children[childIndex]
 
-    if (element(child)) {
+    if (child.type === 'element') {
       children.push(toReact(context, child, childIndex, node))
-    } else if (text(child)) {
+    } else if (child.type === 'text') {
       children.push(child.value)
-    } else if (child.type === 'raw' && !context.options.skipHtml) {
+    }
+    // @ts-ignore `raw` nodes are non-standard
+    else if (child.type === 'raw' && !context.options.skipHtml) {
       // Default behavior is to show (encoded) HTML.
+      // @ts-ignore `raw` nodes are non-standard
       children.push(child.value)
     }
   }
@@ -39,13 +184,23 @@ function childrenToReact(context, node) {
   return children
 }
 
+/**
+ * @param {Context} context
+ * @param {Element} node
+ * @param {number} index
+ * @param {Element|Root} parent
+ */
 // eslint-disable-next-line complexity, max-statements
 function toReact(context, node, index, parent) {
   const options = context.options
   const parentSchema = context.schema
+  /** @type {ReactMarkdownNames} */
+  // @ts-ignore assume a known HTML/SVG element.
   const name = node.tagName
+  /** @type {Object.<string, unknown>} */
   const properties = {}
   let schema = parentSchema
+  /** @type {string} */
   let property
 
   if (parentSchema.space === 'html' && name === 'svg') {
@@ -56,7 +211,7 @@ function toReact(context, node, index, parent) {
   for (property in node.properties) {
     /* istanbul ignore else - prototype polution. */
     if (own.call(node.properties, property)) {
-      addProperty(properties, property, node.properties[property], context, name)
+      addProperty(properties, property, node.properties[property], context)
     }
   }
 
@@ -79,6 +234,7 @@ function toReact(context, node, index, parent) {
     start: {line: null, column: null, offset: null},
     end: {line: null, column: null, offset: null}
   }
+  /** @type {NormalComponent|SpecialComponents[keyof SpecialComponents]|ReactMarkdownNames} */
   const component =
     options.components && own.call(options.components, name) ? options.components[name] : name
   const basic = typeof component === 'string' || component === React.Fragment
@@ -92,11 +248,13 @@ function toReact(context, node, index, parent) {
   if (name === 'a' && options.linkTarget) {
     properties.target =
       typeof options.linkTarget === 'function'
-        ? options.linkTarget(properties.href, node.children, properties.title)
+        ? // @ts-ignore assume `href` is a string
+          options.linkTarget(properties.href, node.children, properties.title)
         : options.linkTarget
   }
 
   if (name === 'a' && options.transformLinkUri) {
+    // @ts-ignore assume `href` is a string
     properties.href = options.transformLinkUri(properties.href, node.children, properties.title)
   }
 
@@ -117,7 +275,8 @@ function toReact(context, node, index, parent) {
   }
 
   if (name === 'img' && options.transformImageUri) {
-    properties.src = options.transformImageUri(properties.src, node.alt, properties.title)
+    // @ts-ignore assume `src` is a string
+    properties.src = options.transformImageUri(properties.src, properties.alt, properties.title)
   }
 
   if (!basic && name === 'li') {
@@ -135,6 +294,7 @@ function toReact(context, node, index, parent) {
   if (name === 'td' || name === 'th') {
     if (properties.align) {
       if (!properties.style) properties.style = {}
+      // @ts-ignore assume `style` is an object
       properties.style.textAlign = properties.align
       delete properties.align
     }
@@ -173,30 +333,49 @@ function toReact(context, node, index, parent) {
     : React.createElement(component, properties)
 }
 
+/**
+ * @param {Element|Root} node
+ * @returns {Element?}
+ */
 function getInputElement(node) {
   let index = -1
 
   while (++index < node.children.length) {
-    if (element(node.children[index]) && node.children[index].tagName === 'input')
-      return node.children[index]
+    const child = node.children[index]
+
+    if (child.type === 'element' && child.tagName === 'input') {
+      return child
+    }
   }
 
   return null
 }
 
+/**
+ * @param {Element|Root} parent
+ * @param {Element} [node]
+ * @returns {number}
+ */
 function getElementsBeforeCount(parent, node) {
   let index = -1
   let count = 0
 
   while (++index < parent.children.length) {
     if (parent.children[index] === node) break
-    if (element(parent.children[index])) count++
+    if (parent.children[index].type === 'element') count++
   }
 
   return count
 }
 
-function addProperty(props, prop, value, ctx, name) {
+/**
+ * @param {Object.<string, unknown>} props
+ * @param {string} prop
+ * @param {unknown} value
+ * @param {Context} ctx
+ */
+function addProperty(props, prop, value, ctx) {
+  /** @type {Info} */
   const info = find(ctx.schema, prop)
   let result = value
 
@@ -209,41 +388,61 @@ function addProperty(props, prop, value, ctx, name) {
   // Accept `array`.
   // Most props are space-separated.
   if (result && typeof result === 'object' && 'length' in result) {
+    // type-coverage:ignore-next-line remove when typed.
     result = (info.commaSeparated ? commas : spaces).stringify(result)
   }
 
   if (info.property === 'style' && typeof result === 'string') {
-    result = parseStyle(result, name)
+    result = parseStyle(result)
   }
 
   if (info.space) {
-    props[hastToReact[info.property] || info.property] = result
+    props[
+      own.call(hastToReact, info.property) ? hastToReact[info.property] : info.property
+    ] = result
   } else {
     props[info.attribute] = result
   }
 }
 
+/**
+ * @param {string} value
+ * @returns {Object.<string, string>}
+ */
 function parseStyle(value) {
+  /** @type {Object.<string, string>} */
   const result = {}
 
   try {
     style(value, iterator)
-  } catch (error) {
+  } catch (/** @type {Error} */ error) {
     // Silent.
   }
 
   return result
 
+  /**
+   * @param {string} name
+   * @param {string} v
+   */
   function iterator(name, v) {
     const k = name.slice(0, 4) === '-ms-' ? `ms-${name.slice(4)}` : name
     result[k.replace(/-([a-z])/g, styleReplacer)] = v
   }
 }
 
+/**
+ * @param {unknown} _
+ * @param {string} $1
+ */
 function styleReplacer(_, $1) {
   return $1.toUpperCase()
 }
 
+/**
+ * @param {Position} pos
+ * @returns {string}
+ */
 function flattenPosition(pos) {
   return [pos.start.line, ':', pos.start.column, '-', pos.end.line, ':', pos.end.column]
     .map(String)

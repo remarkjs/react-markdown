@@ -5,18 +5,43 @@ const unified = require('unified')
 const parse = require('remark-parse')
 const remarkRehype = require('remark-rehype')
 const PropTypes = require('prop-types')
-const convert = require('unist-util-is/convert')
+// @ts-ignore remove when typed
 const html = require('property-information/html')
 const filter = require('./rehype-filter')
 const uriTransformer = require('./uri-transformer')
 const childrenToReact = require('./ast-to-react.js').hastChildrenToReact
 
+/**
+ * @typedef {import('react').ReactNode} ReactNode
+ * @typedef {import('react').ReactElement<{}>} ReactElement
+ * @typedef {import('unified').PluggableList} PluggableList
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('./rehype-filter.js').RehypeFilterOptions} FilterOptions
+ * @typedef {import('./ast-to-react.js').TransformOptions} TransformOptions
+ *
+ * @typedef {Object} CoreOptions
+ * @property {string} children
+ *
+ * @typedef {Object} PluginOptions
+ * @property {PluggableList} [plugins=[]] **deprecated**: use `remarkPlugins` instead
+ * @property {PluggableList} [remarkPlugins=[]]
+ * @property {PluggableList} [rehypePlugins=[]]
+ *
+ * @typedef {Object} LayoutOptions
+ * @property {string} [className]
+ *
+ * @typedef {CoreOptions & PluginOptions & LayoutOptions & FilterOptions & TransformOptions} ReactMarkdownOptions
+ */
+
 module.exports = ReactMarkdown
 
-const root = convert('root')
-
+/** @type {boolean} */
 let warningIssued
 
+/**
+ * @param {ReactMarkdownOptions} options
+ * @returns {ReactElement}
+ */
 function ReactMarkdown(options) {
   if ('source' in options && !warningIssued) {
     console.warn('[react-markdown] Warning: please use `children` instead of `source`')
@@ -31,13 +56,16 @@ function ReactMarkdown(options) {
     .use(options.rehypePlugins || [])
     .use(filter, options)
 
+  /** @type {Root} */
+  // @ts-ignore we’ll throw if it isn’t a root next.
   // eslint-disable-next-line no-sync
   const hastNode = processor.runSync(processor.parse(options.children || ''))
 
-  if (!root(hastNode)) {
+  if (hastNode.type !== 'root') {
     throw new TypeError('Expected a `root` node')
   }
 
+  /** @type {ReactElement} */
   let result = React.createElement(
     React.Fragment,
     {},
@@ -54,22 +82,41 @@ function ReactMarkdown(options) {
 ReactMarkdown.defaultProps = {transformLinkUri: uriTransformer}
 
 ReactMarkdown.propTypes = {
-  className: PropTypes.string,
+  // Core options:
   children: PropTypes.string,
-  sourcePos: PropTypes.bool,
-  rawSourcePos: PropTypes.bool,
-  skipHtml: PropTypes.bool,
+  // Layout options:
+  className: PropTypes.string,
+  // Filter options:
   allowElement: PropTypes.func,
   allowedElements: PropTypes.arrayOf(PropTypes.string),
   disallowedElements: PropTypes.arrayOf(PropTypes.string),
+  unwrapDisallowed: PropTypes.bool,
+  // Plugin options:
+  // type-coverage:ignore-next-line
+  remarkPlugins: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func,
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.func]))
+    ])
+  ),
+  // type-coverage:ignore-next-line
+  rehypePlugins: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.func,
+      PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object, PropTypes.func]))
+    ])
+  ),
+  // Transform options:
+  sourcePos: PropTypes.bool,
+  rawSourcePos: PropTypes.bool,
+  skipHtml: PropTypes.bool,
+  includeElementIndex: PropTypes.bool,
   transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   linkTarget: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   transformImageUri: PropTypes.func,
-  htmlParser: PropTypes.func,
-  unwrapDisallowed: PropTypes.bool,
-  components: PropTypes.object,
-  remarkPlugins: PropTypes.array,
-  rehypePlugins: PropTypes.array
+  components: PropTypes.object
 }
 
 ReactMarkdown.uriTransformer = uriTransformer

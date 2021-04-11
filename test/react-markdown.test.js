@@ -12,7 +12,21 @@ const {render} = require('@testing-library/react')
 const Markdown = require('../src/react-markdown')
 const toc = require('remark-toc')
 
-const renderHTML = (input) => ReactDom.renderToStaticMarkup(input)
+/**
+ * @typedef {import('unist').Position} Position
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('hast').Text} Text
+ * @typedef {import('react').ReactNode} ReactNode
+ */
+
+/**
+ * @param {ReturnType<Markdown>} input
+ * @returns {string}
+ */
+function renderHTML(input) {
+  return ReactDom.renderToStaticMarkup(input)
+}
 
 test('can render the most basic of documents (single paragraph)', () => {
   const component = renderer.create(<Markdown>Test</Markdown>)
@@ -22,6 +36,7 @@ test('can render the most basic of documents (single paragraph)', () => {
 test('should warn when passed `source`', () => {
   const warn = console.warn
   console.warn = jest.fn()
+  // @ts-ignore runtime
   expect(renderHTML(<Markdown source="a">b</Markdown>)).toEqual('<p>b</p>')
   expect(console.warn).toHaveBeenCalledWith(
     '[react-markdown] Warning: please use `children` instead of `source`'
@@ -78,6 +93,10 @@ test('should handle links with uppercase protocol', () => {
 
 test('should handle links with custom uri transformer', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  /**
+   * @param {string} uri
+   * @returns {string}
+   */
   const transform = (uri) => uri.replace(/^https?:/, '')
   const component = renderer.create(<Markdown transformLinkUri={transform} children={input} />)
   expect(component.toJSON()).toMatchSnapshot()
@@ -91,6 +110,10 @@ test('should use target attribute for links if specified', () => {
 
 test('should call function to get target attribute for links if specified', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  /**
+   * @param {string} uri
+   * @returns {string}
+   */
   const getTarget = (uri) => (uri.match(/^http/) ? '_blank' : undefined)
   const component = renderer.create(<Markdown linkTarget={getTarget} children={input} />)
   expect(component.toJSON()).toMatchSnapshot()
@@ -117,6 +140,10 @@ test('should handle images with title attribute', () => {
 
 test('should handle images with custom uri transformer', () => {
   const input = 'This is ![an image](/ninja.png).'
+  /**
+   * @param {string} uri
+   * @returns {string}
+   */
   const transform = (uri) => uri.replace(/\.png$/, '.jpg')
   const component = renderer.create(<Markdown transformImageUri={transform} children={input} />)
   expect(component.toJSON()).toMatchSnapshot()
@@ -124,6 +151,10 @@ test('should handle images with custom uri transformer', () => {
 
 test('should handle image references with custom uri transformer', () => {
   const input = 'This is ![The Waffle Ninja][ninja].\n\n[ninja]: https://some.host/img.png'
+  /**
+   * @param {string} uri
+   * @returns {string}
+   */
   const transform = (uri) => uri.replace(/\.png$/, '.jpg')
   const component = renderer.create(<Markdown transformImageUri={transform} children={input} />)
   expect(component.toJSON()).toMatchSnapshot()
@@ -245,18 +276,42 @@ test('should handle ordered lists with a start index', () => {
 
 test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () => {
   const input = '- foo\n\n  2. bar\n  3. baz\n\n- root\n'
-  const list = (name) => ({node, ordered, depth, ...props}) => {
-    expect(ordered).toBe(name === 'ol')
-    expect(depth).toBeGreaterThanOrEqual(0)
-    return React.createElement(name, props)
-  }
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   * @param {boolean} props.ordered
+   * @param {boolean} props.checked
+   * @param {number} props.index
+   */
   const li = ({node, ordered, checked, index, ...props}) => {
     expect(ordered).not.toBeUndefined()
     expect(checked).toBe(null)
     expect(index).toBeGreaterThanOrEqual(0)
     return React.createElement('li', props)
   }
-  const components = {li, ol: list('ol'), ul: list('ul')}
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   * @param {true} props.ordered
+   * @param {number} props.depth
+   */
+  const ol = ({node, ordered, depth, ...props}) => {
+    expect(ordered).toBe(true)
+    expect(depth).toBeGreaterThanOrEqual(0)
+    return React.createElement('ol', props)
+  }
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   * @param {false} props.ordered
+   * @param {number} props.depth
+   */
+  const ul = ({node, ordered, depth, ...props}) => {
+    expect(ordered).toBe(false)
+    expect(depth).toBeGreaterThanOrEqual(0)
+    return React.createElement('ul', props)
+  }
+  const components = {li, ol, ul}
   const component = renderer.create(<Markdown children={input} components={components} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -267,6 +322,11 @@ test('should pass `inline: true` to inline code', () => {
     <Markdown
       children={input}
       components={{
+        /**
+         * @param {Object} props
+         * @param {Element} props.node
+         * @param {boolean} [props.inline]
+         */
         code({node, inline, ...props}) {
           expect(inline === undefined || inline === true).toBe(true)
           return React.createElement('code', props)
@@ -285,6 +345,11 @@ test('should pass `isHeader: boolean` to `tr`s', () => {
       children={input}
       remarkPlugins={[gfm]}
       components={{
+        /**
+         * @param {Object} props
+         * @param {Element} props.node
+         * @param {boolean} props.isHeader
+         */
         tr({node, isHeader, ...props}) {
           expect(typeof isHeader === 'boolean').toBe(true)
           return React.createElement('tr', props)
@@ -345,6 +410,11 @@ test('should pass `index: number`, `ordered: boolean`, `checked: boolean | null`
 
 test('should pass `level: number` to `h1`, `h2`, ...', () => {
   const input = '#\n##\n###'
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   * @param {number} props.level
+   */
   function heading({node, level, ...props}) {
     return React.createElement(`h${level}`, props)
   }
@@ -408,9 +478,14 @@ test('should set source position attributes if sourcePos option is enabled', () 
 
 test('should pass on raw source position to non-tag components if rawSourcePos option is enabled', () => {
   const input = '*Foo*\n\n------------\n\n__Bar__'
-  const em = (props) => {
-    expect(props.sourcePosition).toMatchSnapshot()
-    return <em className="custom">{props.children}</em>
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   * @param {Position} [props.sourcePosition]
+   */
+  const em = ({node, sourcePosition, ...props}) => {
+    expect(sourcePosition).toMatchSnapshot()
+    return <em className="custom" {...props} />
   }
   const component = renderer.create(<Markdown children={input} components={{em}} rawSourcePos />)
   expect(component.toJSON()).toMatchSnapshot()
@@ -519,16 +594,17 @@ describe('should skip nodes that are defined as disallowed', () => {
     hr: {input: '\n-----\nAnd with that...', shouldNotContain: '<hr'}
   }
 
-  const fullInput = Object.keys(samples).reduce((input, sampleType) => {
-    return `${input + samples[sampleType].input}\n`
-  }, '')
+  const fullInput = Object.keys(samples)
+    .map((/** @type {keyof samples} */ key) => samples[key].input)
+    .join('\n')
 
-  Object.keys(samples).forEach((tagName) => {
-    test(tagName, () => {
-      const sample = samples[tagName]
+  Object.keys(samples).forEach((/** @type {keyof samples} */ key) => {
+    test(key, () => {
+      /** @type {samples[keyof samples]} */
+      const sample = samples[key]
 
       expect(
-        renderHTML(<Markdown children={fullInput} disallowedElements={[tagName]} />)
+        renderHTML(<Markdown children={fullInput} disallowedElements={[key]} />)
       ).not.toContain(sample.shouldNotContain)
 
       // Just for sanity's sake, let ensure that the opposite is true
@@ -549,8 +625,13 @@ test('should be able to use a custom function to determine if the node should be
     '[react-markdown](https://github.com/remarkjs/react-markdown/) is a nice helper',
     'Also check out [my website](https://espen.codes/)'
   ].join('\n\n')
+  /**
+   * @param {Element} element
+   */
   const allow = (element) =>
-    element.tagName !== 'a' || element.properties.href.indexOf('https://github.com/') === 0
+    element.tagName !== 'a' ||
+    (typeof element.properties.href === 'string' &&
+      element.properties.href.indexOf('https://github.com/') === 0)
 
   expect(renderHTML(<Markdown allowElement={allow} children={input} />)).toEqual(
     [
@@ -563,9 +644,17 @@ test('should be able to use a custom function to determine if the node should be
 
 test('should be able to override components', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
-  const heading = (level) => (props) => (
-    <span className={`heading level-${level}`}>{props.children}</span>
-  )
+  /**
+   * @param {number} level
+   */
+  const heading = (level) => {
+    /**
+     * @param {Object} props
+     * @param {ReactNode[]} props.children
+     */
+    const component = (props) => <span className={`heading level-${level}`}>{props.children}</span>
+    return component
+  }
   const component = renderer.create(
     <Markdown children={input} components={{h1: heading(1), h2: heading(2)}} />
   )
@@ -575,6 +664,7 @@ test('should be able to override components', () => {
 test('should throw on invalid component', () => {
   const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
   const components = {h1: 123}
+  // @ts-ignore runtime
   expect(() => renderHTML(<Markdown children={input} components={components} />)).toThrow(
     /Component for name `h1`/
   )
@@ -611,9 +701,14 @@ test('can render the whole spectrum of markdown within a single run (with html p
 })
 
 test('should support math', () => {
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   */
   function handle({node, ...props}) {
-    if (node.properties.className && node.properties.className.includes('math')) {
+    if (Array.isArray(node.properties.className) && node.properties.className.includes('math')) {
       return (
+        // @ts-ignore broken types?
         <TeX
           block={!node.properties.className.includes('math-inline')}
           math={node.children[0].value}
@@ -661,6 +756,10 @@ test('allows specifying a custom URI-transformer', () => {
   const input =
     'Received a great [pull request](https://github.com/remarkjs/react-markdown/pull/15) today'
 
+  /**
+   * @param {string} uri
+   * @returns {string}
+   */
   const transform = (uri) => uri.replace(/^https?:\/\/github\.com\//i, '/')
   const component = renderer.create(<Markdown children={input} transformLinkUri={transform} />)
   expect(component.toJSON()).toMatchSnapshot()
@@ -688,6 +787,11 @@ test('supports checkbox lists', () => {
 
 test('should pass index of a node under its parent to components if `includeElementIndex` option is enabled', () => {
   const input = 'Foo\n\nBar\n\nBaz'
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   * @param {ReactNode[]} props.children
+   */
   const p = ({node, ...otherProps}) => {
     expect(otherProps).toMatchSnapshot()
     return <p>{otherProps.children}</p>
@@ -700,16 +804,20 @@ test('should pass index of a node under its parent to components if `includeElem
 })
 
 test('should be able to render components with forwardRef in HOC', () => {
-  const componentWrapper = (WrappedComponent) => {
-    return React.forwardRef((props, ref) => <WrappedComponent ref={ref} {...props} />)
+  /**
+   * @param {Function} Component
+   */
+  const wrapper = (Component) => {
+    return React.forwardRef((props, ref) => <Component ref={ref} {...props} />)
   }
 
-  const components = {
-    a: componentWrapper((props) => <a {...props} />)
-  }
+  /**
+   * @param {Object<string, unknown>} props
+   */
+  const wrapped = (props) => <a {...props} />
 
   const component = renderer.create(
-    <Markdown components={components}>[Link](https://example.com/)</Markdown>
+    <Markdown components={{a: wrapper(wrapped)}}>[Link](https://example.com/)</Markdown>
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -730,9 +838,14 @@ test('should render table of contents plugin', () => {
 
 test('should pass `node` as prop to all non-tag/non-fragment components', () => {
   const input = "# So, *headers... they're _cool_*\n\n"
+
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   */
   const h1 = (props) => {
     let text = ''
-    visit(props.node, 'text', (child) => {
+    visit(props.node, 'text', (/** @type {Text} */ child) => {
       text += child.value
     })
     return text
@@ -752,7 +865,7 @@ test('should support formatting at the start of a GFM tasklist (GH-494)', () => 
 
 test('should support aria properties', () => {
   const input = 'c'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({
       type: 'element',
       tagName: 'input',
@@ -767,7 +880,7 @@ test('should support aria properties', () => {
 
 test('should support data properties', () => {
   const input = 'b'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({
       type: 'element',
       tagName: 'i',
@@ -782,7 +895,7 @@ test('should support data properties', () => {
 
 test('should support comma separated properties', () => {
   const input = 'c'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({
       type: 'element',
       tagName: 'i',
@@ -797,7 +910,7 @@ test('should support comma separated properties', () => {
 
 test('should support `style` properties', () => {
   const input = 'a'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({
       type: 'element',
       tagName: 'i',
@@ -812,7 +925,7 @@ test('should support `style` properties', () => {
 
 test('should support `style` properties w/ vendor prefixes', () => {
   const input = 'a'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({
       type: 'element',
       tagName: 'i',
@@ -827,7 +940,7 @@ test('should support `style` properties w/ vendor prefixes', () => {
 
 test('should support broken `style` properties', () => {
   const input = 'a'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({
       type: 'element',
       tagName: 'i',
@@ -842,7 +955,7 @@ test('should support broken `style` properties', () => {
 
 test('should support SVG elements', () => {
   const input = 'a'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({
       type: 'element',
       tagName: 'svg',
@@ -854,19 +967,21 @@ test('should support SVG elements', () => {
           properties: {},
           children: [{type: 'text', value: 'SVG `<circle>` element'}]
         },
-        {type: 'element', tagName: 'circle', properties: {cx: 120, cy: 120, r: 100}, children: []}
+        {type: 'element', tagName: 'circle', properties: {cx: 120, cy: 120, r: 100}, children: []},
+        // `strokeMiterLimit` in hast, `strokeMiterlimit` in React.
+        {type: 'element', tagName: 'path', properties: {strokeMiterLimit: -1}, children: []}
       ]
     })
   }
   const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
   const expected =
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><title>SVG `&lt;circle&gt;` element</title><circle cx="120" cy="120" r="100"></circle></svg><p>a</p>'
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><title>SVG `&lt;circle&gt;` element</title><circle cx="120" cy="120" r="100"></circle><path stroke-miterlimit="-1"></path></svg><p>a</p>'
   expect(actual).toEqual(expected)
 })
 
 test('should support (ignore) comments', () => {
   const input = 'a'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({type: 'comment', value: 'things!'})
   }
   const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
@@ -876,7 +991,7 @@ test('should support (ignore) comments', () => {
 
 test('should support table cells w/ style', () => {
   const input = '| a  |\n| :- |'
-  const plugin = () => (tree) => {
+  const plugin = () => (/** @type {Root} */ tree) => {
     const th = tree.children[0].children[1].children[1].children[1]
     th.properties.style = 'color: red'
   }
