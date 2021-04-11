@@ -6,7 +6,7 @@ module.exports = rehypeFilter
 
 function rehypeFilter(options) {
   if (options.allowedElements && options.disallowedElements) {
-    throw new Error('Only one of `allowedElements` and `disallowedElements` should be defined')
+    throw new TypeError('Only one of `allowedElements` and `disallowedElements` should be defined')
   }
 
   return options.allowedElements || options.disallowedElements || options.allowElement

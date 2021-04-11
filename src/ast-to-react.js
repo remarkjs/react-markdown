@@ -84,7 +84,7 @@ function toReact(context, node, index, parent) {
   const basic = typeof component === 'string' || component === React.Fragment
 
   if (!ReactIs.isValidElementType(component)) {
-    throw new Error(`Component for name \`${name}\` not defined or is not renderable`)
+    throw new TypeError(`Component for name \`${name}\` not defined or is not renderable`)
   }
 
   properties.key = [name, position.start.line, position.start.column, index].join('-')

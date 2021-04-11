@@ -25,7 +25,7 @@ function ReactMarkdown(options) {
 
   const processor = unified()
     .use(parse)
-    // To do: deprecate `plugins` in v7.0.0.
+    // TODO: deprecate `plugins` in v7.0.0.
     .use(options.remarkPlugins || options.plugins || [])
     .use(remarkRehype, {allowDangerousHtml: true})
     .use(options.rehypePlugins || [])
@@ -35,7 +35,7 @@ function ReactMarkdown(options) {
   const hastNode = processor.runSync(processor.parse(options.children || ''))
 
   if (!root(hastNode)) {
-    throw new Error('Expected a `root` node')
+    throw new TypeError('Expected a `root` node')
   }
 
   let result = React.createElement(
