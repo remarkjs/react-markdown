@@ -2,6 +2,296 @@
 
 All notable changes will be documented in this file.
 
+## 6.0.0 - Unreleased
+
+Welcome to version 6.
+This a major release and therefore contains breaking changes.
+
+### Change `renderers` to `components`
+
+`react-markdown` used to let you define components for *markdown* constructs
+(`link`, `delete`, `break`, etc).
+This proved complex as users didn’t know about those names or markdown
+peculiarities (such as that there are fully formed links *and* link references).
+
+See [**GH-549**](https://github.com/remarkjs/react-markdown/issues/549) for more
+on why this changed.
+See [**Appendix B: Components** in
+`readme.md`](https://github.com/remarkjs/react-markdown#appendix-b-components)
+for more on components.
+
+<details>
+<summary>Show example of needed change</summary>
+
+Before (**broken**):
+
+```jsx
+<Markdown
+  renderers={{
+    // Use a fancy hr
+    thematicBreak: ({node, ...props}) => <MyFancyRule {...props} />
+  }}
+>{`***`}</Markdown>
+```
+
+Now (**fixed**):
+
+```jsx
+<Markdown
+  components={{
+    // Use a fancy hr
+    hr: ({node, ...props}) => <MyFancyRule {...props} />
+  }}
+>{`***`}</Markdown>
+```
+
+</details>
+
+<details>
+<summary>Show conversion table</summary>
+
+| Type (`renderers`) | Tag names (`components`) |
+| - | - |
+| `blockquote` | `blockquote` |
+| `break` | `br` |
+| `code`, `inlineCode` | `code`, `pre`**​*​** |
+| `definition` | **†** |
+| `delete` | `del`**‡** |
+| `emphasis` | `em` |
+| `heading` | `h1`, `h2`, `h3`, `h4`, `h5`, `h6`**§** |
+| `html`, `parsedHtml`, `virtualHtml` | **‖** |
+| `image`, `imageReference` | `img`**†** |
+| `link`, `linkReference` | `a`**†** |
+| `list` | `ol`, `ul`**¶** |
+| `listItem` | `li` |
+| `paragraph` | `p` |
+| `root` | **​**​** |
+| `strong` | `strong` |
+| `table` | `table`**‡** |
+| `tableHead` | `thead`**‡** |
+| `tableBody` | `tbody`**‡** |
+| `tableRow` | `tr`**‡** |
+| `tableCell` | `td`, `th`**‡** |
+| `text` | |
+| `thematicBreak` | `hr` |
+
+*   **​\*​** It’s possible to differentiate between code based on the `inline`
+    prop.
+    Block code is also wrapped in a `pre`
+*   **†** Resource (`[text](url)`) and reference (`[text][id]`) style links and
+    images (and their definitions) are now resolved and treated the same
+*   **‡** Available when using
+    [`remark-gfm`](https://github.com/remarkjs/remark-gfm)
+*   **§** It’s possible to differentiate between heading based on the `level`
+    prop
+*   **‖** When using `rehype-raw` (see below), components for those elements
+    can also be used (for example, `abbr` for
+    `<abbr title="HyperText Markup Language">HTML</abbr>`)
+*   **¶** It’s possible to differentiate between lists based on the `ordered`
+    prop
+*   **​\*\*​** Wrap `ReactMarkdown` in a component instead
+
+</details>
+
+### Add `rehypePlugins`
+
+We’ve added another plugin system:
+[**rehype**](https://github.com/rehypejs/rehype).
+It’s similar to remark (what we’re using for markdown) but for HTML.
+
+There are many rehype plugins.
+Some examples are
+[`@mapbox/rehype-prism`](https://github.com/mapbox/rehype-prism)
+(syntax highlighting with Prism),
+[`rehype-katex`](https://github.com/remarkjs/remark-math/tree/HEAD/packages/rehype-katex)
+(rendering math with KaTeX), or
+[`rehype-autolink-headings`](https://github.com/rehypejs/rehype-autolink-headings)
+(adding links to headings).
+
+See [List of plugins](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md)
+for more plugins.
+
+<details>
+<summary>Show example of feature</summary>
+
+```jsx
+import rehypeHighlight from 'rehype-highlight'
+
+<Markdown rehypePlugins={[rehypeHighlight]}>{`~~~js
+console.log(1)
+~~~`}</Markdown>
+```
+
+</details>
+
+### Remove buggy HTML in markdown parser
+
+In a lot of cases, you should not use HTML in markdown: it’s most always unsafe.
+And it defeats much of the purpose of this project (not relying on
+`dangerouslySetInnerHTML`).
+
+`react-markdown` used to have an opt-in HTML parser with a bunch of bugs.
+As we now support rehype plugins, we can defer that work to a rehype plugin.
+To support HTML in markdown with `react-markdown`, use
+[`rehype-raw`](https://github.com/rehypejs/rehype-raw).
+The `astPlugins` and `allowDangerousHtml` (previously called `escapeHtml`) props
+are no longer needed and were removed.
+
+When using `rehype-raw`, you should probably use
+[`rehype-sanitize`](https://github.com/rehypejs/rehype-sanitize)
+too.
+
+<details>
+<summary>Show example of needed change</summary>
+
+Before (**broken**):
+
+```jsx
+import MarkdownWithHtml from 'react-markdown/with-html'
+
+<MarkdownWithHtml>{`# Hello, <i>world</i>!`}</MarkdownWithHtml>
+```
+
+Now (**fixed**):
+
+```jsx
+import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
+
+<Markdown rehypePlugins={[rehypeRaw, rehypeSanitize]}>{`# Hello, <i>world</i>!`}</Markdown>
+```
+
+</details>
+
+### Change `source` to `children`
+
+Instead of passing a `source` pass `children` instead:
+
+<details>
+<summary>Show example of needed change</summary>
+
+Before (**broken**):
+
+```jsx
+<Markdown source="some\nmarkdown"></Markdown>
+```
+
+Now (**fixed**):
+
+```jsx
+<Markdown>{`some
+markdown`}</Markdown>
+```
+
+Or (**also fixed**):
+
+```jsx
+<Markdown children={`some
+markdown`} />
+```
+
+</details>
+
+### Replace `allowNode`, `allowedTypes`, and `disallowedTypes`
+
+Similar to the `renderers` to `components` change, the filtering options
+also changed from being based on markdown names towards being based on HTML
+names: `allowNode` to `allowElement`, `allowedTypes` to `allowedElements`, and
+`disallowedTypes` to `disallowedElements`.
+
+<details>
+<summary>Show example of needed change</summary>
+
+Before (**broken**):
+
+```jsx
+<Markdown
+  // Skip images
+  disallowedTypes={['image']}
+>{`![alt text](./image.url)`}</Markdown>
+```
+
+Now (**fixed**):
+
+```jsx
+<Markdown
+  // Skip images
+  disallowedElements={['img']}
+>{`![alt text](./image.url)`}</Markdown>
+```
+
+***
+
+Before (**broken**):
+
+```jsx
+<Markdown
+  // Skip h1
+  allowNode={(node) => node.type !== 'heading' || node.depth !== 1}
+>{`# main heading`}</Markdown>
+```
+
+Now (**fixed**):
+
+```jsx
+<Markdown
+  // Skip h1
+  allowElement={(element) => element.tagName !== 'h1'}
+>{`# main heading`}</Markdown>
+```
+
+</details>
+
+### Change `includeNodeIndex` to `includeElementIndex`
+
+Similar to the `renderers` to `components` change, this option to pass more info
+to components also changed from being based on markdown to being based on HTML.
+
+<details>
+<summary>Show example of needed change</summary>
+
+Before (**broken**):
+
+```jsx
+<Markdown
+  includeNodeIndex={true}
+  renderers={{
+    paragraph({node, index, parentChildCount, ...props}) => <MyFancyParagraph {...props} />
+  }}
+>{`Some text`}</Markdown>
+```
+
+Now (**fixed**):
+
+```jsx
+<Markdown
+  includeElementIndex={true}
+  components={{
+    p({node, index, siblingsCount, ...props}) => <MyFancyParagraph {...props} />
+  }}
+>{`Some text`}</Markdown>
+```
+
+</details>
+
+### Change signature of `transformLinkUri`, `linkTarget`
+
+The second parameter of these functions (to rewrite `href` on `a` or to define
+`target` on `a`) are now [hast](https://github.com/syntax-tree/hast) (HTML AST)
+instead of [mdast](https://github.com/syntax-tree/mdast) (markdown AST).
+
+### Change signature of `transformImageUri`
+
+The second parameter of this function was always `undefined` and the fourth was
+the `alt` (`string`) on the image.
+The second parameter is now that `alt`.
+
+### Remove support for React 15, IE11
+
+We now use ES2015 (such as `Object.assign`) and removed certain hacks to work
+with React 15 and older.
+
 ## 5.0.3 - 2020-10-23
 
 *   [`bb0bdde`](https://github.com/remarkjs/react-markdown/commit/bb0bdde)

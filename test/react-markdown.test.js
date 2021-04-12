@@ -39,7 +39,18 @@ test('should warn when passed `source`', () => {
   // @ts-ignore runtime
   expect(renderHTML(<Markdown source="a">b</Markdown>)).toEqual('<p>b</p>')
   expect(console.warn).toHaveBeenCalledWith(
-    '[react-markdown] Warning: please use `children` instead of `source`'
+    '[react-markdown] Warning: please use `children` instead of `source` (see <https://github.com/remarkjs/react-markdown/blob/main/changelog.md#change-source-to-children> for more info)'
+  )
+  console.warn = warn
+})
+
+test('should warn when passed `allowDangerousHtml`', () => {
+  const warn = console.warn
+  console.warn = jest.fn()
+  // @ts-ignore runtime
+  expect(renderHTML(<Markdown allowDangerousHtml>a</Markdown>)).toEqual('<p>a</p>')
+  expect(console.warn).toHaveBeenCalledWith(
+    '[react-markdown] Warning: please remove `allowDangerousHtml` (see <https://github.com/remarkjs/react-markdown/blob/main/changelog.md#remove-buggy-html-in-markdown-parser> for more info)'
   )
   console.warn = warn
 })

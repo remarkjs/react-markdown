@@ -152,6 +152,16 @@
     "plugins": [
       "preset-wooorm",
       [
+        "gfm",
+        {
+          "tablePipeAlign": false
+        }
+      ],
+      [
+        "lint-table-pipe-alignment",
+        false
+      ],
+      [
         "lint-no-html",
         false
       ]
