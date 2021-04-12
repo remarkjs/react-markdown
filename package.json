@@ -74,19 +74,21 @@
     "lib/",
     "plugins/",
     "index.d.ts",
-    "react-markdown.min.js",
-    "with-html.d.ts",
-    "with-html.js"
+    "react-markdown.min.js"
   ],
   "dependencies": {
-    "@types/mdast": "^3.0.3",
+    "@types/hast": "^2.0.0",
     "@types/unist": "^2.0.3",
-    "html-to-react": "^1.4.5",
-    "mdast-add-list-metadata": "1.0.1",
+    "comma-separated-tokens": "^1.0.0",
     "prop-types": "^15.7.2",
+    "property-information": "^5.0.0",
     "react-is": "^17.0.0",
     "remark-parse": "^9.0.0",
+    "remark-rehype": "^8.0.0",
+    "space-separated-tokens": "^1.1.0",
+    "style-to-object": "^0.3.0",
     "unified": "^9.0.0",
+    "unist-util-is": "^4.1.0",
     "unist-util-visit": "^2.0.0"
   },
   "peerDependencies": {
@@ -121,6 +123,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-test-renderer": "^17.0.0",
+    "rehype-raw": "^5.0.0",
     "remark-cli": "^9.0.0",
     "remark-gfm": "^1.0.0",
     "remark-math": "^4.0.0",
@@ -199,19 +202,24 @@
     "overrides": [
       {
         "files": [
-          "src/**/*.js",
-          "with-html.js"
+          "src/**/*.js"
         ],
         "extends": [
           "plugin:es/restrict-to-es2015"
         ]
       },
       {
+        "env": {
+          "jest": true
+        },
         "files": [
           "test/**/*.js"
         ],
         "rules": {
-          "react/no-children-prop": 0
+          "react/no-children-prop": 0,
+          "react/display-name": 0,
+          "no-nested-ternary": 0,
+          "react/prop-types": 0
         }
       }
     ]

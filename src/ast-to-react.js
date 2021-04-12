@@ -2,221 +2,246 @@
 
 const React = require('react')
 const ReactIs = require('react-is')
+const convert = require('unist-util-is/convert')
+const svg = require('property-information/svg')
+const find = require('property-information/find')
+const hastToReact = require('property-information/hast-to-react.json')
+const spaces = require('space-separated-tokens')
+const commas = require('comma-separated-tokens')
+const style = require('style-to-object')
 
-function astToReact(node, options, parent = {}, index = 0) {
-  const renderer = options.renderers[node.type]
+exports.hastToReact = toReact
+exports.hastChildrenToReact = childrenToReact
 
-  // Nodes created by plugins do not have positional info, in which case we set
+const element = convert('element')
+const text = convert('text')
+
+const own = {}.hasOwnProperty
+
+function childrenToReact(context, node) {
+  const children = []
+  let childIndex = -1
+  let child
+
+  while (++childIndex < node.children.length) {
+    child = node.children[childIndex]
+
+    if (element(child)) {
+      children.push(toReact(context, child, childIndex, node))
+    } else if (text(child)) {
+      children.push(child.value)
+    } else if (child.type === 'raw' && !context.options.skipHtml) {
+      // Default behavior is to show (encoded) HTML.
+      children.push(child.value)
+    }
+  }
+
+  return children
+}
+
+// eslint-disable-next-line complexity, max-statements
+function toReact(context, node, index, parent) {
+  const options = context.options
+  const parentSchema = context.schema
+  const name = node.tagName
+  const properties = {}
+  let schema = parentSchema
+  let property
+
+  if (parentSchema.space === 'html' && name === 'svg') {
+    schema = svg
+    context.schema = schema
+  }
+
+  for (property in node.properties) {
+    /* istanbul ignore else - prototype polution. */
+    if (own.call(node.properties, property)) {
+      addProperty(properties, property, node.properties[property], context, name)
+    }
+  }
+
+  if (name === 'ol' || name === 'ul') {
+    context.listDepth++
+  }
+
+  const children = childrenToReact(context, node)
+
+  if (name === 'ol' || name === 'ul') {
+    context.listDepth--
+  }
+
+  // Restore parent schema.
+  context.schema = parentSchema
+
+  // Nodes created by plugins do not have positional info, in which case we use
   // an object that matches the positon interface.
-  if (!node.position) {
-    node.position = {
-      start: {line: null, column: null, offset: null},
-      end: {line: null, column: null, offset: null}
+  const position = node.position || {
+    start: {line: null, column: null, offset: null},
+    end: {line: null, column: null, offset: null}
+  }
+  const component =
+    options.components && own.call(options.components, name) ? options.components[name] : name
+  const basic = typeof component === 'string' || component === React.Fragment
+
+  if (!ReactIs.isValidElementType(component)) {
+    throw new TypeError(`Component for name \`${name}\` not defined or is not renderable`)
+  }
+
+  properties.key = [name, position.start.line, position.start.column, index].join('-')
+
+  if (name === 'a' && options.linkTarget) {
+    properties.target =
+      typeof options.linkTarget === 'function'
+        ? options.linkTarget(properties.href, node.children, properties.title)
+        : options.linkTarget
+  }
+
+  if (name === 'a' && options.transformLinkUri) {
+    properties.href = options.transformLinkUri(properties.href, node.children, properties.title)
+  }
+
+  if (!basic && name === 'code' && parent.tagName !== 'pre') {
+    properties.inline = true
+  }
+
+  if (
+    !basic &&
+    (name === 'h1' ||
+      name === 'h2' ||
+      name === 'h3' ||
+      name === 'h4' ||
+      name === 'h5' ||
+      name === 'h6')
+  ) {
+    properties.level = parseInt(name.charAt(1), 10)
+  }
+
+  if (name === 'img' && options.transformImageUri) {
+    properties.src = options.transformImageUri(properties.src, node.alt, properties.title)
+  }
+
+  if (!basic && name === 'li') {
+    const input = getInputElement(node)
+    properties.checked = input ? Boolean(input.properties.checked) : null
+    properties.index = getElementsBeforeCount(parent, node)
+    properties.ordered = parent.tagName === 'ol'
+  }
+
+  if (!basic && (name === 'ol' || name === 'ul')) {
+    properties.ordered = name === 'ol'
+    properties.depth = context.listDepth
+  }
+
+  if (name === 'td' || name === 'th') {
+    if (properties.align) {
+      if (!properties.style) properties.style = {}
+      properties.style.textAlign = properties.align
+      delete properties.align
+    }
+
+    if (!basic) {
+      properties.isHeader = name === 'th'
     }
   }
 
-  const pos = node.position.start
-  const key = [node.type, pos.line, pos.column, index].join('-')
-
-  if (!ReactIs.isValidElementType(renderer)) {
-    throw new Error(`Renderer for type \`${node.type}\` not defined or is not renderable`)
+  if (!basic && name === 'tr') {
+    properties.isHeader = Boolean(parent.tagName === 'thead')
   }
 
-  const nodeProps = getNodeProps(node, key, options, renderer, parent, index)
+  // If `sourcePos` is given, pass source information (line/column info from markdown source).
+  if (options.sourcePos) {
+    properties['data-sourcepos'] = flattenPosition(position)
+  }
 
-  return React.createElement(
-    renderer,
-    nodeProps,
-    nodeProps.children || resolveChildren() || undefined
-  )
+  if (!basic && options.rawSourcePos) {
+    properties.sourcePosition = node.position
+  }
 
-  function resolveChildren() {
-    return (
-      node.children &&
-      node.children.map((childNode, i) =>
-        astToReact(childNode, options, {node, props: nodeProps}, i)
-      )
-    )
+  // If `includeElementIndex` is given, pass node index info to components.
+  if (!basic && options.includeElementIndex) {
+    properties.index = getElementsBeforeCount(parent, node)
+    properties.siblingCount = getElementsBeforeCount(parent)
+  }
+
+  if (!basic) {
+    properties.node = node
+  }
+
+  // Ensure no React warnings are emitted for void elements w/ children.
+  return children.length
+    ? React.createElement(component, properties, children)
+    : React.createElement(component, properties)
+}
+
+function getInputElement(node) {
+  let index = -1
+
+  while (++index < node.children.length) {
+    if (element(node.children[index]) && node.children[index].tagName === 'input')
+      return node.children[index]
+  }
+
+  return null
+}
+
+function getElementsBeforeCount(parent, node) {
+  let index = -1
+  let count = 0
+
+  while (++index < parent.children.length) {
+    if (parent.children[index] === node) break
+    if (element(parent.children[index])) count++
+  }
+
+  return count
+}
+
+function addProperty(props, prop, value, ctx, name) {
+  const info = find(ctx.schema, prop)
+  let result = value
+
+  // Ignore nullish and `NaN` values.
+  // eslint-disable-next-line no-self-compare
+  if (result === null || result === undefined || result !== result) {
+    return
+  }
+
+  // Accept `array`.
+  // Most props are space-separated.
+  if (result && typeof result === 'object' && 'length' in result) {
+    result = (info.commaSeparated ? commas : spaces).stringify(result)
+  }
+
+  if (info.property === 'style' && typeof result === 'string') {
+    result = parseStyle(result, name)
+  }
+
+  if (info.space) {
+    props[hastToReact[info.property] || info.property] = result
+  } else {
+    props[info.attribute] = result
   }
 }
 
-// eslint-disable-next-line max-params, complexity
-function getNodeProps(node, key, opts, renderer, parent, index) {
-  const props = {key}
+function parseStyle(value) {
+  const result = {}
 
-  const isSimpleRenderer = typeof renderer === 'string' || renderer === React.Fragment
-
-  // `sourcePos` is true if the user wants source information (line/column info from markdown source)
-  if (opts.sourcePos && node.position) {
-    props['data-sourcepos'] = flattenPosition(node.position)
+  try {
+    style(value, iterator)
+  } catch (error) {
+    // Silent.
   }
 
-  if (opts.rawSourcePos && !isSimpleRenderer) {
-    props.sourcePosition = node.position
-  }
+  return result
 
-  // If `includeNodeIndex` is true, pass node index info to all non-tag renderers
-  if (opts.includeNodeIndex && parent.node && parent.node.children && !isSimpleRenderer) {
-    props.index = parent.node.children.indexOf(node)
-    props.parentChildCount = parent.node.children.length
-  }
-
-  const ref =
-    node.identifier !== null && node.identifier !== undefined
-      ? /* istanbul ignore next - plugins could inject an undefined reference. */
-        opts.definitions[node.identifier.toUpperCase()] || {}
-      : null
-
-  switch (node.type) {
-    case 'root':
-      assignDefined(props, {className: opts.className})
-      break
-    case 'text':
-      props.nodeKey = key
-      props.children = node.value
-      break
-    case 'heading':
-      props.level = node.depth
-      break
-    case 'list':
-      props.start = node.start
-      props.ordered = node.ordered
-      props.spread = node.spread
-      props.depth = node.depth
-      break
-    case 'listItem':
-      props.checked = node.checked
-      props.spread = node.spread
-      props.ordered = node.ordered
-      props.index = node.index
-      props.children = getListItemChildren(node, parent).map((childNode, i) => {
-        return astToReact(childNode, opts, {node: node, props: props}, i)
-      })
-      break
-    case 'definition':
-      assignDefined(props, {identifier: node.identifier, title: node.title, url: node.url})
-      break
-    case 'code':
-      assignDefined(props, {language: node.lang && node.lang.split(/\s/, 1)[0]})
-      break
-    case 'inlineCode':
-      props.children = node.value
-      props.inline = true
-      break
-    case 'link':
-      assignDefined(props, {
-        title: node.title || undefined,
-        target:
-          typeof opts.linkTarget === 'function'
-            ? opts.linkTarget(node.url, node.children, node.title)
-            : opts.linkTarget,
-        href: opts.transformLinkUri
-          ? opts.transformLinkUri(node.url, node.children, node.title)
-          : node.url
-      })
-      break
-    case 'image':
-      assignDefined(props, {
-        src: opts.transformImageUri
-          ? opts.transformImageUri(node.url, node.children, node.title, node.alt)
-          : node.url,
-        alt: node.alt || '',
-        title: node.title || undefined
-      })
-      break
-    case 'linkReference':
-      assignDefined(
-        props,
-        Object.assign({}, ref, {
-          href: opts.transformLinkUri ? opts.transformLinkUri(ref.href) : ref.href
-        })
-      )
-      break
-    case 'imageReference':
-      assignDefined(props, {
-        src:
-          opts.transformImageUri && ref.href
-            ? opts.transformImageUri(ref.href, node.children, ref.title, node.alt)
-            : ref.href,
-        alt: node.alt || '',
-        title: ref.title || undefined
-      })
-      break
-    case 'table':
-    case 'tableHead':
-    case 'tableBody':
-      props.columnAlignment = node.align
-      break
-    case 'tableRow':
-      props.isHeader = parent.node.type === 'tableHead'
-      props.columnAlignment = parent.props.columnAlignment
-      break
-    case 'tableCell':
-      assignDefined(props, {
-        isHeader: parent.props.isHeader,
-        align: parent.props.columnAlignment[index]
-      })
-      break
-    case 'virtualHtml':
-      props.tag = node.tag
-      break
-    case 'html':
-      // @todo find a better way than this
-      props.isBlock = node.position.start.line !== node.position.end.line
-      props.allowDangerousHtml = opts.allowDangerousHtml
-      props.skipHtml = opts.skipHtml
-      break
-    case 'parsedHtml': {
-      let parsedChildren
-      if (node.children) {
-        parsedChildren = node.children.map((child, i) => astToReact(child, opts, {node, props}, i))
-      }
-      props.allowDangerousHtml = opts.allowDangerousHtml
-      props.skipHtml = opts.skipHtml
-      props.element = node.element ? mergeNodeChildren(node, parsedChildren) : null
-      break
-    }
-    default:
-      assignDefined(
-        props,
-        Object.assign({}, node, {
-          type: undefined,
-          position: undefined,
-          children: undefined
-        })
-      )
-  }
-
-  if (!isSimpleRenderer && node.value) {
-    props.value = node.value
-  }
-
-  if (!isSimpleRenderer) {
-    props.node = node
-  }
-
-  return props
-}
-
-function assignDefined(target, attrs) {
-  for (const key in attrs) {
-    if (typeof attrs[key] !== 'undefined') {
-      target[key] = attrs[key]
-    }
+  function iterator(name, v) {
+    const k = name.slice(0, 4) === '-ms-' ? `ms-${name.slice(4)}` : name
+    result[k.replace(/-([a-z])/g, styleReplacer)] = v
   }
 }
 
-function mergeNodeChildren(node, parsedChildren) {
-  const el = node.element
-  if (Array.isArray(el)) {
-    return React.createElement(React.Fragment, null, el)
-  }
-
-  if (el.props.children || parsedChildren) {
-    const children = React.Children.toArray(el.props.children).concat(parsedChildren)
-    return React.cloneElement(el, null, children)
-  }
-  return React.cloneElement(el, null)
+function styleReplacer(_, $1) {
+  return $1.toUpperCase()
 }
 
 function flattenPosition(pos) {
@@ -224,35 +249,3 @@ function flattenPosition(pos) {
     .map(String)
     .join('')
 }
-
-function getListItemChildren(node, parent) {
-  /* istanbul ignore next - list items are always in a list, but best to be sure. */
-  const loose = parent && parent.node ? listLoose(parent.node) : listItemLoose(node)
-  return loose ? node.children : unwrapParagraphs(node)
-}
-
-function unwrapParagraphs(node) {
-  return node.children.reduce((array, child) => {
-    return array.concat(child.type === 'paragraph' ? child.children : [child])
-  }, [])
-}
-
-function listLoose(node) {
-  const children = node.children
-  let loose = node.spread
-  let index = -1
-
-  while (!loose && ++index < children.length) {
-    loose = listItemLoose(children[index])
-  }
-
-  return loose
-}
-
-function listItemLoose(node) {
-  const spread = node.spread
-  /* istanbul ignore next - spread is present from remark-parse, but maybe plugins don’t set it. */
-  return spread === undefined || spread === null ? node.children.length > 1 : spread
-}
-
-module.exports = astToReact

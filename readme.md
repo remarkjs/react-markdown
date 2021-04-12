@@ -8,6 +8,10 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
+⚠️ Note: the below readme is for the upcoming release of `react-markdown@6.0.0`.
+[See the last released readme (`5.0.3`) here
+»](https://github.com/remarkjs/react-markdown/tree/22bb78747d768181cb9ea8711b5e13c3768921d8#readme)
+
 Markdown component for React using [**remark**][remark].
 
 [Learn markdown here][learn] and [check out the demo here][demo].
@@ -65,7 +69,7 @@ const gfm = require('remark-gfm')
 
 const markdown = `Just a link: https://reactjs.com.`
 
-render(<ReactMarkdown plugins={[gfm]} children={markdown} />, document.body)
+render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.body)
 ```
 
 <details>
@@ -87,57 +91,57 @@ render(<ReactMarkdown plugins={[gfm]} children={markdown} />, document.body)
     Markdown to parse
 *   `className` (`string?`)\
     Wrap the markdown in a `div` with this class name
-*   `allowDangerousHtml` (`boolean`, default: `false`)\
-    This project is safe by default and escapes HTML.
-    Use `allowDangerousHtml: true` to allow dangerous html instead.
-    See [security][]
 *   `skipHtml` (`boolean`, default: `false`)\
-    Ignore HTML in Markdown
+    Ignore HTML in Markdown completely
 *   `sourcePos` (`boolean`, default: `false`)\
-    Pass a prop to all renderers with a serialized position
+    Pass a prop to all components with a serialized position
     (`data-sourcepos="3:1-3:13"`)
 *   `rawSourcePos` (`boolean`, default: `false`)\
-    Pass a prop to all renderers with their [position][]
+    Pass a prop to all components with their [position][]
     (`sourcePosition: {start: {line: 3, column: 1}, end:…}`)
-*   `includeNodeIndex` (`boolean`, default: `false`)\
-    Pass [`index`][index] and `parentChildCount` in props to all renderers
-*   `allowedTypes` (`Array.<string>`, default: list of all types)\
-    Node types to allow (can’t combine w/ `disallowedTypes`).
-    All types are available at `ReactMarkdown.types`
-*   `disallowedTypes` (`Array.<string>`, default: `[]`)\
-    Node types to disallow (can’t combine w/ `allowedTypes`)
-*   `allowNode` (`(node, index, parent) => boolean?`, optional)\
-    Function called to check if a node is allowed (when truthy) or not.
-    `allowedTypes` / `disallowedTypes` is used first!
+*   `includeElementIndex` (`boolean`, default: `false`)\
+    Pass the `index` (number of elements before it) and `siblingCount` (number
+    of elements in parent) as props to all components
+*   `allowedElements` (`Array.<string>`, default: `undefined`)\
+    Tag names to allow (can’t combine w/ `disallowedElements`).
+    By default all elements are allowed
+*   `disallowedElements` (`Array.<string>`, default: `undefined`)\
+    Tag names to disallow (can’t combine w/ `allowedElements`).
+    By default no elements are disallowed
+*   `allowElement` (`(element, index, parent) => boolean?`, optional)\
+    Function called to check if an element is allowed (when truthy) or not.
+    `allowedElements` / `disallowedElements` is used first!
 *   `unwrapDisallowed` (`boolean`, default: `false`)\
-    Extract (unwrap) the children of not allowed nodes.
-    By default, when `strong` is not allowed, it and it’s content is dropped,
-    but with `unwrapDisallowed` the node itself is dropped but the content used
-*   `linkTarget` (`string` or `(url, text, title) => string`, optional)\
+    Extract (unwrap) the children of not allowed elements.
+    By default, when `strong` is not allowed, it and it’s children is dropped,
+    but with `unwrapDisallowed` the element itself is dropped but the children
+    used
+*   `linkTarget` (`string` or `(href, children, title) => string`, optional)\
     Target to use on links (such as `_blank` for `<a target="_blank"…`)
-*   `transformLinkUri` (`(uri) => string`, default:
+*   `transformLinkUri` (`(href, children, title) => string`, default:
     [`./uri-transformer.js`][uri], optional)\
     URL to use for links.
     The default allows only `http`, `https`, `mailto`, and `tel`, and is
     available at `ReactMarkdown.uriTransformer`.
     Pass `null` to allow all URLs.
     See [security][]
-*   `transformImageUri` (`(uri) => string`, default:
+*   `transformImageUri` (`(src, alt, title) => string`, default:
     [`./uri-transformer.js`][uri], optional)\
     Same as `transformLinkUri` but for images
-*   `renderers` (`Object.<Component>`, default: `{}`)\
-    Object mapping node types to React components.
-    Merged with the default renderers (available at `ReactMarkdown.renderers`).
-    Which props are passed varies based on the node
-*   `plugins` (`Array.<Plugin>`, default: `[]`)\
+*   `components` (`Object.<string, Component>`, default: `{}`)\
+    Object mapping tag names to React components
+*   `remarkPlugins` (`Array.<Plugin>`, default: `[]`)\
     List of [remark plugins][remark-plugins] to use.
+    See the next section for examples on how to pass options
+*   `rehypePlugins` (`Array.<Plugin>`, default: `[]`)\
+    List of [rehype plugins][rehype-plugins] to use.
     See the next section for examples on how to pass options
 
 ## Examples
 
 ### Use a plugin
 
-This example shows how to use a plugin.
+This example shows how to use a remark plugin.
 In this case, [`remark-gfm`][gfm], which adds support for
 strikethrough, tables, tasklists and URLs directly:
 
@@ -161,7 +165,7 @@ A table:
 | - | - |
 `
 
-render(<ReactMarkdown plugins={[gfm]} children={markdown} />, document.body)
+render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.body)
 ```
 
 <details>
@@ -215,7 +219,7 @@ import {render} from 'react-dom'
 import gfm from 'remark-gfm'
 
 render(
-  <ReactMarkdown plugins={[[gfm, {singleTilde: false}]]}>
+  <ReactMarkdown remarkPlugins={[[gfm, {singleTilde: false}]]}>
     This ~is not~ strikethrough, but ~~this is~~!
   </ReactMarkdown>,
   document.body
@@ -233,10 +237,10 @@ render(
 
 </details>
 
-### Use custom renderers (syntax highlight)
+### Use custom components (syntax highlight)
 
-This example shows how you can overwrite the normal handling of a node by
-passing a renderer.
+This example shows how you can overwrite the normal handling of an element by
+passing a component.
 In this case, we apply syntax highlighting with the seriously super amazing
 [`react-syntax-highlighter`][react-syntax-highlighter] by
 [**@conorhastings**][conor]:
@@ -248,9 +252,12 @@ import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import {render} from 'react-dom'
 
-const renderers = {
-  code: ({language, value}) => {
-    return <SyntaxHighlighter style={dark} language={language} children={value} />
+const components = {
+  code({node, className, ...props}) {
+    const match = /language-(\w+)/.exec(className || '')
+    return match
+      ? <SyntaxHighlighter language={match[1]} PreTag="div" style={dark} {...props} />
+      : <code className={className} {...props} />
   }
 }
 
@@ -262,7 +269,7 @@ console.log('It works!')
 ~~~
 `
 
-render(<ReactMarkdown renderers={renderers} children={markdown} />, document.body)
+render(<ReactMarkdown components={components} children={markdown} />, document.body)
 ```
 
 <details>
@@ -271,35 +278,32 @@ render(<ReactMarkdown renderers={renderers} children={markdown} />, document.bod
 ```jsx
 <>
   <p>Here is some JavaScript code:</p>
-  <SyntaxHighlighter language="js" style={dark} children="console.log('It works!')" />
+  <pre>
+    <SyntaxHighlighter language="js" style={dark} PreTag="div" children="console.log('It works!')" />
+  </pre>
 </>
 ```
 
 </details>
 
-### Use a plugin and custom renderers (math)
+### Use remark and rehype plugins (math)
 
-This example shows how a syntax extension is used to support math in markdown
-that adds new node types ([`remark-math`][math]), which are then handled by
-renderers to use [`@matejmazur/react-katex`][react-katex]:
+This example shows how a syntax extension (through [`remark-math`][math])
+is used to support math in markdown, and a transform plugin
+([`rehype-katex`][katex]) to render that math.
 
 ```jsx
 import React from 'react'
-import ReactMarkdown from 'react-markdown'
-import Tex from '@matejmazur/react-katex'
 import {render} from 'react-dom'
-import math from 'remark-math'
-import 'katex/dist/katex.min.css' // `react-katex` does not import the CSS for you
-
-const renderers = {
-  inlineMath: ({value}) => <Tex math={value} />,
-  math: ({value}) => <Tex block math={value} />
-}
+import ReactMarkdown from 'react-markdown'
+import remarkMath from 'remark-math'
+import rehypeKatex from 'rehype-katex'
+import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
 
 render(
   <ReactMarkdown
-    plugins={[math]}
-    renderers={renderers}
+    remarkPlugins={[remarkMath]}
+    rehypePlugins={[rehypeKatex]}
     children={`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
   />,
   document.body
@@ -311,7 +315,18 @@ render(
 
 ```jsx
 <p>
-  The lift coefficient (<Tex math="C_L" />) is a dimensionless coefficient.
+  The lift coefficient (
+  <span className="math math-inline">
+    <span className="katex">
+      <span className="katex-mathml">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">{/* … */}</math>
+      </span>
+      <span className="katex-html" aria-hidden="true">
+        {/* … */}
+      </span>
+    </span>
+  </span>
+  ) is a dimensionless coefficient.
 </p>
 ```
 
@@ -319,97 +334,145 @@ render(
 
 ## Appendix A: HTML in markdown
 
-`react-markdown` typically escapes HTML (or ignores it, with `skipHtml`),
+`react-markdown` typically escapes HTML (or ignores it, with `skipHtml`)
 because it is dangerous and defeats the purpose of this library.
 
-However, if you are in a trusted environment (you trust the markdown), you can
-`react-markdown/with-html`:
+However, if you are in a trusted environment (you trust the markdown), and
+can spare the bundle size (±60kb minzipped), then you can use
+[`rehype-raw`][raw]:
 
 ```jsx
-const React = require('react')
-const ReactMarkdownWithHtml = require('react-markdown/with-html')
-const render = require('react-dom').render
+import React from 'react'
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import {render} from 'react-dom'
 
-const markdown = `
-This Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">allowDangerousHtml</code> property to false.
-`
+const input = `<div class="note">
 
-render(<ReactMarkdownWithHtml children={markdown} allowDangerousHtml />, document.body)
+Some *emphasis* and <strong>strong</strong>!
+
+</div>`
+
+render(<ReactMarkdown rehypePlugins={[rehypeRaw]} children={input} />, document.body)
 ```
 
 <details>
 <summary>Show equivalent JSX</summary>
 
 ```jsx
-<p>
-  This Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require
-  the <code>html-parser</code> AST plugin to be loaded, in addition to setting the{' '}
-  <code className="prop">allowDangerousHtml</code> property to false.
-</p>
+<div class="note">
+  <p>Some <em>emphasis</em> and <strong>strong</strong>!</p>
+</div>
 ```
 
 </details>
 
-If you want to specify options for the HTML parsing step, you can instead import
-the extension directly:
+**Note**: HTML in markdown is still bound by how [HTML works in
+CommonMark][cm-html].
+Make sure to use blank lines around block-level HTML that again contains
+markdown!
 
-```jsx
-const ReactMarkdown = require('react-markdown')
-const htmlParser = require('react-markdown/plugins/html-parser')
+## Appendix B: Components
 
-// For more info on the processing instructions, see
-// <https://github.com/aknuds1/html-to-react#with-custom-processing-instructions>
-const parse = htmlParser({
-  isValidNode: (node) => node.type !== 'script',
-  processingInstructions: [/* ... */]
-})
+You can also change the things that come from markdown:
 
-<ReactMarkdown htmlParser={parse} allowDangerousHtml children={markdown} />
+```js
+<Markdown
+  components={{
+    // Map `h1` (`# heading`) to use `h2`s.
+    h1: 'h2',
+    // Rewrite `em`s (`*like so*`) to `i` with a red foreground color.
+    em: ({node, ...props}) => <i style={{color: 'red'}} {...props} />
+  }}
+/>
 ```
 
-## Appendix B: Node types
+The keys in components are HTML equivalents for the things you write with
+markdown (such as `h1` for `# heading`)**†**
 
-The node types available by default are:
+**†** Normally, in markdown, those are: `a`, `blockquote`, `code`, `em`, `h1`,
+`h2`, `h3`, `h4`, `h5`, `h6`, `hr`, `img`, `li`, `ol`, `p`, `pre`, `strong`, and
+`ul`.
+With [`remark-gfm`][gfm], you can also use: `del`, `input`, `table`, `tbody`,
+`td`, `th`, `thead`, and `tr`.
+Other remark or rehype plugins that add support for new constructs will also
+work with `react-markdown`.
 
-*   `root` — Whole document
-*   `text` — Text (`foo`)
-*   `break` — Hard break (`<br>`)
-*   `paragraph` — Paragraph (`<p>`)
-*   `emphasis` — Emphasis (`<em>`)
-*   `strong` — Strong (`<strong>`)
-*   `thematicBreak` — Horizontal rule (`<hr>`)
-*   `blockquote` — Block quote (`<blockquote>`)
-*   `link` — Link (`<a>`)
-*   `image` — Image (`<img>`)
-*   `linkReference` — Link through a reference (`<a>`)
-*   `imageReference` — Image through a reference (`<img>`)
-*   `list` — List (`<ul>` or `<ol>`)
-*   `listItem` — List item (`<li>`)
-*   `definition` — Definition for a reference (not rendered)
-*   `heading` — Heading (`<h1>` through `<h6>`)
-*   `inlineCode` — Inline code (`<code>`)
-*   `code` — Block of code (`<pre><code>`)
-*   `html` — HTML node (Best-effort rendering)
-*   `virtualHtml` — If `allowDangerousHtml` is not on and `skipHtml` is off, a
-    naive HTML parser is used to support basic HTML
-*   `parsedHtml` — If `allowDangerousHtml` is on, `skipHtml` is off, and
-    `html-parser` is used, more advanced HTML is supported
+The props that are passed are what you probably would expect: an `a` (link) will
+get `href` (and `title`) props, and `img` (image) an `src` (and `title`), etc.
+There are some extra props passed.
 
-With [`remark-gfm`][gfm], the following are also available:
+*   `code`
+    *   `inline` (`boolean?`)
+        — set to `true` for inline code
+    *   `className` (`string?`)
+        — set to `language-js` or so when using ` ```js `
+*   `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
+    *   `level` (`number` beween 1 and 6)
+        — heading rank
+*   `input` (when using [`remark-gfm`][gfm])
+    *   `checked` (`boolean`)
+        — whether the item is checked
+    *   `disabled` (`true`)
+    *   `type` (`'checkbox'`)
+*   `li`
+    *   `index` (`number`)
+        — number of preceding items (so first gets `0`, etc.)
+    *   `ordered` (`boolean`)
+        — whether the parent is an `ol` or not
+    *   `checked` (`boolean?`)
+        — `null` normally, `boolean` when using [`remark-gfm`][gfm]’s tasklists
+    *   `className` (`string?`)
+        — set to `task-list-item` when using [`remark-gfm`][gfm] and the
+        item1 is a tasklist
+*   `ol`, `ul`
+    *   `depth` (`number`)
+        — number of ancestral lists (so first gets `0`, etc.)
+    *   `ordered` (`boolean`)
+        — whether it’s an `ol` or not
+    *   `className` (`string?`)
+        — set to `contains-task-list` when using [`remark-gfm`][gfm] and the
+        list contains one or more tasklists
+*   `td`, `th` (when using [`remark-gfm`][gfm])
+    *   `style` (`Object?`)
+        — something like `{textAlign: 'left'}` depending on how the cell is
+        aligned
+    *   `isHeader` (`boolean`)
+        — whether it’s a `th` or not
+*   `tr` (when using [`remark-gfm`][gfm])
+    *   `isHeader` (`boolean`)
+        — whether it’s in the `thead` or not
 
-*   `delete` — Delete text (`<del>`)
-*   `table` — Table (`<table>`)
-*   `tableHead` — Table head (`<thead>`)
-*   `tableBody` — Table body (`<tbody>`)
-*   `tableRow` — Table row (`<tr>`)
-*   `tableCell` — Table cell (`<td>` or `<th>`)
+Every component will receive a `node` (`Object`).
+This is the original [hast](https://github.com/syntax-tree/hast) element being
+turned into a React element.
+
+Every element will receive a `key` (`string`).
+See [React’s docs](https://reactjs.org/docs/lists-and-keys.html#keys) for more
+info.
+
+Optionally, components will also receive:
+
+*   `data-sourcepos` (`string`)
+    — see `sourcePos` option
+*   `sourcePosition` (`Object`)
+    — see `rawSourcePos` option
+*   `index` and `siblingCount` (`number`)
+    — see `includeElementIndex` option
+*   `target` on `a` (`string`)
+    — see `linkTarget` option
 
 ## Security
 
 Use of `react-markdown` is secure by default.
-Overwriting `transformLinkUri` or `transformImageUri` to something insecure or
-turning `allowDangerousHtml` on, will open you up to XSS vectors.
-Furthermore, the `plugins` you use and `renderers` you write may be insecure.
+Overwriting `transformLinkUri` or `transformImageUri` to something insecure will
+open you up to XSS vectors.
+Furthermore, the `remarkPlugins` and `rehypePlugins` you use and `components`
+you write may be insecure.
+
+To make sure the content is completely safe, even after what plugins do,
+use [`rehype-sanitize`][sanitize].
+That plugin lets you define your own schema of what is and isn’t allowed.
 
 ## Related
 
@@ -480,19 +543,25 @@ abide by its terms.
 
 [position]: https://github.com/syntax-tree/unist#position
 
-[index]: https://github.com/syntax-tree/unist#index
-
 [gfm]: https://github.com/remarkjs/remark-gfm
 
 [math]: https://github.com/remarkjs/remark-math
 
+[katex]: https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex
+
+[raw]: https://github.com/rehypejs/rehype-raw
+
+[sanitize]: https://github.com/rehypejs/rehype-sanitize
+
 [remark-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins
+
+[rehype-plugins]: https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
+
+[cm-html]: https://spec.commonmark.org/0.29/#html-blocks
 
 [uri]: https://github.com/remarkjs/react-markdown/blob/main/src/uri-transformer.js
 
 [security]: #security
-
-[react-katex]: https://github.com/MatejBransky/react-katex
 
 [react-syntax-highlighter]: https://github.com/react-syntax-highlighter/react-syntax-highlighter
 

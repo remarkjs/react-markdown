@@ -144,7 +144,7 @@ With a reference later in the document defining the URL location:
 
 ## Hard breaks
 
-Yeah, hard breaks  
+Yeah, hard breaks\
 can be useful too.
 
 ## HTML entities
@@ -164,7 +164,7 @@ Does anyone actually like the fact that you can embed HTML in markdown?
 We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
 <code>code</code>, as long as it doesn't contain any <span class="attrs">attributes</span>. If you
 have weird ordering on your tags, it won't work either. It does support <strong>nested
-<em>tags</em>, however</strong>. And with the <code class="name">html-parser</code> plugin, it can now properly handle HTML! Which is pretty sweet.
+<em>tags</em>, however</strong>. And with the <code class="name">rehype-raw</code> plugin, it can now properly handle HTML! Which is pretty sweet.
 
 <hr /><hr />
 

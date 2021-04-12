@@ -5,8 +5,7 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "react-markdown": ["index.d.ts"],
-      "react-markdown/with-html": ["with-html.d.ts"]
+      "react-markdown": ["index.d.ts"]
     }
   }
 }
