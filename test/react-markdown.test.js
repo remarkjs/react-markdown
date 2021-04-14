@@ -91,7 +91,8 @@ test('should handle links without title attribute', () => {
 })
 
 test('should handle links with title attribute', () => {
-  const input = 'This is [a link](https://espen.codes/ "some title") to Espen.Codes.'
+  const input =
+    'This is [a link](https://espen.codes/ "some title") to Espen.Codes.'
   const component = renderer.create(<Markdown children={input} />)
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -109,13 +110,17 @@ test('should handle links with custom uri transformer', () => {
    * @returns {string}
    */
   const transform = (uri) => uri.replace(/^https?:/, '')
-  const component = renderer.create(<Markdown transformLinkUri={transform} children={input} />)
+  const component = renderer.create(
+    <Markdown transformLinkUri={transform} children={input} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should use target attribute for links if specified', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-  const component = renderer.create(<Markdown linkTarget="_blank" children={input} />)
+  const component = renderer.create(
+    <Markdown linkTarget="_blank" children={input} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -126,13 +131,17 @@ test('should call function to get target attribute for links if specified', () =
    * @returns {string}
    */
   const getTarget = (uri) => (uri.match(/^http/) ? '_blank' : undefined)
-  const component = renderer.create(<Markdown linkTarget={getTarget} children={input} />)
+  const component = renderer.create(
+    <Markdown linkTarget={getTarget} children={input} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should support images without alt, url, or title', () => {
   const input = '![]()'
-  const actual = renderHTML(<Markdown children={input} transformLinkUri={null} />)
+  const actual = renderHTML(
+    <Markdown children={input} transformLinkUri={null} />
+  )
   const expected = '<p><img src="" alt=""/></p>'
   expect(actual).toEqual(expected)
 })
@@ -156,24 +165,31 @@ test('should handle images with custom uri transformer', () => {
    * @returns {string}
    */
   const transform = (uri) => uri.replace(/\.png$/, '.jpg')
-  const component = renderer.create(<Markdown transformImageUri={transform} children={input} />)
+  const component = renderer.create(
+    <Markdown transformImageUri={transform} children={input} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should handle image references with custom uri transformer', () => {
-  const input = 'This is ![The Waffle Ninja][ninja].\n\n[ninja]: https://some.host/img.png'
+  const input =
+    'This is ![The Waffle Ninja][ninja].\n\n[ninja]: https://some.host/img.png'
   /**
    * @param {string} uri
    * @returns {string}
    */
   const transform = (uri) => uri.replace(/\.png$/, '.jpg')
-  const component = renderer.create(<Markdown transformImageUri={transform} children={input} />)
+  const component = renderer.create(
+    <Markdown transformImageUri={transform} children={input} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should support images references without alt, url, or title', () => {
   const input = '![][a]\n\n[a]: <>'
-  const actual = renderHTML(<Markdown children={input} transformLinkUri={null} />)
+  const actual = renderHTML(
+    <Markdown children={input} transformLinkUri={null} />
+  )
   const expected = '<p><img src="" alt=""/></p>'
   expect(actual).toEqual(expected)
 })
@@ -185,11 +201,21 @@ test('should handle images with special characters in alternative text', () => {
 })
 
 test('should be able to render headers', () => {
-  expect(renderHTML(<Markdown children={'# Awesome'} />)).toEqual('<h1>Awesome</h1>')
-  expect(renderHTML(<Markdown children={'## Awesome'} />)).toEqual('<h2>Awesome</h2>')
-  expect(renderHTML(<Markdown children={'### Awesome'} />)).toEqual('<h3>Awesome</h3>')
-  expect(renderHTML(<Markdown children={'#### Awesome'} />)).toEqual('<h4>Awesome</h4>')
-  expect(renderHTML(<Markdown children={'##### Awesome'} />)).toEqual('<h5>Awesome</h5>')
+  expect(renderHTML(<Markdown children={'# Awesome'} />)).toEqual(
+    '<h1>Awesome</h1>'
+  )
+  expect(renderHTML(<Markdown children={'## Awesome'} />)).toEqual(
+    '<h2>Awesome</h2>'
+  )
+  expect(renderHTML(<Markdown children={'### Awesome'} />)).toEqual(
+    '<h3>Awesome</h3>'
+  )
+  expect(renderHTML(<Markdown children={'#### Awesome'} />)).toEqual(
+    '<h4>Awesome</h4>'
+  )
+  expect(renderHTML(<Markdown children={'##### Awesome'} />)).toEqual(
+    '<h5>Awesome</h5>'
+  )
 })
 
 test('should be able to render inline code', () => {
@@ -225,9 +251,13 @@ test('should support character references in code blocks', () => {
 })
 
 test('should handle code blocks by indentation', () => {
-  const input = ['', '<footer class="footer">\n', '', '&copy; 2014 Foo Bar\n', '</footer>'].join(
-    '    '
-  )
+  const input = [
+    '',
+    '<footer class="footer">\n',
+    '',
+    '&copy; 2014 Foo Bar\n',
+    '</footer>'
+  ].join('    ')
   expect(renderHTML(<Markdown children={input} />)).toMatchSnapshot()
 })
 
@@ -323,7 +353,9 @@ test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () =
     return React.createElement('ul', props)
   }
   const components = {li, ol, ul}
-  const component = renderer.create(<Markdown children={input} components={components} />)
+  const component = renderer.create(
+    <Markdown children={input} components={components} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -345,7 +377,8 @@ test('should pass `inline: true` to inline code', () => {
       }}
     />
   )
-  const expected = '<pre><code>a\n</code></pre>\n<pre><code>b\n</code></pre>\n<p><code>c</code></p>'
+  const expected =
+    '<pre><code>a\n</code></pre>\n<pre><code>b\n</code></pre>\n<p><code>c</code></p>'
   expect(actual).toEqual(expected)
 })
 
@@ -430,7 +463,10 @@ test('should pass `level: number` to `h1`, `h2`, ...', () => {
     return React.createElement(`h${level}`, props)
   }
   const actual = renderHTML(
-    <Markdown children={input} components={{h1: heading, h2: heading, h3: heading}} />
+    <Markdown
+      children={input}
+      components={{h1: heading, h2: heading, h3: heading}}
+    />
   )
   const expected = '<h1></h1>\n<h2></h2>\n<h3></h3>'
   expect(actual).toEqual(expected)
@@ -498,25 +534,34 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
     expect(sourcePosition).toMatchSnapshot()
     return <em className="custom" {...props} />
   }
-  const component = renderer.create(<Markdown children={input} components={{em}} rawSourcePos />)
+  const component = renderer.create(
+    <Markdown children={input} components={{em}} rawSourcePos />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should skip nodes that are not defined as allowed', () => {
-  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
+  const input =
+    '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
   const allowed = ['p', 'ol', 'li']
-  const component = renderer.create(<Markdown children={input} allowedElements={allowed} />)
+  const component = renderer.create(
+    <Markdown children={input} allowedElements={allowed} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should skip nodes that are defined as disallowed', () => {
-  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
-  const component = renderer.create(<Markdown children={input} disallowedElements={['li']} />)
+  const input =
+    '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
+  const component = renderer.create(
+    <Markdown children={input} disallowedElements={['li']} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should unwrap child nodes from disallowed nodes, if unwrapDisallowed option is enabled', () => {
-  const input = 'Espen *~~initiated~~ had the initial commit*, but has had several **contributors**'
+  const input =
+    'Espen *~~initiated~~ had the initial commit*, but has had several **contributors**'
   const component = renderer.create(
     <Markdown
       children={input}
@@ -540,13 +585,17 @@ test('should render tables', () => {
     ''
   ].join('\n')
 
-  expect(renderHTML(<Markdown children={input} remarkPlugins={[gfm]} />)).toMatchSnapshot()
+  expect(
+    renderHTML(<Markdown children={input} remarkPlugins={[gfm]} />)
+  ).toMatchSnapshot()
 })
 
 test('should render partial tables', () => {
   const input = 'User is writing a table by hand\n\n| Test | Test |\n|-|-|'
 
-  expect(renderHTML(<Markdown children={input} remarkPlugins={[gfm]} />)).toMatchSnapshot()
+  expect(
+    renderHTML(<Markdown children={input} remarkPlugins={[gfm]} />)
+  ).toMatchSnapshot()
 })
 
 test('should render link references', () => {
@@ -560,7 +609,8 @@ test('should render link references', () => {
 })
 
 test('should render empty link references', () => {
-  const input = 'Stuff were changed in [][]. Check out the changelog for reference.'
+  const input =
+    'Stuff were changed in [][]. Check out the changelog for reference.'
 
   expect(renderHTML(<Markdown children={input} />)).toMatchSnapshot()
 })
@@ -576,15 +626,20 @@ test('should render image references', () => {
 })
 
 test('should support definitions with funky keys', () => {
-  const input = '[][__proto__] and [][constructor]\n\n[__proto__]: a\n[constructor]: b'
-  const actual = renderHTML(<Markdown children={input} transformLinkUri={null} />)
+  const input =
+    '[][__proto__] and [][constructor]\n\n[__proto__]: a\n[constructor]: b'
+  const actual = renderHTML(
+    <Markdown children={input} transformLinkUri={null} />
+  )
   const expected = '<p><a href="a"></a> and <a href="b"></a></p>'
   expect(actual).toEqual(expected)
 })
 
 test('should support duplicate definitions', () => {
   const input = '[a][]\n\n[a]: b\n[a]: c'
-  const actual = renderHTML(<Markdown children={input} transformLinkUri={null} />)
+  const actual = renderHTML(
+    <Markdown children={input} transformLinkUri={null} />
+  )
   const expected = '<p><a href="b">a</a></p>'
   expect(actual).toEqual(expected)
 })
@@ -594,11 +649,20 @@ describe('should skip nodes that are defined as disallowed', () => {
     p: {input: 'Paragraphs are cool', shouldNotContain: 'Paragraphs are cool'},
     h1: {input: '# Headers are neat', shouldNotContain: 'Headers are neat'},
     br: {input: 'Text  \nHardbreak', shouldNotContain: '<br/>'},
-    a: {input: "[Espen's blog](http://espen.codes/) yeh?", shouldNotContain: '<a'},
+    a: {
+      input: "[Espen's blog](http://espen.codes/) yeh?",
+      shouldNotContain: '<a'
+    },
     img: {input: 'Holy ![ninja](/ninja.png), batman', shouldNotContain: '<img'},
     em: {input: 'Many *contributors*', shouldNotContain: '<em'},
-    code: {input: "```\nvar moo = require('bar');\nmoo();\n```", shouldNotContain: '<pre><code>'},
-    blockquote: {input: '> Moo\n> Tools\n> FTW\n', shouldNotContain: '<blockquote'},
+    code: {
+      input: "```\nvar moo = require('bar');\nmoo();\n```",
+      shouldNotContain: '<pre><code>'
+    },
+    blockquote: {
+      input: '> Moo\n> Tools\n> FTW\n',
+      shouldNotContain: '<blockquote'
+    },
     ul: {input: '* A list\n*Of things', shouldNotContain: 'Of things'},
     li: {input: '* IPA\n*Imperial Stout\n', shouldNotContain: '<li'},
     strong: {input: "Don't **give up**, alright?", shouldNotContain: 'give up'},
@@ -619,14 +683,22 @@ describe('should skip nodes that are defined as disallowed', () => {
       ).not.toContain(sample.shouldNotContain)
 
       // Just for sanity's sake, let ensure that the opposite is true
-      expect(renderHTML(<Markdown children={fullInput} />)).toContain(sample.shouldNotContain)
+      expect(renderHTML(<Markdown children={fullInput} />)).toContain(
+        sample.shouldNotContain
+      )
     })
   })
 })
 
 test('should throw if both allowed and disallowed types is specified', () => {
   expect(() => {
-    renderHTML(<Markdown children="" allowedElements={['p']} disallowedElements={['a']} />)
+    renderHTML(
+      <Markdown
+        children=""
+        allowedElements={['p']}
+        disallowedElements={['a']}
+      />
+    )
   }).toThrow(/Only one of/i)
 })
 
@@ -644,7 +716,9 @@ test('should be able to use a custom function to determine if the node should be
     (typeof element.properties.href === 'string' &&
       element.properties.href.indexOf('https://github.com/') === 0)
 
-  expect(renderHTML(<Markdown allowElement={allow} children={input} />)).toEqual(
+  expect(
+    renderHTML(<Markdown allowElement={allow} children={input} />)
+  ).toEqual(
     [
       '<h1>Header</h1>',
       '<p><a href="https://github.com/remarkjs/react-markdown/">react-markdown</a> is a nice helper</p>',
@@ -654,7 +728,8 @@ test('should be able to use a custom function to determine if the node should be
 })
 
 test('should be able to override components', () => {
-  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
+  const input =
+    '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
   /**
    * @param {number} level
    */
@@ -663,7 +738,9 @@ test('should be able to override components', () => {
      * @param {Object} props
      * @param {ReactNode[]} props.children
      */
-    const component = (props) => <span className={`heading level-${level}`}>{props.children}</span>
+    const component = (props) => (
+      <span className={`heading level-${level}`}>{props.children}</span>
+    )
     return component
   }
   const component = renderer.create(
@@ -673,42 +750,59 @@ test('should be able to override components', () => {
 })
 
 test('should throw on invalid component', () => {
-  const input = '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
+  const input =
+    '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
   const components = {h1: 123}
   // @ts-ignore runtime
-  expect(() => renderHTML(<Markdown children={input} components={components} />)).toThrow(
-    /Component for name `h1`/
-  )
+  expect(() =>
+    renderHTML(<Markdown children={input} components={components} />)
+  ).toThrow(/Component for name `h1`/)
 })
 
 test('can render the whole spectrum of markdown within a single run', (done) => {
-  fs.readFile(path.join(__dirname, 'fixtures', 'runthrough.md'), 'utf8', (err, fixture) => {
-    if (err) {
-      done(err)
-      return
-    }
+  fs.readFile(
+    path.join(__dirname, 'fixtures', 'runthrough.md'),
+    'utf8',
+    (err, fixture) => {
+      if (err) {
+        done(err)
+        return
+      }
 
-    const component = renderer.create(
-      <Markdown children={fixture} remarkPlugins={[gfm]} rehypePlugins={[raw]} />
-    )
-    expect(component.toJSON()).toMatchSnapshot()
-    done()
-  })
+      const component = renderer.create(
+        <Markdown
+          children={fixture}
+          remarkPlugins={[gfm]}
+          rehypePlugins={[raw]}
+        />
+      )
+      expect(component.toJSON()).toMatchSnapshot()
+      done()
+    }
+  )
 })
 
 test('can render the whole spectrum of markdown within a single run (with html parser)', (done) => {
-  fs.readFile(path.join(__dirname, 'fixtures', 'runthrough.md'), 'utf8', (err, fixture) => {
-    if (err) {
-      done(err)
-      return
-    }
+  fs.readFile(
+    path.join(__dirname, 'fixtures', 'runthrough.md'),
+    'utf8',
+    (err, fixture) => {
+      if (err) {
+        done(err)
+        return
+      }
 
-    const component = renderer.create(
-      <Markdown children={fixture} remarkPlugins={[gfm]} rehypePlugins={[raw]} />
-    )
-    expect(component.toJSON()).toMatchSnapshot()
-    done()
-  })
+      const component = renderer.create(
+        <Markdown
+          children={fixture}
+          remarkPlugins={[gfm]}
+          rehypePlugins={[raw]}
+        />
+      )
+      expect(component.toJSON()).toMatchSnapshot()
+      done()
+    }
+  )
 })
 
 test('should support math', () => {
@@ -717,7 +811,10 @@ test('should support math', () => {
    * @param {Element} props.node
    */
   function handle({node, ...props}) {
-    if (Array.isArray(node.properties.className) && node.properties.className.includes('math')) {
+    if (
+      Array.isArray(node.properties.className) &&
+      node.properties.className.includes('math')
+    ) {
       return (
         // @ts-ignore broken types?
         <TeX
@@ -772,27 +869,36 @@ test('allows specifying a custom URI-transformer', () => {
    * @returns {string}
    */
   const transform = (uri) => uri.replace(/^https?:\/\/github\.com\//i, '/')
-  const component = renderer.create(<Markdown children={input} transformLinkUri={transform} />)
+  const component = renderer.create(
+    <Markdown children={input} transformLinkUri={transform} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('should support turning off the default URI transform', () => {
   const input = '[a](data:text/html,<script>alert(1)</script>)'
-  const actual = renderHTML(<Markdown children={input} transformLinkUri={null} />)
-  const expected = '<p><a href="data:text/html,%3Cscript%3Ealert(1)%3C/script%3E">a</a></p>'
+  const actual = renderHTML(
+    <Markdown children={input} transformLinkUri={null} />
+  )
+  const expected =
+    '<p><a href="data:text/html,%3Cscript%3Ealert(1)%3C/script%3E">a</a></p>'
   expect(actual).toEqual(expected)
 })
 
 test('can use parser plugins', () => {
   const input = 'a ~b~ c'
 
-  const component = renderer.create(<Markdown children={input} remarkPlugins={[gfm]} />)
+  const component = renderer.create(
+    <Markdown children={input} remarkPlugins={[gfm]} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
 test('supports checkbox lists', () => {
   const input = '- [ ] Foo\n- [x] Bar\n\n---\n\n- Foo\n- Bar'
-  const component = renderer.create(<Markdown children={input} remarkPlugins={[gfm]} />)
+  const component = renderer.create(
+    <Markdown children={input} remarkPlugins={[gfm]} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -828,7 +934,9 @@ test('should be able to render components with forwardRef in HOC', () => {
   const wrapped = (props) => <a {...props} />
 
   const component = renderer.create(
-    <Markdown components={{a: wrapper(wrapped)}}>[Link](https://example.com/)</Markdown>
+    <Markdown components={{a: wrapper(wrapped)}}>
+      [Link](https://example.com/)
+    </Markdown>
   )
   expect(component.toJSON()).toMatchSnapshot()
 })
@@ -843,7 +951,9 @@ test('should render table of contents plugin', () => {
     '## Third Section'
   ].join('\n')
 
-  const component = renderer.create(<Markdown children={input} remarkPlugins={[toc]} />)
+  const component = renderer.create(
+    <Markdown children={input} remarkPlugins={[toc]} />
+  )
   expect(component.toJSON()).toMatchSnapshot()
 })
 
@@ -862,7 +972,9 @@ test('should pass `node` as prop to all non-tag/non-fragment components', () => 
     return text
   }
 
-  const component = renderer.create(<Markdown components={{h1}} children={input} />)
+  const component = renderer.create(
+    <Markdown components={{h1}} children={input} />
+  )
   expect(component.toJSON()).toBe("So, headers... they're cool")
 })
 
@@ -884,7 +996,9 @@ test('should support aria properties', () => {
       children: []
     })
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected = '<input id="a" aria-describedby="b" required=""/><p>c</p>'
   expect(actual).toEqual(expected)
 })
@@ -899,7 +1013,9 @@ test('should support data properties', () => {
       children: []
     })
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected = '<i data-whatever="a"></i><p>b</p>'
   expect(actual).toEqual(expected)
 })
@@ -914,7 +1030,9 @@ test('should support comma separated properties', () => {
       children: []
     })
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected = '<i accept="a, b"></i><p>c</p>'
   expect(actual).toEqual(expected)
 })
@@ -929,7 +1047,9 @@ test('should support `style` properties', () => {
       children: []
     })
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected = '<i style="color:red;font-weight:bold"></i><p>a</p>'
   expect(actual).toEqual(expected)
 })
@@ -944,7 +1064,9 @@ test('should support `style` properties w/ vendor prefixes', () => {
       children: []
     })
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected = '<i style="-ms-b:1;-webkit-c:2"></i><p>a</p>'
   expect(actual).toEqual(expected)
 })
@@ -959,7 +1081,9 @@ test('should support broken `style` properties', () => {
       children: []
     })
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected = '<i></i><p>a</p>'
   expect(actual).toEqual(expected)
 })
@@ -978,13 +1102,25 @@ test('should support SVG elements', () => {
           properties: {},
           children: [{type: 'text', value: 'SVG `<circle>` element'}]
         },
-        {type: 'element', tagName: 'circle', properties: {cx: 120, cy: 120, r: 100}, children: []},
+        {
+          type: 'element',
+          tagName: 'circle',
+          properties: {cx: 120, cy: 120, r: 100},
+          children: []
+        },
         // `strokeMiterLimit` in hast, `strokeMiterlimit` in React.
-        {type: 'element', tagName: 'path', properties: {strokeMiterLimit: -1}, children: []}
+        {
+          type: 'element',
+          tagName: 'path',
+          properties: {strokeMiterLimit: -1},
+          children: []
+        }
       ]
     })
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><title>SVG `&lt;circle&gt;` element</title><circle cx="120" cy="120" r="100"></circle><path stroke-miterlimit="-1"></path></svg><p>a</p>'
   expect(actual).toEqual(expected)
@@ -995,7 +1131,9 @@ test('should support (ignore) comments', () => {
   const plugin = () => (/** @type {Root} */ tree) => {
     tree.children.unshift({type: 'comment', value: 'things!'})
   }
-  const actual = renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  const actual = renderHTML(
+    <Markdown rehypePlugins={[plugin]} children={input} />
+  )
   const expected = '<p>a</p>'
   expect(actual).toEqual(expected)
 })
@@ -1018,7 +1156,7 @@ test('should support table cells w/ style', () => {
 test('should crash on a plugin replacing `root`', () => {
   const input = 'a'
   const plugin = () => () => ({type: 'comment', value: 'things!'})
-  expect(() => renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)).toThrow(
-    /Expected a `root` node/
-  )
+  expect(() =>
+    renderHTML(<Markdown rehypePlugins={[plugin]} children={input} />)
+  ).toThrow(/Expected a `root` node/)
 })

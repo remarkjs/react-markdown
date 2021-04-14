@@ -36,7 +36,8 @@ const childrenToReact = require('./ast-to-react.js').hastChildrenToReact
 module.exports = ReactMarkdown
 
 const own = {}.hasOwnProperty
-const changelog = 'https://github.com/remarkjs/react-markdown/blob/main/changelog.md'
+const changelog =
+  'https://github.com/remarkjs/react-markdown/blob/main/changelog.md'
 
 /**
  * @typedef {Object} Deprecation
@@ -53,8 +54,14 @@ const deprecated = {
   allowDangerousHtml: {id: 'remove-buggy-html-in-markdown-parser'},
   escapeHtml: {id: 'remove-buggy-html-in-markdown-parser'},
   source: {to: 'children', id: 'change-source-to-children'},
-  allowNode: {to: 'allowElement', id: 'replace-allownode-allowedtypes-and-disallowedtypes'},
-  allowedTypes: {to: 'allowedElements', id: 'replace-allownode-allowedtypes-and-disallowedtypes'},
+  allowNode: {
+    to: 'allowElement',
+    id: 'replace-allownode-allowedtypes-and-disallowedtypes'
+  },
+  allowedTypes: {
+    to: 'allowedElements',
+    id: 'replace-allownode-allowedtypes-and-disallowedtypes'
+  },
   disallowedTypes: {
     to: 'disallowedElements',
     id: 'replace-allownode-allowedtypes-and-disallowedtypes'

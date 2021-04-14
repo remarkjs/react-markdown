@@ -236,14 +236,23 @@ function toReact(context, node, index, parent) {
   }
   /** @type {NormalComponent|SpecialComponents[keyof SpecialComponents]|ReactMarkdownNames} */
   const component =
-    options.components && own.call(options.components, name) ? options.components[name] : name
+    options.components && own.call(options.components, name)
+      ? options.components[name]
+      : name
   const basic = typeof component === 'string' || component === React.Fragment
 
   if (!ReactIs.isValidElementType(component)) {
-    throw new TypeError(`Component for name \`${name}\` not defined or is not renderable`)
+    throw new TypeError(
+      `Component for name \`${name}\` not defined or is not renderable`
+    )
   }
 
-  properties.key = [name, position.start.line, position.start.column, index].join('-')
+  properties.key = [
+    name,
+    position.start.line,
+    position.start.column,
+    index
+  ].join('-')
 
   if (name === 'a' && options.linkTarget) {
     properties.target =
@@ -255,7 +264,11 @@ function toReact(context, node, index, parent) {
 
   if (name === 'a' && options.transformLinkUri) {
     // @ts-ignore assume `href` is a string
-    properties.href = options.transformLinkUri(properties.href, node.children, properties.title)
+    properties.href = options.transformLinkUri(
+      properties.href,
+      node.children,
+      properties.title
+    )
   }
 
   if (!basic && name === 'code' && parent.tagName !== 'pre') {
@@ -276,7 +289,11 @@ function toReact(context, node, index, parent) {
 
   if (name === 'img' && options.transformImageUri) {
     // @ts-ignore assume `src` is a string
-    properties.src = options.transformImageUri(properties.src, properties.alt, properties.title)
+    properties.src = options.transformImageUri(
+      properties.src,
+      properties.alt,
+      properties.title
+    )
   }
 
   if (!basic && name === 'li') {
@@ -398,7 +415,9 @@ function addProperty(props, prop, value, ctx) {
 
   if (info.space) {
     props[
-      own.call(hastToReact, info.property) ? hastToReact[info.property] : info.property
+      own.call(hastToReact, info.property)
+        ? hastToReact[info.property]
+        : info.property
     ] = result
   } else {
     props[info.attribute] = result
@@ -444,7 +463,15 @@ function styleReplacer(_, $1) {
  * @returns {string}
  */
 function flattenPosition(pos) {
-  return [pos.start.line, ':', pos.start.column, '-', pos.end.line, ':', pos.end.column]
+  return [
+    pos.start.line,
+    ':',
+    pos.start.column,
+    '-',
+    pos.end.line,
+    ':',
+    pos.end.column
+  ]
     .map(String)
     .join('')
 }

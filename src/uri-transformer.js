@@ -24,7 +24,10 @@ function uriTransformer(uri) {
   while (++index < protocols.length) {
     const protocol = protocols[index]
 
-    if (colon === protocol.length && url.slice(0, protocol.length).toLowerCase() === protocol) {
+    if (
+      colon === protocol.length &&
+      url.slice(0, protocol.length).toLowerCase() === protocol
+    ) {
       return url
     }
   }
