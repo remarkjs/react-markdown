@@ -109,11 +109,11 @@
     "@types/react-is": "^17.0.0",
     "@types/react-test-renderer": "^17.0.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
-    "eslint": "^7.0.0",
-    "eslint-config-prettier": "^8.0.0",
-    "eslint-config-sanity": "^5.0.0",
+    "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "eslint-plugin-security": "^1.0.0",
     "jest": "^26.0.0",
     "katex": "^0.13.0",
     "npm-run-all": "^4.0.0",
@@ -133,7 +133,8 @@
     "rollup-plugin-terser": "^7.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^4.0.0",
-    "uglify-js": "^3.0.0"
+    "uglify-js": "^3.0.0",
+    "xo": "^0.38.2"
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
@@ -142,7 +143,7 @@
     "build:umd": "rollup --silent -c",
     "build:umdcheck": "printf 'ES5? ' && uglifyjs react-markdown.min.js > /dev/null && echo 'Yes'",
     "build": "run-s build:*",
-    "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && eslint . --fix",
+    "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && xo --fix",
     "test": "run-s build format test:*",
     "test:unit": "jest --coverage"
   },
@@ -176,15 +177,6 @@
       }
     }
   },
-  "prettier": {
-    "bracketSpacing": false,
-    "printWidth": 100,
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "none",
-    "useTabs": false
-  },
   "typeCoverage": {
     "atLeast": 100,
     "detail": true,
@@ -195,43 +187,42 @@
       "src/react-markdown.d.ts"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "sanity",
-      "prettier",
-      "plugin:react/recommended"
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false,
+    "extends": "xo-react",
+    "envs": [
+      "shared-node-browser"
     ],
-    "env": {
-      "node": true,
-      "browser": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2020,
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "rules": {
-      "strict": 0
-    },
     "overrides": [
       {
         "files": [
           "src/**/*.js"
         ],
         "extends": [
-          "plugin:es/restrict-to-es2015"
-        ]
+          "plugin:es/restrict-to-es2015",
+          "plugin:security/recommended"
+        ],
+        "rules": {
+          "capitalized-comments": "off",
+          "complexity": "off",
+          "security/detect-object-injection": "off",
+          "unicorn/prefer-number-properties": "off",
+          "unicorn/prefer-optional-catch-binding": "off"
+        }
       },
       {
-        "env": {
-          "jest": true
-        },
+        "envs": [
+          "jest"
+        ],
         "files": [
           "test/**/*.js"
         ],
