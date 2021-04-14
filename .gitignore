@@ -4,6 +4,5 @@ node_modules/
 *.d.ts
 *.log
 .DS_Store
-package-lock.json
 react-markdown.min.js
 yarn.lock
