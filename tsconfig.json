@@ -1,11 +1,21 @@
 {
+  "include": ["*.js", "src/**.js", "test/**.js"],
+  "exclude": ["**/*.min.js"],
   "compilerOptions": {
+    "target": "ES2015",
     "lib": ["ES2015", "DOM"],
-    "strict": true,
+    "moduleResolution": "node",
     "jsx": "react",
-    "baseUrl": ".",
-    "paths": {
-      "react-markdown": ["index.d.ts"]
-    }
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false
   }
 }

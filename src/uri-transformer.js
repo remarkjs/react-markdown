@@ -1,6 +1,12 @@
 const protocols = ['http', 'https', 'mailto', 'tel']
 
-module.exports = function uriTransformer(uri) {
+module.exports = uriTransformer
+
+/**
+ * @param {string} uri
+ * @returns {string}
+ */
+function uriTransformer(uri) {
   const url = (uri || '').trim()
   const first = url.charAt(0)
 
@@ -13,10 +19,9 @@ module.exports = function uriTransformer(uri) {
     return url
   }
 
-  const length = protocols.length
   let index = -1
 
-  while (++index < length) {
+  while (++index < protocols.length) {
     const protocol = protocols[index]
 
     if (colon === protocol.length && url.slice(0, protocol.length).toLowerCase() === protocol) {
