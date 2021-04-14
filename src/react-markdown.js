@@ -100,7 +100,6 @@ function ReactMarkdown(options) {
 
   /** @type {Root} */
   // @ts-ignore we’ll throw if it isn’t a root next.
-  // eslint-disable-next-line no-sync
   const hastNode = processor.runSync(processor.parse(options.children || ''))
 
   if (hastNode.type !== 'root') {

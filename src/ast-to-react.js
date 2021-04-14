@@ -190,7 +190,6 @@ function childrenToReact(context, node) {
  * @param {number} index
  * @param {Element|Root} parent
  */
-// eslint-disable-next-line complexity, max-statements
 function toReact(context, node, index, parent) {
   const options = context.options
   const parentSchema = context.schema
@@ -263,8 +262,8 @@ function toReact(context, node, index, parent) {
   }
 
   if (name === 'a' && options.transformLinkUri) {
-    // @ts-ignore assume `href` is a string
     properties.href = options.transformLinkUri(
+      // @ts-ignore assume `href` is a string
       properties.href,
       node.children,
       properties.title
@@ -288,8 +287,8 @@ function toReact(context, node, index, parent) {
   }
 
   if (name === 'img' && options.transformImageUri) {
-    // @ts-ignore assume `src` is a string
     properties.src = options.transformImageUri(
+      // @ts-ignore assume `src` is a string
       properties.src,
       properties.alt,
       properties.title
@@ -345,7 +344,7 @@ function toReact(context, node, index, parent) {
   }
 
   // Ensure no React warnings are emitted for void elements w/ children.
-  return children.length
+  return children.length > 0
     ? React.createElement(component, properties, children)
     : React.createElement(component, properties)
 }
@@ -434,7 +433,7 @@ function parseStyle(value) {
 
   try {
     style(value, iterator)
-  } catch (/** @type {Error} */ error) {
+  } catch (/** @type {Error} */ _) {
     // Silent.
   }
 
@@ -472,6 +471,6 @@ function flattenPosition(pos) {
     ':',
     pos.end.column
   ]
-    .map(String)
+    .map((d) => String(d))
     .join('')
 }

@@ -143,7 +143,7 @@
     "build:umd": "rollup --silent -c",
     "build:umdcheck": "printf 'ES5? ' && uglifyjs react-markdown.min.js > /dev/null && echo 'Yes'",
     "build": "run-s build:*",
-    "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && xo",
+    "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && xo --fix",
     "test": "run-s build format test:*",
     "test:unit": "jest --coverage"
   },
@@ -203,6 +203,22 @@
       "shared-node-browser"
     ],
     "overrides": [
+      {
+        "files": [
+          "src/**/*.js"
+        ],
+        "extends": [
+          "plugin:es/restrict-to-es2015",
+          "plugin:security/recommended"
+        ],
+        "rules": {
+          "capitalized-comments": "off",
+          "complexity": "off",
+          "security/detect-object-injection": "off",
+          "unicorn/prefer-number-properties": "off",
+          "unicorn/prefer-optional-catch-binding": "off"
+        }
+      },
       {
         "envs": [
           "jest"
