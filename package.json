@@ -113,6 +113,7 @@
     "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-plugin-security": "^1.0.0",
     "jest": "^26.0.0",
     "katex": "^0.13.0",
