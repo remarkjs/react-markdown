@@ -1,5 +1,4 @@
 coverage/
-lib/
 *.html
 *.md
 react-markdown.min.js
