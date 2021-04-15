@@ -59,9 +59,9 @@ tables, strikethrough, tasklists, and literal URLs.
 These features **do not work by default**.
 👆 Use the toggle above to add the plugin.
 
-| Feature    | Support                |
-| ---------: | :--------------------- |
-| CommonMark | 100%                   |
+| Feature    | Support              |
+| ---------: | :------------------- |
+| CommonMark | 100%                 |
 | GFM        | 100% w/ \`remark-gfm\` |
 
 ~~strikethrough~~
@@ -70,8 +70,6 @@ These features **do not work by default**.
 * [x] checked item
 
 https://example.com
-
-Pretty neat, eh?
 
 ## HTML in markdown
 
