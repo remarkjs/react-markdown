@@ -8,10 +8,6 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-⚠️ Note: the below readme is for the upcoming release of `react-markdown@6.0.0`.
-[See the last released readme (`5.0.3`) here
-»](https://github.com/remarkjs/react-markdown/tree/22bb78747d768181cb9ea8711b5e13c3768921d8#readme)
-
 Markdown component for React using [**remark**][remark].
 
 [Learn markdown here][learn] and [check out the demo here][demo].
