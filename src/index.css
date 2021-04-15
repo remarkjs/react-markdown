@@ -1,0 +1,163 @@
+:root {
+  --ff-sans: system-ui;
+  --ff-mono:
+    'San Francisco Mono',
+    'Monaco',
+    'Consolas',
+    'Lucida Console',
+    'DejaVu Sans Mono',
+    'Bitstream Vera Sans Mono',
+    monospace;
+  --gray-0: #fafbfc;
+  --gray-2: #e1e4e8;
+  --gray-4: #959da5;
+  --gray-6: #586069;
+  --gray-8: #2f363d;
+  --gray-10: #1b1f23;
+}
+
+* {
+  line-height: calc(1em + 1ex);
+  box-sizing: border-box;
+}
+
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  word-wrap: break-word;
+  font-kerning: normal;
+  font-family: var(--ff-sans);
+  font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+}
+
+textarea,
+code,
+pre,
+kbd {
+  font-family: var(--ff-mono);
+  font-feature-settings: normal;
+  font-size: smaller;
+}
+
+body {
+  background-color: var(--gray-10);
+  color: var(--gray-0);
+  margin: 0;
+}
+
+.page-header {
+  font-size: inherit;
+  margin: calc(1em + 1ex);
+}
+
+.editor,
+.result {
+  position: fixed;
+  top: calc(3 * (1em + 1ex));
+  bottom: 0;
+  overflow: auto;
+}
+
+.editor {
+  left: 0;
+  width: 50%;
+}
+
+.result {
+  right: 0;
+  left: 50%;
+  background-color: var(--gray-0);
+  padding: calc(1em + 1ex);
+}
+
+.CodeMirror {
+  width: 100%;
+  height: 100%;
+}
+
+.editor textarea {
+  display: block;
+  min-height: 100vh;
+  width: 100%;
+  border: 0;
+  resize: none;
+  padding: calc(1em + 1ex);
+  background-color: var(--gray-10);
+  color: var(--gray-0);
+}
+
+.controls {
+  color: var(--gray-0);
+  background-color: var(--gray-10);
+  padding: calc(1ex);
+  padding-top: 0;
+}
+
+.controls label {
+  font-size: smaller;
+  display: block;
+}
+
+.github-corner svg {
+  z-index: 1;
+  width: calc(6.5 * (1em + 1ex));
+  height: calc(6.5 * (1em + 1ex));
+}
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+
+.show-big {
+  display: none;
+}
+
+/* Fix too low contrast on code */
+.cm-s-nord span.cm-comment {
+  color: var(--gray-4) !important;
+}
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+
+@media (max-width: 40em) {
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+}
+
+@media (min-width: 40em) {
+  html {
+    font-size: 1.125em;
+  }
+
+  .controls {
+    position: fixed;
+    top: calc(3 * (1em + 1ex));
+    right: 50%;
+    z-index: 4;
+    border-bottom-left-radius: 1ex;
+  }
+
+  .show-big {
+    display: initial;
+  }
+}

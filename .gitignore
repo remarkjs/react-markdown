@@ -1,4 +1,4 @@
-dest/index.js
+dest/
 node_modules/
 *.log
 .DS_Store

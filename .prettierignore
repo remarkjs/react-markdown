@@ -1,4 +1,3 @@
-dest/index.js
+dest/
 *.html
-*.json
 *.md

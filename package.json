@@ -1,80 +1,82 @@
 {
-  "name": "react-markdown-website",
+  "name": "www-react-markdown",
   "private": true,
   "license": "MIT",
   "repository": "remarkjs/react-markdown",
   "bugs": "https://github.com/remarkjs/react-markdown/issues",
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
   "contributors": [],
-  "dependencies": {},
-  "peerDependencies": {},
+  "type": "module",
   "devDependencies": {
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
-    "@rollup/plugin-babel": "^5.0.0",
-    "@rollup/plugin-commonjs": "^15.0.0",
-    "@rollup/plugin-json": "^4.0.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "@rollup/plugin-replace": "^2.0.0",
-    "eslint": "^7.0.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-config-sanity": "^4.0.0",
+    "cssnano": "^5.0.0",
+    "esbuild": "^0.11.0",
+    "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-react": "^7.0.0",
-    "jest": "^26.0.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "postcss-cli": "^8.0.0",
     "prettier": "^2.0.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "react-markdown": "*",
+    "rehype-cli": "^10.0.0",
+    "rehype-highlight": "^4.0.0",
+    "rehype-preset-minify": "^5.0.0",
+    "rehype-prevent-favicon-request": "^2.0.0",
+    "rehype-raw": "^5.0.0",
+    "remark-gfm": "^1.0.0",
+    "remark-slug": "^6.0.0",
     "remark-toc": "^7.0.0",
-    "rollup": "^2.0.0",
-    "rollup-plugin-node-polyfills": "^0.2.0",
-    "rollup-plugin-terser": "^7.0.0"
+    "stylelint": "^13.0.0",
+    "stylelint-config-standard": "^21.0.0",
+    "xo": "^0.38.0"
   },
   "scripts": {
-    "demo": "rollup --silent -c",
-    "format": "prettier . -w --loglevel warn && eslint . --fix",
-    "test": "npm run format && npm run demo"
+    "format": "prettier . -w --loglevel warn && xo --fix && stylelint src/index.css --fix",
+    "build:css": "postcss src/index.css > dest/index.css",
+    "build:html": "rehype -q -u preset-minify -u prevent-favicon-request src/index.html -o dest/",
+    "build:js:nomodule": "esbuild src/index.js --define:process.env.NODE_ENV=\\\"production\\\" --log-level=warning --loader:.js=jsx --bundle --minify --target=es6 --outfile=dest/index.nomodule.js",
+    "build:js:module": "esbuild src/index.js --define:process.env.NODE_ENV=\\\"production\\\" --log-level=warning --loader:.js=jsx --bundle --minify --target=es2020 --format=esm --outfile=dest/index.module.js",
+    "build:js": "npm run build:js:module && npm run build:js:nomodule",
+    "build": "npm run build:js && npm run build:html && npm run build:css",
+    "test": "npm run format && npm run build"
   },
   "browserslist": "> 0.25%, not dead",
   "prettier": {
-    "bracketSpacing": false,
-    "printWidth": 100,
-    "semi": false,
-    "singleQuote": true,
     "tabWidth": 2,
-    "trailingComma": "none",
-    "useTabs": false
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
   },
-  "eslintConfig": {
-    "extends": [
-      "sanity",
-      "prettier",
-      "plugin:react/recommended"
-    ],
-    "plugins": [
-      "react"
-    ],
-    "env": {
-      "node": true,
-      "browser": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2018,
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "rules": {
-      "strict": 0,
-      "complexity": [
-        "warn",
-        15
-      ]
-    },
-    "settings": {
-      "react": {
-        "version": "15.0"
+  "stylelint": {
+    "extends": "stylelint-config-standard"
+  },
+  "postcss": {
+    "plugins": {
+      "cssnano": {
+        "preset": "default"
       }
     }
+  },
+  "xo": {
+    "prettier": true,
+    "extends": "xo-react",
+    "envs": [
+      "browser"
+    ],
+    "rules": {
+      "react/state-in-constructor": [
+        2,
+        "always"
+      ],
+      "react/static-property-placement": [
+        2,
+        "property assignment"
+      ]
+    },
+    "ignores": [
+      "dest/"
+    ]
   }
 }

@@ -1,0 +1,29 @@
+name: main
+on:
+  push:
+    branches:
+      - website
+  schedule:
+    - cron: '45 7 2 * *'
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - uses: dcodeIO/setup-node-nvm@master
+        with:
+          node-version: node
+      - run: npm install
+      - run: npm test
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          BRANCH: gh-pages
+          FOLDER: dest
+          SINGLE_COMMIT: true
+          COMMIT_MESSAGE: .
+          GIT_CONFIG_NAME: Titus Wormer
+          GIT_CONFIG_EMAIL: tituswormer@gmail.com

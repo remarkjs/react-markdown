@@ -1,109 +1,205 @@
-const React = require('react')
-const ReactDOM = require('react-dom')
-const toc = require('remark-toc')
-const Markdown = require('react-markdown/with-html')
-const Editor = require('./editor')
-const CodeBlock = require('./code-block')
-const MarkdownControls = require('./markdown-controls')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import remarkGfm from 'remark-gfm'
+import remarkSlug from 'remark-slug'
+import remarkToc from 'remark-toc'
+import rehypeHighlight from 'rehype-highlight'
+import rehypeRaw from 'rehype-raw'
+import Markdown from 'react-markdown'
+import {CodeMirrorEditor} from './codemirror.js'
 
-const initialSource = `
-# Live demo
+const initialValue = `# A demo of \`react-markdown\`
 
-Changes are automatically rendered as you type.
+\`react-markdown\` is a markdown component for React.
 
-* Implements [GitHub Flavored Markdown](https://github.github.com/gfm/)
-* Renders actual, "native" React DOM elements
-* Allows you to escape or skip HTML (try toggling the checkboxes above)
-* If you escape or skip the HTML, no \`dangerouslySetInnerHTML\` is used! Yay!
+👉 Changes are re-rendered as you type.
 
-## Table of Contents
+👈 Try writing some markdown on the left.
 
-## HTML block below
+## Overview
 
-<blockquote>
-  This blockquote will change based on the HTML settings above.
-</blockquote>
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using \`dangerouslySetInnerHTML\`
+* Lets you define your own components (to render \`MyHeading\` instead of \`h1\`)
+* Has a lot of plugins
 
-## How about some code?
+## Table of contents
+
+Here is an example of a plugin in action
+([\`remark-toc\`](https://github.com/remarkjs/remark-toc)).
+This section is replaced by an actual table of contents.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+[\`rehype-highlight\`](https://github.com/rehypejs/rehype-highlight).
 
 \`\`\`js
-var React = require('react');
-var Markdown = require('react-markdown');
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Markdown from 'react-markdown'
+import rehypeHighlight from 'rehype-highlight'
 
-React.render(
-  <Markdown source="# Your markdown here" />,
-  document.getElementById('content')
-);
+ReactDOM.render(
+  <Markdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</Markdown>,
+  document.querySelector('#content')
+)
 \`\`\`
 
 Pretty neat, eh?
 
-## Tables?
+## GitHub flavored markdown (GFM)
 
-Use [\`remark-gfm\`](https://github.com/remarkjs/react-markdown#use) to support tables, strikethrough, tasklists, and literal URLs.
+For GFM, you can *also* use a plugin:
+[\`remark-gfm\`](https://github.com/remarkjs/react-markdown#use).
+It adds support for GitHub-specific extensions to the language:
+tables, strikethrough, tasklists, and literal URLs.
+
 These features **do not work by default**.
+👆 Use the toggle above to add the plugin.
 
-| Feature   | Support |
-| :-------: | ------- |
-| tables    | \`remark-gfm\` |
+| Feature    | Support                |
+| ---------: | :--------------------- |
+| CommonMark | 100%                   |
+| GFM        | 100% w/ \`remark-gfm\` |
 
 ~~strikethrough~~
 
-- [ ] task list
+* [ ] task list
+* [x] checked item
 
 https://example.com
 
+Pretty neat, eh?
+
+## HTML in markdown
+
+⚠️ HTML in markdown is quite unsafe, but if you want to support it, you can
+use [\`rehype-raw\`](https://github.com/rehypejs/rehype-raw).
+You should probably combine it with
+[\`rehype-sanitize\`](https://github.com/rehypejs/rehype-sanitize).
+
+<blockquote>
+  👆 Use the toggle above to add the plugin.
+</blockquote>
+
+## Components
+
+You can pass components to change things:
+
+\`\`\`js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Markdown from 'react-markdown'
+import MyFancyRule from './components/my-fancy-rule.js'
+
+ReactDOM.render(
+  <Markdown
+    components={{
+      // Use h2s instead of h1s
+      h1: 'h2',
+      // Use a component instead of hrs
+      hr: ({node, ...props}) => <MyFancyRule {...props} />
+    }}
+  >
+    # Your markdown here
+  </Markdown>,
+  document.querySelector('#content')
+)
+\`\`\`
+
 ## More info?
 
-Read usage information and more on [GitHub](https://github.com/remarkjs/react-markdown)
+Much more info is available in the
+[readme on GitHub](https://github.com/remarkjs/react-markdown)!
 
----------------
+***
 
-A component by [Espen Hovlandsdal](https://espen.codes/)
-`
+A component by [Espen Hovlandsdal](https://espen.codes/)`
 
 class Demo extends React.PureComponent {
   constructor(props) {
     super(props)
 
-    this.handleControlsChange = this.handleControlsChange.bind(this)
-    this.handleMarkdownChange = this.handleMarkdownChange.bind(this)
+    this.onControlsChange = this.onControlsChange.bind(this)
+    this.onSourceChange = this.onSourceChange.bind(this)
     this.state = {
-      markdownSrc: initialSource,
-      htmlMode: 'raw'
+      value: initialValue,
+      rehypePlugins: [rehypeHighlight],
+      remarkPlugins: [remarkSlug, remarkToc]
     }
   }
 
-  handleMarkdownChange(evt) {
-    this.setState({markdownSrc: evt.target.value})
+  onSourceChange(evt) {
+    this.setState({value: evt.target.value})
   }
 
-  handleControlsChange(mode) {
-    this.setState({htmlMode: mode})
+  onControlsChange(event) {
+    const name = event.target.name
+    const checked = event.target.checked
+
+    if (name === 'gfm') {
+      this.setState({
+        remarkPlugins: (checked ? [remarkGfm] : []).concat(
+          remarkSlug,
+          remarkToc
+        )
+      })
+    } else {
+      this.setState({
+        rehypePlugins: (checked ? [rehypeRaw] : []).concat(rehypeHighlight)
+      })
+    }
   }
 
   render() {
     return (
-      <div className="demo">
-        <div className="editor-pane">
-          <MarkdownControls onChange={this.handleControlsChange} mode={this.state.htmlMode} />
+      <>
+        <div className="editor">
+          <form className="controls">
+            <label>
+              <input
+                name="gfm"
+                type="checkbox"
+                onChange={this.onControlsChange}
+              />{' '}
+              Use <code>remark-gfm</code>
+              <span className="show-big"> (to enable GFM)</span>
+            </label>
+            <label>
+              <input
+                name="raw"
+                type="checkbox"
+                onChange={this.onControlsChange}
+              />{' '}
+              Use <code>rehype-raw</code>
+              <span className="show-big"> (to enable HTML)</span>
+            </label>
+          </form>
 
-          <Editor value={this.state.markdownSrc} onChange={this.handleMarkdownChange} />
+          <form>
+            <CodeMirrorEditor
+              mode="markdown"
+              theme="nord"
+              value={this.state.value}
+              onChange={this.onSourceChange}
+            />
+          </form>
         </div>
 
-        <div className="result-pane">
+        <div className="result">
           <Markdown
-            className="result"
-            source={this.state.markdownSrc}
-            skipHtml={this.state.htmlMode === 'skip'}
-            escapeHtml={this.state.htmlMode === 'escape'}
-            renderers={{code: CodeBlock}}
-            plugins={[toc]}
-          />
+            className="markdown-body"
+            remarkPlugins={this.state.remarkPlugins}
+            rehypePlugins={this.state.rehypePlugins}
+          >
+            {this.state.value}
+          </Markdown>
         </div>
-      </div>
+      </>
     )
   }
 }
 
-ReactDOM.render(<Demo />, document.getElementById('main'))
+ReactDOM.render(<Demo />, document.querySelector('main'))
