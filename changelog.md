@@ -2,7 +2,7 @@
 
 All notable changes will be documented in this file.
 
-## 6.0.0 - Unreleased
+## 6.0.0 - 2021-04-15
 
 Welcome to version 6.
 This a major release and therefore contains breaking changes.
