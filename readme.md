@@ -245,15 +245,18 @@ In this case, we apply syntax highlighting with the seriously super amazing
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+/* Use `…/dist/cjs/…` if you’re not in ESM! */
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 import {render} from 'react-dom'
 
 const components = {
-  code({node, className, ...props}) {
+  code({node, inline, className, children, ...props}) {
     const match = /language-(\w+)/.exec(className || '')
-    return match
-      ? <SyntaxHighlighter language={match[1]} PreTag="div" style={dark} {...props} />
-      : <code className={className} {...props} />
+    return !inline && match ? (
+      <SyntaxHighlighter style={dark} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
+    ) : (
+      <code className={className} {...props} />
+    )
   }
 }
 
