@@ -360,7 +360,6 @@ Array [
 line 1 of code
 line 2 of code
 line 3 of code
-
     </code>
   </pre>,
   "
@@ -373,7 +372,6 @@ line 3 of code
   <pre>
     <code>
       Sample text here...
-
     </code>
   </pre>,
   "
@@ -392,7 +390,6 @@ line 3 of code
 };
 
 console.log(foo(5));
-
     </code>
   </pre>,
   "
@@ -1080,7 +1077,6 @@ Array [
 line 1 of code
 line 2 of code
 line 3 of code
-
     </code>
   </pre>,
   "
@@ -1093,7 +1089,6 @@ line 3 of code
   <pre>
     <code>
       Sample text here...
-
     </code>
   </pre>,
   "
@@ -1112,7 +1107,6 @@ line 3 of code
 };
 
 console.log(foo(5));
-
     </code>
   </pre>,
   "
@@ -1795,8 +1789,7 @@ exports[`should handle bold/strong text 1`] = `
 exports[`should handle code blocks by indentation 1`] = `
 "<pre><code>&lt;footer class=&quot;footer&quot;&gt;
     &amp;copy; 2014 Foo Bar
-&lt;/footer&gt;
-</code></pre>"
+&lt;/footer&gt;</code></pre>"
 `;
 
 exports[`should handle code tags with language specification 1`] = `
@@ -1806,7 +1799,6 @@ exports[`should handle code tags with language specification 1`] = `
   >
     var foo = require('bar');
 foo();
-
   </code>
 </pre>
 `;
@@ -1816,7 +1808,6 @@ exports[`should handle code tags without any language specification 1`] = `
   <code>
     var foo = require('bar');
 foo();
-
   </code>
 </pre>
 `;
@@ -2190,7 +2181,6 @@ exports[`should only use first language definition on code blocks 1`] = `
   >
     var foo = require('bar');
 foo();
-
   </code>
 </pre>
 `;
@@ -2597,7 +2587,6 @@ names
 !@#$%^&*()_"
   >
       woop
-
   </code>
 </pre>
 `;

@@ -171,7 +171,11 @@ function childrenToReact(context, node) {
     if (child.type === 'element') {
       children.push(toReact(context, child, childIndex, node))
     } else if (child.type === 'text') {
-      children.push(child.value)
+      if (node.tagName === 'code' && !node.properties.inline) {
+        children.push(child.value.replace(/\n$/, ''))
+      } else {
+        children.push(child.value)
+      }
     }
     // @ts-ignore `raw` nodes are non-standard
     else if (child.type === 'raw' && !context.options.skipHtml) {
