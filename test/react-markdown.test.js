@@ -406,7 +406,7 @@ test('should pass `isHeader: boolean` to `tr`s', () => {
     />
   )
   const expected =
-    '<table>\n<thead>\n<tr>\n<th>a</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b</td>\n</tr>\n<tr>\n<td>c</td>\n</tr>\n</tbody>\n</table>'
+    '<table><thead><tr><th>a</th></tr></thead><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>'
   expect(actual).toEqual(expected)
 })
 
@@ -429,7 +429,7 @@ test('should pass `isHeader: true` to `th`s, `isHeader: false` to `td`s', () => 
     />
   )
   const expected =
-    '<table>\n<thead>\n<tr>\n<th>a</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b</td>\n</tr>\n<tr>\n<td>c</td>\n</tr>\n</tbody>\n</table>'
+    '<table><thead><tr><th>a</th></tr></thead><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>'
   expect(actual).toEqual(expected)
 })
 
@@ -1169,7 +1169,7 @@ test('should support table cells w/ style', () => {
     <Markdown children={input} remarkPlugins={[gfm]} rehypePlugins={[plugin]} />
   )
   const expected =
-    '<table>\n<thead>\n<tr>\n<th style="color:red;text-align:left">a</th>\n</tr>\n</thead>\n</table>'
+    '<table><thead><tr><th style="color:red;text-align:left">a</th></tr></thead></table>'
 
   expect(actual).toEqual(expected)
 })

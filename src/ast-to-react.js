@@ -171,7 +171,14 @@ function childrenToReact(context, node) {
     if (child.type === 'element') {
       children.push(toReact(context, child, childIndex, node))
     } else if (child.type === 'text') {
-      children.push(child.value)
+      // Text elements are not permitted as children of table:
+      if (node.tagName !== 'table' &&
+          node.tagName !== 'thead' &&
+          node.tagName !== 'tbody' &&
+          node.tagName !== 'tfoot' &&
+          node.tagName !== 'tr') {
+        children.push(child.value)
+      }
     }
     // @ts-ignore `raw` nodes are non-standard
     else if (child.type === 'raw' && !context.options.skipHtml) {
