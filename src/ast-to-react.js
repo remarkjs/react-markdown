@@ -175,12 +175,13 @@ function childrenToReact(context, node) {
     if (child.type === 'element') {
       children.push(toReact(context, child, childIndex, node))
     } else if (child.type === 'text') {
-      /** @type {ReactMarkdownNames} */
-      // @ts-ignore assume a known HTML/SVG element.
-      const name = node.tagName
       // React does not permit whitespace text elements as children of table:
       // cf. https://github.com/remarkjs/react-markdown/issues/576
-      if (!tableElements.has(name) || child.value !== '\n') {
+      if (
+        node.type !== 'element' ||
+        !tableElements.has(node.tagName) ||
+        child.value !== '\n'
+      ) {
         children.push(child.value)
       }
     }
