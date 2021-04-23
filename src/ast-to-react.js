@@ -154,6 +154,10 @@ exports.hastChildrenToReact = childrenToReact
 
 const own = {}.hasOwnProperty
 
+// The table-related elements that must not contain whitespace text according
+// to React.
+const tableElements = new Set(['table', 'thead', 'tbody', 'tfoot', 'tr'])
+
 /**
  * @param {Context} context
  * @param {Element|Root} node
@@ -171,7 +175,14 @@ function childrenToReact(context, node) {
     if (child.type === 'element') {
       children.push(toReact(context, child, childIndex, node))
     } else if (child.type === 'text') {
-      children.push(child.value)
+      /** @type {ReactMarkdownNames} */
+      // @ts-ignore assume a known HTML/SVG element.
+      const name = node.tagName
+      // React does not permit whitespace text elements as children of table:
+      // cf. https://github.com/remarkjs/react-markdown/issues/576
+      if (!tableElements.has(name) || child.value !== '\n') {
+        children.push(child.value)
+      }
     }
     // @ts-ignore `raw` nodes are non-standard
     else if (child.type === 'raw' && !context.options.skipHtml) {
