@@ -2,6 +2,13 @@
 
 All notable changes will be documented in this file.
 
+## 6.0.1 - 2021-04-23
+
+*   [`2e956be`](https://github.com/remarkjs/react-markdown/commit/2e956be)
+    Fix whitespace in table elements
+*   [`d36048a`](https://github.com/remarkjs/react-markdown/commit/d36048a)
+    Add architecture section to readme
+
 ## 6.0.0 - 2021-04-15
 
 Welcome to version 6.
