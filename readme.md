@@ -331,6 +331,36 @@ render(
 
 </details>
 
+## Architecture
+
+```txt
+                                                           react-markdown
++-------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                                           |
+|            +----------+        +----------------+        +---------------+       +----------------+       +------------+                  |
+|            |          |        |                |        |               |       |                |       |            |                  |
+| -markdown->+  remark  +-mdast->+ remark plugins +-mdast->+ remark-rehype +-hast->+ rehype plugins +-hast->+ components +-react elements-> |
+|            |          |        |                |        |               |       |                |       |            |                  |
+|            +----------+        +----------------+        +---------------+       +----------------+       +------------+                  |
+|                                                                                                                                           |
++-------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+relevant links: [markdown](https://commonmark.org), [remark](https://github.com/remarkjs/remark), [mdast](https://github.com/syntax-tree/mdast), [remark plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md), [remark-rehype](https://github.com/remarkjs/remark-rehype), [hast](https://github.com/syntax-tree/hast), [rehype plugins](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md), [components](#appendix-b-components)
+
+To understand what this project does, it’s very important to first understand
+what unified does: please read through the [`unifiedjs/unified`](https://github.com/unifiedjs/unified)
+readme (the part until you hit the API section is required reading).
+
+react-markdown is a unified pipeline — wrapped so that most folks don’t need to
+directly interact with unified.  The processor goes through these steps:
+
+*   Parse Markdown to mdast (markdown syntax tree)
+*   Transform through remark (markdown ecosystem)
+*   Transform mdast to hast (HTML syntax tree)
+*   Transform through rehype (HTML ecosystem)
+*   Render hast to react with components
+
 ## Appendix A: HTML in markdown
 
 `react-markdown` typically escapes HTML (or ignores it, with `skipHtml`)
