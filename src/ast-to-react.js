@@ -94,7 +94,7 @@ exports.hastChildrenToReact = childrenToReact
  * @returns {ReactNode}
  *
  * @callback CodeComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {inline?: boolean}} props
+ * @param {ReactBaseProps & ReactMarkdownProps & {inline?: boolean, className?: string}} props
  * @returns {ReactNode}
  *
  * @callback HeadingComponent
