@@ -2327,6 +2327,43 @@ Array [
 ]
 `;
 
+exports[`should pass on raw source position to non-tag components if rawSourcePos option is enabled and rehype-raw is used 1`] = `
+Object {
+  "end": Object {
+    "column": 6,
+    "line": 1,
+    "offset": 5,
+  },
+  "start": Object {
+    "column": 1,
+    "line": 1,
+    "offset": 0,
+  },
+}
+`;
+
+exports[`should pass on raw source position to non-tag components if rawSourcePos option is enabled and rehype-raw is used 2`] = `
+Array [
+  <p>
+    <em
+      className="custom"
+    >
+      Foo
+    </em>
+  </p>,
+  "
+",
+  <hr />,
+  "
+",
+  <p>
+    <strong>
+      Bar
+    </strong>
+  </p>,
+]
+`;
+
 exports[`should render empty link references 1`] = `"<p>Stuff were changed in [][]. Check out the changelog for reference.</p>"`;
 
 exports[`should render image references 1`] = `"<p>Checkout out this ninja: <img src=\\"/assets/ninja.png\\" alt=\\"The Waffle Ninja\\"/>. Pretty neat, eh?</p>"`;

@@ -98,9 +98,10 @@ function ReactMarkdown(options) {
     .use(options.rehypePlugins || [])
     .use(filter, options)
 
+  const contents = options.children || ''
   /** @type {Root} */
   // @ts-ignore we’ll throw if it isn’t a root next.
-  const hastNode = processor.runSync(processor.parse(options.children || ''))
+  const hastNode = processor.runSync(processor.parse(contents), {contents})
 
   if (hastNode.type !== 'root') {
     throw new TypeError('Expected a `root` node')

@@ -11,6 +11,7 @@ const TeX = require('@matejmazur/react-katex')
 const {render} = require('@testing-library/react')
 const Markdown = require('../src/react-markdown')
 const toc = require('remark-toc')
+const rehypeRaw = require('rehype-raw')
 
 /**
  * @typedef {import('unist').Position} Position
@@ -543,6 +544,30 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
 
   const component = renderer.create(
     <Markdown children={input} rawSourcePos components={{em}} />
+  )
+
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should pass on raw source position to non-tag components if rawSourcePos option is enabled and rehype-raw is used', () => {
+  const input = '*Foo*\n\n------------\n\n__Bar__'
+  /**
+   * @param {Object} props
+   * @param {Element} props.node
+   * @param {Position} [props.sourcePosition]
+   */
+  const em = ({node, sourcePosition, ...props}) => {
+    expect(sourcePosition).toMatchSnapshot()
+    return <em className="custom" {...props} />
+  }
+
+  const component = renderer.create(
+    <Markdown
+      children={input}
+      rawSourcePos
+      components={{em}}
+      rehypePlugins={[rehypeRaw]}
+    />
   )
 
   expect(component.toJSON()).toMatchSnapshot()
