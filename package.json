@@ -86,7 +86,8 @@
     "space-separated-tokens": "^1.1.0",
     "style-to-object": "^0.3.0",
     "unified": "^9.0.0",
-    "unist-util-visit": "^2.0.0"
+    "unist-util-visit": "^2.0.0",
+    "vfile": "^4.0.0"
   },
   "peerDependencies": {
     "@types/react": ">=16",

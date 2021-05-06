@@ -1,6 +1,7 @@
 'use strict'
 
 const React = require('react')
+const vfile = require('vfile')
 const unified = require('unified')
 const parse = require('remark-parse')
 const remarkRehype = require('remark-rehype')
@@ -98,21 +99,24 @@ function ReactMarkdown(options) {
     .use(options.rehypePlugins || [])
     .use(filter, options)
 
-  let children = options.children
+  /** @type {vfile} */
+  let file
 
-  if (typeof children !== 'string') {
-    if (children !== undefined && children !== null) {
+  if (typeof options.children === 'string') {
+    file = vfile(options.children)
+  } else {
+    if (options.children !== undefined && options.children !== null) {
       console.warn(
-        `[react-markdown] Warning: please pass a string as \`children\` (not: \`${children}\`)`
+        `[react-markdown] Warning: please pass a string as \`children\` (not: \`${options.children}\`)`
       )
     }
 
-    children = ''
+    file = vfile()
   }
 
   /** @type {Root} */
   // @ts-ignore we’ll throw if it isn’t a root next.
-  const hastNode = processor.runSync(processor.parse(children))
+  const hastNode = processor.runSync(processor.parse(file), file)
 
   if (hastNode.type !== 'root') {
     throw new TypeError('Expected a `root` node')

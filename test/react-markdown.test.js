@@ -581,6 +581,27 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should pass on raw source position to non-tag components if rawSourcePos option is enabled and `rehype-raw` is used', () => {
+  const input = '*Foo*'
+  /**
+   * @param {Object} props
+   * @param {Position} [props.sourcePosition]
+   */
+  const em = ({sourcePosition}) => {
+    expect(sourcePosition).toMatchSnapshot()
+    return ''
+  }
+
+  renderer.create(
+    <Markdown
+      children={input}
+      rawSourcePos
+      rehypePlugins={[raw]}
+      components={{em}}
+    />
+  )
+})
+
 test('should skip nodes that are not defined as allowed', () => {
   const input =
     '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
