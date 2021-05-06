@@ -124,7 +124,7 @@ class Demo extends React.PureComponent {
     this.onSourceChange = this.onSourceChange.bind(this)
     this.state = {
       value: initialValue,
-      rehypePlugins: [rehypeHighlight],
+      rehypePlugins: [[rehypeHighlight, {ignoreMissing: true}]],
       remarkPlugins: [remarkSlug, remarkToc]
     }
   }
