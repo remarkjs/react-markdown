@@ -98,9 +98,21 @@ function ReactMarkdown(options) {
     .use(options.rehypePlugins || [])
     .use(filter, options)
 
+  let children = options.children
+
+  if (typeof children !== 'string') {
+    if (children !== undefined && children !== null) {
+      console.warn(
+        `[react-markdown] Warning: please pass a string as \`children\` (not: \`${children}\`)`
+      )
+    }
+
+    children = ''
+  }
+
   /** @type {Root} */
   // @ts-ignore we’ll throw if it isn’t a root next.
-  const hastNode = processor.runSync(processor.parse(options.children || ''))
+  const hastNode = processor.runSync(processor.parse(children))
 
   if (hastNode.type !== 'root') {
     throw new TypeError('Expected a `root` node')

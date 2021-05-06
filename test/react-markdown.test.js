@@ -44,6 +44,39 @@ test('should warn when passed `source`', () => {
   console.warn = warn
 })
 
+test('should warn when passed non-string children (number)', () => {
+  const {error, warn} = console
+  console.error = jest.fn()
+  console.warn = jest.fn()
+  // @ts-ignore runtime
+  expect(renderHTML(<Markdown children={1} />)).toEqual('')
+  expect(console.warn).toHaveBeenCalledWith(
+    '[react-markdown] Warning: please pass a string as `children` (not: `1`)'
+  )
+  console.error = error
+  console.warn = warn
+})
+
+test('should warn when passed non-string children (boolean)', () => {
+  const {error, warn} = console
+  console.error = jest.fn()
+  console.warn = jest.fn()
+  // @ts-ignore runtime
+  expect(renderHTML(<Markdown children={false} />)).toEqual('')
+  expect(console.warn).toHaveBeenCalledWith(
+    '[react-markdown] Warning: please pass a string as `children` (not: `false`)'
+  )
+  console.error = error
+  console.warn = warn
+})
+
+test('should not warn when passed `null` as children', () => {
+  expect(renderHTML(<Markdown children={null} />)).toEqual('')
+})
+test('should not warn when passed `undefined` as children', () => {
+  expect(renderHTML(<Markdown children={undefined} />)).toEqual('')
+})
+
 test('should warn when passed `allowDangerousHtml`', () => {
   const warn = console.warn
   console.warn = jest.fn()
