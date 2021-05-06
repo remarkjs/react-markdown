@@ -77,7 +77,7 @@ exports.hastChildrenToReact = childrenToReact
  *
  * @typedef {keyof IntrinsicElements} ReactMarkdownNames
  *
- * @typedef {Object.<string, unknown>} ReactBaseProps
+ * @typedef {{ [key: string]: unknown, className?: string }} ReactBaseProps
  *
  * To do: is `data-sourcepos` typeable?
  *
