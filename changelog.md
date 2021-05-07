@@ -2,6 +2,15 @@
 
 All notable changes will be documented in this file.
 
+## 6.0.2 - 2021-05-06
+
+*   [`cefc02d`](https://github.com/remarkjs/react-markdown/commit/cefc02d)
+    Add string type for `className`s
+*   [`6355e45`](https://github.com/remarkjs/react-markdown/commit/6355e45)
+    Fix to pass `vfile` to plugins
+*   [`5cf6e1b`](https://github.com/remarkjs/react-markdown/commit/5cf6e1b)
+    Fix to add warning when non-strings are given as `children`
+
 ## 6.0.1 - 2021-04-23
 
 *   [`2e956be`](https://github.com/remarkjs/react-markdown/commit/2e956be)

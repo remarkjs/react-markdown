@@ -44,6 +44,39 @@ test('should warn when passed `source`', () => {
   console.warn = warn
 })
 
+test('should warn when passed non-string children (number)', () => {
+  const {error, warn} = console
+  console.error = jest.fn()
+  console.warn = jest.fn()
+  // @ts-ignore runtime
+  expect(renderHTML(<Markdown children={1} />)).toEqual('')
+  expect(console.warn).toHaveBeenCalledWith(
+    '[react-markdown] Warning: please pass a string as `children` (not: `1`)'
+  )
+  console.error = error
+  console.warn = warn
+})
+
+test('should warn when passed non-string children (boolean)', () => {
+  const {error, warn} = console
+  console.error = jest.fn()
+  console.warn = jest.fn()
+  // @ts-ignore runtime
+  expect(renderHTML(<Markdown children={false} />)).toEqual('')
+  expect(console.warn).toHaveBeenCalledWith(
+    '[react-markdown] Warning: please pass a string as `children` (not: `false`)'
+  )
+  console.error = error
+  console.warn = warn
+})
+
+test('should not warn when passed `null` as children', () => {
+  expect(renderHTML(<Markdown children={null} />)).toEqual('')
+})
+test('should not warn when passed `undefined` as children', () => {
+  expect(renderHTML(<Markdown children={undefined} />)).toEqual('')
+})
+
 test('should warn when passed `allowDangerousHtml`', () => {
   const warn = console.warn
   console.warn = jest.fn()
@@ -546,6 +579,27 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
   )
 
   expect(component.toJSON()).toMatchSnapshot()
+})
+
+test('should pass on raw source position to non-tag components if rawSourcePos option is enabled and `rehype-raw` is used', () => {
+  const input = '*Foo*'
+  /**
+   * @param {Object} props
+   * @param {Position} [props.sourcePosition]
+   */
+  const em = ({sourcePosition}) => {
+    expect(sourcePosition).toMatchSnapshot()
+    return ''
+  }
+
+  renderer.create(
+    <Markdown
+      children={input}
+      rawSourcePos
+      rehypePlugins={[raw]}
+      components={{em}}
+    />
+  )
 })
 
 test('should skip nodes that are not defined as allowed', () => {
