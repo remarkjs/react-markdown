@@ -121,6 +121,10 @@ exports.hastChildrenToReact = childrenToReact
  * @param {ReactBaseProps & ReactMarkdownProps & {depth: number, ordered: false}} props
  * @returns {ReactNode}
  *
+ * @callback ImageComponent
+ * @param {ReactBaseProps & ReactMarkdownProps & {src: string, alt: string}} props
+ * @returns {ReactNode}
+ *
  * @typedef {Object} SpecialComponents
  * @property {CodeComponent|ReactMarkdownNames} code
  * @property {HeadingComponent|ReactMarkdownNames} h1
@@ -135,6 +139,7 @@ exports.hastChildrenToReact = childrenToReact
  * @property {TableCellComponent|ReactMarkdownNames} th
  * @property {TableRowComponent|ReactMarkdownNames} tr
  * @property {UnorderedListComponent|ReactMarkdownNames} ul
+ * @property {ImageComponent|ReactMarkdownNames} img
  *
  * @typedef {Record<Exclude<ReactMarkdownNames, keyof SpecialComponents>, NormalComponent|ReactMarkdownNames>} NormalComponents
  * @typedef {Partial<NormalComponents & SpecialComponents>} Components
