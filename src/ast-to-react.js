@@ -126,7 +126,7 @@ exports.hastChildrenToReact = childrenToReact
  * @returns {ReactNode}
  *
  * @callback VideoComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {src: string, autoplay?: boolean, muted?: boolean, poster?: string, loop?: boolean}} props
+ * @param {ReactBaseProps & ReactMarkdownProps & {src: string, autoPlay?: boolean, muted?: boolean, poster?: string, loop?: boolean}} props
  * @returns {ReactNode}
  *
  * @typedef {Object} SpecialComponents
