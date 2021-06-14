@@ -9,7 +9,7 @@ const remarkMath = require('remark-math')
 const raw = require('rehype-raw')
 const TeX = require('@matejmazur/react-katex')
 const {render} = require('@testing-library/react')
-const Markdown = require('../src/react-markdown')
+const Markdown = require('../src/react-markdown.js')
 const toc = require('remark-toc')
 
 /**

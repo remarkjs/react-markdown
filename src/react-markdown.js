@@ -8,8 +8,8 @@ const remarkRehype = require('remark-rehype')
 const PropTypes = require('prop-types')
 // @ts-ignore remove when typed
 const html = require('property-information/html')
-const filter = require('./rehype-filter')
-const uriTransformer = require('./uri-transformer')
+const filter = require('./rehype-filter.js')
+const uriTransformer = require('./uri-transformer.js')
 const childrenToReact = require('./ast-to-react.js').hastChildrenToReact
 
 /**
