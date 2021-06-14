@@ -445,7 +445,7 @@ function parseStyle(value) {
 
   try {
     style(value, iterator)
-  } catch (/** @type {Error} */ _) {
+  } catch (/** @type {unknown} */ _) {
     // Silent.
   }
 
