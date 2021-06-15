@@ -441,6 +441,7 @@ There are some extra props passed.
 *   `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
     *   `level` (`number` beween 1 and 6)
         — heading rank
+    * NOTE: Since version 6 you must use "heading" [change-renderers-to-components](https://github.com/remarkjs/react-markdown/blob/main/changelog.md#change-renderers-to-components)
 *   `input` (when using [`remark-gfm`][gfm])
     *   `checked` (`boolean`)
         — whether the item is checked
