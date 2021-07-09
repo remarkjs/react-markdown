@@ -880,6 +880,8 @@ test('should support math', () => {
       Array.isArray(node.properties.className) &&
       node.properties.className.includes('math')
     ) {
+      if (!(node.children[0].type === 'text'))
+        throw new TypeError('math is not text')
       return (
         // @ts-ignore broken types?
         <TeX
@@ -1215,8 +1217,13 @@ test('should support (ignore) comments', () => {
 test('should support table cells w/ style', () => {
   const input = '| a  |\n| :- |'
   const plugin = () => (/** @type {Root} */ tree) => {
-    const th = tree.children[0].children[1].children[1].children[1]
-    th.properties.style = 'color: red'
+    visit(
+      tree,
+      {type: 'element', tagName: 'th'},
+      (/** @type {Element} */ th) => {
+        th.properties.style = 'color: red'
+      }
+    )
   }
 
   const actual = renderHTML(
