@@ -151,6 +151,28 @@ test('should handle links with custom uri transformer', () => {
   expect(component.toJSON()).toMatchSnapshot()
 })
 
+test('should handle text with custom text transformer', () => {
+  const input = 'Congratulations! **You won!**'
+  /**
+   * @param {string} text
+   * @param {number} index
+   * @returns {string|ReactNode}
+   */
+  const transform = (text, index) =>
+    text.startsWith('Congratulations') ? (
+      <span key={index} style={{color: 'red'}}>
+        {text}
+      </span>
+    ) : (
+      text
+    )
+  const component = renderer.create(
+    <Markdown children={input} transformText={transform} />
+  )
+
+  expect(component.toJSON()).toMatchSnapshot()
+})
+
 test('should use target attribute for links if specified', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
   const component = renderer.create(

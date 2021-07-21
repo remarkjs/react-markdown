@@ -2123,6 +2123,23 @@ exports[`should handle ordered lists with a start index 1`] = `
 </ol>
 `;
 
+exports[`should handle text with custom text transformer 1`] = `
+<p>
+  <span
+    style={
+      Object {
+        "color": "red",
+      }
+    }
+  >
+    Congratulations! 
+  </span>
+  <strong>
+    You won!
+  </strong>
+</p>
+`;
+
 exports[`should handle tight, unordered lists 1`] = `
 <ul>
   

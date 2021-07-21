@@ -124,6 +124,10 @@ render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.bod
 *   `transformImageUri` (`(src, alt, title) => string`, default:
     [`./uri-transformer.js`][uri], optional)\
     Same as `transformLinkUri` but for images
+*   `transformText` (`(text, index, node, parentNode) => string | ReactNode`,
+    default: `undefined`, optional)\
+    Applies any transformations to each fragment of text to return either
+    modified text or a React component used to render the text.
 *   `components` (`Object.<string, Component>`, default: `{}`)\
     Object mapping tag names to React components
 *   `remarkPlugins` (`Array.<Plugin>`, default: `[]`)\

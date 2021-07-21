@@ -69,6 +69,13 @@ exports.hastChildrenToReact = childrenToReact
  * @param {string?} title
  * @returns {string}
  *
+ * @callback TransformText
+ * @param {string} text
+ * @param {number} index
+ * @param {Text} node
+ * @param {Element|Root} parentNode
+ * @returns {string|ReactNode}
+ *
  * @callback TransformLinkTarget
  * @param {string} href
  * @param {Array.<Comment|Element|Text>} children
@@ -148,6 +155,7 @@ exports.hastChildrenToReact = childrenToReact
  * @property {boolean} [includeElementIndex=false]
  * @property {false|TransformLink} [transformLinkUri]
  * @property {TransformImage} [transformImageUri]
+ * @property {TransformText} [transformText]
  * @property {string|TransformLinkTarget} [linkTarget]
  * @property {Components} [components]
  */
@@ -182,7 +190,16 @@ function childrenToReact(context, node) {
         !tableElements.has(node.tagName) ||
         child.value !== '\n'
       ) {
-        children.push(child.value)
+        children.push(
+          context.options.transformText
+            ? context.options.transformText(
+                child.value,
+                childIndex,
+                child,
+                node
+              )
+            : child.value
+        )
       }
     }
     // @ts-ignore `raw` nodes are non-standard

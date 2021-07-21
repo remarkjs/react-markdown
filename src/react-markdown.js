@@ -173,6 +173,7 @@ ReactMarkdown.propTypes = {
   transformLinkUri: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   linkTarget: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   transformImageUri: PropTypes.func,
+  transformText: PropTypes.func,
   components: PropTypes.object
 }
 
