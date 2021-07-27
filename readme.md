@@ -255,7 +255,9 @@ const components = {
     return !inline && match ? (
       <SyntaxHighlighter style={dark} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
     ) : (
-      <code className={className} {...props} />
+      <code className={className} {...props}>
+        {children}
+      </code>
     )
   }
 }

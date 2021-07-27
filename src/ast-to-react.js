@@ -292,7 +292,12 @@ function toReact(context, node, index, parent) {
     )
   }
 
-  if (!basic && name === 'code' && parent.tagName !== 'pre') {
+  if (
+    !basic &&
+    name === 'code' &&
+    parent.type === 'element' &&
+    parent.tagName !== 'pre'
+  ) {
     properties.inline = true
   }
 
@@ -317,7 +322,7 @@ function toReact(context, node, index, parent) {
     )
   }
 
-  if (!basic && name === 'li') {
+  if (!basic && name === 'li' && parent.type === 'element') {
     const input = getInputElement(node)
     properties.checked = input ? Boolean(input.properties.checked) : null
     properties.index = getElementsBeforeCount(parent, node)
@@ -342,7 +347,7 @@ function toReact(context, node, index, parent) {
     }
   }
 
-  if (!basic && name === 'tr') {
+  if (!basic && name === 'tr' && parent.type === 'element') {
     properties.isHeader = Boolean(parent.tagName === 'thead')
   }
 
@@ -455,7 +460,7 @@ function parseStyle(value) {
 
   try {
     style(value, iterator)
-  } catch (/** @type {Error} */ _) {
+  } catch (/** @type {unknown} */ _) {
     // Silent.
   }
 
