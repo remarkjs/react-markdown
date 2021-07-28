@@ -132,7 +132,7 @@ exports.hastChildrenToReact = childrenToReact
  * @property {TableRowComponent|ReactMarkdownNames} tr
  * @property {UnorderedListComponent|ReactMarkdownNames} ul
  *
- * @typedef {{ [P in keyof IntrinsicElements]: P | ((props: IntrinsicElements[P] & ReactMarkdownProps) => ReactNode) }} NormalComponents
+ * @typedef {{[TagName in keyof IntrinsicElements]: TagName | ((props: IntrinsicElements[TagName] & ReactMarkdownProps) => ReactNode)}} NormalComponents
  * @typedef {Partial<Omit<NormalComponents, keyof SpecialComponents> & SpecialComponents>} Components
  */
 
