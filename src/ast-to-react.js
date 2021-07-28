@@ -89,10 +89,6 @@ exports.hastChildrenToReact = childrenToReact
  * @property {number} [index] Passed when `options.includeElementIndex` is given
  * @property {number} [siblingCount] Passed when `options.includeElementIndex` is given
  *
- * @callback NormalComponent
- * @param {ReactBaseProps & ReactMarkdownProps} props
- * @returns {ReactNode}
- *
  * @callback CodeComponent
  * @param {ReactBaseProps & ReactMarkdownProps & {inline?: boolean}} props
  * @returns {ReactNode}
@@ -136,8 +132,8 @@ exports.hastChildrenToReact = childrenToReact
  * @property {TableRowComponent|ReactMarkdownNames} tr
  * @property {UnorderedListComponent|ReactMarkdownNames} ul
  *
- * @typedef {Record<Exclude<ReactMarkdownNames, keyof SpecialComponents>, NormalComponent|ReactMarkdownNames>} NormalComponents
- * @typedef {Partial<NormalComponents & SpecialComponents>} Components
+ * @typedef {{ [P in keyof IntrinsicElements]: P | ((props: IntrinsicElements[P] & ReactMarkdownProps) => ReactNode) }} NormalComponents
+ * @typedef {Partial<Omit<NormalComponents, keyof SpecialComponents> & SpecialComponents>} Components
  */
 
 /**
@@ -245,7 +241,7 @@ function toReact(context, node, index, parent) {
     start: {line: null, column: null, offset: null},
     end: {line: null, column: null, offset: null}
   }
-  /** @type {NormalComponent|SpecialComponents[keyof SpecialComponents]|ReactMarkdownNames} */
+  /** @type {NormalComponents[keyof NormalComponents]|SpecialComponents[keyof SpecialComponents]|ReactMarkdownNames} */
   const component =
     options.components && own.call(options.components, name)
       ? options.components[name]
