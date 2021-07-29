@@ -995,13 +995,13 @@ test('should be able to render components with forwardRef in HOC', () => {
   const wrapper = (Component) => {
     return React.forwardRef(
       /**
-       * 
-       * @param {Parameters<Components['a']>[0]} props 
-       * @param {import('react').Ref<HTMLAnchorElement>} ref 
-       * @returns 
+       *
+       * @param {Parameters<Components['a']>[0]} props
+       * @param {import('react').Ref<HTMLAnchorElement>} ref
+       * @returns
        */
       (props, ref) => <Component ref={ref} {...props} />
-      )
+    )
   }
 
   /**
