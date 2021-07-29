@@ -79,7 +79,7 @@
     "@types/unist": "^2.0.3",
     "comma-separated-tokens": "^1.0.0",
     "prop-types": "^15.7.2",
-    "property-information": "^5.0.0",
+    "property-information": "^5.3.0",
     "react-is": "^17.0.0",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.0.0",
