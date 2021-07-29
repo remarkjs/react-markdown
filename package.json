@@ -102,7 +102,7 @@
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
-    "@testing-library/react": "^11.0.0",
+    "@testing-library/react": "^12.0.0",
     "@types/jest": "^26.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
