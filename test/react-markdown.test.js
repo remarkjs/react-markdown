@@ -18,6 +18,7 @@ const toc = require('remark-toc')
  * @typedef {import('hast').Element} Element
  * @typedef {import('hast').Text} Text
  * @typedef {import('react').ReactNode} ReactNode
+ * @typedef {import('../src/ast-to-react').Components} Components
  */
 
 /**
@@ -989,14 +990,22 @@ test('should pass index of a node under its parent to components if `includeElem
 
 test('should be able to render components with forwardRef in HOC', () => {
   /**
-   * @param {Function} Component
+   * @param {(params: Parameters<Exclude<Components['a'], 'a'>>[0]) => JSX.Element} Component
    */
   const wrapper = (Component) => {
-    return React.forwardRef((props, ref) => <Component ref={ref} {...props} />)
+    return React.forwardRef(
+      /**
+       * 
+       * @param {Parameters<Components['a']>[0]} props 
+       * @param {import('react').Ref<HTMLAnchorElement>} ref 
+       * @returns 
+       */
+      (props, ref) => <Component ref={ref} {...props} />
+      )
   }
 
   /**
-   * @param {Object<string, unknown>} props
+   * @param {Parameters<Exclude<Components['a'], 'a'>>[0]} props
    */
   // eslint-disable-next-line react/jsx-no-target-blank
   const wrapped = (props) => <a {...props} />
