@@ -6,7 +6,6 @@ const unified = require('unified')
 const parse = require('remark-parse')
 const remarkRehype = require('remark-rehype')
 const PropTypes = require('prop-types')
-// @ts-ignore remove when typed
 const html = require('property-information/html')
 const filter = require('./rehype-filter.js')
 const uriTransformer = require('./uri-transformer.js')
@@ -115,7 +114,7 @@ function ReactMarkdown(options) {
   }
 
   /** @type {Root} */
-  // @ts-ignore we’ll throw if it isn’t a root next.
+  // @ts-expect-error we’ll throw if it isn’t a root next.
   const hastNode = processor.runSync(processor.parse(file), file)
 
   if (hastNode.type !== 'root') {

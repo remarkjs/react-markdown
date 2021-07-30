@@ -1,10 +1,9 @@
 const visit = require('unist-util-visit')
 
-const splice = [].splice
-
 module.exports = rehypeFilter
 
 /**
+ * @typedef {import('unist').Node} Node
  * @typedef {import('hast').Root} Root
  * @typedef {import('hast').Element} Element
  *
@@ -12,7 +11,7 @@ module.exports = rehypeFilter
  * @param {Element} element
  * @param {number} index
  * @param {Element|Root} parent
- * @returns {boolean}
+ * @returns {boolean|undefined}
  *
  * @typedef {Object} RehypeFilterOptions
  * @property {Array.<string>} [allowedElements]
@@ -22,7 +21,7 @@ module.exports = rehypeFilter
  */
 
 /**
- * @param {RehypeFilterOptions} options
+ * @type {import('unified').Plugin<[RehypeFilterOptions]>}
  */
 function rehypeFilter(options) {
   if (options.allowedElements && options.disallowedElements) {
@@ -31,27 +30,27 @@ function rehypeFilter(options) {
     )
   }
 
-  return options.allowedElements ||
+  if (
+    options.allowedElements ||
     options.disallowedElements ||
     options.allowElement
-    ? transform
-    : undefined
-
-  /**
-   * @param {Root} tree
-   */
-  function transform(tree) {
-    visit(tree, 'element', onelement)
+  ) {
+    return (tree) => {
+      const node = /** @type {Root} */ (tree)
+      visit(node, 'element', onelement)
+    }
   }
 
   /**
-   * @param {Element} node
-   * @param {number} index
-   * @param {Element|Root} parent
+   * @param {Node} node_
+   * @param {number|null|undefined} index
+   * @param {Node|null|undefined} parent_
    * @returns {number|void}
    */
-  function onelement(node, index, parent) {
-    /** @type {boolean} */
+  function onelement(node_, index, parent_) {
+    const node = /** @type {Element} */ (node_)
+    const parent = /** @type {Element|Root} */ (parent_)
+    /** @type {boolean|undefined} */
     let remove
 
     if (options.allowedElements) {
@@ -60,19 +59,17 @@ function rehypeFilter(options) {
       remove = options.disallowedElements.includes(node.tagName)
     }
 
-    if (!remove && options.allowElement) {
+    if (!remove && options.allowElement && typeof index === 'number') {
       remove = !options.allowElement(node, index, parent)
     }
 
-    if (remove) {
-      /** @type {Array.<unknown>} */
-      let parameters = [index, 1]
-
+    if (remove && typeof index === 'number') {
       if (options.unwrapDisallowed && node.children) {
-        parameters = parameters.concat(node.children)
+        parent.children.splice(index, 1, ...node.children)
+      } else {
+        parent.children.splice(index, 1)
       }
 
-      splice.apply(parent.children, parameters)
       return index
     }
 

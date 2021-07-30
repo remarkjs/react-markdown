@@ -15,7 +15,6 @@
     "skipLibCheck": true,
     "noImplicitAny": false,
     "noImplicitThis": true,
-    "strictNullChecks": false,
-    "strictFunctionTypes": false
+    "strict": true
   }
 }

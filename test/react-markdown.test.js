@@ -12,7 +12,10 @@ const {render} = require('@testing-library/react')
 const Markdown = require('../src/react-markdown.js')
 const toc = require('remark-toc')
 
+const own = {}.hasOwnProperty
+
 /**
+ * @typedef {import('unist').Node} Node
  * @typedef {import('unist').Position} Position
  * @typedef {import('hast').Root} Root
  * @typedef {import('hast').Element} Element
@@ -37,7 +40,7 @@ test('can render the most basic of documents (single paragraph)', () => {
 test('should warn when passed `source`', () => {
   const warn = console.warn
   console.warn = jest.fn()
-  // @ts-ignore runtime
+  // @ts-expect-error runtime
   expect(renderHTML(<Markdown source="a">b</Markdown>)).toEqual('<p>b</p>')
   expect(console.warn).toHaveBeenCalledWith(
     '[react-markdown] Warning: please use `children` instead of `source` (see <https://github.com/remarkjs/react-markdown/blob/main/changelog.md#change-source-to-children> for more info)'
@@ -49,7 +52,7 @@ test('should warn when passed non-string children (number)', () => {
   const {error, warn} = console
   console.error = jest.fn()
   console.warn = jest.fn()
-  // @ts-ignore runtime
+  // @ts-expect-error runtime
   expect(renderHTML(<Markdown children={1} />)).toEqual('')
   expect(console.warn).toHaveBeenCalledWith(
     '[react-markdown] Warning: please pass a string as `children` (not: `1`)'
@@ -62,7 +65,7 @@ test('should warn when passed non-string children (boolean)', () => {
   const {error, warn} = console
   console.error = jest.fn()
   console.warn = jest.fn()
-  // @ts-ignore runtime
+  // @ts-expect-error runtime
   expect(renderHTML(<Markdown children={false} />)).toEqual('')
   expect(console.warn).toHaveBeenCalledWith(
     '[react-markdown] Warning: please pass a string as `children` (not: `false`)'
@@ -72,16 +75,18 @@ test('should warn when passed non-string children (boolean)', () => {
 })
 
 test('should not warn when passed `null` as children', () => {
+  // @ts-expect-error: runtime does not allow `null`.
   expect(renderHTML(<Markdown children={null} />)).toEqual('')
 })
 test('should not warn when passed `undefined` as children', () => {
+  // @ts-expect-error: runtime does not allow `undefined`.
   expect(renderHTML(<Markdown children={undefined} />)).toEqual('')
 })
 
 test('should warn when passed `allowDangerousHtml`', () => {
   const warn = console.warn
   console.warn = jest.fn()
-  // @ts-ignore runtime
+  // @ts-expect-error runtime
   expect(renderHTML(<Markdown allowDangerousHtml>a</Markdown>)).toEqual(
     '<p>a</p>'
   )
@@ -164,7 +169,7 @@ test('should call function to get target attribute for links if specified', () =
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
   /**
    * @param {string} uri
-   * @returns {string}
+   * @returns {string|undefined}
    */
   const getTarget = (uri) => (uri.startsWith('http') ? '_blank' : undefined)
   const component = renderer.create(
@@ -357,7 +362,7 @@ test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () =
    * @param {Object} props
    * @param {Element} props.node
    * @param {boolean} props.ordered
-   * @param {boolean} props.checked
+   * @param {boolean|null} props.checked
    * @param {number} props.index
    */
   const li = ({node, ordered, checked, index, ...props}) => {
@@ -568,7 +573,7 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
   /**
    * @param {Object} props
    * @param {Element} props.node
-   * @param {Position} [props.sourcePosition]
+   * @param {Position|null} [props.sourcePosition]
    */
   const em = ({node, sourcePosition, ...props}) => {
     expect(sourcePosition).toMatchSnapshot()
@@ -586,7 +591,7 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
   const input = '*Foo*'
   /**
    * @param {Object} props
-   * @param {Position} [props.sourcePosition]
+   * @param {Position|null} [props.sourcePosition]
    */
   const em = ({sourcePosition}) => {
     expect(sourcePosition).toMatchSnapshot()
@@ -708,6 +713,7 @@ test('should support duplicate definitions', () => {
 })
 
 describe('should skip nodes that are defined as disallowed', () => {
+  /** @type {Record<string, {input: string, shouldNotContain: string}>} */
   const samples = {
     p: {input: 'Paragraphs are cool', shouldNotContain: 'Paragraphs are cool'},
     h1: {input: '# Headers are neat', shouldNotContain: 'Headers are neat'},
@@ -732,9 +738,18 @@ describe('should skip nodes that are defined as disallowed', () => {
     hr: {input: '\n-----\nAnd with that...', shouldNotContain: '<hr'}
   }
 
-  const fullInput = Object.keys(samples)
-    .map((/** @type {keyof samples} */ key) => samples[key].input)
-    .join('\n')
+  /** @type {string[]} */
+  const inputs = []
+  /** @type {string} */
+  let key
+
+  for (key in samples) {
+    if (own.call(samples, key)) {
+      inputs.push(samples[key].input)
+    }
+  }
+
+  const fullInput = inputs.join('\n')
 
   // eslint-disable-next-line unicorn/no-array-for-each
   Object.keys(samples).forEach((/** @type {keyof samples} */ key) => {
@@ -777,7 +792,8 @@ test('should be able to use a custom function to determine if the node should be
    */
   const allow = (element) =>
     element.tagName !== 'a' ||
-    (typeof element.properties.href === 'string' &&
+    (element.properties &&
+      typeof element.properties.href === 'string' &&
       element.properties.href.indexOf('https://github.com/') === 0)
 
   expect(
@@ -820,7 +836,7 @@ test('should throw on invalid component', () => {
     '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2\n\nFoo'
   const components = {h1: 123}
   expect(() =>
-    // @ts-ignore runtime
+    // @ts-expect-error runtime
     renderHTML(<Markdown children={input} components={components} />)
   ).toThrow(/Component for name `h1`/)
 })
@@ -877,16 +893,14 @@ test('should support math', () => {
    * @param {Element} props.node
    */
   function handle({node, ...props}) {
-    if (
-      Array.isArray(node.properties.className) &&
-      node.properties.className.includes('math')
-    ) {
+    const value = node.properties && node.properties.className
+    if (Array.isArray(value) && value.includes('math')) {
       if (!(node.children[0].type === 'text'))
         throw new TypeError('math is not text')
       return (
-        // @ts-ignore broken types?
+        // @ts-expect-error broken types?
         <TeX
-          block={!node.properties.className.includes('math-inline')}
+          block={!value.includes('math-inline')}
           math={node.children[0].value}
         />
       )
@@ -990,27 +1004,31 @@ test('should pass index of a node under its parent to components if `includeElem
 
 test('should be able to render components with forwardRef in HOC', () => {
   /**
-   * @param {(params: Parameters<Exclude<Components['a'], 'a'>>[0]) => JSX.Element} Component
+   * @typedef {import('react').Ref<HTMLAnchorElement>} Ref
+   * @typedef {JSX.IntrinsicElements['a'] & import('../src/ast-to-react').ReactMarkdownProps} Props
+   */
+
+  /**
+   * @param {(params: Props) => JSX.Element} Component
    */
   const wrapper = (Component) => {
     return React.forwardRef(
       /**
-       *
-       * @param {Parameters<Components['a']>[0]} props
-       * @param {import('react').Ref<HTMLAnchorElement>} ref
-       * @returns
+       * @param {Props} props
+       * @param {Ref} ref
        */
       (props, ref) => <Component ref={ref} {...props} />
     )
   }
 
   /**
-   * @param {Parameters<Exclude<Components['a'], 'a'>>[0]} props
+   * @param {Props} props
    */
   // eslint-disable-next-line react/jsx-no-target-blank
   const wrapped = (props) => <a {...props} />
 
   const component = renderer.create(
+    // @ts-expect-error: something up with types for refs.
     <Markdown components={{a: wrapper(wrapped)}}>
       [Link](https://example.com/)
     </Markdown>
@@ -1065,8 +1083,9 @@ test('should support formatting at the start of a GFM tasklist (GH-494)', () => 
 
 test('should support aria properties', () => {
   const input = 'c'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({
       type: 'element',
       tagName: 'input',
       properties: {id: 'a', ariaDescribedBy: 'b', required: true},
@@ -1083,8 +1102,9 @@ test('should support aria properties', () => {
 
 test('should support data properties', () => {
   const input = 'b'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {dataWhatever: 'a'},
@@ -1101,8 +1121,9 @@ test('should support data properties', () => {
 
 test('should support comma separated properties', () => {
   const input = 'c'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {accept: ['a', 'b']},
@@ -1119,8 +1140,9 @@ test('should support comma separated properties', () => {
 
 test('should support `style` properties', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {style: 'color: red; font-weight: bold'},
@@ -1137,8 +1159,9 @@ test('should support `style` properties', () => {
 
 test('should support `style` properties w/ vendor prefixes', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {style: '-ms-b: 1; -webkit-c: 2'},
@@ -1155,8 +1178,9 @@ test('should support `style` properties w/ vendor prefixes', () => {
 
 test('should support broken `style` properties', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {style: 'broken'},
@@ -1173,8 +1197,9 @@ test('should support broken `style` properties', () => {
 
 test('should support SVG elements', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({
       type: 'element',
       tagName: 'svg',
       properties: {xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 500 500'},
@@ -1212,8 +1237,9 @@ test('should support SVG elements', () => {
 
 test('should support (ignore) comments', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    tree.children.unshift({type: 'comment', value: 'things!'})
+  const plugin = () => (/** @type {Node} */ tree) => {
+    const node = /** @type {Root} */ (tree)
+    node.children.unshift({type: 'comment', value: 'things!'})
   }
 
   const actual = renderHTML(
@@ -1225,14 +1251,11 @@ test('should support (ignore) comments', () => {
 
 test('should support table cells w/ style', () => {
   const input = '| a  |\n| :- |'
-  const plugin = () => (/** @type {Root} */ tree) => {
-    visit(
-      tree,
-      {type: 'element', tagName: 'th'},
-      (/** @type {Element} */ th) => {
-        th.properties.style = 'color: red'
-      }
-    )
+  const plugin = () => (/** @type {Node} */ tree) => {
+    visit(tree, {type: 'element', tagName: 'th'}, (node) => {
+      const th = /** @type {Element} */ (node)
+      th.properties = {...(th.properties || {}), style: 'color: red'}
+    })
   }
 
   const actual = renderHTML(

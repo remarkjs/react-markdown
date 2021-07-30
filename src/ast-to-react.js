@@ -2,15 +2,10 @@
 
 const React = require('react')
 const ReactIs = require('react-is')
-// @ts-ignore remove when typed
 const svg = require('property-information/svg')
-// @ts-ignore remove when typed
 const find = require('property-information/find')
-// @ts-ignore remove when typed
 const hastToReact = require('property-information/hast-to-react.json')
-// @ts-ignore remove when typed
 const spaces = require('space-separated-tokens')
-// @ts-ignore remove when typed
 const commas = require('comma-separated-tokens')
 const style = require('style-to-object')
 
@@ -73,7 +68,7 @@ exports.hastChildrenToReact = childrenToReact
  * @param {string} href
  * @param {Array.<Comment|Element|Text>} children
  * @param {string?} title
- * @returns {string}
+ * @returns {string|undefined}
  *
  * @typedef {keyof IntrinsicElements} ReactMarkdownNames
  *
@@ -142,7 +137,7 @@ exports.hastChildrenToReact = childrenToReact
  * @property {boolean} [rawSourcePos=false]
  * @property {boolean} [skipHtml=false]
  * @property {boolean} [includeElementIndex=false]
- * @property {false|TransformLink} [transformLinkUri]
+ * @property {null|false|TransformLink} [transformLinkUri]
  * @property {TransformImage} [transformImageUri]
  * @property {string|TransformLinkTarget} [linkTarget]
  * @property {Components} [components]
@@ -181,10 +176,10 @@ function childrenToReact(context, node) {
         children.push(child.value)
       }
     }
-    // @ts-ignore `raw` nodes are non-standard
+    // @ts-expect-error `raw` nodes are non-standard
     else if (child.type === 'raw' && !context.options.skipHtml) {
       // Default behavior is to show (encoded) HTML.
-      // @ts-ignore `raw` nodes are non-standard
+      // @ts-expect-error `raw` nodes are non-standard
       children.push(child.value)
     }
   }
@@ -202,7 +197,7 @@ function toReact(context, node, index, parent) {
   const options = context.options
   const parentSchema = context.schema
   /** @type {ReactMarkdownNames} */
-  // @ts-ignore assume a known HTML/SVG element.
+  // @ts-expect-error assume a known HTML/SVG element.
   const name = node.tagName
   /** @type {Object.<string, unknown>} */
   const properties = {}
@@ -215,10 +210,13 @@ function toReact(context, node, index, parent) {
     context.schema = schema
   }
 
-  for (property in node.properties) {
-    /* istanbul ignore else - prototype polution. */
-    if (own.call(node.properties, property)) {
-      addProperty(properties, property, node.properties[property], context)
+  /* istanbul ignore else - types say they’re optional. */
+  if (node.properties) {
+    for (property in node.properties) {
+      /* istanbul ignore else - prototype polution. */
+      if (own.call(node.properties, property)) {
+        addProperty(properties, property, node.properties[property], context)
+      }
     }
   }
 
@@ -241,7 +239,6 @@ function toReact(context, node, index, parent) {
     start: {line: null, column: null, offset: null},
     end: {line: null, column: null, offset: null}
   }
-  /** @type {NormalComponents[keyof NormalComponents]|SpecialComponents[keyof SpecialComponents]|ReactMarkdownNames} */
   const component =
     options.components && own.call(options.components, name)
       ? options.components[name]
@@ -264,14 +261,14 @@ function toReact(context, node, index, parent) {
   if (name === 'a' && options.linkTarget) {
     properties.target =
       typeof options.linkTarget === 'function'
-        ? // @ts-ignore assume `href` is a string
+        ? // @ts-expect-error assume `href` is a string
           options.linkTarget(properties.href, node.children, properties.title)
         : options.linkTarget
   }
 
   if (name === 'a' && options.transformLinkUri) {
     properties.href = options.transformLinkUri(
-      // @ts-ignore assume `href` is a string
+      // @ts-expect-error assume `href` is a string
       properties.href,
       node.children,
       properties.title
@@ -301,7 +298,7 @@ function toReact(context, node, index, parent) {
 
   if (name === 'img' && options.transformImageUri) {
     properties.src = options.transformImageUri(
-      // @ts-ignore assume `src` is a string
+      // @ts-expect-error assume `src` is a string
       properties.src,
       properties.alt,
       properties.title
@@ -310,7 +307,8 @@ function toReact(context, node, index, parent) {
 
   if (!basic && name === 'li' && parent.type === 'element') {
     const input = getInputElement(node)
-    properties.checked = input ? Boolean(input.properties.checked) : null
+    properties.checked =
+      input && input.properties ? Boolean(input.properties.checked) : null
     properties.index = getElementsBeforeCount(parent, node)
     properties.ordered = parent.tagName === 'ol'
   }
@@ -323,7 +321,7 @@ function toReact(context, node, index, parent) {
   if (name === 'td' || name === 'th') {
     if (properties.align) {
       if (!properties.style) properties.style = {}
-      // @ts-ignore assume `style` is an object
+      // @ts-expect-error assume `style` is an object
       properties.style.textAlign = properties.align
       delete properties.align
     }
@@ -425,13 +423,14 @@ function addProperty(props, prop, value, ctx) {
     result = parseStyle(result)
   }
 
-  if (info.space) {
+  /* istanbul ignore else - types say they’re optional. */
+  if (info.space && info.property) {
     props[
       own.call(hastToReact, info.property)
         ? hastToReact[info.property]
         : info.property
     ] = result
-  } else {
+  } else if (info.attribute) {
     props[info.attribute] = result
   }
 }
@@ -471,7 +470,7 @@ function styleReplacer(_, $1) {
 }
 
 /**
- * @param {Position} pos
+ * @param {Position|{start: {line: null, column: null, offset: null}, end: {line: null, column: null, offset: null}}} pos
  * @returns {string}
  */
 function flattenPosition(pos) {
