@@ -2,6 +2,13 @@
 
 All notable changes will be documented in this file.
 
+## 6.0.3 - 2021-07-30
+
+*   [`13367ed`](https://github.com/remarkjs/react-markdown/commit/13367ed)
+    Fix types to include each element w/ its properties
+*   [`0a1931a`](https://github.com/remarkjs/react-markdown/commit/0a1931a)
+    Fix to add min version of `property-information`
+
 ## 6.0.2 - 2021-05-06
 
 *   [`cefc02d`](https://github.com/remarkjs/react-markdown/commit/cefc02d)
