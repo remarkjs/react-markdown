@@ -19,15 +19,15 @@ const childrenToReact = require('./ast-to-react.js').hastChildrenToReact
  * @typedef {import('./rehype-filter.js').RehypeFilterOptions} FilterOptions
  * @typedef {import('./ast-to-react.js').TransformOptions} TransformOptions
  *
- * @typedef {Object} CoreOptions
+ * @typedef CoreOptions
  * @property {string} children
  *
- * @typedef {Object} PluginOptions
+ * @typedef PluginOptions
  * @property {PluggableList} [plugins=[]] **deprecated**: use `remarkPlugins` instead
  * @property {PluggableList} [remarkPlugins=[]]
  * @property {PluggableList} [rehypePlugins=[]]
  *
- * @typedef {Object} LayoutOptions
+ * @typedef LayoutOptions
  * @property {string} [className]
  *
  * @typedef {CoreOptions & PluginOptions & LayoutOptions & FilterOptions & TransformOptions} ReactMarkdownOptions
@@ -40,7 +40,7 @@ const changelog =
   'https://github.com/remarkjs/react-markdown/blob/main/changelog.md'
 
 /**
- * @typedef {Object} Deprecation
+ * @typedef Deprecation
  * @property {string} id
  * @property {string} [to]
  */

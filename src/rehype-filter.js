@@ -13,7 +13,7 @@ module.exports = rehypeFilter
  * @param {Element|Root} parent
  * @returns {boolean|undefined}
  *
- * @typedef {Object} RehypeFilterOptions
+ * @typedef RehypeFilterOptions
  * @property {Array.<string>} [allowedElements]
  * @property {Array.<string>} [disallowedElements=[]]
  * @property {AllowElement} [allowElement]

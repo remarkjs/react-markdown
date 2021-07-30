@@ -24,7 +24,7 @@ exports.hastChildrenToReact = childrenToReact
  */
 
 /**
- * @typedef {Object} Info
+ * @typedef Info
  * @property {string?} space
  * @property {string?} attribute
  * @property {string?} property
@@ -38,16 +38,16 @@ exports.hastChildrenToReact = childrenToReact
  * @property {boolean} mustUseProperty
  * @property {boolean} defined
  *
- * @typedef {Object} Schema
+ * @typedef Schema
  * @property {Object.<string, Info>} property
  * @property {Object.<string, string>} normal
  * @property {string?} space
  *
- * @typedef {Object} Raw
+ * @typedef Raw
  * @property {'raw'} type
  * @property {string} value
  *
- * @typedef {Object} Context
+ * @typedef Context
  * @property {TransformOptions} options
  * @property {Schema} schema
  * @property {number} listDepth
@@ -74,7 +74,7 @@ exports.hastChildrenToReact = childrenToReact
  *
  * To do: is `data-sourcepos` typeable?
  *
- * @typedef {Object} ReactMarkdownProps
+ * @typedef ReactMarkdownProps
  * @property {Element} node
  * @property {string} key
  * @property {ReactNode[]} children
@@ -110,7 +110,7 @@ exports.hastChildrenToReact = childrenToReact
  * @param {JSX.IntrinsicElements['ul'] & ReactMarkdownProps & {depth: number, ordered: false}} props
  * @returns {ReactNode}
  *
- * @typedef {Object} SpecialComponents
+ * @typedef SpecialComponents
  * @property {CodeComponent|ReactMarkdownNames} code
  * @property {HeadingComponent|ReactMarkdownNames} h1
  * @property {HeadingComponent|ReactMarkdownNames} h2
@@ -130,7 +130,7 @@ exports.hastChildrenToReact = childrenToReact
  */
 
 /**
- * @typedef {Object} TransformOptions
+ * @typedef TransformOptions
  * @property {boolean} [sourcePos=false]
  * @property {boolean} [rawSourcePos=false]
  * @property {boolean} [skipHtml=false]

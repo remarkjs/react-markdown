@@ -359,7 +359,7 @@ test('should handle ordered lists with a start index', () => {
 test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () => {
   const input = '- foo\n\n  2. bar\n  3. baz\n\n- root\n'
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    * @param {boolean} props.ordered
    * @param {boolean|null} props.checked
@@ -373,7 +373,7 @@ test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () =
   }
 
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    * @param {true} props.ordered
    * @param {number} props.depth
@@ -385,7 +385,7 @@ test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () =
   }
 
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    * @param {false} props.ordered
    * @param {number} props.depth
@@ -409,7 +409,7 @@ test('should pass `inline: true` to inline code', () => {
       children={input}
       components={{
         /**
-         * @param {Object} props
+         * @param {object} props
          * @param {Element} props.node
          * @param {boolean} [props.inline]
          */
@@ -433,7 +433,7 @@ test('should pass `isHeader: boolean` to `tr`s', () => {
       remarkPlugins={[gfm]}
       components={{
         /**
-         * @param {Object} props
+         * @param {object} props
          * @param {Element} props.node
          * @param {boolean} props.isHeader
          */
@@ -499,7 +499,7 @@ test('should pass `level: number` to `h1`, `h2`, ...', () => {
   const input = '#\n##\n###'
 
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    * @param {number} props.level
    */
@@ -571,7 +571,7 @@ test('should set source position attributes if sourcePos option is enabled', () 
 test('should pass on raw source position to non-tag components if rawSourcePos option is enabled', () => {
   const input = '*Foo*\n\n------------\n\n__Bar__'
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    * @param {Position|null} [props.sourcePosition]
    */
@@ -590,7 +590,7 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
 test('should pass on raw source position to non-tag components if rawSourcePos option is enabled and `rehype-raw` is used', () => {
   const input = '*Foo*'
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Position|null} [props.sourcePosition]
    */
   const em = ({sourcePosition}) => {
@@ -815,7 +815,7 @@ test('should be able to override components', () => {
    */
   const heading = (level) => {
     /**
-     * @param {Object} props
+     * @param {object} props
      * @param {ReactNode[]} props.children
      */
     const component = (props) => (
@@ -889,7 +889,7 @@ test('can render the whole spectrum of markdown within a single run (with html p
 
 test('should support math', () => {
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    */
   function handle({node, ...props}) {
@@ -987,7 +987,7 @@ test('supports checkbox lists', () => {
 test('should pass index of a node under its parent to components if `includeElementIndex` option is enabled', () => {
   const input = 'Foo\n\nBar\n\nBaz'
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    * @param {ReactNode[]} props.children
    */
@@ -1056,7 +1056,7 @@ test('should pass `node` as prop to all non-tag/non-fragment components', () => 
   const input = "# So, *headers... they're _cool_*\n\n"
 
   /**
-   * @param {Object} props
+   * @param {object} props
    * @param {Element} props.node
    */
   const h1 = (props) => {
