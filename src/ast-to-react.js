@@ -72,8 +72,6 @@ exports.hastChildrenToReact = childrenToReact
  *
  * @typedef {keyof IntrinsicElements} ReactMarkdownNames
  *
- * @typedef {{ [key: string]: unknown, className?: string }} ReactBaseProps
- *
  * To do: is `data-sourcepos` typeable?
  *
  * @typedef {Object} ReactMarkdownProps
@@ -85,31 +83,31 @@ exports.hastChildrenToReact = childrenToReact
  * @property {number} [siblingCount] Passed when `options.includeElementIndex` is given
  *
  * @callback CodeComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {inline?: boolean}} props
+ * @param {JSX.IntrinsicElements['code'] & ReactMarkdownProps & {inline?: boolean}} props
  * @returns {ReactNode}
  *
  * @callback HeadingComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {level: number}} props
+ * @param {JSX.IntrinsicElements['h1'] & ReactMarkdownProps & {level: number}} props
  * @returns {ReactNode}
  *
  * @callback LiComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {checked: boolean|null, index: number, ordered: boolean}} props
+ * @param {JSX.IntrinsicElements['li'] & ReactMarkdownProps & {checked: boolean|null, index: number, ordered: boolean}} props
  * @returns {ReactNode}
  *
  * @callback OrderedListComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {depth: number, ordered: true}} props
+ * @param {JSX.IntrinsicElements['ol'] & ReactMarkdownProps & {depth: number, ordered: true}} props
  * @returns {ReactNode}
  *
  * @callback TableCellComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {style?: Object.<string, unknown>, isHeader: boolean}} props
+ * @param {JSX.IntrinsicElements['table'] & ReactMarkdownProps & {style?: Object.<string, unknown>, isHeader: boolean}} props
  * @returns {ReactNode}
  *
  * @callback TableRowComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {isHeader: boolean}} props
+ * @param {JSX.IntrinsicElements['tr'] & ReactMarkdownProps & {isHeader: boolean}} props
  * @returns {ReactNode}
  *
  * @callback UnorderedListComponent
- * @param {ReactBaseProps & ReactMarkdownProps & {depth: number, ordered: false}} props
+ * @param {JSX.IntrinsicElements['ul'] & ReactMarkdownProps & {depth: number, ordered: false}} props
  * @returns {ReactNode}
  *
  * @typedef {Object} SpecialComponents
