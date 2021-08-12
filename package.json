@@ -94,13 +94,9 @@
     "react": ">=16"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-is": "^17.0.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "c8": "^7.8.0",
     "esbuild": "^0.12.0",
     "esbuild-register": "^2.6.0",
