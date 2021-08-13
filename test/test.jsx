@@ -1,3 +1,13 @@
+/**
+ * @typedef {import('unist').Node} Node
+ * @typedef {import('unist').Position} Position
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('hast').Element} Element
+ * @typedef {import('hast').Text} Text
+ * @typedef {import('react').ReactNode} ReactNode
+ * @typedef {import('../index.js').Components} Components
+ */
+
 import {test} from 'uvu'
 import * as assert from 'uvu/assert'
 import fs from 'fs'
@@ -11,16 +21,6 @@ import ReactDom from 'react-dom/server.js'
 import Markdown from '../index.js'
 
 const own = {}.hasOwnProperty
-
-/**
- * @typedef {import('unist').Node} Node
- * @typedef {import('unist').Position} Position
- * @typedef {import('hast').Root} Root
- * @typedef {import('hast').Element} Element
- * @typedef {import('hast').Text} Text
- * @typedef {import('react').ReactNode} ReactNode
- * @typedef {import('../index.js').Components} Components
- */
 
 /**
  * @param {ReturnType<Markdown>} input
@@ -96,12 +96,12 @@ test('should warn when passed non-string children (boolean)', () => {
 })
 
 test('should not warn when passed `null` as children', () => {
-  // @ts-expect-error: runtime does not allow `null`.
+  // @ts-expect-error: types do not allow `null`.
   assert.equal(asHtml(<Markdown children={null} />), '')
 })
 
 test('should not warn when passed `undefined` as children', () => {
-  // @ts-expect-error: runtime does not allow `undefined`.
+  // @ts-expect-error: types do not allow `undefined`.
   assert.equal(asHtml(<Markdown children={undefined} />), '')
 })
 
@@ -193,19 +193,39 @@ test('should handle links with uppercase protocol', () => {
 
 test('should handle links with custom uri transformer', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-
-  /**
-   * @param {string} uri
-   * @returns {string}
-   */
-  const transform = (uri) => uri.replace(/^https?:/, '')
   const actual = asHtml(
-    <Markdown children={input} transformLinkUri={transform} />
+    <Markdown
+      children={input}
+      transformLinkUri={(uri) => uri.replace(/^https?:/, '')}
+    />
   )
   assert.equal(
     actual,
     '<p>This is <a href="//espen.codes/">a link</a> to Espen.Codes.</p>'
   )
+})
+
+test('should handle empty links with custom uri transformer', () => {
+  const input = 'Empty: []()'
+
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      transformLinkUri={(uri, _, title) => {
+        assert.equal(uri, '', '`uri` should be an empty string')
+        assert.equal(title, null, '`title` should be null')
+        return ''
+      }}
+    />
+  )
+
+  assert.equal(actual, '<p>Empty: <a href=""></a></p>')
+})
+
+test('should handle titles of links', () => {
+  const input = 'Empty: [](# "x")'
+  const actual = asHtml(<Markdown children={input} />)
+  assert.equal(actual, '<p>Empty: <a href="#" title="x"></a></p>')
 })
 
 test('should use target attribute for links if specified', () => {
@@ -219,16 +239,49 @@ test('should use target attribute for links if specified', () => {
 
 test('should call function to get target attribute for links if specified', () => {
   const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-  /**
-   * @param {string} uri
-   * @returns {string|undefined}
-   */
-  const getTarget = (uri) => (uri.startsWith('http') ? '_blank' : undefined)
-  const actual = asHtml(<Markdown children={input} linkTarget={getTarget} />)
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      linkTarget={(uri) => (uri.startsWith('http') ? '_blank' : undefined)}
+    />
+  )
   assert.equal(
     actual,
     '<p>This is <a href="https://espen.codes/" target="_blank">a link</a> to Espen.Codes.</p>'
   )
+})
+
+test('should handle links with custom target transformer', () => {
+  const input = 'Empty: []()'
+
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      linkTarget={(uri, _, title) => {
+        assert.equal(uri, '', '`uri` should be an empty string')
+        assert.equal(title, null, '`title` should be null')
+        return undefined
+      }}
+    />
+  )
+
+  assert.equal(actual, '<p>Empty: <a href=""></a></p>')
+})
+
+test('should handle links w/ titles with custom target transformer', () => {
+  const input = 'Empty: [](a "b")'
+
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      linkTarget={(_, _1, title) => {
+        assert.equal(title, 'b', '`title` should be given')
+        return undefined
+      }}
+    />
+  )
+
+  assert.equal(actual, '<p>Empty: <a href="a" title="b"></a></p>')
 })
 
 test('should support images without alt, url, or title', () => {
@@ -255,27 +308,53 @@ test('should handle images with title attribute', () => {
 
 test('should handle images with custom uri transformer', () => {
   const input = 'This is ![an image](/ninja.png).'
-  /**
-   * @param {string} uri
-   * @returns {string}
-   */
-  const transform = (uri) => uri.replace(/\.png$/, '.jpg')
   const actual = asHtml(
-    <Markdown children={input} transformImageUri={transform} />
+    <Markdown
+      children={input}
+      transformImageUri={(uri) => uri.replace(/\.png$/, '.jpg')}
+    />
   )
   assert.equal(actual, '<p>This is <img src="/ninja.jpg" alt="an image"/>.</p>')
+})
+
+test('should handle images with custom uri transformer', () => {
+  const input = 'Empty: ![]()'
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      transformImageUri={(uri, alt, title) => {
+        assert.equal(uri, '', '`uri` should be an empty string')
+        assert.equal(alt, '', '`alt` should be an empty string')
+        assert.equal(title, null, '`title` should be null')
+        return ''
+      }}
+    />
+  )
+  assert.equal(actual, '<p>Empty: <img src="" alt=""/></p>')
+})
+
+test('should handle images w/ titles with custom uri transformer', () => {
+  const input = 'Empty: ![](a "b")'
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      transformImageUri={(src, _1, title) => {
+        assert.equal(title, 'b', '`title` should be passed')
+        return src
+      }}
+    />
+  )
+  assert.equal(actual, '<p>Empty: <img src="a" alt="" title="b"/></p>')
 })
 
 test('should handle image references with custom uri transformer', () => {
   const input =
     'This is ![The Waffle Ninja][ninja].\n\n[ninja]: https://some.host/img.png'
-  /**
-   * @param {string} uri
-   * @returns {string}
-   */
-  const transform = (uri) => uri.replace(/\.png$/, '.jpg')
   const actual = asHtml(
-    <Markdown children={input} transformImageUri={transform} />
+    <Markdown
+      children={input}
+      transformImageUri={(uri) => uri.replace(/\.png$/, '.jpg')}
+    />
   )
   assert.equal(
     actual,
@@ -448,45 +527,29 @@ test('should handle ordered lists with a start index', () => {
 
 test('should pass `ordered`, `depth`, `checked`, `index` to list/listItem', () => {
   const input = '- foo\n\n  2. bar\n  3. baz\n\n- root\n'
-  /**
-   * @param {object} props
-   * @param {Element} props.node
-   * @param {boolean} props.ordered
-   * @param {boolean|null} props.checked
-   * @param {number} props.index
-   */
-  const li = ({node, ordered, checked, index, ...props}) => {
-    assert.equal(typeof ordered, 'boolean')
-    assert.equal(checked, null)
-    assert.equal(index >= 0, true)
-    return React.createElement('li', props)
-  }
-
-  /**
-   * @param {object} props
-   * @param {Element} props.node
-   * @param {true} props.ordered
-   * @param {number} props.depth
-   */
-  const ol = ({node, ordered, depth, ...props}) => {
-    assert.equal(ordered, true)
-    assert.equal(depth >= 0, true)
-    return React.createElement('ol', props)
-  }
-
-  /**
-   * @param {object} props
-   * @param {Element} props.node
-   * @param {false} props.ordered
-   * @param {number} props.depth
-   */
-  const ul = ({node, ordered, depth, ...props}) => {
-    assert.equal(ordered, false)
-    assert.equal(depth >= 0, true)
-    return React.createElement('ul', props)
-  }
-
-  const actual = asHtml(<Markdown children={input} components={{li, ol, ul}} />)
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      components={{
+        li({node, ordered, checked, index, ...props}) {
+          assert.equal(typeof ordered, 'boolean')
+          assert.equal(checked, null)
+          assert.equal(index >= 0, true)
+          return React.createElement('li', props)
+        },
+        ol({node, ordered, depth, ...props}) {
+          assert.equal(ordered, true)
+          assert.equal(depth >= 0, true)
+          return React.createElement('ol', props)
+        },
+        ul({node, ordered, depth, ...props}) {
+          assert.equal(ordered, false)
+          assert.equal(depth >= 0, true)
+          return React.createElement('ul', props)
+        }
+      }}
+    />
+  )
 
   assert.equal(
     actual,
@@ -500,11 +563,6 @@ test('should pass `inline: true` to inline code', () => {
     <Markdown
       children={input}
       components={{
-        /**
-         * @param {object} props
-         * @param {Element} props.node
-         * @param {boolean} [props.inline]
-         */
         code({node, inline, ...props}) {
           assert.equal(inline === undefined || inline === true, true)
           return React.createElement('code', props)
@@ -524,11 +582,6 @@ test('should pass `isHeader: boolean` to `tr`s', () => {
       children={input}
       remarkPlugins={[gfm]}
       components={{
-        /**
-         * @param {object} props
-         * @param {Element} props.node
-         * @param {boolean} props.isHeader
-         */
         tr({node, isHeader, ...props}) {
           assert.equal(typeof isHeader === 'boolean', true)
           return React.createElement('tr', props)
@@ -674,21 +727,20 @@ test('should set source position attributes if sourcePos option is enabled', () 
 
 test('should pass on raw source position to non-tag components if rawSourcePos option is enabled', () => {
   const input = '*Foo*\n\n------------\n\n__Bar__'
-  /**
-   * @param {object} props
-   * @param {Element} props.node
-   * @param {Position|null} [props.sourcePosition]
-   */
-  const em = ({node, sourcePosition, ...props}) => {
-    assert.equal(sourcePosition, {
-      start: {line: 1, column: 1, offset: 0},
-      end: {line: 1, column: 6, offset: 5}
-    })
-    return <em className="custom" {...props} />
-  }
-
   const actual = asHtml(
-    <Markdown children={input} rawSourcePos components={{em}} />
+    <Markdown
+      children={input}
+      rawSourcePos
+      components={{
+        em({node, sourcePosition, ...props}) {
+          assert.equal(sourcePosition, {
+            start: {line: 1, column: 1, offset: 0},
+            end: {line: 1, column: 6, offset: 5}
+          })
+          return <em className="custom" {...props} />
+        }
+      }}
+    />
   )
 
   assert.equal(
@@ -699,24 +751,20 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
 
 test('should pass on raw source position to non-tag components if rawSourcePos option is enabled and `rehype-raw` is used', () => {
   const input = '*Foo*'
-  /**
-   * @param {object} props
-   * @param {Position|null} [props.sourcePosition]
-   */
-  const em = ({sourcePosition}) => {
-    assert.equal(sourcePosition, {
-      start: {line: 1, column: 1, offset: 0},
-      end: {line: 1, column: 6, offset: 5}
-    })
-    return ''
-  }
-
   asHtml(
     <Markdown
       children={input}
       rawSourcePos
       rehypePlugins={[raw]}
-      components={{em}}
+      components={{
+        em({sourcePosition}) {
+          assert.equal(sourcePosition, {
+            start: {line: 1, column: 1, offset: 0},
+            end: {line: 1, column: 6, offset: 5}
+          })
+          return ''
+        }
+      }}
     />
   )
 })
@@ -724,8 +772,9 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
 test('should skip nodes that are not defined as allowed', () => {
   const input =
     '# Header\n\nParagraph\n## New header\n1. List item\n2. List item 2'
-  const allowed = ['p', 'ol', 'li']
-  const actual = asHtml(<Markdown children={input} allowedElements={allowed} />)
+  const actual = asHtml(
+    <Markdown children={input} allowedElements={['p', 'ol', 'li']} />
+  )
   assert.equal(
     actual,
     '\n<p>Paragraph</p>\n\n<ol>\n<li>List item</li>\n<li>List item 2</li>\n</ol>'
@@ -867,7 +916,7 @@ test('should skip nodes that are defined as disallowed', () => {
 
   /** @type {string[]} */
   const inputs = []
-  /** @type {string} */
+  /** @type {keyof samples} */
   let key
 
   for (key in samples) {
@@ -878,26 +927,36 @@ test('should skip nodes that are defined as disallowed', () => {
 
   const fullInput = inputs.join('\n')
 
-  // eslint-disable-next-line unicorn/no-array-for-each
-  Object.keys(samples).forEach((/** @type {keyof samples} */ key) => {
-    /** @type {samples[keyof samples]} */
-    const sample = samples[key]
+  for (key in samples) {
+    if (own.call(samples, key)) {
+      const sample = samples[key]
 
-    assert.equal(
-      asHtml(
-        <Markdown children={fullInput} disallowedElements={[key]} />
-      ).includes(sample.shouldNotContain),
-      false
-    )
+      // Just to make sure, let ensure that the opposite is true
+      assert.equal(
+        asHtml(<Markdown children={fullInput} />).includes(
+          sample.shouldNotContain
+        ),
+        true,
+        'fixture should contain `' +
+          sample.shouldNotContain +
+          '` (`' +
+          key +
+          '`)'
+      )
 
-    // Just for sanity's sake, let ensure that the opposite is true
-    assert.equal(
-      asHtml(<Markdown children={fullInput} />).includes(
-        sample.shouldNotContain
-      ),
-      true
-    )
-  })
+      assert.equal(
+        asHtml(
+          <Markdown children={fullInput} disallowedElements={[key]} />
+        ).includes(sample.shouldNotContain),
+        false,
+        '`' +
+          key +
+          '` should not contain `' +
+          sample.shouldNotContain +
+          '` when disallowed'
+      )
+    }
+  }
 })
 
 test('should throw if both allowed and disallowed types is specified', () => {
@@ -918,17 +977,19 @@ test('should be able to use a custom function to determine if the node should be
     '[react-markdown](https://github.com/remarkjs/react-markdown/) is a nice helper',
     'Also check out [my website](https://espen.codes/)'
   ].join('\n\n')
-  /**
-   * @param {Element} element
-   */
-  const allow = (element) =>
-    element.tagName !== 'a' ||
-    (element.properties &&
-      typeof element.properties.href === 'string' &&
-      element.properties.href.indexOf('https://github.com/') === 0)
 
   assert.equal(
-    asHtml(<Markdown children={input} allowElement={allow} />),
+    asHtml(
+      <Markdown
+        children={input}
+        allowElement={(element) =>
+          element.tagName !== 'a' ||
+          (element.properties &&
+            typeof element.properties.href === 'string' &&
+            element.properties.href.indexOf('https://github.com/') === 0)
+        }
+      />
+    ),
     [
       '<h1>Header</h1>',
       '<p><a href="https://github.com/remarkjs/react-markdown/">react-markdown</a> is a nice helper</p>',
@@ -1022,14 +1083,11 @@ test('sanitizes certain dangerous urls for links by default', () => {
 test('allows specifying a custom URI-transformer', () => {
   const input =
     'Received a great [pull request](https://github.com/remarkjs/react-markdown/pull/15) today'
-
-  /**
-   * @param {string} uri
-   * @returns {string}
-   */
-  const transform = (uri) => uri.replace(/^https?:\/\/github\.com\//i, '/')
   const actual = asHtml(
-    <Markdown children={input} transformLinkUri={transform} />
+    <Markdown
+      children={input}
+      transformLinkUri={(uri) => uri.replace(/^https?:\/\/github\.com\//i, '/')}
+    />
   )
   assert.equal(
     actual,
@@ -1047,7 +1105,6 @@ test('should support turning off the default URI transform', () => {
 
 test('can use parser plugins', () => {
   const input = 'a ~b~ c'
-
   const actual = asHtml(<Markdown children={input} remarkPlugins={[gfm]} />)
   assert.equal(actual, '<p>a <del>b</del> c</p>')
 })
@@ -1063,19 +1120,17 @@ test('supports checkbox lists', () => {
 
 test('should pass index of a node under its parent to components if `includeElementIndex` option is enabled', () => {
   const input = 'Foo\n\nBar\n\nBaz'
-  /**
-   * @param {object} props
-   * @param {Element} props.node
-   * @param {ReactNode[]} props.children
-   * @param {number} [props.index]
-   */
-  const p = ({node, ...otherProps}) => {
-    assert.equal(typeof otherProps.index === 'number', true)
-    return <p>{otherProps.children}</p>
-  }
-
   const actual = asHtml(
-    <Markdown children={input} includeElementIndex components={{p}} />
+    <Markdown
+      children={input}
+      includeElementIndex
+      components={{
+        p({node, ...otherProps}) {
+          assert.equal(typeof otherProps.index === 'number', true)
+          return <p>{otherProps.children}</p>
+        }
+      }}
+    />
   )
   assert.equal(actual, '<p>Foo</p>\n<p>Bar</p>\n<p>Baz</p>')
 })
@@ -1136,20 +1191,20 @@ test('should render table of contents plugin', () => {
 
 test('should pass `node` as prop to all non-tag/non-fragment components', () => {
   const input = "# So, *headers... they're _cool_*\n\n"
-
-  /**
-   * @param {object} props
-   * @param {Element} props.node
-   */
-  const h1 = (props) => {
-    let text = ''
-    visit(props.node, 'text', (/** @type {Text} */ child) => {
-      text += child.value
-    })
-    return text
-  }
-
-  const actual = asHtml(<Markdown children={input} components={{h1}} />)
+  const actual = asHtml(
+    <Markdown
+      children={input}
+      components={{
+        h1(props) {
+          let text = ''
+          visit(props.node, 'text', (child) => {
+            text += child.value
+          })
+          return text
+        }
+      }}
+    />
+  )
   assert.equal(actual, 'So, headers... they&#x27;re cool')
 })
 
@@ -1163,9 +1218,10 @@ test('should support formatting at the start of a GFM tasklist (GH-494)', () => 
 
 test('should support aria properties', () => {
   const input = 'c'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({
       type: 'element',
       tagName: 'input',
       properties: {id: 'a', ariaDescribedBy: 'b', required: true},
@@ -1180,9 +1236,10 @@ test('should support aria properties', () => {
 
 test('should support data properties', () => {
   const input = 'b'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {dataWhatever: 'a'},
@@ -1197,9 +1254,10 @@ test('should support data properties', () => {
 
 test('should support comma separated properties', () => {
   const input = 'c'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {accept: ['a', 'b']},
@@ -1214,9 +1272,10 @@ test('should support comma separated properties', () => {
 
 test('should support `style` properties', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {style: 'color: red; font-weight: bold'},
@@ -1231,9 +1290,10 @@ test('should support `style` properties', () => {
 
 test('should support `style` properties w/ vendor prefixes', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {style: '-ms-b: 1; -webkit-c: 2'},
@@ -1248,9 +1308,10 @@ test('should support `style` properties w/ vendor prefixes', () => {
 
 test('should support broken `style` properties', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({
       type: 'element',
       tagName: 'i',
       properties: {style: 'broken'},
@@ -1265,9 +1326,10 @@ test('should support broken `style` properties', () => {
 
 test('should support SVG elements', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({
       type: 'element',
       tagName: 'svg',
       properties: {xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 500 500'},
@@ -1303,9 +1365,10 @@ test('should support SVG elements', () => {
 
 test('should support (ignore) comments', () => {
   const input = 'a'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    const node = /** @type {Root} */ (tree)
-    node.children.unshift({type: 'comment', value: 'things!'})
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    root.children.unshift({type: 'comment', value: 'things!'})
   }
 
   const actual = asHtml(<Markdown children={input} rehypePlugins={[plugin]} />)
@@ -1315,10 +1378,11 @@ test('should support (ignore) comments', () => {
 
 test('should support table cells w/ style', () => {
   const input = '| a  |\n| :- |'
-  const plugin = () => (/** @type {Node} */ tree) => {
-    visit(tree, {type: 'element', tagName: 'th'}, (node) => {
-      const th = /** @type {Element} */ (node)
-      th.properties = {...(th.properties || {}), style: 'color: red'}
+
+  /** @type {import('unified').Plugin<void[], Root>} */
+  const plugin = () => (root) => {
+    visit(root, {type: 'element', tagName: 'th'}, (node) => {
+      node.properties = {...(node.properties || {}), style: 'color: red'}
     })
   }
 
@@ -1333,6 +1397,8 @@ test('should support table cells w/ style', () => {
 
 test('should crash on a plugin replacing `root`', () => {
   const input = 'a'
+  /** @type {import('unified').Plugin<void[], Root>} */
+  // @ts-expect-error: runtime.
   const plugin = () => () => ({type: 'comment', value: 'things!'})
   assert.throws(() => {
     asHtml(<Markdown children={input} rehypePlugins={[plugin]} />)

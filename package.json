@@ -80,9 +80,9 @@
   ],
   "dependencies": {
     "@types/hast": "^2.0.0",
-    "@types/unist": "^2.0.3",
+    "@types/unist": "^2.0.0",
     "comma-separated-tokens": "^2.0.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "^15.0.0",
     "property-information": "^6.0.0",
     "react-is": "^17.0.0",
     "remark-parse": "^10.0.0",
@@ -101,14 +101,13 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-is": "^17.0.0",
-    "c8": "^7.8.0",
+    "c8": "^7.0.0",
     "esbuild": "^0.12.0",
     "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "eslint-plugin-security": "^1.0.0",
-    "npm-run-all": "^4.0.0",
     "prettier": "^2.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
@@ -120,20 +119,17 @@
     "rimraf": "^3.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^4.0.0",
-    "uvu": "^0.5.1",
-    "xo": "^0.38.0"
+    "uvu": "^0.5.0",
+    "xo": "^0.39.0"
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
-    "build:ts": "rimraf \"{lib/**,test/**,*}.d.ts\" && tsc && type-coverage",
-    "build:umd": "esbuild index.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=ReactMarkdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.ReactMarkdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return ReactMarkdown;})));\"",
-    "build": "run-s build:*",
+    "build": "rimraf \"{lib/**/**,test/**,script/**,}*.d.ts\" && tsc && type-coverage && esbuild index.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=ReactMarkdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.ReactMarkdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return ReactMarkdown;})));\"",
     "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && xo --fix",
-    "test": "run-s build format test:coverage",
-    "test:unit": "node --no-warnings --experimental-loader=./test/loader.js ./node_modules/.bin/uvu test \"\\.jsx$\"",
-    "test:coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov npm run test:unit"
+    "test-api": "node --no-warnings --experimental-loader=./test/loader.js ./node_modules/.bin/uvu test \"\\.jsx$\"",
+    "test-coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov npm run test-api",
+    "test": "npm run build && npm run format && npm run test-coverage"
   },
-  "browserslist": "> 0.25%, not dead",
   "remarkConfig": {
     "plugins": [
       "preset-wooorm",
@@ -174,7 +170,6 @@
   },
   "xo": {
     "prettier": true,
-    "esnext": false,
     "extends": "xo-react",
     "envs": [
       "shared-node-browser"
@@ -185,15 +180,12 @@
           "lib/**/*.js"
         ],
         "extends": [
-          "plugin:es/restrict-to-es2015",
+          "plugin:es/restrict-to-es2019",
           "plugin:security/recommended"
         ],
         "rules": {
-          "capitalized-comments": "off",
           "complexity": "off",
-          "security/detect-object-injection": "off",
-          "unicorn/prefer-number-properties": "off",
-          "unicorn/prefer-optional-catch-binding": "off"
+          "security/detect-object-injection": "off"
         }
       },
       {
@@ -201,9 +193,9 @@
           "test/**/*.jsx"
         ],
         "rules": {
-          "node/file-extension-in-import": 0,
-          "react/no-children-prop": 0,
-          "react/prop-types": 0
+          "node/file-extension-in-import": "off",
+          "react/no-children-prop": "off",
+          "react/prop-types": "off"
         }
       }
     ]
