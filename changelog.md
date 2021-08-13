@@ -77,7 +77,7 @@ Now (**fixed**):
 | - | - |
 | `blockquote` | `blockquote` |
 | `break` | `br` |
-| `code`, `inlineCode` | `code`, `pre`**​*​** |
+| `code`, `inlineCode` | `code`, `pre`**​\*​** |
 | `definition` | **†** |
 | `delete` | `del`**‡** |
 | `emphasis` | `em` |
@@ -88,7 +88,7 @@ Now (**fixed**):
 | `list` | `ol`, `ul`**¶** |
 | `listItem` | `li` |
 | `paragraph` | `p` |
-| `root` | **​**​** |
+| `root` | **​\*\*​** |
 | `strong` | `strong` |
 | `table` | `table`**‡** |
 | `tableHead` | `thead`**‡** |
