@@ -37,9 +37,9 @@ A basic hello world:
 ```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import {render} from 'react-dom'
+import ReactDom from 'react-dom'
 
-render(<ReactMarkdown># Hello, *world*!</ReactMarkdown>, document.body)
+ReactDom.render(<ReactMarkdown># Hello, *world*!</ReactMarkdown>, document.body)
 ```
 
 <details>
@@ -53,19 +53,22 @@ render(<ReactMarkdown># Hello, *world*!</ReactMarkdown>, document.body)
 
 </details>
 
-Here is an example using `require`s, passing the markdown as a string, and how
+Here is an example that shows passing the markdown as a string and how
 to use a plugin ([`remark-gfm`][gfm], which adds support for strikethrough,
 tables, tasklists and URLs directly):
 
 ```jsx
-const React = require('react')
-const ReactMarkdown = require('react-markdown')
-const render = require('react-dom').render
-const gfm = require('remark-gfm')
+import React from 'react'
+import ReactDom from 'react-dom'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const markdown = `Just a link: https://reactjs.com.`
 
-render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.body)
+ReactDom.render(
+  <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />,
+  document.body
+)
 ```
 
 <details>
@@ -144,8 +147,8 @@ strikethrough, tables, tasklists and URLs directly:
 ```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import {render} from 'react-dom'
-import gfm from 'remark-gfm'
+import ReactDom from 'react-dom'
+import remarkGfm from 'remark-gfm'
 
 const markdown = `A paragraph with *emphasis* and **strong importance**.
 
@@ -161,7 +164,10 @@ A table:
 | - | - |
 `
 
-render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.body)
+ReactDom.render(
+  <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />,
+  document.body
+)
 ```
 
 <details>
@@ -211,11 +217,11 @@ second.
 ```jsx
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import {render} from 'react-dom'
-import gfm from 'remark-gfm'
+import ReactDom from 'react-dom'
+import remarkGfm from 'remark-gfm'
 
-render(
-  <ReactMarkdown remarkPlugins={[[gfm, {singleTilde: false}]]}>
+ReactDom.render(
+  <ReactMarkdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
     This ~is not~ strikethrough, but ~~this is~~!
   </ReactMarkdown>,
   document.body
@@ -243,24 +249,10 @@ In this case, we apply syntax highlighting with the seriously super amazing
 
 ```jsx
 import React from 'react'
+import ReactDom from 'react-dom'
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-/* Use `…/dist/cjs/…` if you’re not in ESM! */
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
-import {render} from 'react-dom'
-
-const components = {
-  code({node, inline, className, children, ...props}) {
-    const match = /language-(\w+)/.exec(className || '')
-    return !inline && match ? (
-      <SyntaxHighlighter style={dark} language={match[1]} PreTag="div" children={String(children).replace(/\n$/, '')} {...props} />
-    ) : (
-      <code className={className} {...props}>
-        {children}
-      </code>
-    )
-  }
-}
 
 // Did you know you can use tildes instead of backticks for code in markdown? ✨
 const markdown = `Here is some JavaScript code:
@@ -270,7 +262,30 @@ console.log('It works!')
 ~~~
 `
 
-render(<ReactMarkdown components={components} children={markdown} />, document.body)
+ReactDom.render(
+  <ReactMarkdown
+    children={markdown}
+    components={{
+      code({node, inline, className, children, ...props}) {
+        const match = /language-(\w+)/.exec(className || '')
+        return !inline && match ? (
+          <SyntaxHighlighter
+            children={String(children).replace(/\n$/, '')}
+            style={dark}
+            language={match[1]}
+            PreTag="div"
+            {...props}
+          />
+        ) : (
+          <code className={className} {...props}>
+            {children}
+          </code>
+        )
+      }
+    }}
+  />,
+  document.body
+)
 ```
 
 <details>
@@ -295,17 +310,18 @@ is used to support math in markdown, and a transform plugin
 
 ```jsx
 import React from 'react'
-import {render} from 'react-dom'
+import ReactDom from 'react-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
+
 import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
 
-render(
+ReactDom.render(
   <ReactMarkdown
+    children={`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
     remarkPlugins={[remarkMath]}
     rehypePlugins={[rehypeKatex]}
-    children={`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
   />,
   document.body
 )
@@ -374,9 +390,9 @@ can spare the bundle size (±60kb minzipped), then you can use
 
 ```jsx
 import React from 'react'
+import ReactDom from 'react-dom'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
-import {render} from 'react-dom'
 
 const input = `<div class="note">
 
@@ -384,7 +400,10 @@ Some *emphasis* and <strong>strong</strong>!
 
 </div>`
 
-render(<ReactMarkdown rehypePlugins={[rehypeRaw]} children={input} />, document.body)
+ReactDom.render(
+  <ReactMarkdown rehypePlugins={[rehypeRaw]} children={input} />,
+  document.body
+)
 ```
 
 <details>
@@ -408,7 +427,7 @@ markdown!
 You can also change the things that come from markdown:
 
 ```js
-<Markdown
+<ReactMarkdown
   components={{
     // Map `h1` (`# heading`) to use `h2`s.
     h1: 'h2',
