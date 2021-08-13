@@ -5,7 +5,7 @@ import remarkSlug from 'remark-slug'
 import remarkToc from 'remark-toc'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import {CodeMirrorEditor} from './codemirror.js'
 
 const initialValue = `# A demo of \`react-markdown\`
@@ -38,11 +38,11 @@ Here is an example of a plugin to highlight code:
 \`\`\`js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 
 ReactDOM.render(
-  <Markdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</Markdown>,
+  <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</ReactMarkdown>,
   document.querySelector('#content')
 )
 \`\`\`
@@ -89,11 +89,11 @@ You can pass components to change things:
 \`\`\`js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Markdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 import MyFancyRule from './components/my-fancy-rule.js'
 
 ReactDOM.render(
-  <Markdown
+  <ReactMarkdown
     components={{
       // Use h2s instead of h1s
       h1: 'h2',
@@ -102,7 +102,7 @@ ReactDOM.render(
     }}
   >
     # Your markdown here
-  </Markdown>,
+  </ReactMarkdown>,
   document.querySelector('#content')
 )
 \`\`\`
@@ -187,13 +187,13 @@ class Demo extends React.PureComponent {
         </div>
 
         <div className="result">
-          <Markdown
+          <ReactMarkdown
             className="markdown-body"
             remarkPlugins={this.state.remarkPlugins}
             rehypePlugins={this.state.rehypePlugins}
           >
             {this.state.value}
-          </Markdown>
+          </ReactMarkdown>
         </div>
       </>
     )
