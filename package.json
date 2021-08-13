@@ -67,8 +67,10 @@
     "Dennis S <denis.s@svsg.co>",
     "Evan Hensleigh <futuraprime@gmail.com>"
   ],
-  "types": "index.d.ts",
+  "sideEffects": false,
+  "type": "module",
   "main": "index.js",
+  "types": "index.d.ts",
   "unpkg": "react-markdown.min.js",
   "files": [
     "lib/",
@@ -81,7 +83,7 @@
     "@types/unist": "^2.0.3",
     "comma-separated-tokens": "^1.0.0",
     "prop-types": "^15.7.2",
-    "property-information": "^5.3.0",
+    "property-information": "^6.0.0",
     "react-is": "^17.0.0",
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.0.0",
@@ -101,7 +103,6 @@
     "@types/react-is": "^17.0.0",
     "c8": "^7.8.0",
     "esbuild": "^0.12.0",
-    "esbuild-register": "^2.6.0",
     "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
@@ -130,7 +131,7 @@
     "build": "run-s build:*",
     "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && xo --fix",
     "test": "run-s build format test:coverage",
-    "test:unit": "uvu -r esbuild-register test",
+    "test:unit": "node --no-warnings --experimental-loader=./test/loader.js ./node_modules/.bin/uvu test \"\\.jsx$\"",
     "test:coverage": "c8 --check-coverage --branches 100 --functions 100 --lines 100 --statements 100 --reporter lcov npm run test:unit"
   },
   "browserslist": "> 0.25%, not dead",
@@ -201,6 +202,7 @@
           "test/**/*.jsx"
         ],
         "rules": {
+          "node/file-extension-in-import": 0,
           "react/no-children-prop": 0,
           "react/prop-types": 0
         }

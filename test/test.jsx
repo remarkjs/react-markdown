@@ -1,14 +1,14 @@
-const {test} = require('uvu')
-const assert = require('uvu/assert')
-const fs = require('fs')
-const path = require('path')
-const React = require('react')
-const gfm = require('remark-gfm')
-const visit = require('unist-util-visit')
-const ReactDom = require('react-dom/server')
-const raw = require('rehype-raw')
-const Markdown = require('../index.js')
-const toc = require('remark-toc')
+import {test} from 'uvu'
+import * as assert from 'uvu/assert'
+import fs from 'fs'
+import path from 'path'
+import React from 'react'
+import gfm from 'remark-gfm'
+import visit from 'unist-util-visit'
+import raw from 'rehype-raw'
+import toc from 'remark-toc'
+import ReactDom from 'react-dom/server.js'
+import Markdown from '../index.js'
 
 const own = {}.hasOwnProperty
 
@@ -978,10 +978,10 @@ test('should throw on invalid component', () => {
 
 test('can render the whole spectrum of markdown within a single run', () => {
   const input = String(
-    fs.readFileSync(path.join(__dirname, 'fixtures', 'runthrough.md'))
+    fs.readFileSync(path.join('test', 'fixtures', 'runthrough.md'))
   )
   const expected = String(
-    fs.readFileSync(path.join(__dirname, 'fixtures', 'runthrough.html'))
+    fs.readFileSync(path.join('test', 'fixtures', 'runthrough.html'))
   )
 
   const actual = asHtml(
