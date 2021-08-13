@@ -992,6 +992,10 @@ test('can render the whole spectrum of markdown within a single run', () => {
 })
 
 test('sanitizes certain dangerous urls for links by default', () => {
+  const error = console.error
+
+  console.error = () => {}
+
   const input = [
     '# [Much fun](javascript:alert("foo"))',
     "Can be had with [XSS links](vbscript:foobar('test'))",
@@ -1011,6 +1015,8 @@ test('sanitizes certain dangerous urls for links by default', () => {
     actual,
     '<h1><a href="javascript:void(0)">Much fun</a></h1>\n<p>Can be had with <a href="javascript:void(0)">XSS links</a></p>\n<blockquote>\n<p>And <a href="javascript:void(0)">other</a> nonsense... <a href="javascript:void(0)">files</a> for instance</p>\n</blockquote>\n<h2><a href="javascript:void(0)">Entities</a> can be tricky, too</h2>\n<p>Regular <a href="https://foo.bar">links</a> must <a href="">be</a> allowed</p>\n<p><a href="javascript:void(0)" title="Dangerous stuff">Some ref</a></p>\n<p>Should allow <a href="mailto:ex@ample.com">mailto</a> and <a href="tel:13133">tel</a> links tho</p>\n<p>Also, <a href="//google.com">protocol-agnostic</a> should be allowed</p>\n<p>local <a href="/foo/bar">paths</a> should be <a href="foo">allowed</a></p>\n<p>allow <a href="?javascript:foo">weird</a> query strings and <a href="foo#vbscript:orders">hashes</a></p>'
   )
+
+  console.error = error
 })
 
 test('allows specifying a custom URI-transformer', () => {
