@@ -118,7 +118,7 @@ render(<ReactMarkdown remarkPlugins={[gfm]} children={markdown} />, document.bod
     [`./uri-transformer.js`][uri], optional)\
     URL to use for links.
     The default allows only `http`, `https`, `mailto`, and `tel`, and is
-    available at `ReactMarkdown.uriTransformer`.
+    exported from this module as `uriTransformer`.
     Pass `null` to allow all URLs.
     See [security][]
 *   `transformImageUri` (`(src, alt, title) => string`, default:
