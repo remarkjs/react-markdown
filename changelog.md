@@ -2,6 +2,36 @@
 
 All notable changes will be documented in this file.
 
+## 7.0.0 - 2021-08-13
+
+Welcome to version 7.
+This a major release and therefore contains breaking changes.
+
+### Breaking changes
+
+*   [`01b11fe`](https://github.com/remarkjs/react-markdown/commit/01b11fe)
+    [`c613efd`](https://github.com/remarkjs/react-markdown/commit/c613efd)
+    [`a1e1c3f`](https://github.com/remarkjs/react-markdown/commit/a1e1c3f)
+    [`aeee9ac`](https://github.com/remarkjs/react-markdown/commit/aeee9ac)
+    Use ESM
+    (please [read this](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c))
+*   [`3dffd6a`](https://github.com/remarkjs/react-markdown/commit/3dffd6a)
+    Update dependencies
+    (upgrade all your plugins and this should go fine)
+
+### Internals
+
+*   [`8b5481c`](https://github.com/remarkjs/react-markdown/commit/8b5481c)
+    [`fb1b512`](https://github.com/remarkjs/react-markdown/commit/fb1b512)
+    [`144af79`](https://github.com/remarkjs/react-markdown/commit/144af79)
+    Replace `jest` with `uvu`
+*   [`8c572df`](https://github.com/remarkjs/react-markdown/commit/8c572df)
+    Replace `rollup` with `esbuild`
+*   [`8737eac`](https://github.com/remarkjs/react-markdown/commit/8737eac)
+    [`28d4c75`](https://github.com/remarkjs/react-markdown/commit/28d4c75)
+    [`b2dd046`](https://github.com/remarkjs/react-markdown/commit/b2dd046)
+    Refactor code-style
+
 ## 6.0.3 - 2021-07-30
 
 *   [`13367ed`](https://github.com/remarkjs/react-markdown/commit/13367ed)
