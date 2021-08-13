@@ -1,5 +1,5 @@
 {
-  "include": ["*.js", "src/**.js", "test/**.js"],
+  "include": ["lib/**.js", "test/**.jsx", "index.js"],
   "exclude": ["**/*.min.js"],
   "compilerOptions": {
     "target": "ES2015",

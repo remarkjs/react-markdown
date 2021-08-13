@@ -67,11 +67,13 @@
     "Dennis S <denis.s@svsg.co>",
     "Evan Hensleigh <futuraprime@gmail.com>"
   ],
-  "types": "src/react-markdown.d.ts",
-  "main": "src/react-markdown.js",
+  "types": "index.d.ts",
+  "main": "index.js",
   "unpkg": "react-markdown.min.js",
   "files": [
-    "src/",
+    "lib/",
+    "index.d.ts",
+    "index.js",
     "react-markdown.min.js"
   ],
   "dependencies": {
@@ -123,8 +125,8 @@
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
-    "build:ts": "rimraf \"{src/**,test/**,}.d.ts\" && tsc && type-coverage",
-    "build:umd": "esbuild src/react-markdown.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=ReactMarkdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.ReactMarkdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return ReactMarkdown;})));\"",
+    "build:ts": "rimraf \"{lib/**,test/**,*}.d.ts\" && tsc && type-coverage",
+    "build:umd": "esbuild index.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=ReactMarkdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.ReactMarkdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return ReactMarkdown;})));\"",
     "build": "run-s build:*",
     "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && xo --fix",
     "test": "run-s build format test:coverage",
@@ -158,7 +160,8 @@
     "ignoreCatch": true,
     "#": "below is ignored because some proptypes will `any`",
     "ignoreFiles": [
-      "src/react-markdown.d.ts"
+      "lib/react-markdown.d.ts",
+      "index.d.ts"
     ]
   },
   "prettier": {
@@ -179,7 +182,7 @@
     "overrides": [
       {
         "files": [
-          "src/**/*.js"
+          "lib/**/*.js"
         ],
         "extends": [
           "plugin:es/restrict-to-es2015",

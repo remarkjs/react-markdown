@@ -7,7 +7,7 @@ const gfm = require('remark-gfm')
 const visit = require('unist-util-visit')
 const ReactDom = require('react-dom/server')
 const raw = require('rehype-raw')
-const Markdown = require('../src/react-markdown.js')
+const Markdown = require('../index.js')
 const toc = require('remark-toc')
 
 const own = {}.hasOwnProperty
@@ -19,7 +19,7 @@ const own = {}.hasOwnProperty
  * @typedef {import('hast').Element} Element
  * @typedef {import('hast').Text} Text
  * @typedef {import('react').ReactNode} ReactNode
- * @typedef {import('../src/ast-to-react').Components} Components
+ * @typedef {import('../index.js').Components} Components
  */
 
 /**
@@ -39,7 +39,7 @@ test('should warn when passed `source`', () => {
   /** @type {unknown} */
   let message
 
-  console.warn = (d) => {
+  console.warn = (/** @type {unknown} */ d) => {
     message = d
   }
 
@@ -59,7 +59,7 @@ test('should warn when passed non-string children (number)', () => {
   let message
 
   console.error = () => {}
-  console.warn = (d) => {
+  console.warn = (/** @type {unknown} */ d) => {
     message = d
   }
 
@@ -80,7 +80,7 @@ test('should warn when passed non-string children (boolean)', () => {
   let message
 
   console.error = () => {}
-  console.warn = (d) => {
+  console.warn = (/** @type {unknown} */ d) => {
     message = d
   }
 
@@ -110,7 +110,7 @@ test('should warn when passed `allowDangerousHtml`', () => {
   /** @type {unknown} */
   let message
 
-  console.warn = (d) => {
+  console.warn = (/** @type {unknown} */ d) => {
     message = d
   }
 
@@ -1067,6 +1067,7 @@ test('should pass index of a node under its parent to components if `includeElem
    * @param {object} props
    * @param {Element} props.node
    * @param {ReactNode[]} props.children
+   * @param {number} [props.index]
    */
   const p = ({node, ...otherProps}) => {
     assert.equal(typeof otherProps.index === 'number', true)
@@ -1082,7 +1083,7 @@ test('should pass index of a node under its parent to components if `includeElem
 test('should be able to render components with forwardRef in HOC', () => {
   /**
    * @typedef {import('react').Ref<HTMLAnchorElement>} Ref
-   * @typedef {JSX.IntrinsicElements['a'] & import('../src/ast-to-react').ReactMarkdownProps} Props
+   * @typedef {JSX.IntrinsicElements['a'] & import('../lib/ast-to-react').ReactMarkdownProps} Props
    */
 
   /**

@@ -590,7 +590,7 @@ abide by its terms.
 
 [cm-html]: https://spec.commonmark.org/0.29/#html-blocks
 
-[uri]: https://github.com/remarkjs/react-markdown/blob/main/src/uri-transformer.js
+[uri]: https://github.com/remarkjs/react-markdown/blob/main/lib/uri-transformer.js
 
 [security]: #security
 
