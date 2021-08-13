@@ -4,6 +4,7 @@
  */
 
 import {ReactMarkdown} from './lib/react-markdown.js'
+
 export {uriTransformer} from './lib/uri-transformer.js'
 
 export default ReactMarkdown

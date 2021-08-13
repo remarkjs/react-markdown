@@ -8,10 +8,10 @@
  * @typedef {import('../index.js').Components} Components
  */
 
+import fs from 'node:fs'
+import path from 'node:path'
 import {test} from 'uvu'
 import * as assert from 'uvu/assert'
-import fs from 'fs'
-import path from 'path'
 import React from 'react'
 import gfm from 'remark-gfm'
 import {visit} from 'unist-util-visit'
@@ -1144,15 +1144,14 @@ test('should be able to render components with forwardRef in HOC', () => {
   /**
    * @param {(params: Props) => JSX.Element} Component
    */
-  const wrapper = (Component) => {
-    return React.forwardRef(
+  const wrapper = (Component) =>
+    React.forwardRef(
       /**
        * @param {Props} props
        * @param {Ref} ref
        */
       (props, ref) => <Component ref={ref} {...props} />
     )
-  }
 
   /**
    * @param {Props} props
