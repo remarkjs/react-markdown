@@ -757,6 +757,7 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
       rawSourcePos
       rehypePlugins={[raw]}
       components={{
+        // @ts-expect-error JSX types currently only handle element returns not string returns
         em({sourcePosition}) {
           assert.equal(sourcePosition, {
             start: {line: 1, column: 1, offset: 0},

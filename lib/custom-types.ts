@@ -1,4 +1,4 @@
-import {ReactNode} from 'react'
+import {ReactNode, ComponentType} from 'react'
 import {Position} from 'unist'
 import {Element} from 'hast'
 
@@ -6,7 +6,6 @@ import {Element} from 'hast'
 
 export interface ReactMarkdownProps {
   node: Element
-  key: string
   children: ReactNode[]
   /**
    * Passed when `options.rawSourcePos` is given
@@ -25,7 +24,5 @@ export interface ReactMarkdownProps {
 export type NormalComponents = {
   [TagName in keyof JSX.IntrinsicElements]:
     | TagName
-    | ((
-        props: JSX.IntrinsicElements[TagName] & ReactMarkdownProps
-      ) => ReactNode)
+    | ComponentType<JSX.IntrinsicElements[TagName] & ReactMarkdownProps>
 }
