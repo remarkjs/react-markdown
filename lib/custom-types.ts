@@ -1,6 +1,6 @@
-import {ReactNode, ComponentType} from 'react'
-import {Position} from 'unist'
-import {Element} from 'hast'
+import type {ReactNode, ComponentType} from 'react'
+import type {Position} from 'unist'
+import type {Element} from 'hast'
 
 /* File for types which are not handled correctly in JSDoc mode */
 
