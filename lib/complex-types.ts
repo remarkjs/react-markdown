@@ -23,6 +23,6 @@ export interface ReactMarkdownProps {
 
 export type NormalComponents = {
   [TagName in keyof JSX.IntrinsicElements]:
-    | TagName
+    | keyof JSX.IntrinsicElements
     | ComponentType<JSX.IntrinsicElements[TagName] & ReactMarkdownProps>
 }
