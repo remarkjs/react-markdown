@@ -2,6 +2,13 @@
 
 All notable changes will be documented in this file.
 
+## 7.0.1 - 2021-08-26
+
+*   [`ec387c2`](https://github.com/remarkjs/react-markdown/commit/ec387c2)
+    Add improved type for `linkTarget` as string
+*   [`5af6bc7`](https://github.com/remarkjs/react-markdown/commit/5af6bc7)
+    Fix to correctly compile intrinsic types
+
 ## 7.0.0 - 2021-08-13
 
 Welcome to version 7.
