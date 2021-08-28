@@ -1195,6 +1195,7 @@ test('should pass `node` as prop to all non-tag/non-fragment components', () => 
     <Markdown
       children={input}
       components={{
+        // @ts-expect-error JSX types currently only handle element returns not string returns
         h1(props) {
           let text = ''
           visit(props.node, 'text', (child) => {
