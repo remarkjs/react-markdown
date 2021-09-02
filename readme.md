@@ -258,7 +258,7 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
-import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
+import {dark} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 // Did you know you can use tildes instead of backticks for code in markdown? ✨
 const markdown = `Here is some JavaScript code:
