@@ -82,6 +82,7 @@
     "@types/hast": "^2.0.0",
     "@types/unist": "^2.0.0",
     "comma-separated-tokens": "^2.0.0",
+    "hast-util-whitespace": "^2.0.0",
     "prop-types": "^15.0.0",
     "property-information": "^6.0.0",
     "react-is": "^17.0.0",
