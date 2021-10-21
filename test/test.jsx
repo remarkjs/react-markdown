@@ -1382,7 +1382,7 @@ test('should support table cells w/ style', () => {
   /** @type {import('unified').Plugin<void[], Root>} */
   const plugin = () => (root) => {
     visit(root, {type: 'element', tagName: 'th'}, (node) => {
-      node.properties = {...(node.properties || {}), style: 'color: red'}
+      node.properties = {...node.properties, style: 'color: red'}
     })
   }
 
