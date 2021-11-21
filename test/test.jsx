@@ -915,7 +915,7 @@ test('should skip nodes that are defined as disallowed', () => {
     hr: {input: '\n-----\nAnd with that...', shouldNotContain: '<hr'}
   }
 
-  /** @type {string[]} */
+  /** @type {Array<string>} */
   const inputs = []
   /** @type {keyof samples} */
   let key
@@ -1008,7 +1008,7 @@ test('should be able to override components', () => {
   const heading = (level) => {
     /**
      * @param {object} props
-     * @param {ReactNode[]} props.children
+     * @param {Array<ReactNode>} props.children
      */
     const component = (props) => (
       <span className={`heading level-${level}`}>{props.children}</span>
@@ -1220,7 +1220,7 @@ test('should support formatting at the start of a GFM tasklist (GH-494)', () => 
 test('should support aria properties', () => {
   const input = 'c'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({
       type: 'element',
@@ -1238,7 +1238,7 @@ test('should support aria properties', () => {
 test('should support data properties', () => {
   const input = 'b'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({
       type: 'element',
@@ -1256,7 +1256,7 @@ test('should support data properties', () => {
 test('should support comma separated properties', () => {
   const input = 'c'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({
       type: 'element',
@@ -1274,7 +1274,7 @@ test('should support comma separated properties', () => {
 test('should support `style` properties', () => {
   const input = 'a'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({
       type: 'element',
@@ -1292,7 +1292,7 @@ test('should support `style` properties', () => {
 test('should support `style` properties w/ vendor prefixes', () => {
   const input = 'a'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({
       type: 'element',
@@ -1310,7 +1310,7 @@ test('should support `style` properties w/ vendor prefixes', () => {
 test('should support broken `style` properties', () => {
   const input = 'a'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({
       type: 'element',
@@ -1328,7 +1328,7 @@ test('should support broken `style` properties', () => {
 test('should support SVG elements', () => {
   const input = 'a'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({
       type: 'element',
@@ -1367,7 +1367,7 @@ test('should support SVG elements', () => {
 test('should support (ignore) comments', () => {
   const input = 'a'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     root.children.unshift({type: 'comment', value: 'things!'})
   }
@@ -1380,7 +1380,7 @@ test('should support (ignore) comments', () => {
 test('should support table cells w/ style', () => {
   const input = '| a  |\n| :- |'
 
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   const plugin = () => (root) => {
     visit(root, {type: 'element', tagName: 'th'}, (node) => {
       node.properties = {...node.properties, style: 'color: red'}
@@ -1398,7 +1398,7 @@ test('should support table cells w/ style', () => {
 
 test('should crash on a plugin replacing `root`', () => {
   const input = 'a'
-  /** @type {import('unified').Plugin<void[], Root>} */
+  /** @type {import('unified').Plugin<Array<void>, Root>} */
   // @ts-expect-error: runtime.
   const plugin = () => () => ({type: 'comment', value: 'things!'})
   assert.throws(() => {
