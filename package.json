@@ -1,7 +1,7 @@
 {
   "name": "react-markdown",
   "version": "7.1.0",
-  "description": "Render Markdown as React components",
+  "description": "React component to render markdown",
   "license": "MIT",
   "keywords": [
     "remark",
