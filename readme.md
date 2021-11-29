@@ -1,3 +1,9 @@
+<!--
+Notes for maintaining this document:
+
+*   Update the link for `cm-html` once in a while
+-->
+
 # react-markdown
 
 [![Build][build-badge]][build]
@@ -8,30 +14,98 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-Markdown component for React using [**remark**][remark].
+React component to render markdown.
 
-[Learn markdown here][learn] and [check out the demo here][demo].
+## Feature highlights
+
+*   [x] **[safe][security] by default**
+    (no `dangerouslySetInnerHTML` or XSS attacks)
+*   [x] **[components][]**
+    (pass your own component to use instead of `<h2>` for `## hi`)
+*   [x] **[plugins][]**
+    (many plugins you can pick and choose from)
+*   [x] **[compliant][syntax]**
+    (100% to CommonMark, 100% to GFM with a plugin)
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`props`](#props)
+    *   [`uriTransformer`](#uritransformer)
+*   [Examples](#examples)
+    *   [Use a plugin](#use-a-plugin)
+    *   [Use a plugin with options](#use-a-plugin-with-options)
+    *   [Use custom components (syntax highlight)](#use-custom-components-syntax-highlight)
+    *   [Use remark and rehype plugins (math)](#use-remark-and-rehype-plugins-math)
+*   [Plugins](#plugins)
+*   [Syntax](#syntax)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Architecture](#architecture)
+*   [Appendix A: HTML in markdown](#appendix-a-html-in-markdown)
+*   [Appendix B: Components](#appendix-b-components)
+*   [Security](#security)
+*   [Related](#related)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package is a [React][] component that can be given a string of markdown
+that it’ll safely render to React elements.
+You can pass plugins to change how markdown is transformed to React elements and
+pass components that will be used instead of normal HTML elements.
+
+*   to learn markdown, see this [cheatsheet and tutorial][cheat]
+*   to try out `react-markdown`, see [our demo][demo]
+
+## When should I use this?
+
+There are other ways to use markdown in React out there so why use this one?
+The two main reasons are that they often rely on `dangerouslySetInnerHTML` or
+have bugs with how they handle markdown.
+`react-markdown` uses a syntax tree to build the virtual dom which allows for
+updating only the changing DOM instead of completely overwriting.
+`react-markdown` is 100% CommonMark compliant and has plugins to support other
+syntax extensions (such as GFM).
+
+These features are supported because we use [unified][], specifically [remark][]
+for markdown and [rehype][] for HTML, which are popular tools to transform
+content with plugins.
+
+This package focusses on making it easy for beginners to safely use markdown in
+React.
+When you’re familiar with unified, you can use a modern hooks based alternative
+[`react-remark`][react-remark] or [`rehype-react`][rehype-react] manually.
+If you instead want to use JavaScript and JSX *inside* markdown files, use
+[MDX][].
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 
 ```sh
 npm install react-markdown
 ```
 
-## Why this one?
+In Deno with [Skypack][]:
 
-There are other ways for markdown in React out there so why use this one?
-The two main reasons are that they often rely on `dangerouslySetInnerHTML` or
-have bugs with how they handle markdown.
-`react-markdown` uses a syntax tree to build the virtual dom which allows for
-updating only the changing DOM instead of completely overwriting.
-`react-markdown` is 100% CommonMark (optionally GFM) compliant and has
-extensions to support custom syntax.
+```js
+import ReactMarkdown from 'https://cdn.skypack.dev/react-markdown@7?dts'
+```
+
+In browsers with [Skypack][]:
+
+```html
+<script type="module">
+  import ReactMarkdown from 'https://cdn.skypack.dev/react-markdown@7?min'
+</script>
+```
 
 ## Use
 
@@ -87,68 +161,70 @@ ReactDom.render(
 
 ## API
 
-This package exports the following identifier: `uriTransformer`.
+This package exports the following identifier:
+[`uriTransformer`][uri-transformer].
 The default export is `ReactMarkdown`.
 
 ### `props`
 
 *   `children` (`string`, default: `''`)\
-    Markdown to parse
+    markdown to parse
+*   `components` (`Record<string, Component>`, default: `{}`)\
+    object mapping tag names to React components
+*   `remarkPlugins` (`Array<Plugin>`, default: `[]`)\
+    list of [remark plugins][remark-plugins] to use
+*   `rehypePlugins` (`Array<Plugin>`, default: `[]`)\
+    list of [rehype plugins][rehype-plugins] to use
 *   `className` (`string?`)\
-    Wrap the markdown in a `div` with this class name
+    wrap the markdown in a `div` with this class name
 *   `skipHtml` (`boolean`, default: `false`)\
-    Ignore HTML in Markdown completely
+    ignore HTML in markdown completely
 *   `sourcePos` (`boolean`, default: `false`)\
-    Pass a prop to all components with a serialized position
+    pass a prop to all components with a serialized position
     (`data-sourcepos="3:1-3:13"`)
 *   `rawSourcePos` (`boolean`, default: `false`)\
-    Pass a prop to all components with their [position][]
+    pass a prop to all components with their [position][]
     (`sourcePosition: {start: {line: 3, column: 1}, end:…}`)
 *   `includeElementIndex` (`boolean`, default: `false`)\
-    Pass the `index` (number of elements before it) and `siblingCount` (number
+    pass the `index` (number of elements before it) and `siblingCount` (number
     of elements in parent) as props to all components
-*   `allowedElements` (`Array.<string>`, default: `undefined`)\
-    Tag names to allow (can’t combine w/ `disallowedElements`).
-    By default all elements are allowed
-*   `disallowedElements` (`Array.<string>`, default: `undefined`)\
-    Tag names to disallow (can’t combine w/ `allowedElements`).
-    By default no elements are disallowed
+*   `allowedElements` (`Array<string>`, default: `undefined`)\
+    tag names to allow (can’t combine w/ `disallowedElements`), all tag names
+    are allowed by default
+*   `disallowedElements` (`Array<string>`, default: `undefined`)\
+    tag names to disallow (can’t combine w/ `allowedElements`), all tag names
+    are allowed by default
 *   `allowElement` (`(element, index, parent) => boolean?`, optional)\
-    Function called to check if an element is allowed (when truthy) or not.
-    `allowedElements` / `disallowedElements` is used first!
+    function called to check if an element is allowed (when truthy) or not,
+    `allowedElements` or `disallowedElements` is used first!
 *   `unwrapDisallowed` (`boolean`, default: `false`)\
-    Extract (unwrap) the children of not allowed elements.
-    By default, when `strong` is not allowed, it and it’s children is dropped,
-    but with `unwrapDisallowed` the element itself is dropped but the children
-    used
+    extract (unwrap) the children of not allowed elements, by default, when
+    `strong` is disallowed, it and it’s children are dropped, but with
+    `unwrapDisallowed` the element itself is replaced by its children
 *   `linkTarget` (`string` or `(href, children, title) => string`, optional)\
-    Target to use on links (such as `_blank` for `<a target="_blank"…`)
+    target to use on links (such as `_blank` for `<a target="_blank"…`)
 *   `transformLinkUri` (`(href, children, title) => string`, default:
-    [`./uri-transformer.js`][uri], optional)\
-    URL to use for links.
-    The default allows only `http`, `https`, `mailto`, and `tel`, and is
-    exported from this module as `uriTransformer`.
-    Pass `null` to allow all URLs.
-    See [security][]
+    [`uriTransformer`][uri-transformer], optional)\
+    change URLs on links, pass `null` to allow all URLs, see [security][]
 *   `transformImageUri` (`(src, alt, title) => string`, default:
-    [`./uri-transformer.js`][uri], optional)\
-    Same as `transformLinkUri` but for images
-*   `components` (`Object.<string, Component>`, default: `{}`)\
-    Object mapping tag names to React components
-*   `remarkPlugins` (`Array.<Plugin>`, default: `[]`)\
-    List of [remark plugins][remark-plugins] to use.
-    See the next section for examples on how to pass options
-*   `rehypePlugins` (`Array.<Plugin>`, default: `[]`)\
-    List of [rehype plugins][rehype-plugins] to use.
-    See the next section for examples on how to pass options
+    [`uriTransformer`][uri-transformer], optional)\
+    change URLs on images, pass `null` to allow all URLs, see [security][]
+
+### `uriTransformer`
+
+Our default URL transform, which you can overwrite (see props above).
+It’s given a URL and cleans it, by allowing only `http:`, `https:`, `mailto:`,
+and `tel:` URLs, absolute paths (`/example.png`), and hashes (`#some-place`).
+
+See the [source code here][uri].
 
 ## Examples
 
 ### Use a plugin
 
 This example shows how to use a remark plugin.
-In this case, [`remark-gfm`][gfm], which adds support for
-strikethrough, tables, tasklists and URLs directly:
+In this case, [`remark-gfm`][gfm], which adds support for strikethrough, tables,
+tasklists and URLs directly:
 
 ```jsx
 import React from 'react'
@@ -355,35 +431,74 @@ ReactDom.render(
 
 </details>
 
+## Plugins
+
+We use [unified][], specifically [remark][] for markdown and [rehype][] for
+HTML, which are tools to transform content with plugins.
+Here are three good ways to find plugins:
+
+*   [`awesome-remark`][awesome-remark] and [`awesome-rehype`][awesome-rehype]
+    — selection of the most awesome projects
+*   [List of remark plugins][remark-plugins] and
+    [list of rehype plugins][rehype-plugins]
+    — list of all plugins
+*   [`remark-plugin`][remark-plugin] and [`rehype-plugin`][rehype-plugin] topics
+    — any tagged repo on GitHub
+
+## Syntax
+
+`react-markdown` follows CommonMark, which standardizes the differences between
+markdown implementations, by default.
+Some syntax extensions are supported through plugins.
+
+We use [`micromark`][micromark] under the hood for our parsing.
+See its documentation for more information on markdown, CommonMark, and
+extensions.
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It exports `Options` and `Components` types, which specify the interface of the
+accepted props and components.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+They work in all modern browsers (essentially: everything not IE 11).
+You can use a bundler (such as esbuild, webpack, or Rollup) to use this package
+in your project, and use its options (or plugins) to add support for legacy
+browsers.
+
 ## Architecture
 
-```txt
-                                                           react-markdown
-+-------------------------------------------------------------------------------------------------------------------------------------------+
-|                                                                                                                                           |
-|            +----------+        +----------------+        +---------------+       +----------------+       +------------+                  |
-|            |          |        |                |        |               |       |                |       |            |                  |
-| -markdown->+  remark  +-mdast->+ remark plugins +-mdast->+ remark-rehype +-hast->+ rehype plugins +-hast->+ components +-react elements-> |
-|            |          |        |                |        |               |       |                |       |            |                  |
-|            +----------+        +----------------+        +---------------+       +----------------+       +------------+                  |
-|                                                                                                                                           |
-+-------------------------------------------------------------------------------------------------------------------------------------------+
-```
+<pre><code>                                                           react-markdown
+         +----------------------------------------------------------------------------------------------------------------+
+         |                                                                                                                |
+         |  +----------+        +----------------+        +---------------+       +----------------+       +------------+ |
+         |  |          |        |                |        |               |       |                |       |            | |
+<a href="https://commonmark.org">markdown</a>-+->+  <a href="https://github.com/remarkjs/remark">remark</a>  +-<a href="https://github.com/syntax-tree/mdast">mdast</a>->+ <a href="https://github.com/remarkjs/remark/blob/main/doc/plugins.md">remark plugins</a> +-<a href="https://github.com/syntax-tree/mdast">mdast</a>->+ <a href="https://github.com/remarkjs/remark-rehype">remark-rehype</a> +-<a href="https://github.com/syntax-tree/hast">hast</a>->+ <a href="https://github.com/rehypejs/rehype/blob/main/doc/plugins.md">rehype plugins</a> +-<a href="https://github.com/syntax-tree/hast">hast</a>->+ <a href="#appendix-b-components">components</a> +-+->react elements
+         |  |          |        |                |        |               |       |                |       |            | |
+         |  +----------+        +----------------+        +---------------+       +----------------+       +------------+ |
+         |                                                                                                                |
+         +----------------------------------------------------------------------------------------------------------------+
+</code></pre>
 
-relevant links: [markdown](https://commonmark.org), [remark](https://github.com/remarkjs/remark), [mdast](https://github.com/syntax-tree/mdast), [remark plugins](https://github.com/remarkjs/remark/blob/main/doc/plugins.md), [remark-rehype](https://github.com/remarkjs/remark-rehype), [hast](https://github.com/syntax-tree/hast), [rehype plugins](https://github.com/rehypejs/rehype/blob/main/doc/plugins.md), [components](#appendix-b-components)
+To understand what this project does, it’s important to first understand what
+unified does: please read through the [`unifiedjs/unified`][unified] readme (the
+part until you hit the API section is required reading).
 
-To understand what this project does, it’s very important to first understand
-what unified does: please read through the [`unifiedjs/unified`](https://github.com/unifiedjs/unified)
-readme (the part until you hit the API section is required reading).
+`react-markdown` is a unified pipeline — wrapped so that most folks don’t need
+to directly interact with unified.
+The processor goes through these steps:
 
-react-markdown is a unified pipeline — wrapped so that most folks don’t need to
-directly interact with unified.  The processor goes through these steps:
-
-*   Parse Markdown to mdast (markdown syntax tree)
-*   Transform through remark (markdown ecosystem)
-*   Transform mdast to hast (HTML syntax tree)
-*   Transform through rehype (HTML ecosystem)
-*   Render hast to react with components
+*   parse markdown to mdast (markdown syntax tree)
+*   transform through remark (markdown ecosystem)
+*   transform mdast to hast (HTML syntax tree)
+*   transform through rehype (HTML ecosystem)
+*   render hast to React with components
 
 ## Appendix A: HTML in markdown
 
@@ -432,7 +547,7 @@ markdown!
 
 You can also change the things that come from markdown:
 
-```js
+```jsx
 <ReactMarkdown
   components={{
     // Map `h1` (`# heading`) to use `h2`s.
@@ -444,9 +559,8 @@ You can also change the things that come from markdown:
 ```
 
 The keys in components are HTML equivalents for the things you write with
-markdown (such as `h1` for `# heading`)**†**
-
-**†** Normally, in markdown, those are: `a`, `blockquote`, `code`, `em`, `h1`,
+markdown (such as `h1` for `# heading`).
+Normally, in markdown, those are: `a`, `blockquote`, `br`, `code`, `em`, `h1`,
 `h2`, `h3`, `h4`, `h5`, `h6`, `hr`, `img`, `li`, `ol`, `p`, `pre`, `strong`, and
 `ul`.
 With [`remark-gfm`][gfm], you can also use: `del`, `input`, `table`, `tbody`,
@@ -464,7 +578,7 @@ There are some extra props passed.
     *   `className` (`string?`)
         — set to `language-js` or so when using ` ```js `
 *   `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
-    *   `level` (`number` beween 1 and 6)
+    *   `level` (`number` between 1 and 6)
         — heading rank
 *   `input` (when using [`remark-gfm`][gfm])
     *   `checked` (`boolean`)
@@ -523,19 +637,23 @@ Optionally, components will also receive:
 Use of `react-markdown` is secure by default.
 Overwriting `transformLinkUri` or `transformImageUri` to something insecure will
 open you up to XSS vectors.
-Furthermore, the `remarkPlugins` and `rehypePlugins` you use and `components`
-you write may be insecure.
+Furthermore, the `remarkPlugins`, `rehypePlugins`, and `components` you use may
+be insecure.
 
 To make sure the content is completely safe, even after what plugins do,
 use [`rehype-sanitize`][sanitize].
-That plugin lets you define your own schema of what is and isn’t allowed.
+It lets you define your own schema of what is and isn’t allowed.
 
 ## Related
 
 *   [`MDX`](https://github.com/mdx-js/mdx)
     — JSX *in* markdown
 *   [`remark-gfm`](https://github.com/remarkjs/remark-gfm)
-    — Plugin for GitHub flavored markdown support
+    — add support for GitHub flavored markdown support
+*   [`react-remark`][react-remark]
+    — modern hook based alternative
+*   [`rehype-react`][rehype-react]
+    — turn HTML into React elements
 
 ## Contribute
 
@@ -579,6 +697,8 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[skypack]: https://www.skypack.dev
+
 [health]: https://github.com/remarkjs/.github
 
 [contributing]: https://github.com/remarkjs/.github/blob/HEAD/contributing.md
@@ -591,11 +711,11 @@ abide by its terms.
 
 [author]: https://espen.codes/
 
+[micromark]: https://github.com/micromark/micromark
+
 [remark]: https://github.com/remarkjs/remark
 
 [demo]: https://remarkjs.github.io/react-markdown/
-
-[learn]: https://commonmark.org/help/
 
 [position]: https://github.com/syntax-tree/unist#position
 
@@ -613,12 +733,46 @@ abide by its terms.
 
 [rehype-plugins]: https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
 
-[cm-html]: https://spec.commonmark.org/0.29/#html-blocks
+[awesome-remark]: https://github.com/remarkjs/awesome-remark
+
+[awesome-rehype]: https://github.com/rehypejs/awesome-rehype
+
+[remark-plugin]: https://github.com/topics/remark-plugin
+
+[rehype-plugin]: https://github.com/topics/rehype-plugin
+
+[cm-html]: https://spec.commonmark.org/0.30/#html-blocks
 
 [uri]: https://github.com/remarkjs/react-markdown/blob/main/lib/uri-transformer.js
 
+[uri-transformer]: #uritransformer
+
+[react]: http://reactjs.org
+
+[cheat]: https://commonmark.org/help/
+
+[unified]: https://github.com/unifiedjs/unified
+
+[rehype]: https://github.com/rehypejs/rehype
+
+[react-remark]: https://github.com/remarkjs/react-remark
+
+[rehype-react]: https://github.com/rehypejs/rehype-react
+
+[mdx]: https://github.com/mdx-js/mdx/
+
+[typescript]: https://www.typescriptlang.org
+
 [security]: #security
+
+[components]: #appendix-b-components
+
+[plugins]: #plugins
+
+[syntax]: #syntax
 
 [react-syntax-highlighter]: https://github.com/react-syntax-highlighter/react-syntax-highlighter
 
 [conor]: https://github.com/conorhastings
+
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
