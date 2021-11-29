@@ -3,8 +3,6 @@
  * @typedef {import('./lib/ast-to-react.js').Components} Components
  */
 
-import {ReactMarkdown} from './lib/react-markdown.js'
-
 export {uriTransformer} from './lib/uri-transformer.js'
 
-export default ReactMarkdown
+export {ReactMarkdown as default} from './lib/react-markdown.js'
