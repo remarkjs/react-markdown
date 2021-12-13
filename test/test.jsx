@@ -590,7 +590,7 @@ test('should pass `isHeader: boolean` to `tr`s', () => {
     />
   )
   const expected =
-    '<table><thead><tr><th>a</th></tr></thead><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>'
+    '<table><thead><tr><th style="text-align:none">a</th></tr></thead><tbody><tr><td style="text-align:none">b</td></tr><tr><td style="text-align:none">c</td></tr></tbody></table>'
   assert.equal(actual, expected)
 })
 
@@ -613,7 +613,7 @@ test('should pass `isHeader: true` to `th`s, `isHeader: false` to `td`s', () => 
     />
   )
   const expected =
-    '<table><thead><tr><th>a</th></tr></thead><tbody><tr><td>b</td></tr><tr><td>c</td></tr></tbody></table>'
+    '<table><thead><tr><th style="text-align:none">a</th></tr></thead><tbody><tr><td style="text-align:none">b</td></tr><tr><td style="text-align:none">c</td></tr></tbody></table>'
   assert.equal(actual, expected)
 })
 
@@ -825,7 +825,7 @@ test('should render tables', () => {
 
   assert.equal(
     asHtml(<Markdown children={input} remarkPlugins={[gfm]} />),
-    '<p>Languages are fun, right?</p>\n<table><thead><tr><th style="text-align:left">ID</th><th style="text-align:center">English</th><th style="text-align:right">Norwegian</th><th>Italian</th></tr></thead><tbody><tr><td style="text-align:left">1</td><td style="text-align:center">one</td><td style="text-align:right">en</td><td>uno</td></tr><tr><td style="text-align:left">2</td><td style="text-align:center">two</td><td style="text-align:right">to</td><td>due</td></tr><tr><td style="text-align:left">3</td><td style="text-align:center">three</td><td style="text-align:right">tre</td><td>tre</td></tr></tbody></table>'
+    '<p>Languages are fun, right?</p>\n<table><thead><tr><th style="text-align:left">ID</th><th style="text-align:center">English</th><th style="text-align:right">Norwegian</th><th style="text-align:none">Italian</th></tr></thead><tbody><tr><td style="text-align:left">1</td><td style="text-align:center">one</td><td style="text-align:right">en</td><td style="text-align:none">uno</td></tr><tr><td style="text-align:left">2</td><td style="text-align:center">two</td><td style="text-align:right">to</td><td style="text-align:none">due</td></tr><tr><td style="text-align:left">3</td><td style="text-align:center">three</td><td style="text-align:right">tre</td><td style="text-align:none">tre</td></tr></tbody></table>'
   )
 })
 
@@ -834,7 +834,7 @@ test('should render partial tables', () => {
 
   assert.equal(
     asHtml(<Markdown children={input} remarkPlugins={[gfm]} />),
-    '<p>User is writing a table by hand</p>\n<table><thead><tr><th>Test</th><th>Test</th></tr></thead></table>'
+    '<p>User is writing a table by hand</p>\n<table><thead><tr><th style="text-align:none">Test</th><th style="text-align:none">Test</th></tr></thead></table>'
   )
 })
 
