@@ -1406,4 +1406,114 @@ test('should crash on a plugin replacing `root`', () => {
   }, /Expected a `root` node/)
 })
 
+/**
+ * @param {string} string
+ * @param {number} start
+ * @param {number} end
+ * @returns {import('unist').Literal<string>}
+ */
+const extractText = (string, start, end) => {
+  const startLine = string.slice(0, start).split('\n')
+  const endLine = string.slice(0, end).split('\n')
+  return {
+    type: 'text',
+    value: string.slice(start, end),
+    position: {
+      start: {
+        line: startLine.length,
+        column: startLine[startLine.length - 1].length + 1
+      },
+      end: {
+        line: endLine.length,
+        column: endLine[endLine.length - 1].length + 1
+      }
+    }
+  }
+}
+
+/** @type {import('unified').Plugin<Array<void>, import('unist').Literal<string>>} */
+const pluginCustomComponentType = () => {
+  const dRegex = /d/
+  /** @type {import('unified').Transformer<import('unist').Literal<string>>} */
+  const transformer = (tree) => {
+    visit(
+      /** @type {import('unist').Literal<string>} */ tree,
+      /** {@type string} */ 'text',
+      (
+        /** @type {import('unist').Literal<string>} */ node,
+        position,
+        /** @type {import('unist').Parent<import('unist').Literal<string>> | null} */ parent
+      ) => {
+        if (typeof node.value !== 'string') {
+          return
+        }
+
+        position = position ?? 0
+        /** @type {Array<import('unist').Literal<string>>} */
+        const definition = []
+        let lastIndex = 0
+        const match = dRegex.exec(node.value)
+        if (match !== null) {
+          const value = match[0]
+          if (match.index !== lastIndex) {
+            definition.push(extractText(node.value, lastIndex, match.index))
+          }
+
+          definition.push({type: 'customType', value})
+          lastIndex = match.index + value.length
+          if (lastIndex !== node.value.length) {
+            definition.push(
+              extractText(node.value, lastIndex, node.value.length)
+            )
+          }
+
+          if (parent !== null) {
+            const last = parent.children.slice(position + 1)
+            parent.children = parent.children.slice(0, position)
+            parent.children = parent.children.concat(definition)
+            parent.children = parent.children.concat(last)
+          }
+        }
+      }
+    )
+  }
+
+  return transformer
+}
+
+test('should support custom component type from a plugin', () => {
+  const input = 'abcdef'
+  const actual = asHtml(
+    <Markdown
+      remarkPlugins={[gfm]}
+      rehypePlugins={[pluginCustomComponentType]}
+      components={{
+        // @ts-expect-error: need to declare globally customType.
+        customType: (/** @type {Record<string, string>}  */ props) => {
+          return <div>{props.value}-custom</div>
+        }
+      }}
+    >
+      {input}
+    </Markdown>
+  )
+  const expected = '<p>abc<div>d-custom</div>ef</p>'
+  assert.equal(actual, expected)
+})
+
+test('should not replace custom component type from a plugin if not defined in components', () => {
+  const input = 'abcdef'
+  const actual = asHtml(
+    <Markdown
+      remarkPlugins={[gfm]}
+      rehypePlugins={[pluginCustomComponentType]}
+      components={{}}
+    >
+      {input}
+    </Markdown>
+  )
+  const expected = '<p>abcef</p>'
+  assert.equal(actual, expected)
+})
+
 test.run()
