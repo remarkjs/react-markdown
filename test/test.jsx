@@ -1448,7 +1448,7 @@ const pluginCustomComponentType = () => {
           return
         }
 
-        position = position ?? 0
+        position = position || 0
         /** @type {Array<import('unist').Literal<string>>} */
         const definition = []
         let lastIndex = 0
