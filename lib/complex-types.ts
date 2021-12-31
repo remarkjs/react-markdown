@@ -1,4 +1,4 @@
-import type {ReactNode, ComponentType} from 'react'
+import type {ReactNode, ComponentType, ComponentPropsWithoutRef} from 'react'
 import type {Position} from 'unist'
 import type {Element} from 'hast'
 
@@ -24,5 +24,5 @@ export interface ReactMarkdownProps {
 export type NormalComponents = {
   [TagName in keyof JSX.IntrinsicElements]:
     | keyof JSX.IntrinsicElements
-    | ComponentType<JSX.IntrinsicElements[TagName] & ReactMarkdownProps>
+    | ComponentType<ComponentPropsWithoutRef<TagName> & ReactMarkdownProps>
 }

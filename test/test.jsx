@@ -1161,7 +1161,6 @@ test('should be able to render components with forwardRef in HOC', () => {
   const wrapped = (props) => <a {...props} />
 
   const actual = asHtml(
-    // @ts-expect-error: something up with types for refs.
     <Markdown components={{a: wrapper(wrapped)}}>
       [Link](https://example.com/)
     </Markdown>
