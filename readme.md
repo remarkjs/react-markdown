@@ -175,6 +175,8 @@ The default export is `ReactMarkdown`.
     list of [remark plugins][remark-plugins] to use
 *   `rehypePlugins` (`Array<Plugin>`, default: `[]`)\
     list of [rehype plugins][rehype-plugins] to use
+*   `rehypeOptions` ([`RemarkRehype.Options`][remark-rehype-options], default: `{}`)\
+    options to pass through to [remark-rehype][]
 *   `className` (`string?`)\
     wrap the markdown in a `div` with this class name
 *   `skipHtml` (`boolean`, default: `false`)\
@@ -732,6 +734,10 @@ abide by its terms.
 [remark-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins
 
 [rehype-plugins]: https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
+
+[remark-rehype]: https://github.com/remarkjs/remark-rehype
+
+[remark-rehype-options]: https://github.com/remarkjs/remark-rehype#options
 
 [awesome-remark]: https://github.com/remarkjs/awesome-remark
 
