@@ -886,10 +886,10 @@ test('should render footnote with custom options', () => {
       <Markdown
         children={input}
         remarkPlugins={[gfm]}
-        rehypeOptions={{clobberPrefix: 'user-content-'}}
+        remarkRehypeOptions={{clobberPrefix: 'main-'}}
       />
     ),
-    '<p>This is a statement<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="true" aria-describedby="footnote-label">1</a></sup> with a citation.</p>\n<section data-footnotes="true" class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>\n<ol>\n<li id="user-content-fn-1">\n<p>This is a footnote for the citation. <a href="#user-content-fnref-1" data-footnote-backref="true" class="data-footnote-backref" aria-label="Back to content">↩</a></p>\n</li>\n</ol>\n</section>'
+    '<p>This is a statement<sup><a href="#main-fn-1" id="main-fnref-1" data-footnote-ref="true" aria-describedby="footnote-label">1</a></sup> with a citation.</p>\n<section data-footnotes="true" class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>\n<ol>\n<li id="main-fn-1">\n<p>This is a footnote for the citation. <a href="#main-fnref-1" data-footnote-backref="true" class="data-footnote-backref" aria-label="Back to content">↩</a></p>\n</li>\n</ol>\n</section>'
   )
 })
 
