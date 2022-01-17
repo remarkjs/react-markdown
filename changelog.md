@@ -2,6 +2,13 @@
 
 All notable changes will be documented in this file.
 
+## 8.0.0 - 2022-01-17
+
+### Change `plugins` to `remarkPlugins`
+
+This removes the already deprecated option `plugins`.
+It’s renamed to `remarkPlugins`.
+
 ## 7.0.1 - 2021-08-26
 
 *   [`ec387c2`](https://github.com/remarkjs/react-markdown/commit/ec387c2)
