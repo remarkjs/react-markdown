@@ -1,13 +1,44 @@
-# Change Log
+# Changelog
 
 All notable changes will be documented in this file.
 
 ## 8.0.0 - 2022-01-17
 
-### Change `plugins` to `remarkPlugins`
+<a name="change-plugins-to-remarkplugins"></a>
 
-This removes the already deprecated option `plugins`.
-It’s renamed to `remarkPlugins`.
+*   [`cd845c9`](https://github.com/remarkjs/react-markdown/commit/cd845c9)
+    Remove deprecated `plugins` option\
+    (**migrate by renaming it to `remarkPlugins`**)
+*   [`36e4916`](https://github.com/remarkjs/react-markdown/commit/36e4916)
+    Update [`remark-rehype`](https://github.com/remarkjs/remark-rehype),
+    add support for passing it options\
+    by [**@peolic**](https://github.com/peolic)
+    in [#669](https://github.com/remarkjs/react-markdown/pull/669)\
+    (**migrate by removing `remark-footnotes` and updating `remark-gfm` if you
+    were using them, otherwise you shouldn’t notice this**)
+
+## 7.1.2 - 2022-01-02
+
+*   [`656a4fa`](https://github.com/remarkjs/react-markdown/commit/656a4fa)
+    Fix `ref` in types\
+    by [**@ChristianMurphy**](https://github.com/ChristianMurphy)
+    in [#668](https://github.com/remarkjs/react-markdown/pull/668)
+
+## 7.1.1 - 2021-11-29
+
+*   [`4185f06`](https://github.com/remarkjs/react-markdown/commit/4185f06)
+    Add improved docs\
+    by [**@wooorm**](https://github.com/wooorm)
+    in [#657](https://github.com/remarkjs/react-markdown/pull/657)
+
+## 7.1.0 - 2021-10-21
+
+*   [`7b8a829`](https://github.com/remarkjs/react-markdown/commit/7b8a829)
+    Add support for `SpecialComponents` to be any `ComponentType`\
+    by [**@Methuselah96**](https://github.com/Methuselah96)
+    in [#640](https://github.com/remarkjs/react-markdown/pull/640)
+*   [`a7c26fc`](https://github.com/remarkjs/react-markdown/commit/a7c26fc)
+    Remove warning on whitespace in tables
 
 ## 7.0.1 - 2021-08-26
 
