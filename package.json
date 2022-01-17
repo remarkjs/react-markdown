@@ -104,7 +104,7 @@
     "@types/react-is": "^17.0.0",
     "c8": "^7.0.0",
     "esbuild": "^0.14.0",
-    "eslint-config-xo-react": "^0.25.0",
+    "eslint-config-xo-react": "^0.26.0",
     "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
