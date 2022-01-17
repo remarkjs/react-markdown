@@ -87,7 +87,7 @@
     "property-information": "^6.0.0",
     "react-is": "^17.0.0",
     "remark-parse": "^10.0.0",
-    "remark-rehype": "^9.0.0",
+    "remark-rehype": "^10.0.0",
     "space-separated-tokens": "^2.0.0",
     "style-to-object": "^0.3.0",
     "unified": "^10.0.0",
