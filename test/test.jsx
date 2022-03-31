@@ -17,7 +17,7 @@ import gfm from 'remark-gfm'
 import {visit} from 'unist-util-visit'
 import raw from 'rehype-raw'
 import toc from 'remark-toc'
-import ReactDom from 'react-dom/server.js'
+import ReactDom from 'react-dom/server'
 import Markdown from '../index.js'
 
 const own = {}.hasOwnProperty
@@ -636,7 +636,7 @@ test('should pass `index: number`, `ordered: boolean`, `checked: boolean | null`
     />
   )
   const expected =
-    '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" checked="" disabled=""/> a</li>\n<li class="task-list-item"><input type="checkbox" disabled=""/> b</li>\n<li>c</li>\n</ul>'
+    '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" disabled="" checked=""/> a</li>\n<li class="task-list-item"><input type="checkbox" disabled=""/> b</li>\n<li>c</li>\n</ul>'
   assert.equal(actual, expected)
 })
 
@@ -1134,7 +1134,7 @@ test('supports checkbox lists', () => {
   const actual = asHtml(<Markdown children={input} remarkPlugins={[gfm]} />)
   assert.equal(
     actual,
-    '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" disabled=""/> Foo</li>\n<li class="task-list-item"><input type="checkbox" checked="" disabled=""/> Bar</li>\n</ul>\n<hr/>\n<ul>\n<li>Foo</li>\n<li>Bar</li>\n</ul>'
+    '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" disabled=""/> Foo</li>\n<li class="task-list-item"><input type="checkbox" disabled="" checked=""/> Bar</li>\n</ul>\n<hr/>\n<ul>\n<li>Foo</li>\n<li>Bar</li>\n</ul>'
   )
 })
 
