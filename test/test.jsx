@@ -1430,11 +1430,21 @@ test('should crash on a plugin replacing `root`', () => {
 
 test('should work correctly when executed asynchronously', async () => {
   const input = '# Test'
+  let pluginExecuted = false
+
+  /** @type {import('unified').Plugin<void[]>} */
+  const asyncPlugin = () => {
+    return async () => {
+      pluginExecuted = true
+    }
+  }
 
   /** @type {ReactTestRenderer | undefined} */
   let component
   await act(async () => {
-    component = renderer.create(<Markdown children={input} async />)
+    component = renderer.create(
+      <Markdown children={input} async remarkPlugins={[asyncPlugin]} />
+    )
   })
 
   if (!component) fail('component not set')
@@ -1445,6 +1455,7 @@ test('should work correctly when executed asynchronously', async () => {
 
   assert.equal(renderedOutput.type, 'h1')
   assert.equal(renderedOutput.children, ['Test'])
+  assert.equal(pluginExecuted, true)
 })
 
 test.run()
