@@ -211,6 +211,9 @@ The default export is `ReactMarkdown`.
 *   `transformImageUri` (`(src, alt, title) => string`, default:
     [`uriTransformer`][uri-transformer], optional)\
     change URLs on images, pass `null` to allow all URLs, see [security][]
+*   `async` (`boolean`, default: `false`)\
+    change processing to support plugins that run asynchronously.  Note that
+    async usage may break server-side rendering.
 
 ### `uriTransformer`
 
