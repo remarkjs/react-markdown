@@ -6,10 +6,12 @@
  * @typedef {import('hast').Text} Text
  * @typedef {import('react').ReactNode} ReactNode
  * @typedef {import('../index.js').Components} Components
+ * @typedef {import('react-test-renderer').ReactTestRenderer} ReactTestRenderer
  */
 
 import fs from 'node:fs'
 import path from 'node:path'
+import {fail} from 'node:assert'
 import {test} from 'uvu'
 import * as assert from 'uvu/assert'
 import React from 'react'
@@ -18,6 +20,7 @@ import {visit} from 'unist-util-visit'
 import raw from 'rehype-raw'
 import toc from 'remark-toc'
 import ReactDom from 'react-dom/server'
+import renderer, {act} from 'react-test-renderer'
 import Markdown from '../index.js'
 
 const own = {}.hasOwnProperty
@@ -27,6 +30,7 @@ const own = {}.hasOwnProperty
  * @returns {string}
  */
 function asHtml(input) {
+  if (!input) return ''
   return ReactDom.renderToStaticMarkup(input)
 }
 
@@ -1422,6 +1426,25 @@ test('should crash on a plugin replacing `root`', () => {
   assert.throws(() => {
     asHtml(<Markdown children={input} rehypePlugins={[plugin]} />)
   }, /Expected a `root` node/)
+})
+
+test('should work correctly when executed asynchronously', async () => {
+  const input = '# Test'
+
+  /** @type {ReactTestRenderer | undefined} */
+  let component
+  await act(async () => {
+    component = renderer.create(<Markdown children={input} async />)
+  })
+
+  if (!component) fail('component not set')
+
+  const renderedOutput = component.toJSON()
+  if (!renderedOutput) fail('No rendered output provided')
+  if (Array.isArray(renderedOutput)) fail('Not expecting multiple children')
+
+  assert.equal(renderedOutput.type, 'h1')
+  assert.equal(renderedOutput.children, ['Test'])
 })
 
 test.run()
