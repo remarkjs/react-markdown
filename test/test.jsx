@@ -1424,4 +1424,50 @@ test('should crash on a plugin replacing `root`', () => {
   }, /Expected a `root` node/)
 })
 
+test('should support remark plugins with array parameter', async () => {
+  const error = console.error
+  /** @type {string} */
+  let message = ''
+
+  console.error = (/** @type {string} */ d) => {
+    message = d
+  }
+
+  const input = 'a'
+  /** @type {import('unified').Plugin<Array<Array<string>>, Root>} */
+  const plugin = () => () => {}
+
+  const actual = asHtml(
+    <Markdown children={input} remarkPlugins={[[plugin, ['foo', 'bar']]]} />
+  )
+  const expected = '<p>a</p>'
+  assert.equal(actual, expected)
+
+  assert.not.match(message, /Warning: Failed/, 'Prop types should be valid')
+  console.error = error
+})
+
+test('should support rehype plugins with array parameter', async () => {
+  const error = console.error
+  /** @type {string} */
+  let message = ''
+
+  console.error = (/** @type {string} */ d) => {
+    message = d
+  }
+
+  const input = 'a'
+  /** @type {import('unified').Plugin<Array<Array<string>>, Root>} */
+  const plugin = () => () => {}
+
+  const actual = asHtml(
+    <Markdown children={input} rehypePlugins={[[plugin, ['foo', 'bar']]]} />
+  )
+  const expected = '<p>a</p>'
+  assert.equal(actual, expected)
+
+  assert.not.match(message, /Warning: Failed/, 'Prop types should be valid')
+  console.error = error
+})
+
 test.run()
