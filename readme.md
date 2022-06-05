@@ -571,7 +571,8 @@ Other remark or rehype plugins that add support for new constructs will also
 work with `react-markdown`.
 
 The props that are passed are what you probably would expect: an `a` (link) will
-get `href` (and `title`) props, and `img` (image) an `src` (and `title`), etc.
+get `href` (and `title`) props, and `img` (image) an `src`, `alt` and `title`,
+etc.
 There are some extra props passed.
 
 *   `code`
