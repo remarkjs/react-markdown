@@ -72,6 +72,10 @@
   "main": "index.js",
   "types": "index.d.ts",
   "unpkg": "react-markdown.min.js",
+  "exports": {
+    "require": "./react-markdown.min.js",
+    "default": "./index.js"
+  },
   "files": [
     "lib/",
     "index.d.ts",
