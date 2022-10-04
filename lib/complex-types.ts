@@ -4,7 +4,7 @@ import type {Element} from 'hast'
 
 /* File for types which are not handled correctly in JSDoc mode */
 
-export interface ReactMarkdownProps {
+export type ReactMarkdownProps = {
   node: Element
   children: ReactNode[]
   /**
