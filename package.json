@@ -81,7 +81,6 @@
   "dependencies": {
     "@types/hast": "^2.0.0",
     "@types/prop-types": "^15.0.0",
-    "@types/unist": "^2.0.0",
     "comma-separated-tokens": "^2.0.0",
     "hast-util-whitespace": "^2.0.0",
     "prop-types": "^15.0.0",
@@ -92,7 +91,6 @@
     "space-separated-tokens": "^2.0.0",
     "style-to-object": "^0.3.0",
     "unified": "^10.0.0",
-    "unist-util-visit": "^4.0.0",
     "vfile": "^5.0.0"
   },
   "peerDependencies": {
