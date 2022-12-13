@@ -90,7 +90,7 @@
     "remark-parse": "^10.0.0",
     "remark-rehype": "^10.0.0",
     "space-separated-tokens": "^2.0.0",
-    "style-to-object": "^0.3.0",
+    "style-to-object": "^0.4.0",
     "unified": "^10.0.0",
     "unist-util-visit": "^4.0.0",
     "vfile": "^5.0.0"
@@ -104,7 +104,7 @@
     "@types/react-dom": "^18.0.0",
     "@types/react-is": "^17.0.0",
     "c8": "^7.0.0",
-    "esbuild": "^0.15.0",
+    "esbuild": "^0.16.0",
     "eslint-config-xo-react": "^0.27.0",
     "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
