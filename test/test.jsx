@@ -1158,7 +1158,7 @@ test('should pass index of a node under its parent to components if `includeElem
 test('should be able to render components with forwardRef in HOC', () => {
   /**
    * @typedef {import('react').Ref<HTMLAnchorElement>} Ref
-   * @typedef {JSX.IntrinsicElements['a'] & import('../lib/ast-to-react').ReactMarkdownProps} Props
+   * @typedef {JSX.IntrinsicElements['a'] & import('../lib/ast-to-react.js').ReactMarkdownProps} Props
    */
 
   /**
