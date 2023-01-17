@@ -134,19 +134,19 @@
   },
   "remarkConfig": {
     "plugins": [
-      "preset-wooorm",
+      "remark-preset-wooorm",
       [
-        "gfm",
+        "remark-gfm",
         {
           "tablePipeAlign": false
         }
       ],
       [
-        "lint-table-pipe-alignment",
+        "remark-lint-table-pipe-alignment",
         false
       ],
       [
-        "lint-no-html",
+        "remark-lint-no-html",
         false
       ]
     ]
