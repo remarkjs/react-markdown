@@ -4,9 +4,9 @@
  * @typedef {import('react').ReactNode} ReactNode
  */
 
+import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
-import {test} from 'uvu'
-import * as assert from 'uvu/assert'
+import test from 'node:test'
 import React from 'react'
 import gfm from 'remark-gfm'
 import {visit} from 'unist-util-visit'
@@ -728,7 +728,7 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
       rawSourcePos
       components={{
         em({node, sourcePosition, ...props}) {
-          assert.equal(sourcePosition, {
+          assert.deepEqual(sourcePosition, {
             start: {line: 1, column: 1, offset: 0},
             end: {line: 1, column: 6, offset: 5}
           })
@@ -754,7 +754,7 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
       components={{
         // @ts-expect-error JSX types currently only handle element returns not string returns
         em({sourcePosition}) {
-          assert.equal(sourcePosition, {
+          assert.deepEqual(sourcePosition, {
             start: {line: 1, column: 1, offset: 0},
             end: {line: 1, column: 6, offset: 5}
           })
@@ -1436,7 +1436,7 @@ test('should support remark plugins with array parameter', async () => {
   const expected = '<p>a</p>'
   assert.equal(actual, expected)
 
-  assert.not.match(message, /Warning: Failed/, 'Prop types should be valid')
+  assert.doesNotMatch(message, /Warning: Failed/, 'Prop types should be valid')
   console.error = error
 })
 
@@ -1459,8 +1459,6 @@ test('should support rehype plugins with array parameter', async () => {
   const expected = '<p>a</p>'
   assert.equal(actual, expected)
 
-  assert.not.match(message, /Warning: Failed/, 'Prop types should be valid')
+  assert.doesNotMatch(message, /Warning: Failed/, 'Prop types should be valid')
   console.error = error
 })
-
-test.run()

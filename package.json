@@ -100,6 +100,7 @@
     "react": ">=16"
   },
   "devDependencies": {
+    "@types/node": "^18.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/react-is": "^17.0.0",
@@ -121,14 +122,13 @@
     "rimraf": "^3.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^4.0.0",
-    "uvu": "^0.5.0",
     "xo": "^0.53.0"
   },
   "scripts": {
     "prepack": "npm run build && npm run format",
     "build": "tsc --build --clean && tsc --build && type-coverage && esbuild index.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=ReactMarkdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.ReactMarkdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return ReactMarkdown;})));\"",
     "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --loglevel warn && xo --fix",
-    "test-api": "node --no-warnings --experimental-loader=./test/loader.js --conditions development ./node_modules/.bin/uvu test \"\\.jsx$\"",
+    "test-api": "node --no-warnings --experimental-loader=./test/loader.js --conditions development test/test.jsx",
     "test-coverage": "c8 --check-coverage --100 --reporter lcov npm run test-api",
     "test": "npm run build && npm run format && npm run test-coverage"
   },
