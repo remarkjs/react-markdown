@@ -1,15 +1,10 @@
 /**
- * @typedef {import('unist').Node} Node
- * @typedef {import('unist').Position} Position
  * @typedef {import('hast').Root} Root
  * @typedef {import('hast').Element} Element
- * @typedef {import('hast').Text} Text
  * @typedef {import('react').ReactNode} ReactNode
- * @typedef {import('../index.js').Components} Components
  */
 
-import fs from 'node:fs'
-import path from 'node:path'
+import fs from 'node:fs/promises'
 import {test} from 'uvu'
 import * as assert from 'uvu/assert'
 import React from 'react'
@@ -1057,13 +1052,11 @@ test('should throw on invalid component', () => {
   )
 })
 
-test('can render the whole spectrum of markdown within a single run', () => {
-  const input = String(
-    fs.readFileSync(path.join('test', 'fixtures', 'runthrough.md'))
-  )
-  const expected = String(
-    fs.readFileSync(path.join('test', 'fixtures', 'runthrough.html'))
-  )
+test('can render the whole spectrum of markdown within a single run', async () => {
+  const inputUrl = new URL('fixtures/runthrough.md', import.meta.url)
+  const expectedUrl = new URL('fixtures/runthrough.html', import.meta.url)
+  const input = String(await fs.readFile(inputUrl))
+  const expected = String(await fs.readFile(expectedUrl))
 
   const actual = asHtml(
     <Markdown children={input} remarkPlugins={[gfm]} rehypePlugins={[raw]} />
