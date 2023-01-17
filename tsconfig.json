@@ -6,7 +6,6 @@
     "lib": ["es2020", "dom"],
     "module": "node16",
     "jsx": "react",
-    "allowJs": true,
     "checkJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,
