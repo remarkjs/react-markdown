@@ -14,6 +14,7 @@ import raw from 'rehype-raw'
 import toc from 'remark-toc'
 import ReactDom from 'react-dom/server'
 import Markdown from '../index.js'
+import * as mod from '../index.js'
 
 const own = {}.hasOwnProperty
 
@@ -24,6 +25,14 @@ const own = {}.hasOwnProperty
 function asHtml(input) {
   return ReactDom.renderToStaticMarkup(input)
 }
+
+test('ReactMarkdown', () => {
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['default', 'uriTransformer'],
+    'should expose the public api'
+  )
+})
 
 test('can render the most basic of documents (single paragraph)', () => {
   assert.equal(asHtml(<Markdown>Test</Markdown>), '<p>Test</p>')
