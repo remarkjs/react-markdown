@@ -1,15 +1,18 @@
 {
-  "include": ["lib/**/*.js", "test/**/*.jsx", "test/**/*.js", "index.js"],
-  "exclude": ["**/*.min.js"],
+  "include": ["**/*.js", "**/*.jsx"],
+  "exclude": ["coverage/", "node_modules/", "**/*.min.js"],
   "compilerOptions": {
-    "target": "es2021",
-    "lib": ["es2020", "dom"],
-    "module": "node16",
-    "jsx": "react",
     "checkJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es2020"],
+    "module": "node16",
+    "newLine": "lf",
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "target": "es2021",
+    "jsx": "preserve"
   }
 }
