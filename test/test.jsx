@@ -1263,7 +1263,7 @@ test('should support data properties', () => {
     root.children.unshift({
       type: 'element',
       tagName: 'i',
-      properties: {dataWhatever: 'a'},
+      properties: {dataWhatever: 'a', dataIgnoreThis: undefined},
       children: []
     })
   }
