@@ -2,6 +2,62 @@
 
 All notable changes will be documented in this file.
 
+## 8.0.6 - 2023-03-20
+
+*   [`33ab015`](https://github.com/remarkjs/react-markdown/commit/33ab015)
+    Update to TS 5\
+    by [**@Methuselah96**](https://github.com/Methuselah96)
+    in [#734](https://github.com/remarkjs/react-markdown/issues/734)
+
+## 8.0.5 - 2023-01-17
+
+*   [`d640d40`](https://github.com/remarkjs/react-markdown/commit/d640d40)
+    Update to use `node16` module resolution in `tsconfig.json`\
+    by [**@ChristianMurphy**](https://github.com/ChristianMurphy)
+    in [#723](https://github.com/remarkjs/react-markdown/pull/723)
+*   [`402fea3`](https://github.com/remarkjs/react-markdown/commit/402fea3)
+    Fix typo in `plugins` deprecation message\
+    by [**@marc2332**](https://github.com/marc2332)
+    in [#719](https://github.com/remarkjs/react-markdown/pull/719)
+*   [`4f98f73`](https://github.com/remarkjs/react-markdown/commit/4f98f73)
+    Remove deprecated and unneeded `defaultProps`\
+    by [**@Lepozepo**](https://github.com/Lepozepo)
+    in [#718](https://github.com/remarkjs/react-markdown/pull/718)
+
+## 8.0.4 - 2022-12-01
+
+*   [`9b20440`](https://github.com/remarkjs/react-markdown/commit/9b20440)
+    Fix type of `td`, `th` props\
+    by [**@lucasassisrosa**](https://github.com/lucasassisrosa)
+    in [#714](https://github.com/remarkjs/react-markdown/pull/714)
+*   [`cfe075b`](https://github.com/remarkjs/react-markdown/commit/cfe075b)
+    Add clarification of `alt` on `img` in docs\
+    by [**@cballenar**](https://github.com/cballenar)
+    in [#692](https://github.com/remarkjs/react-markdown/pull/692)
+
+## 8.0.3 - 2022-04-20
+
+*   [`a2fb833`](https://github.com/remarkjs/react-markdown/commit/a2fb833)
+    Fix prop types of plugins\
+    by [**@starpit**](https://github.com/starpit)
+    in [#683](https://github.com/remarkjs/react-markdown/pull/683)
+
+## 8.0.2 - 2022-03-31
+
+*   [`2712227`](https://github.com/remarkjs/react-markdown/commit/2712227)
+    Update `react-is`
+*   [`704c3c6`](https://github.com/remarkjs/react-markdown/commit/704c3c6)
+    Fix TypeScript bug by adding workaround\
+    by [**@Methuselah96**](https://github.com/Methuselah96)
+    in [#676](https://github.com/remarkjs/react-markdown/pull/676)
+
+## 8.0.1 - 2022-03-14
+
+*   [`c23ecf6`](https://github.com/remarkjs/react-markdown/commit/c23ecf6)
+    Add missing dependency for types\
+    by [**@Methuselah96**](https://github.com/Methuselah96)
+    in [#675](https://github.com/remarkjs/react-markdown/pull/675)
+
 ## 8.0.0 - 2022-01-17
 
 <a name="change-plugins-to-remarkplugins"></a>
