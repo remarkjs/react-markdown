@@ -354,14 +354,14 @@ ReactDom.render(
         const match = /language-(\w+)/.exec(className || '')
         return !inline && match ? (
           <SyntaxHighlighter
+            {...props}
             children={String(children).replace(/\n$/, '')}
             style={dark}
             language={match[1]}
             PreTag="div"
-            {...props}
           />
         ) : (
-          <code className={className} {...props}>
+          <code {...props} className={className}>
             {children}
           </code>
         )
