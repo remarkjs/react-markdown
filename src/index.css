@@ -1,13 +1,7 @@
 :root {
   --ff-sans: system-ui;
-  --ff-mono:
-    'San Francisco Mono',
-    'Monaco',
-    'Consolas',
-    'Lucida Console',
-    'DejaVu Sans Mono',
-    'Bitstream Vera Sans Mono',
-    monospace;
+  --ff-mono: 'San Francisco Mono', 'Monaco', 'Consolas', 'Lucida Console',
+    'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
   --gray-0: #fafbfc;
   --gray-2: #e1e4e8;
   --gray-4: #959da5;
@@ -22,8 +16,7 @@
 }
 
 html {
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   word-wrap: break-word;
   font-kerning: normal;
   font-family: var(--ff-sans);
@@ -70,6 +63,7 @@ body {
   padding: calc(1em + 1ex);
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .CodeMirror {
   width: 100%;
   height: 100%;
@@ -134,7 +128,7 @@ body {
   }
 }
 
-@media (max-width: 40em) {
+@media (width <= 40em) {
   .github-corner .octo-arm {
     animation: octocat-wave 560ms ease-in-out;
   }
@@ -144,7 +138,7 @@ body {
   }
 }
 
-@media (min-width: 40em) {
+@media (width >= 40em) {
   html {
     font-size: 1.125em;
   }
