@@ -1,14 +1,33 @@
+import {createStarryNight} from '@wooorm/starry-night'
+import sourceCss from '@wooorm/starry-night/lang/source.css.js'
+import sourceJs from '@wooorm/starry-night/lang/source.js.js'
+import sourceGfm from '@wooorm/starry-night/lang/source.gfm.js'
+import sourceTs from '@wooorm/starry-night/lang/source.ts.js'
+import sourceTsx from '@wooorm/starry-night/lang/source.tsx.js'
+import textHtmlBasic from '@wooorm/starry-night/lang/text.html.basic.js'
+import {toJsxRuntime} from 'hast-util-to-jsx-runtime'
 import React from 'react'
-import ReactDOM from 'react-dom'
+// @ts-expect-error: TypeScript is wrong.
+import {Fragment, jsx, jsxs} from 'react/jsx-runtime'
+import ReactDom from 'react-dom/client'
+import ReactMarkdown from 'react-markdown'
+// To do: replace with `starry-night` when async plugins are supported.
+import rehypeHighlight from 'rehype-highlight'
+import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import remarkSlug from 'remark-slug'
 import remarkToc from 'remark-toc'
-import rehypeHighlight from 'rehype-highlight'
-import rehypeRaw from 'rehype-raw'
-import ReactMarkdown from 'react-markdown'
-import {CodeMirrorEditor} from './codemirror.js'
 
-const initialValue = `# A demo of \`react-markdown\`
+const grammars = [
+  sourceCss,
+  sourceJs,
+  sourceGfm,
+  sourceTs,
+  sourceTsx,
+  textHtmlBasic
+]
+
+const sample = `# A demo of \`react-markdown\`
 
 \`react-markdown\` is a markdown component for React.
 
@@ -116,88 +135,101 @@ Much more info is available in the
 
 A component by [Espen Hovlandsdal](https://espen.codes/)`
 
-class Demo extends React.PureComponent {
-  constructor(props) {
-    super(props)
+const main = document.querySelectorAll('main')[0]
+const root = ReactDom.createRoot(main)
 
-    this.onControlsChange = this.onControlsChange.bind(this)
-    this.onSourceChange = this.onSourceChange.bind(this)
-    this.state = {
-      value: initialValue,
-      rehypePlugins: [[rehypeHighlight, {ignoreMissing: true}]],
-      remarkPlugins: [remarkSlug, remarkToc]
-    }
+/** @type {Awaited<ReturnType<createStarryNight>>} */
+let starryNight
+
+// eslint-disable-next-line unicorn/prefer-top-level-await -- XO is wrong.
+createStarryNight(grammars).then((x) => {
+  starryNight = x
+
+  const missing = starryNight.missingScopes()
+  if (missing.length > 0) {
+    throw new Error('Missing scopes: `' + missing + '`')
   }
 
-  onSourceChange(evt) {
-    this.setState({value: evt.target.value})
+  root.render(React.createElement(Playground))
+})
+
+function Playground() {
+  const [text, setText] = React.useState(sample)
+  const [gfm, setGfm] = React.useState(false)
+  const [raw, setRaw] = React.useState(false)
+  /** @type {import('unified').PluggableList} */
+  const rehypePlugins = [[rehypeHighlight, {ignoreMissing: true}]]
+  /** @type {import('unified').PluggableList} */
+  const remarkPlugins = [remarkSlug, remarkToc]
+
+  if (gfm) {
+    remarkPlugins.unshift(remarkGfm)
   }
 
-  onControlsChange(event) {
-    const name = event.target.name
-    const checked = event.target.checked
-
-    if (name === 'gfm') {
-      this.setState({
-        remarkPlugins: (checked ? [remarkGfm] : []).concat(
-          remarkSlug,
-          remarkToc
-        )
-      })
-    } else {
-      this.setState({
-        rehypePlugins: (checked ? [rehypeRaw] : []).concat(rehypeHighlight)
-      })
-    }
+  if (raw) {
+    rehypePlugins.unshift(rehypeRaw)
   }
 
-  render() {
-    return (
-      <>
-        <div className="editor">
-          <form className="controls">
-            <label>
-              <input
-                name="gfm"
-                type="checkbox"
-                onChange={this.onControlsChange}
-              />{' '}
-              Use <code>remark-gfm</code>
-              <span className="show-big"> (to enable GFM)</span>
-            </label>
-            <label>
-              <input
-                name="raw"
-                type="checkbox"
-                onChange={this.onControlsChange}
-              />{' '}
-              Use <code>rehype-raw</code>
-              <span className="show-big"> (to enable HTML)</span>
-            </label>
-          </form>
-
-          <form>
-            <CodeMirrorEditor
-              mode="markdown"
-              theme="nord"
-              value={this.state.value}
-              onChange={this.onSourceChange}
-            />
-          </form>
+  return (
+    <>
+      <form className="editor">
+        <div className="controls">
+          <label>
+            <input
+              type="checkbox"
+              name="gfm"
+              checked={gfm}
+              onChange={() => {
+                setGfm(!gfm)
+              }}
+            />{' '}
+            Use <code>remark-gfm</code>
+            <span className="show-big"> (to enable GFM)</span>
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="raw"
+              checked={raw}
+              onChange={() => {
+                setRaw(!raw)
+              }}
+            />{' '}
+            Use <code>rehype-raw</code>
+            <span className="show-big"> (to enable HTML)</span>
+          </label>
         </div>
-
-        <div className="result">
-          <ReactMarkdown
-            className="markdown-body"
-            remarkPlugins={this.state.remarkPlugins}
-            rehypePlugins={this.state.rehypePlugins}
-          >
-            {this.state.value}
-          </ReactMarkdown>
+        <div className="editor-inner">
+          {' '}
+          <div className="draw">
+            {toJsxRuntime(starryNight.highlight(text, 'source.gfm'), {
+              jsx,
+              jsxs,
+              Fragment
+            })}
+            {/* Trailing whitespace in a `textarea` is shown, but not in a `div`
+          with `white-space: pre-wrap`.
+          Add a `br` to make the last newline explicit. */}
+            {/\n[ \t]*$/.test(text) ? <br /> : undefined}
+          </div>
+          <textarea
+            spellCheck="false"
+            className="write"
+            value={text}
+            rows={text.split('\n').length + 1}
+            onChange={(event) => setText(event.target.value)}
+          />
         </div>
-      </>
-    )
-  }
+      </form>
+      <div className="result">
+        <ReactMarkdown
+          className="markdown-body"
+          remarkPlugins={remarkPlugins}
+          rehypePlugins={rehypePlugins}
+        >
+          {text}
+        </ReactMarkdown>
+      </div>
+    </>
+  )
 }
-
-ReactDOM.render(<Demo />, document.querySelector('main'))

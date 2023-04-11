@@ -1,46 +1,57 @@
 :root {
-  --ff-sans: system-ui;
-  --ff-mono: 'San Francisco Mono', 'Monaco', 'Consolas', 'Lucida Console',
-    'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
-  --gray-0: #fafbfc;
-  --gray-2: #e1e4e8;
-  --gray-4: #959da5;
-  --gray-6: #586069;
-  --gray-8: #2f363d;
-  --gray-10: #1b1f23;
+  --ff-sans: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Noto Sans',
+    'Helvetica', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --ff-mono: ui-monospace, 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas',
+    'Liberation Mono', monospace;
+  --color-canvas-back: #f6f8fa;
+  --color-hl: #0969da;
+  --color-fg: #0d1117;
+
+  color-scheme: light dark;
+  background-color: var(--color-canvas-back);
+  color: var(--color-fg);
+  font-family: var(--ff-sans);
+  font-kerning: normal;
+  font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+  text-size-adjust: 100%;
+  word-break: break-word;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas-back: #0d1117;
+    --color-hl: #58a6ff;
+    --color-fg: #f6f8fa;
+  }
+}
+
+body {
+  margin: 0;
+
+  /* background-color: var(--color-canvas-back); */
+
+  /* color: var(--color-fg); */
 }
 
 * {
-  line-height: calc(1em + 1ex);
+  line-height: calc(1 * (1em + 1ex));
   box-sizing: border-box;
 }
 
-html {
-  text-size-adjust: 100%;
-  word-wrap: break-word;
-  font-kerning: normal;
-  font-family: var(--ff-sans);
-  font-feature-settings: 'kern', 'liga', 'clig', 'calt';
-}
-
-textarea,
 code,
+kbd,
 pre,
-kbd {
+textarea,
+.write,
+.draw {
   font-family: var(--ff-mono);
   font-feature-settings: normal;
   font-size: smaller;
 }
 
-body {
-  background-color: var(--gray-10);
-  color: var(--gray-0);
-  margin: 0;
-}
-
 .page-header {
   font-size: inherit;
-  margin: calc(1em + 1ex);
+  margin: calc(1 * (1em + 1ex));
 }
 
 .editor,
@@ -59,30 +70,63 @@ body {
 .result {
   right: 0;
   left: 50%;
-  background-color: var(--gray-0);
   padding: calc(1em + 1ex);
 }
 
-/* stylelint-disable-next-line selector-class-pattern */
-.CodeMirror {
-  width: 100%;
-  height: 100%;
+.editor-inner {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  margin: 8px;
 }
 
-.editor textarea {
+/* .editor textarea {
   display: block;
   min-height: 100vh;
   width: 100%;
   border: 0;
   resize: none;
   padding: calc(1em + 1ex);
-  background-color: var(--gray-10);
-  color: var(--gray-0);
+  background-color: var(--color-canvas-back);
+  color: var(--color-fg);
+} */
+.write,
+.draw {
+  font-size: 14px;
+  tab-size: 4;
+  letter-spacing: normal;
+  line-height: calc(1 * (1em + 1ex));
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: transparent;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  resize: none;
+}
+
+.write::selection {
+  color: var(--color-fg);
+  background-color: hsl(42.22deg 74.31% 57.25% / 66%);
+}
+
+.write {
+  position: absolute;
+  top: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color: transparent;
+  caret-color: var(--color-hl);
 }
 
 .controls {
-  color: var(--gray-0);
-  background-color: var(--gray-10);
+  color: var(--color-fg);
+  background-color: var(--color-canvas-back);
   padding: calc(1ex);
   padding-top: 0;
 }
@@ -104,11 +148,6 @@ body {
 
 .show-big {
   display: none;
-}
-
-/* Fix too low contrast on code */
-.cm-s-nord span.cm-comment {
-  color: var(--gray-4) !important;
 }
 
 @keyframes octocat-wave {

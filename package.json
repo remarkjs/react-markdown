@@ -8,11 +8,13 @@
   "contributors": [],
   "type": "module",
   "devDependencies": {
+    "@wooorm/starry-night": "^2.0.0",
     "cssnano": "^6.0.0",
     "esbuild": "^0.17.0",
     "eslint-config-xo-react": "^0.27.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
+    "hast-util-to-jsx-runtime": "^1.0.0",
     "postcss-cli": "^10.0.0",
     "prettier": "^2.0.0",
     "react": "^18.0.0",
@@ -66,6 +68,7 @@
       "browser"
     ],
     "rules": {
+      "n/file-extension-in-import": 0,
       "react/state-in-constructor": [
         2,
         "always"
