@@ -8,13 +8,12 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
 import test from 'node:test'
 import React from 'react'
-import gfm from 'remark-gfm'
-import {visit} from 'unist-util-visit'
-import raw from 'rehype-raw'
-import toc from 'remark-toc'
 import ReactDom from 'react-dom/server'
+import rehypeRaw from 'rehype-raw'
+import remarkGfm from 'remark-gfm'
+import remarkToc from 'remark-toc'
+import {visit} from 'unist-util-visit'
 import Markdown from '../index.js'
-import * as mod from '../index.js'
 
 const own = {}.hasOwnProperty
 
@@ -26,9 +25,9 @@ function asHtml(input) {
   return ReactDom.renderToStaticMarkup(input)
 }
 
-test('ReactMarkdown', () => {
+test('ReactMarkdown', async () => {
   assert.deepEqual(
-    Object.keys(mod).sort(),
+    Object.keys(await import('../index.js')).sort(),
     ['default', 'uriTransformer'],
     'should expose the public api'
   )
@@ -584,7 +583,7 @@ test('should pass `isHeader: boolean` to `tr`s', () => {
   const actual = asHtml(
     <Markdown
       children={input}
-      remarkPlugins={[gfm]}
+      remarkPlugins={[remarkGfm]}
       components={{
         tr({node, isHeader, ...props}) {
           assert.equal(typeof isHeader === 'boolean', true)
@@ -603,7 +602,7 @@ test('should pass `isHeader: true` to `th`s, `isHeader: false` to `td`s', () => 
   const actual = asHtml(
     <Markdown
       children={input}
-      remarkPlugins={[gfm]}
+      remarkPlugins={[remarkGfm]}
       components={{
         th({node, isHeader, ...props}) {
           assert.equal(isHeader, true)
@@ -627,7 +626,7 @@ test('should pass `index: number`, `ordered: boolean`, `checked: boolean | null`
   const actual = asHtml(
     <Markdown
       children={input}
-      remarkPlugins={[gfm]}
+      remarkPlugins={[remarkGfm]}
       components={{
         li({node, checked, index, ordered, ...props}) {
           assert.equal(index, count)
@@ -759,7 +758,7 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
     <Markdown
       children={input}
       rawSourcePos
-      rehypePlugins={[raw]}
+      rehypePlugins={[rehypeRaw]}
       components={{
         // @ts-expect-error JSX types currently only handle element returns not string returns
         em({sourcePosition}) {
@@ -806,7 +805,7 @@ test('should unwrap child nodes from disallowed nodes, if unwrapDisallowed optio
       children={input}
       unwrapDisallowed
       disallowedElements={['em', 'strong']}
-      remarkPlugins={[gfm]}
+      remarkPlugins={[remarkGfm]}
     />
   )
   assert.equal(
@@ -828,7 +827,7 @@ test('should render tables', () => {
   ].join('\n')
 
   assert.equal(
-    asHtml(<Markdown children={input} remarkPlugins={[gfm]} />),
+    asHtml(<Markdown children={input} remarkPlugins={[remarkGfm]} />),
     '<p>Languages are fun, right?</p>\n<table><thead><tr><th style="text-align:left">ID</th><th style="text-align:center">English</th><th style="text-align:right">Norwegian</th><th>Italian</th></tr></thead><tbody><tr><td style="text-align:left">1</td><td style="text-align:center">one</td><td style="text-align:right">en</td><td>uno</td></tr><tr><td style="text-align:left">2</td><td style="text-align:center">two</td><td style="text-align:right">to</td><td>due</td></tr><tr><td style="text-align:left">3</td><td style="text-align:center">three</td><td style="text-align:right">tre</td><td>tre</td></tr></tbody></table>'
   )
 })
@@ -837,7 +836,7 @@ test('should render partial tables', () => {
   const input = 'User is writing a table by hand\n\n| Test | Test |\n|-|-|'
 
   assert.equal(
-    asHtml(<Markdown children={input} remarkPlugins={[gfm]} />),
+    asHtml(<Markdown children={input} remarkPlugins={[remarkGfm]} />),
     '<p>User is writing a table by hand</p>\n<table><thead><tr><th>Test</th><th>Test</th></tr></thead></table>'
   )
 })
@@ -889,7 +888,7 @@ test('should render footnote with custom options', () => {
     asHtml(
       <Markdown
         children={input}
-        remarkPlugins={[gfm]}
+        remarkPlugins={[remarkGfm]}
         remarkRehypeOptions={{clobberPrefix: 'main-'}}
       />
     ),
@@ -1068,7 +1067,11 @@ test('can render the whole spectrum of markdown within a single run', async () =
   const expected = String(await fs.readFile(expectedUrl))
 
   const actual = asHtml(
-    <Markdown children={input} remarkPlugins={[gfm]} rehypePlugins={[raw]} />
+    <Markdown
+      children={input}
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeRaw]}
+    />
   )
 
   assert.equal(actual, expected)
@@ -1127,13 +1130,17 @@ test('should support turning off the default URI transform', () => {
 
 test('can use parser plugins', () => {
   const input = 'a ~b~ c'
-  const actual = asHtml(<Markdown children={input} remarkPlugins={[gfm]} />)
+  const actual = asHtml(
+    <Markdown children={input} remarkPlugins={[remarkGfm]} />
+  )
   assert.equal(actual, '<p>a <del>b</del> c</p>')
 })
 
 test('supports checkbox lists', () => {
   const input = '- [ ] Foo\n- [x] Bar\n\n---\n\n- Foo\n- Bar'
-  const actual = asHtml(<Markdown children={input} remarkPlugins={[gfm]} />)
+  const actual = asHtml(
+    <Markdown children={input} remarkPlugins={[remarkGfm]} />
+  )
   assert.equal(
     actual,
     '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" disabled=""/> Foo</li>\n<li class="task-list-item"><input type="checkbox" disabled="" checked=""/> Bar</li>\n</ul>\n<hr/>\n<ul>\n<li>Foo</li>\n<li>Bar</li>\n</ul>'
@@ -1202,7 +1209,9 @@ test('should render table of contents plugin', () => {
     '## Third Section'
   ].join('\n')
 
-  const actual = asHtml(<Markdown children={input} remarkPlugins={[toc]} />)
+  const actual = asHtml(
+    <Markdown children={input} remarkPlugins={[remarkToc]} />
+  )
   assert.equal(
     actual,
     '<h1>Header</h1>\n<h2>Table of Contents</h2>\n<ul>\n<li>\n<p><a href="#first-section">First Section</a></p>\n</li>\n<li>\n<p><a href="#second-section">Second Section</a></p>\n<ul>\n<li><a href="#subsection">Subsection</a></li>\n</ul>\n</li>\n<li>\n<p><a href="#third-section">Third Section</a></p>\n</li>\n</ul>\n<h2>First Section</h2>\n<h2>Second Section</h2>\n<h3>Subsection</h3>\n<h2>Third Section</h2>'
@@ -1231,7 +1240,9 @@ test('should pass `node` as prop to all non-tag/non-fragment components', () => 
 
 test('should support formatting at the start of a GFM tasklist (GH-494)', () => {
   const input = '- [ ] *a*'
-  const actual = asHtml(<Markdown children={input} remarkPlugins={[gfm]} />)
+  const actual = asHtml(
+    <Markdown children={input} remarkPlugins={[remarkGfm]} />
+  )
   const expected =
     '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" disabled=""/> <em>a</em></li>\n</ul>'
   assert.equal(actual, expected)
@@ -1408,7 +1419,11 @@ test('should support table cells w/ style', () => {
   }
 
   const actual = asHtml(
-    <Markdown children={input} remarkPlugins={[gfm]} rehypePlugins={[plugin]} />
+    <Markdown
+      children={input}
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[plugin]}
+    />
   )
   const expected =
     '<table><thead><tr><th style="color:red;text-align:left">a</th></tr></thead></table>'
