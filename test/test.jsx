@@ -760,7 +760,6 @@ test('should pass on raw source position to non-tag components if rawSourcePos o
       rawSourcePos
       rehypePlugins={[rehypeRaw]}
       components={{
-        // @ts-expect-error JSX types currently only handle element returns not string returns
         em({sourcePosition}) {
           assert.deepEqual(sourcePosition, {
             start: {line: 1, column: 1, offset: 0},
@@ -1224,7 +1223,6 @@ test('should pass `node` as prop to all non-tag/non-fragment components', () => 
     <Markdown
       children={input}
       components={{
-        // @ts-expect-error JSX types currently only handle element returns not string returns
         h1(props) {
           let text = ''
           visit(props.node, 'text', (child) => {
