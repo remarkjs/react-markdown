@@ -143,7 +143,9 @@ import remarkGfm from 'remark-gfm'
 const markdown = `Just a link: https://reactjs.com.`
 
 ReactDom.render(
-  <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />,
+  <ReactMarkdown remarkPlugins={[remarkGfm]} >
+    {markdown}
+  </ReactMarkdown>,
   document.body
 )
 ```
@@ -249,7 +251,7 @@ A table:
 `
 
 ReactDom.render(
-  <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />,
+  <ReactMarkdown remarkPlugins={[remarkGfm]} >{markdown}</ReactMarkdown>,
   document.body
 )
 ```
@@ -348,7 +350,6 @@ console.log('It works!')
 
 ReactDom.render(
   <ReactMarkdown
-    children={markdown}
     components={{
       code({node, inline, className, children, ...props}) {
         const match = /language-(\w+)/.exec(className || '')
@@ -367,7 +368,9 @@ ReactDom.render(
         )
       }
     }}
-  />,
+  >
+  {markdown}
+  </ReactMarkdown>,
   document.body
 )
 ```
@@ -403,10 +406,9 @@ import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for 
 
 ReactDom.render(
   <ReactMarkdown
-    children={`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
     remarkPlugins={[remarkMath]}
     rehypePlugins={[rehypeKatex]}
-  />,
+  >{`The lift coefficient ($C_L$) is a dimensionless coefficient.`}</>,
   document.body
 )
 ```
@@ -524,7 +526,7 @@ Some *emphasis* and <strong>strong</strong>!
 </div>`
 
 ReactDom.render(
-  <ReactMarkdown rehypePlugins={[rehypeRaw]} children={input} />,
+  <ReactMarkdown rehypePlugins={[rehypeRaw]} >{input}</ReactMarkdown>,
   document.body
 )
 ```
