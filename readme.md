@@ -408,7 +408,7 @@ ReactDom.render(
   <ReactMarkdown
     remarkPlugins={[remarkMath]}
     rehypePlugins={[rehypeKatex]}
-  >{`The lift coefficient ($C_L$) is a dimensionless coefficient.`}</>,
+  >{`The lift coefficient ($C_L$) is a dimensionless coefficient.`}</ReactMarkdown>,
   document.body
 )
 ```
