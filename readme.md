@@ -143,7 +143,7 @@ import remarkGfm from 'remark-gfm'
 const markdown = `Just a link: https://reactjs.com.`
 
 ReactDom.render(
-  <ReactMarkdown remarkPlugins={[remarkGfm]} >
+  <ReactMarkdown remarkPlugins={[remarkGfm]}>
     {markdown}
   </ReactMarkdown>,
   document.body
@@ -251,7 +251,7 @@ A table:
 `
 
 ReactDom.render(
-  <ReactMarkdown remarkPlugins={[remarkGfm]} >{markdown}</ReactMarkdown>,
+  <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>,
   document.body
 )
 ```
@@ -369,7 +369,7 @@ ReactDom.render(
       }
     }}
   >
-  {markdown}
+    {markdown}
   </ReactMarkdown>,
   document.body
 )
@@ -408,7 +408,9 @@ ReactDom.render(
   <ReactMarkdown
     remarkPlugins={[remarkMath]}
     rehypePlugins={[rehypeKatex]}
-  >{`The lift coefficient ($C_L$) is a dimensionless coefficient.`}</ReactMarkdown>,
+  >
+    {`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
+  </ReactMarkdown>,
   document.body
 )
 ```
@@ -526,7 +528,7 @@ Some *emphasis* and <strong>strong</strong>!
 </div>`
 
 ReactDom.render(
-  <ReactMarkdown rehypePlugins={[rehypeRaw]} >{input}</ReactMarkdown>,
+  <ReactMarkdown rehypePlugins={[rehypeRaw]}>{input}</ReactMarkdown>,
   document.body
 )
 ```
