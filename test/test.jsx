@@ -231,62 +231,6 @@ test('should handle titles of links', () => {
   assert.equal(actual, '<p>Empty: <a href="#" title="x"></a></p>')
 })
 
-test('should use target attribute for links if specified', () => {
-  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-  const actual = asHtml(<Markdown children={input} linkTarget="_blank" />)
-  assert.equal(
-    actual,
-    '<p>This is <a href="https://espen.codes/" target="_blank">a link</a> to Espen.Codes.</p>'
-  )
-})
-
-test('should call function to get target attribute for links if specified', () => {
-  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
-  const actual = asHtml(
-    <Markdown
-      children={input}
-      linkTarget={(uri) => (uri.startsWith('http') ? '_blank' : undefined)}
-    />
-  )
-  assert.equal(
-    actual,
-    '<p>This is <a href="https://espen.codes/" target="_blank">a link</a> to Espen.Codes.</p>'
-  )
-})
-
-test('should handle links with custom target transformer', () => {
-  const input = 'Empty: []()'
-
-  const actual = asHtml(
-    <Markdown
-      children={input}
-      linkTarget={(uri, _, title) => {
-        assert.equal(uri, '', '`uri` should be an empty string')
-        assert.equal(title, null, '`title` should be null')
-        return undefined
-      }}
-    />
-  )
-
-  assert.equal(actual, '<p>Empty: <a href=""></a></p>')
-})
-
-test('should handle links w/ titles with custom target transformer', () => {
-  const input = 'Empty: [](a "b")'
-
-  const actual = asHtml(
-    <Markdown
-      children={input}
-      linkTarget={(_, _1, title) => {
-        assert.equal(title, 'b', '`title` should be given')
-        return undefined
-      }}
-    />
-  )
-
-  assert.equal(actual, '<p>Empty: <a href="a" title="b"></a></p>')
-})
-
 test('should support images without alt, url, or title', () => {
   const input = '![]()'
   const actual = asHtml(<Markdown children={input} transformLinkUri={null} />)

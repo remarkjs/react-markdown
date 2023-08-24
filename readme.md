@@ -203,8 +203,6 @@ The default export is `ReactMarkdown`.
     extract (unwrap) the children of not allowed elements, by default, when
     `strong` is disallowed, it and it’s children are dropped, but with
     `unwrapDisallowed` the element itself is replaced by its children
-*   `linkTarget` (`string` or `(href, children, title) => string`, optional)\
-    target to use on links (such as `_blank` for `<a target="_blank"…`)
 *   `transformLinkUri` (`(href, children, title) => string`, default:
     [`uriTransformer`][uri-transformer], optional)\
     change URLs on links, pass `null` to allow all URLs, see [security][]
@@ -632,8 +630,6 @@ Optionally, components will also receive:
     — see `rawSourcePos` option
 *   `index` and `siblingCount` (`number`)
     — see `includeElementIndex` option
-*   `target` on `a` (`string`)
-    — see `linkTarget` option
 
 ## Security
 
