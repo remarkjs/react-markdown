@@ -236,7 +236,27 @@ test('should use target attribute for links if specified', () => {
   const actual = asHtml(<Markdown children={input} linkTarget="_blank" />)
   assert.equal(
     actual,
-    '<p>This is <a href="https://espen.codes/" target="_blank">a link</a> to Espen.Codes.</p>'
+    '<p>This is <a href="https://espen.codes/" target="_blank" rel="noopener noreferrer">a link</a> to Espen.Codes.</p>'
+  )
+})
+
+test('should use custom default rel attribute for links if specified, when target is _blank', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const actual = asHtml(
+    <Markdown children={input} linkTarget="_blank" linkRel="foo" />
+  )
+  assert.equal(
+    actual,
+    '<p>This is <a href="https://espen.codes/" target="_blank" rel="foo">a link</a> to Espen.Codes.</p>'
+  )
+})
+
+test('should not use default rel attribute for links if specified, when target is not _blank', () => {
+  const input = 'This is [a link](https://espen.codes/) to Espen.Codes.'
+  const actual = asHtml(<Markdown children={input} linkTarget="_top" />)
+  assert.equal(
+    actual,
+    '<p>This is <a href="https://espen.codes/" target="_top">a link</a> to Espen.Codes.</p>'
   )
 })
 
@@ -250,7 +270,7 @@ test('should call function to get target attribute for links if specified', () =
   )
   assert.equal(
     actual,
-    '<p>This is <a href="https://espen.codes/" target="_blank">a link</a> to Espen.Codes.</p>'
+    '<p>This is <a href="https://espen.codes/" target="_blank" rel="noopener noreferrer">a link</a> to Espen.Codes.</p>'
   )
 })
 

@@ -205,6 +205,9 @@ The default export is `ReactMarkdown`.
     `unwrapDisallowed` the element itself is replaced by its children
 *   `linkTarget` (`string` or `(href, children, title) => string`, optional)\
     target to use on links (such as `_blank` for `<a target="_blank"…`)
+*   `linkRel` (`string`, optional)\
+    rel to use on links (will be set to `noopener noreferrer` by default,
+    if `linkTarget` is set to `_blank`)
 *   `transformLinkUri` (`(href, children, title) => string`, default:
     [`uriTransformer`][uri-transformer], optional)\
     change URLs on links, pass `null` to allow all URLs, see [security][]
@@ -634,6 +637,8 @@ Optionally, components will also receive:
     — see `includeElementIndex` option
 *   `target` on `a` (`string`)
     — see `linkTarget` option
+*   `rel` on `a` (`string`)
+    — see `linkRel` option
 
 ## Security
 
