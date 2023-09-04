@@ -8,7 +8,7 @@
   "contributors": [],
   "type": "module",
   "devDependencies": {
-    "@wooorm/starry-night": "^2.0.0",
+    "@wooorm/starry-night": "=2.0.0",
     "cssnano": "^6.0.0",
     "esbuild": "^0.17.0",
     "eslint-config-xo-react": "^0.27.0",
