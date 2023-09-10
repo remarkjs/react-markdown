@@ -84,7 +84,7 @@
     "remark-parse": "^9.0.0",
     "remark-rehype": "^8.0.0",
     "space-separated-tokens": "^1.1.0",
-    "style-to-object": "^0.3.0",
+    "style-to-object": "^0.4.2",
     "unified": "^9.0.0",
     "unist-util-visit": "^2.0.0",
     "vfile": "^4.0.0"
