@@ -4,15 +4,15 @@
   "description": "React component to render markdown",
   "license": "MIT",
   "keywords": [
-    "remark",
-    "unified",
-    "markdown",
-    "commonmark",
-    "gfm",
     "ast",
+    "commonmark",
+    "component",
+    "gfm",
+    "markdown",
     "react",
     "react-component",
-    "component"
+    "remark",
+    "unified"
   ],
   "repository": "remarkjs/react-markdown",
   "bugs": "https://github.com/remarkjs/react-markdown/issues",
@@ -124,12 +124,20 @@
     "xo": "^0.56.0"
   },
   "scripts": {
-    "prepack": "npm run build && npm run format",
     "build": "tsc --build --clean && tsc --build && type-coverage && esbuild index.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=ReactMarkdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.ReactMarkdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return ReactMarkdown;})));\"",
-    "format": "remark . -qfo --ignore-pattern test/ && prettier . -w --log-level warn && xo --fix",
-    "test-api": "node --no-warnings --experimental-loader=./test/loader.js --conditions development test/test.jsx",
-    "test-coverage": "c8 --check-coverage --100 --reporter lcov npm run test-api",
-    "test": "npm run build && npm run format && npm run test-coverage"
+    "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && xo --fix",
+    "prepack": "npm run build && npm run format",
+    "test": "npm run build && npm run format && npm run test-coverage",
+    "test-api": "node --conditions development --experimental-loader=./test/loader.js --no-warnings test/test.jsx",
+    "test-coverage": "c8 --100 --reporter lcov npm run test-api"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "singleQuote": true,
+    "semi": false,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false
   },
   "remarkConfig": {
     "plugins": [
@@ -153,31 +161,18 @@
   "typeCoverage": {
     "atLeast": 100,
     "detail": true,
-    "strict": true,
     "ignoreCatch": true,
     "#": "below is ignored because some proptypes will `any`",
     "ignoreFiles": [
-      "lib/react-markdown.d.ts",
-      "index.d.ts"
-    ]
-  },
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "semi": false,
-    "trailingComma": "none"
+      "lib/react-markdown.d.ts"
+    ],
+    "strict": true
   },
   "xo": {
-    "prettier": true,
-    "extends": "xo-react",
     "envs": [
       "shared-node-browser"
     ],
-    "rules": {
-      "unicorn/prefer-string-replace-all": "off"
-    },
+    "extends": "xo-react",
     "overrides": [
       {
         "files": [
@@ -198,10 +193,13 @@
         ],
         "rules": {
           "n/file-extension-in-import": "off",
-          "react/no-children-prop": "off",
-          "react/prop-types": "off"
+          "react/no-children-prop": "off"
         }
       }
-    ]
+    ],
+    "prettier": true,
+    "rules": {
+      "unicorn/prefer-string-replace-all": "off"
+    }
   }
 }
