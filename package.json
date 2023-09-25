@@ -79,21 +79,21 @@
     "react-markdown.min.js"
   ],
   "dependencies": {
-    "@types/hast": "^2.0.0",
+    "@types/hast": "^3.0.0",
     "@types/prop-types": "^15.0.0",
-    "@types/unist": "^2.0.0",
+    "@types/unist": "^3.0.0",
     "comma-separated-tokens": "^2.0.0",
-    "hast-util-whitespace": "^2.0.0",
+    "hast-util-whitespace": "^3.0.0",
     "prop-types": "^15.0.0",
     "property-information": "^6.0.0",
     "react-is": "^18.0.0",
-    "remark-parse": "^10.0.0",
-    "remark-rehype": "^10.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.0.0",
     "space-separated-tokens": "^2.0.0",
     "style-to-object": "^0.4.0",
-    "unified": "^10.0.0",
-    "unist-util-visit": "^4.0.0",
-    "vfile": "^5.0.0"
+    "unified": "^11.0.0",
+    "unist-util-visit": "^5.0.0",
+    "vfile": "^6.0.0"
   },
   "peerDependencies": {
     "@types/react": ">=16",
@@ -114,11 +114,11 @@
     "prettier": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "rehype-raw": "^6.0.0",
+    "rehype-raw": "^7.0.0",
     "remark-cli": "^11.0.0",
-    "remark-gfm": "^3.0.0",
+    "remark-gfm": "^4.0.0",
     "remark-preset-wooorm": "^9.0.0",
-    "remark-toc": "^8.0.0",
+    "remark-toc": "^9.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^5.0.0",
     "xo": "^0.56.0"
@@ -143,7 +143,7 @@
     "plugins": [
       "remark-preset-wooorm",
       [
-        "remark-gfm",
+        "./node_modules/remark-preset-wooorm/node_modules/remark-gfm/index.js",
         {
           "tablePipeAlign": false
         }

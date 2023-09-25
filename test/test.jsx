@@ -835,7 +835,7 @@ test('should render footnote with custom options', () => {
         remarkRehypeOptions={{clobberPrefix: 'main-'}}
       />
     ),
-    '<p>This is a statement<sup><a href="#main-fn-1" id="main-fnref-1" data-footnote-ref="true" aria-describedby="footnote-label">1</a></sup> with a citation.</p>\n<section data-footnotes="true" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>\n<ol>\n<li id="main-fn-1">\n<p>This is a footnote for the citation. <a href="#main-fnref-1" data-footnote-backref="true" class="data-footnote-backref" aria-label="Back to content">↩</a></p>\n</li>\n</ol>\n</section>'
+    '<p>This is a statement<sup><a href="#main-fn-1" id="main-fnref-1" data-footnote-ref="true" aria-describedby="footnote-label">1</a></sup> with a citation.</p>\n<section data-footnotes="true" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>\n<ol>\n<li id="main-fn-1">\n<p>This is a footnote for the citation. <a href="#main-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>\n</li>\n</ol>\n</section>'
   )
 })
 
@@ -1155,9 +1155,10 @@ test('should render table of contents plugin', () => {
   const actual = asHtml(
     <Markdown children={input} remarkPlugins={[remarkToc]} />
   )
+
   assert.equal(
     actual,
-    '<h1>Header</h1>\n<h2>Table of Contents</h2>\n<ul>\n<li>\n<p><a href="#first-section">First Section</a></p>\n</li>\n<li>\n<p><a href="#second-section">Second Section</a></p>\n<ul>\n<li><a href="#subsection">Subsection</a></li>\n</ul>\n</li>\n<li>\n<p><a href="#third-section">Third Section</a></p>\n</li>\n</ul>\n<h2>First Section</h2>\n<h2>Second Section</h2>\n<h3>Subsection</h3>\n<h2>Third Section</h2>'
+    '<h1>Header</h1>\n<h2>Table of Contents</h2>\n<ul>\n<li><a href="#first-section">First Section</a></li>\n<li><a href="#second-section">Second Section</a>\n<ul>\n<li><a href="#subsection">Subsection</a></li>\n</ul>\n</li>\n<li><a href="#third-section">Third Section</a></li>\n</ul>\n<h2>First Section</h2>\n<h2>Second Section</h2>\n<h3>Subsection</h3>\n<h2>Third Section</h2>'
   )
 })
 

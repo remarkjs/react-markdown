@@ -159,7 +159,7 @@ Does anyone actually like the fact that you can embed HTML in markdown?
   src="https://foo.bar/"
   width="640"
   height="480"
-/>
+></iframe>
 
 We used to have a known bug where inline HTML wasn't handled well. You can do basic tags like
 <code>code</code>, as long as it doesn't contain any <span class="attrs">attributes</span>. If you
