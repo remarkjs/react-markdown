@@ -1,18 +1,18 @@
 {
-  "include": ["**/*.js", "**/*.jsx"],
-  "exclude": ["coverage/", "node_modules/", "**/*.min.js"],
   "compilerOptions": {
     "checkJs": true,
+    "customConditions": ["development"],
     "declaration": true,
     "emitDeclarationOnly": true,
     "exactOptionalPropertyTypes": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["es2020"],
+    "jsx": "preserve",
+    "lib": ["dom", "es2020"],
     "module": "node16",
-    "newLine": "lf",
-    "skipLibCheck": true,
     "strict": true,
-    "target": "es2021",
-    "jsx": "preserve"
-  }
+    // To do: remove after update.
+    "skipLibCheck": true,
+    "target": "es2020"
+  },
+  "exclude": ["coverage/", "node_modules/", "**/*.min.js"],
+  "include": ["**/*.js", "**/*.jsx", "lib/complex-types.d.ts"]
 }
