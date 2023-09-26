@@ -645,6 +645,22 @@ test('react-markdown', async function (t) {
     }, /Component for name `h1`/)
   })
 
+  await t.test('should support `null`, `undefined` in components', function () {
+    assert.equal(
+      asHtml(
+        <Markdown
+          children="# *a*"
+          components={{
+            // @ts-expect-error: code allows `null` but TS does not.
+            h1: null,
+            em: undefined
+          }}
+        />
+      ),
+      '<h1><em>a</em></h1>'
+    )
+  })
+
   await t.test('should support `components` (headings; `level`)', function () {
     let calls = 0
 
