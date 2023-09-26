@@ -558,7 +558,7 @@ test('react-markdown', async function (t) {
             disallowedElements={['a']}
           />
         )
-      }, /only one of/i)
+      }, /Unexpected combined `allowedElements` and `disallowedElements`, expected one or the other/)
     }
   )
 
@@ -631,7 +631,7 @@ test('react-markdown', async function (t) {
     )
   })
 
-  await t.test('should fail on invalid component', function () {
+  await t.test('should fail on an invalid component', function () {
     assert.throws(function () {
       asHtml(
         <Markdown
@@ -642,7 +642,7 @@ test('react-markdown', async function (t) {
           }}
         />
       )
-    }, /Component for name `h1`/)
+    }, /Unexpected value `123` for `h1`, expected component or tag name/)
   })
 
   await t.test('should support `null`, `undefined` in components', function () {
@@ -1204,7 +1204,7 @@ test('react-markdown', async function (t) {
   await t.test('should fail on a plugin replacing `root`', function () {
     assert.throws(function () {
       asHtml(<Markdown children="a" rehypePlugins={[plugin]} />)
-    }, /Expected a `root` node/)
+    }, /Unexpected `comment` node, expected `root/)
 
     function plugin() {
       /**
