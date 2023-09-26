@@ -84,6 +84,7 @@
     "@types/unist": "^3.0.0",
     "comma-separated-tokens": "^2.0.0",
     "hast-util-whitespace": "^3.0.0",
+    "mdast-util-to-hast": "^13.0.2",
     "prop-types": "^15.0.0",
     "property-information": "^6.0.0",
     "react-is": "^18.0.0",
@@ -92,6 +93,7 @@
     "space-separated-tokens": "^2.0.0",
     "style-to-object": "^0.4.0",
     "unified": "^11.0.0",
+    "unist-util-stringify-position": "^4.0.0",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.0"
   },
@@ -106,7 +108,6 @@
     "@types/react-is": "^18.0.0",
     "c8": "^8.0.0",
     "esbuild": "^0.19.0",
-    "eslint-config-xo-react": "^0.27.0",
     "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
@@ -172,7 +173,7 @@
     "envs": [
       "shared-node-browser"
     ],
-    "extends": "xo-react",
+    "extends": "plugin:react/jsx-runtime",
     "overrides": [
       {
         "files": [
@@ -193,7 +194,7 @@
         ],
         "rules": {
           "n/file-extension-in-import": "off",
-          "react/no-children-prop": "off"
+          "no-unused-vars": "off"
         }
       }
     ],

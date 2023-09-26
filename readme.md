@@ -167,48 +167,48 @@ The default export is `ReactMarkdown`.
 
 ### `props`
 
-*   `children` (`string`, default: `''`)\
-    markdown to parse
-*   `components` (`Record<string, Component>`, default: `{}`)\
-    object mapping tag names to React components
-*   `remarkPlugins` (`Array<Plugin>`, default: `[]`)\
-    list of [remark plugins][remark-plugins] to use
-*   `rehypePlugins` (`Array<Plugin>`, default: `[]`)\
-    list of [rehype plugins][rehype-plugins] to use
-*   `remarkRehypeOptions` (`Object?`, default: `undefined`)\
-    options to pass through to [`remark-rehype`][remark-rehype]
-*   `className` (`string?`)\
-    wrap the markdown in a `div` with this class name
-*   `skipHtml` (`boolean`, default: `false`)\
-    ignore HTML in markdown completely
-*   `sourcePos` (`boolean`, default: `false`)\
-    pass a prop to all components with a serialized position
-    (`data-sourcepos="3:1-3:13"`)
-*   `rawSourcePos` (`boolean`, default: `false`)\
-    pass a prop to all components with their [position][]
-    (`sourcePosition: {start: {line: 3, column: 1}, end:…}`)
-*   `includeElementIndex` (`boolean`, default: `false`)\
-    pass the `index` (number of elements before it) and `siblingCount` (number
-    of elements in parent) as props to all components
-*   `allowedElements` (`Array<string>`, default: `undefined`)\
-    tag names to allow (can’t combine w/ `disallowedElements`), all tag names
-    are allowed by default
-*   `disallowedElements` (`Array<string>`, default: `undefined`)\
-    tag names to disallow (can’t combine w/ `allowedElements`), all tag names
-    are allowed by default
 *   `allowElement` (`(element, index, parent) => boolean?`, optional)\
     function called to check if an element is allowed (when truthy) or not,
     `allowedElements` or `disallowedElements` is used first!
-*   `unwrapDisallowed` (`boolean`, default: `false`)\
-    extract (unwrap) the children of not allowed elements, by default, when
-    `strong` is disallowed, it and it’s children are dropped, but with
-    `unwrapDisallowed` the element itself is replaced by its children
-*   `transformLinkUri` (`(href, children, title) => string`, default:
-    [`uriTransformer`][uri-transformer], optional)\
-    change URLs on links, pass `null` to allow all URLs, see [security][]
+*   `allowedElements` (`Array<string>`, optional)\
+    tag names to allow (cannot combine w/ `disallowedElements`), all tag names
+    are allowed by default
+*   `children` (`string`, optional)\
+    markdown to parse
+*   `className` (`string?`)\
+    wrap the markdown in a `div` with this class name
+*   `components` (`Record<string, Component>`, optional)\
+    map tag names to React components
+*   `disallowedElements` (`Array<string>`, optional)\
+    tag names to disallow (cannot combine w/ `allowedElements`), all tag names
+    are allowed by default
+*   `includeElementIndex` (`boolean`, default: `false`)\
+    pass the `index` (number of elements before it) and `siblingCount` (number
+    of elements in parent) as props to all components
+*   `rawSourcePos` (`boolean`, default: `false`)\
+    pass a `sourcePosition` prop to all components with their [position][]
+*   `rehypePlugins` (`Array<Plugin>`, optional)\
+    list of [rehype plugins][rehype-plugins] to use
+*   `remarkPlugins` (`Array<Plugin>`, optional)\
+    list of [remark plugins][remark-plugins] to use
+*   `remarkRehypeOptions` (`Object?`, optional)\
+    options to pass through to [`remark-rehype`][remark-rehype]
+*   `skipHtml` (`boolean`, default: `false`)\
+    ignore HTML in markdown completely
+*   `sourcePos` (`boolean`, default: `false`)\
+    pass a `data-sourcepos` prop to all components with a serialized position
 *   `transformImageUri` (`(src, alt, title) => string`, default:
-    [`uriTransformer`][uri-transformer], optional)\
-    change URLs on images, pass `null` to allow all URLs, see [security][]
+    [`uriTransformer`][uri-transformer])\
+    change URLs on images;
+    pass `false` to allow all URLs, which is unsafe (see [security][])
+*   `transformLinkUri` (`(href, children, title) => string`, default:
+    [`uriTransformer`][uri-transformer])\
+    change URLs on links;
+    pass `false` to allow all URLs, which is unsafe (see [security][])
+*   `unwrapDisallowed` (`boolean`, default: `false`)\
+    extract (unwrap) the children of not allowed elements;
+    normally when say `strong` is disallowed, it and it’s children are dropped,
+    with `unwrapDisallowed` the element itself is replaced by its children
 
 ### `uriTransformer`
 
@@ -348,18 +348,19 @@ ReactDom.render(
   <ReactMarkdown
     children={markdown}
     components={{
-      code({node, inline, className, children, ...props}) {
+      code(props) {
+        const {children, className, inline, node, ...rest} = props
         const match = /language-(\w+)/.exec(className || '')
         return !inline && match ? (
           <SyntaxHighlighter
-            {...props}
+            {...rest}
             children={String(children).replace(/\n$/, '')}
             style={dark}
             language={match[1]}
             PreTag="div"
           />
         ) : (
-          <code {...props} className={className}>
+          <code {...rest} className={className}>
             {children}
           </code>
         )
@@ -549,11 +550,15 @@ You can also change the things that come from markdown:
 
 ```jsx
 <ReactMarkdown
+  children="*hi*"
   components={{
     // Map `h1` (`# heading`) to use `h2`s.
     h1: 'h2',
     // Rewrite `em`s (`*like so*`) to `i` with a red foreground color.
-    em: ({node, ...props}) => <i style={{color: 'red'}} {...props} />
+    em(props) {
+      const {node, ...rest} = props
+      return <i style={{color: 'red'}} {...rest} />
+    }
   }}
 />
 ```

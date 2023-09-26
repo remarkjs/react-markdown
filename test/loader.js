@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises'
 import {fileURLToPath} from 'node:url'
-import {transform, transformSync} from 'esbuild'
+import {transform} from 'esbuild'
 
-const {load, getFormat, transformSource} = createLoader()
+const {getFormat, load, transformSource} = createLoader()
 
-export {load, getFormat, transformSource}
+export {getFormat, load, transformSource}
 
 /**
  * A tiny JSX loader.
@@ -26,21 +26,21 @@ export function createLoader() {
     }
 
     const {code, warnings} = await transform(String(await fs.readFile(url)), {
+      format: 'esm',
+      loader: 'jsx',
       sourcefile: fileURLToPath(url),
       sourcemap: 'both',
-      loader: 'jsx',
-      target: 'esnext',
-      format: 'esm'
+      target: 'esnext'
     })
 
-    if (warnings && warnings.length > 0) {
+    if (warnings) {
       for (const warning of warnings) {
         console.log(warning.location)
         console.log(warning.text)
       }
     }
 
-    return {format: 'module', source: code, shortCircuit: true}
+    return {format: 'module', shortCircuit: true, source: code}
   }
 
   // Pre version 17.
@@ -69,15 +69,15 @@ export function createLoader() {
       return defaultTransformSource(value, context, defaultTransformSource)
     }
 
-    const {code, warnings} = transformSync(String(value), {
+    const {code, warnings} = await transform(String(value), {
+      format: context.format === 'module' ? 'esm' : 'cjs',
+      loader: 'jsx',
       sourcefile: fileURLToPath(url),
       sourcemap: 'both',
-      loader: 'jsx',
-      target: 'esnext',
-      format: context.format === 'module' ? 'esm' : 'cjs'
+      target: 'esnext'
     })
 
-    if (warnings && warnings.length > 0) {
+    if (warnings) {
       for (const warning of warnings) {
         console.log(warning.location)
         console.log(warning.text)

@@ -6,11 +6,9 @@
     "emitDeclarationOnly": true,
     "exactOptionalPropertyTypes": true,
     "jsx": "preserve",
-    "lib": ["dom", "es2020"],
+    "lib": ["dom", "es2022"],
     "module": "node16",
     "strict": true,
-    // To do: remove after update.
-    "skipLibCheck": true,
     "target": "es2020"
   },
   "exclude": ["coverage/", "node_modules/", "**/*.min.js"],
