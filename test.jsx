@@ -55,7 +55,6 @@ test('react-markdown', async function (t) {
     /** @type {unknown} */
     let message
 
-    console.error = function () {}
     console.warn = capture
 
     // @ts-expect-error: check how the runtime handles invalid `children`.
@@ -65,7 +64,6 @@ test('react-markdown', async function (t) {
       '[react-markdown] Warning: please pass a string as `children` (not: `1`)'
     )
 
-    console.error = error
     console.warn = warn
 
     /**
@@ -82,7 +80,6 @@ test('react-markdown', async function (t) {
     /** @type {unknown} */
     let message
 
-    console.error = function () {}
     console.warn = capture
 
     // @ts-expect-error: check how the runtime handles invalid `children`.
@@ -92,7 +89,6 @@ test('react-markdown', async function (t) {
       '[react-markdown] Warning: please pass a string as `children` (not: `true`)'
     )
 
-    console.error = error
     console.warn = warn
 
     /**
