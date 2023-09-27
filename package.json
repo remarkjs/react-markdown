@@ -81,6 +81,7 @@
   "dependencies": {
     "@types/hast": "^3.0.0",
     "@types/prop-types": "^15.0.0",
+    "devlop": "^1.0.0",
     "hast-util-to-jsx-runtime": "^2.0.0",
     "mdast-util-to-hast": "^13.0.0",
     "prop-types": "^15.0.0",

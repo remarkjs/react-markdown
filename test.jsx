@@ -25,79 +25,25 @@ test('react-markdown', async function (t) {
     assert.equal(asHtml(<Markdown children="a" />), '<p>a</p>')
   })
 
-  await t.test('should warn w/ `source`', function () {
-    const warn = console.warn
-    /** @type {unknown} */
-    let message
-
-    console.warn = capture
-
-    // @ts-expect-error: check how the runtime handles untyped `source`.
-    assert.equal(asHtml(<Markdown source="a" />), '')
-    assert.equal(
-      message,
-      '[react-markdown] Warning: please use `children` instead of `source` (see <https://github.com/remarkjs/react-markdown/blob/main/changelog.md#change-source-to-children> for more info)'
-    )
-
-    console.warn = warn
-
-    /**
-     * @param {unknown} d
-     * @returns {undefined}
-     */
-    function capture(d) {
-      message = d
-    }
+  await t.test('should throw w/ `source`', function () {
+    assert.throws(function () {
+      // @ts-expect-error: check how the runtime handles untyped `source`.
+      asHtml(<Markdown source="a" />)
+    }, /Unexpected `source` prop, use `children` instead/)
   })
 
-  await t.test('should warn w/ non-string children (number)', function () {
-    const {error, warn} = console
-    /** @type {unknown} */
-    let message
-
-    console.warn = capture
-
-    // @ts-expect-error: check how the runtime handles invalid `children`.
-    assert.equal(asHtml(<Markdown children={1} />), '')
-    assert.equal(
-      message,
-      '[react-markdown] Warning: please pass a string as `children` (not: `1`)'
-    )
-
-    console.warn = warn
-
-    /**
-     * @param {unknown} d
-     * @returns {undefined}
-     */
-    function capture(d) {
-      message = d
-    }
+  await t.test('should throw w/ non-string children (number)', function () {
+    assert.throws(function () {
+      // @ts-expect-error: check how the runtime handles invalid `children`.
+      asHtml(<Markdown children={1} />)
+    }, /Unexpected value `1` for `children` prop, expected `string`/)
   })
 
-  await t.test('should warn w/ non-string children (boolean)', function () {
-    const {error, warn} = console
-    /** @type {unknown} */
-    let message
-
-    console.warn = capture
-
-    // @ts-expect-error: check how the runtime handles invalid `children`.
-    assert.equal(asHtml(<Markdown children={true} />), '')
-    assert.equal(
-      message,
-      '[react-markdown] Warning: please pass a string as `children` (not: `true`)'
-    )
-
-    console.warn = warn
-
-    /**
-     * @param {unknown} d
-     * @returns {undefined}
-     */
-    function capture(d) {
-      message = d
-    }
+  await t.test('should throw w/ non-string children (boolean)', function () {
+    assert.throws(function () {
+      // @ts-expect-error: check how the runtime handles invalid `children`.
+      asHtml(<Markdown children={true} />)
+    }, /Unexpected value `true` for `children` prop, expected `string`/)
   })
 
   await t.test('should support `null` as children', function () {
@@ -109,31 +55,10 @@ test('react-markdown', async function (t) {
   })
 
   await t.test('should warn w/ `allowDangerousHtml`', function () {
-    const warn = console.warn
-    /** @type {unknown} */
-    let message
-
-    console.warn = capture
-
-    assert.equal(
+    assert.throws(function () {
       // @ts-expect-error: check how the runtime handles deprecated `allowDangerousHtml`.
-      asHtml(<Markdown allowDangerousHtml children="a" />),
-      '<p>a</p>'
-    )
-    assert.equal(
-      message,
-      '[react-markdown] Warning: please remove `allowDangerousHtml` (see <https://github.com/remarkjs/react-markdown/blob/main/changelog.md#remove-buggy-html-in-markdown-parser> for more info)'
-    )
-
-    console.warn = warn
-
-    /**
-     * @param {unknown} d
-     * @returns {undefined}
-     */
-    function capture(d) {
-      message = d
-    }
+      asHtml(<Markdown allowDangerousHtml />)
+    }, /Unexpected `allowDangerousHtml` prop, remove it/)
   })
 
   await t.test('should support `className`', function () {
