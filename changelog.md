@@ -4,6 +4,14 @@ All notable changes will be documented in this file.
 
 ## 9.0.0 - unreleased
 
+### Add `urlTransform`
+
+The `transformImageUri` and `transformLinkUri` were removed.
+Having two functions is a bit much, particularly because there are more URLs
+you might want to change (or which might be unsafe so *we* make them safe).
+And their name and APIs were a bit weird.
+You can use the new `urlTransform` prop instead to change all your URLs.
+
 ### Remove `includeElementIndex` option
 
 The `includeElementIndex` option was removed, so `index` is never passed to

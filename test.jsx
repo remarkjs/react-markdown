@@ -17,7 +17,7 @@ test('react-markdown', async function (t) {
   await t.test('should expose the public api', async function () {
     assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
       'default',
-      'uriTransformer'
+      'defaultUrlTransform'
     ])
   })
 
@@ -345,15 +345,15 @@ test('react-markdown', async function (t) {
     )
   })
 
-  await t.test('should support `transformLinkUri`', function () {
+  await t.test('should support `urlTransform` (`href` on `a`)', function () {
     assert.equal(
       asHtml(
         <Markdown
           children="[a](https://b.com 'c')"
-          transformLinkUri={function (src, children, title) {
-            assert.equal(src, 'https://b.com')
-            assert.equal(children.length, 1)
-            assert.equal(title, 'c')
+          urlTransform={function (url, key, node) {
+            assert.equal(url, 'https://b.com')
+            assert.equal(key, 'href')
+            assert.equal(node.tagName, 'a')
             return ''
           }}
         />
@@ -362,15 +362,15 @@ test('react-markdown', async function (t) {
     )
   })
 
-  await t.test('should support `transformLinkUri` w/ empty URLs', function () {
+  await t.test('should support `urlTransform` w/ empty URLs', function () {
     assert.equal(
       asHtml(
         <Markdown
           children="[]()"
-          transformLinkUri={function (href, children, title) {
-            assert.equal(href, '')
-            assert.equal(children.length, 0)
-            assert.equal(title, null)
+          urlTransform={function (url, key, node) {
+            assert.equal(url, '')
+            assert.equal(key, 'href')
+            assert.equal(node.tagName, 'a')
             return ''
           }}
         />
@@ -379,30 +379,15 @@ test('react-markdown', async function (t) {
     )
   })
 
-  await t.test(
-    'should support turning off `transformLinkUri` (dangerous)',
-    function () {
-      assert.equal(
-        asHtml(
-          <Markdown
-            children="[](javascript:alert(1))"
-            transformLinkUri={null}
-          />
-        ),
-        '<p><a href="javascript:alert(1)"></a></p>'
-      )
-    }
-  )
-
-  await t.test('should support `transformImageUri`', function () {
+  await t.test('should support `urlTransform` (`src` on `img`)', function () {
     assert.equal(
       asHtml(
         <Markdown
           children="![a](https://b.com 'c')"
-          transformImageUri={function (src, alt, title) {
-            assert.equal(src, 'https://b.com')
-            assert.equal(alt, 'a')
-            assert.equal(title, 'c')
+          urlTransform={function (url, key, node) {
+            assert.equal(url, 'https://b.com')
+            assert.equal(key, 'src')
+            assert.equal(node.tagName, 'img')
             return ''
           }}
         />
@@ -410,38 +395,6 @@ test('react-markdown', async function (t) {
       '<p><img src="" alt="a" title="c"/></p>'
     )
   })
-
-  await t.test('should support `transformImageUri` w/ empty URLs', function () {
-    assert.equal(
-      asHtml(
-        <Markdown
-          children="![]()"
-          transformImageUri={function (href, alt, title) {
-            assert.equal(href, '')
-            assert.equal(alt, '')
-            assert.equal(title, null)
-            return ''
-          }}
-        />
-      ),
-      '<p><img src="" alt=""/></p>'
-    )
-  })
-
-  await t.test(
-    'should support turning off `transformImageUri` (dangerous)',
-    function () {
-      assert.equal(
-        asHtml(
-          <Markdown
-            children="![](javascript:alert(1))"
-            transformImageUri={null}
-          />
-        ),
-        '<p><img src="javascript:alert(1)" alt=""/></p>'
-      )
-    }
-  )
 
   await t.test('should support `skipHtml`', function () {
     const actual = asHtml(<Markdown children="a<i>b</i>c" skipHtml />)

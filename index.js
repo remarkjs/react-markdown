@@ -4,4 +4,4 @@
  * @typedef {import('./lib/index.js').Options} Options
  */
 
-export {Markdown as default, uriTransformer} from './lib/index.js'
+export {Markdown as default, defaultUrlTransform} from './lib/index.js'
