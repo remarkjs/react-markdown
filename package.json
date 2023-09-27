@@ -117,7 +117,7 @@
     "xo": "^0.56.0"
   },
   "scripts": {
-    "build": "tsc --build --clean && tsc --build && type-coverage && esbuild index.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=ReactMarkdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.ReactMarkdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return ReactMarkdown;})));\"",
+    "build": "tsc --build --clean && tsc --build && type-coverage && esbuild index.js --bundle --minify --target=es2015 --outfile=react-markdown.min.js --global-name=Markdown --banner:js=\"(function (g, f) {typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = f() : typeof define === 'function' && define.amd ? define([], f) : (g = typeof globalThis !== 'undefined' ? globalThis : g || self, g.Markdown = f()); }(this, (function () { 'use strict';\" --footer:js=\"return Markdown;})));\"",
     "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && xo --fix",
     "prepack": "npm run build && npm run format",
     "test": "npm run build && npm run format && npm run test-coverage",

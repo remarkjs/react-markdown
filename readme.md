@@ -96,14 +96,14 @@ npm install react-markdown
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import ReactMarkdown from 'https://esm.sh/react-markdown@7'
+import Markdown from 'https://esm.sh/react-markdown@7'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import ReactMarkdown from 'https://esm.sh/react-markdown@7?bundle'
+  import Markdown from 'https://esm.sh/react-markdown@7?bundle'
 </script>
 ```
 
@@ -113,10 +113,10 @@ A basic hello world:
 
 ```jsx
 import React from 'react'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import ReactDom from 'react-dom'
 
-ReactDom.render(<ReactMarkdown># Hello, *world*!</ReactMarkdown>, document.body)
+ReactDom.render(<Markdown># Hello, *world*!</Markdown>, document.body)
 ```
 
 <details>
@@ -137,13 +137,13 @@ tables, tasklists and URLs directly):
 ```jsx
 import React from 'react'
 import ReactDom from 'react-dom'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 const markdown = `Just a link: https://reactjs.com.`
 
 ReactDom.render(
-  <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />,
+  <Markdown children={markdown} remarkPlugins={[remarkGfm]} />,
   document.body
 )
 ```
@@ -163,7 +163,7 @@ ReactDom.render(
 
 This package exports the following identifier:
 [`uriTransformer`][uri-transformer].
-The default export is `ReactMarkdown`.
+The default export is `Markdown`.
 
 ### `props`
 
@@ -221,7 +221,7 @@ tasklists and URLs directly:
 
 ```jsx
 import React from 'react'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import ReactDom from 'react-dom'
 import remarkGfm from 'remark-gfm'
 
@@ -240,7 +240,7 @@ A table:
 `
 
 ReactDom.render(
-  <ReactMarkdown children={markdown} remarkPlugins={[remarkGfm]} />,
+  <Markdown children={markdown} remarkPlugins={[remarkGfm]} />,
   document.body
 )
 ```
@@ -291,14 +291,14 @@ second.
 
 ```jsx
 import React from 'react'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import ReactDom from 'react-dom'
 import remarkGfm from 'remark-gfm'
 
 ReactDom.render(
-  <ReactMarkdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
+  <Markdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
     This ~is not~ strikethrough, but ~~this is~~!
-  </ReactMarkdown>,
+  </Markdown>,
   document.body
 )
 ```
@@ -325,7 +325,7 @@ In this case, we apply syntax highlighting with the seriously super amazing
 ```jsx
 import React from 'react'
 import ReactDom from 'react-dom'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -338,7 +338,7 @@ console.log('It works!')
 `
 
 ReactDom.render(
-  <ReactMarkdown
+  <Markdown
     children={markdown}
     components={{
       code(props) {
@@ -387,14 +387,14 @@ is used to support math in markdown, and a transform plugin
 ```jsx
 import React from 'react'
 import ReactDom from 'react-dom'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 
 import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
 
 ReactDom.render(
-  <ReactMarkdown
+  <Markdown
     children={`The lift coefficient ($C_L$) is a dimensionless coefficient.`}
     remarkPlugins={[remarkMath]}
     rehypePlugins={[rehypeKatex]}
@@ -506,7 +506,7 @@ can spare the bundle size (±60kb minzipped), then you can use
 ```jsx
 import React from 'react'
 import ReactDom from 'react-dom'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
 const input = `<div class="note">
@@ -516,7 +516,7 @@ Some *emphasis* and <strong>strong</strong>!
 </div>`
 
 ReactDom.render(
-  <ReactMarkdown rehypePlugins={[rehypeRaw]} children={input} />,
+  <Markdown rehypePlugins={[rehypeRaw]} children={input} />,
   document.body
 )
 ```
@@ -542,7 +542,7 @@ markdown!
 You can also change the things that come from markdown:
 
 ```jsx
-<ReactMarkdown
+<Markdown
   children="*hi*"
   components={{
     // Map `h1` (`# heading`) to use `h2`s.
