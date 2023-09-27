@@ -11,6 +11,6 @@
     "strict": true,
     "target": "es2020"
   },
-  "exclude": ["coverage/", "node_modules/", "**/*.min.js"],
+  "exclude": ["coverage/", "node_modules/"],
   "include": ["**/*.js", "**/*.jsx", "lib/complex-types.d.ts"]
 }
