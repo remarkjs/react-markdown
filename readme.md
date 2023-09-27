@@ -200,7 +200,7 @@ Safe URL (`string`).
 
 Filter elements (TypeScript type).
 
-###### Fields
+###### Parameters
 
 *   `node` ([`Element` from `hast`][hast-element])
     — element to check
@@ -284,7 +284,7 @@ Configuration (TypeScript type).
 
 Transform URLs (TypeScript type).
 
-###### Fields
+###### Parameters
 
 *   `url` (`string`)
     — URL
@@ -554,8 +554,8 @@ versions of Node.js.
 
 When we cut a new major release, we drop support for unmaintained versions of
 Node.
-This means we try to keep the current release line, `react-markdown@^8`,
-compatible with Node.js 12.
+This means we try to keep the current release line, `react-markdown@^9`,
+compatible with Node.js 16.
 
 They work in all modern browsers (essentially: everything not IE 11).
 You can use a bundler (such as esbuild, webpack, or Rollup) to use this package
@@ -690,7 +690,7 @@ It lets you define your own schema of what is and isn’t allowed.
 *   [`remark-gfm`][remark-gfm]
     — add support for GitHub flavored markdown support
 *   [`react-remark`][react-remark]
-    — modern hook based alternative
+    — hook based alternative
 *   [`rehype-react`][rehype-react]
     — turn HTML into React elements
 
