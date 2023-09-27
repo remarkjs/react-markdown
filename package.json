@@ -121,8 +121,8 @@
     "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && xo --fix",
     "prepack": "npm run build && npm run format",
     "test": "npm run build && npm run format && npm run test-coverage",
-    "test-api": "node --conditions development --experimental-loader=./test/loader.js --no-warnings test/test.jsx",
-    "test-coverage": "c8 --100 --reporter lcov npm run test-api"
+    "test-api": "node --conditions development --experimental-loader=./script/load-jsx.js --no-warnings test.jsx",
+    "test-coverage": "c8 --100 --exclude script/ --reporter lcov npm run test-api"
   },
   "prettier": {
     "bracketSpacing": false,
@@ -182,7 +182,7 @@
       },
       {
         "files": [
-          "test/**/*.jsx"
+          "**/*.jsx"
         ],
         "rules": {
           "no-unused-vars": "off"
