@@ -98,10 +98,7 @@
     "@types/react-dom": "^18.0.0",
     "c8": "^8.0.0",
     "esbuild": "^0.19.0",
-    "eslint-plugin-es": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
-    "eslint-plugin-react-hooks": "^4.0.0",
-    "eslint-plugin-security": "^1.0.0",
     "prettier": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -153,10 +150,6 @@
     "atLeast": 100,
     "detail": true,
     "ignoreCatch": true,
-    "#": "below is ignored because some proptypes will `any`; to do: remove prop-types?",
-    "ignoreFiles": [
-      "lib/index.d.ts"
-    ],
     "strict": true
   },
   "xo": {
@@ -165,19 +158,6 @@
     ],
     "extends": "plugin:react/jsx-runtime",
     "overrides": [
-      {
-        "files": [
-          "lib/**/*.js"
-        ],
-        "extends": [
-          "plugin:es/restrict-to-es2019",
-          "plugin:security/recommended"
-        ],
-        "rules": {
-          "complexity": "off",
-          "security/detect-object-injection": "off"
-        }
-      },
       {
         "files": [
           "**/*.jsx"
@@ -189,8 +169,8 @@
     ],
     "prettier": true,
     "rules": {
-      "n/file-extension-in-import": "off",
-      "unicorn/prefer-string-replace-all": "off"
+      "complexity": "off",
+      "n/file-extension-in-import": "off"
     }
   }
 }
