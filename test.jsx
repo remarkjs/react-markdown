@@ -1,21 +1,21 @@
 /* @jsxRuntime automatic @jsxImportSource react */
 /**
  * @typedef {import('hast').Root} Root
- * @typedef {import('./index.js').ExtraProps} ExtraProps
+ * @typedef {import('react-markdown').ExtraProps} ExtraProps
  */
 
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import {renderToStaticMarkup} from 'react-dom/server'
+import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 import {visit} from 'unist-util-visit'
-import Markdown from './index.js'
 
 test('react-markdown', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('./index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('react-markdown')).sort(), [
       'default',
       'defaultUrlTransform'
     ])

@@ -685,9 +685,9 @@ It lets you define your own schema of what is and isn’t allowed.
 
 ## Related
 
-*   [`MDX`](https://github.com/mdx-js/mdx)
+*   [`MDX`][mdx]
     — JSX *in* markdown
-*   [`remark-gfm`](https://github.com/remarkjs/remark-gfm)
+*   [`remark-gfm`][remark-gfm]
     — add support for GitHub flavored markdown support
 *   [`react-remark`][react-remark]
     — modern hook based alternative
