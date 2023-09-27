@@ -288,43 +288,31 @@ test('react-markdown', async function (t) {
   })
 
   await t.test('should make a `javascript:` URL safe', function () {
-    const consoleError = console.error
-    console.error = noop
     assert.equal(
       asHtml(<Markdown children="[](javascript:alert(1))" />),
-      '<p><a href="javascript:void(0)"></a></p>'
+      '<p><a href=""></a></p>'
     )
-    console.error = consoleError
   })
 
   await t.test('should make a `vbscript:` URL safe', function () {
-    const consoleError = console.error
-    console.error = noop
     assert.equal(
       asHtml(<Markdown children="[](vbscript:alert(1))" />),
-      '<p><a href="javascript:void(0)"></a></p>'
+      '<p><a href=""></a></p>'
     )
-    console.error = consoleError
   })
 
   await t.test('should make a `VBSCRIPT:` URL safe', function () {
-    const consoleError = console.error
-    console.error = noop
     assert.equal(
       asHtml(<Markdown children="[](VBSCRIPT:alert(1))" />),
-      '<p><a href="javascript:void(0)"></a></p>'
+      '<p><a href=""></a></p>'
     )
-    console.error = consoleError
   })
 
   await t.test('should make a `file:` URL safe', function () {
-    const consoleError = console.error
-    console.error = noop
     assert.equal(
       asHtml(<Markdown children="[](file:///etc/passwd)" />),
-      '<p><a href="javascript:void(0)"></a></p>'
+      '<p><a href=""></a></p>'
     )
-    console.error = consoleError
   })
 
   await t.test('should allow an empty URL', function () {
@@ -1054,8 +1042,3 @@ test('react-markdown', async function (t) {
 function asHtml(input) {
   return renderToStaticMarkup(input)
 }
-
-/**
- * @returns {undefined}
- */
-function noop() {}
