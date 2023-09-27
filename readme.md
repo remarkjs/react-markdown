@@ -100,7 +100,7 @@ npm install react-markdown
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import Markdown from 'https://esm.sh/react-markdown@8'
+import Markdown from 'https://esm.sh/react-markdown@9'
 ```
 
 In browsers with [`esm.sh`][esmsh]:

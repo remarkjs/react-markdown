@@ -2,7 +2,44 @@
 
 All notable changes will be documented in this file.
 
-## 9.0.0 - unreleased
+## 9.0.0 - 2023-09-27
+
+*   [`b67d714`](https://github.com/remarkjs/react-markdown/commit/b67d714)
+    Change to require Node.js 16\
+    **migrate**: update too
+*   [`ec2b134`](https://github.com/remarkjs/react-markdown/commit/ec2b134)
+    Change to require React 18\
+    **migrate**: update too
+*   [`bf5824f`](https://github.com/remarkjs/react-markdown/commit/bf5824f)
+    Change to use `exports`\
+    **migrate**: don’t use private APIs
+*   [`c383a45`](https://github.com/remarkjs/react-markdown/commit/c383a45)
+    Update `@types/hast`, utilities, plugins, etc\
+    **migrate**: update too
+*   [`eca5e6b`](https://github.com/remarkjs/react-markdown/commit/eca5e6b)
+    [`08ead9e`](https://github.com/remarkjs/react-markdown/commit/08ead9e)
+    Replace `transformImageUri`, `transformLinkUri` w/ `urlTransform`\
+    **migrate**: see “Add `urlTransform`” below
+*   [`de29396`](https://github.com/remarkjs/react-markdown/commit/de29396)
+    Remove `linkTarget` option\
+    **migrate**: see “Remove `linkTarget`” below
+*   [`4346276`](https://github.com/remarkjs/react-markdown/commit/4346276)
+    Remove support for passing custom props to components\
+    **migrate**: see “Remove `includeElementIndex`”, “Remove `rawSourcePos`”,
+    “Remove `sourcePos`”, “Remove extra props passed to certain components”
+    below
+*   [`c0dfbd6`](https://github.com/remarkjs/react-markdown/commit/c0dfbd6)
+    Remove UMD bundle from package\
+    **migrate**: use `esm.sh` or a CDN or so
+*   [`e12b5e9`](https://github.com/remarkjs/react-markdown/commit/e12b5e9)
+    Remove `prop-types`\
+    **migrate**: use TypeScript
+*   [`4eb7aa0`](https://github.com/remarkjs/react-markdown/commit/4eb7aa0)
+    Change to throw errors for removed props\
+    **migrate**: don’t pass options that don’t do things
+*   [`8aabf74`](https://github.com/remarkjs/react-markdown/commit/8aabf74)
+    Change to improve error messages\
+    **migrate**: expect better messages
 
 ### Add `urlTransform`
 
@@ -12,7 +49,13 @@ you might want to change (or which might be unsafe so *we* make them safe).
 And their name and APIs were a bit weird.
 You can use the new `urlTransform` prop instead to change all your URLs.
 
-### Remove `includeElementIndex` option
+### Remove `linkTarget`
+
+The `linkTarget` option was removed; you should likely not set targets.
+If you want to, use
+[`rehype-external-links`](https://github.com/rehypejs/rehype-external-links).
+
+### Remove `includeElementIndex`
 
 The `includeElementIndex` option was removed, so `index` is never passed to
 components.
@@ -39,13 +82,13 @@ function rehypePluginAddingIndex() {
 }
 ```
 
-### Remove `rawSourcePos` option
+### Remove `rawSourcePos`
 
 The `rawSourcePos` option was removed, so `sourcePos` is never passed to
 components.
 All components are passed `node`, so you can get `node.position` from them.
 
-### Remove `sourcePos` option
+### Remove `sourcePos`
 
 The `sourcePos` option was removed, so `data-sourcepos` is never passed to
 elements.
