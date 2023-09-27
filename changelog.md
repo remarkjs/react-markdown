@@ -82,6 +82,8 @@ function rehypePluginAddingIndex() {
 }
 ```
 
+</details>
+
 ### Remove `rawSourcePos`
 
 The `rawSourcePos` option was removed, so `sourcePos` is never passed to
@@ -115,6 +117,8 @@ function rehypePluginAddingIndex() {
   }
 }
 ```
+
+</details>
 
 ### Remove extra props passed to certain components
 
