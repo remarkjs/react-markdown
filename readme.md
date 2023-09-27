@@ -53,6 +53,7 @@ React component to render markdown.
 *   [Architecture](#architecture)
 *   [Appendix A: HTML in markdown](#appendix-a-html-in-markdown)
 *   [Appendix B: Components](#appendix-b-components)
+*   [Appendix C: line endings in markdown (and JSX)](#appendix-c-line-endings-in-markdown-and-jsx)
 *   [Security](#security)
 *   [Related](#related)
 *   [Contribute](#contribute)
@@ -670,6 +671,65 @@ etc.
 Every component will receive a `node`.
 This is the original [`Element` from `hast`][hast-element] element being turned
 into a React element.
+
+## Appendix C: line endings in markdown (and JSX)
+
+You might have trouble with how line endings work in markdown and JSX.
+We recommend the following, which solves all line ending problems:
+
+```jsx
+// If you write actual markdown in your code, put your markdown in a variable;
+// **do not indent markdown**:
+const markdown = `
+# This is perfect!
+`
+
+// Pass the value as an expresion as an only child:
+<Markdown>{markdown}</Markdown>
+```
+
+👆 That works.
+Read on for what doesn’t and why that is.
+
+You might try to write markdown directly in your JSX and find that it **does
+not** work:
+
+```jsx
+<Markdown>
+  # Hi
+
+  This is **not** a paragraph.
+</Markdown>
+```
+
+The is because in JSX the whitespace (including line endings) is collapsed to
+a single space.
+So the above example is equivalent to:
+
+```jsx
+<Markdown> # Hi This is **not** a paragraph. </Markdown>
+```
+
+Instead, to pass markdown to `Markdown`, you can use an expression:
+with a template literal:
+
+```jsx
+<Markdown>{`
+# Hi
+
+This is a paragraph.
+`}</Markdown>
+```
+
+Template literals have another potential problem, because they keep whitespace
+(including indentation) inside them.
+That means that the following **does not** turn into a heading:
+
+```jsx
+<Markdown>{`
+    # This is **not** a heading, it’s an indented code block
+`}</Markdown>
+```
 
 ## Security
 
