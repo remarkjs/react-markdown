@@ -1,7 +1,7 @@
 /* @jsxRuntime automatic @jsxImportSource react */
 /**
  * @typedef {import('hast').Root} Root
- * @typedef {import('../lib/ast-to-react.js').HeadingProps} HeadingProps
+ * @typedef {import('../index.js').ExtraProps} ExtraProps
  */
 
 import assert from 'node:assert/strict'
@@ -22,7 +22,7 @@ test('react-markdown', async function (t) {
   })
 
   await t.test('should work', function () {
-    assert.equal(asHtml(<Markdown>a</Markdown>), '<p>a</p>')
+    assert.equal(asHtml(<Markdown children="a" />), '<p>a</p>')
   })
 
   await t.test('should warn w/ `source`', function () {
@@ -33,7 +33,7 @@ test('react-markdown', async function (t) {
     console.warn = capture
 
     // @ts-expect-error: check how the runtime handles untyped `source`.
-    assert.equal(asHtml(<Markdown source="a">b</Markdown>), '<p>b</p>')
+    assert.equal(asHtml(<Markdown source="a" />), '')
     assert.equal(
       message,
       '[react-markdown] Warning: please use `children` instead of `source` (see <https://github.com/remarkjs/react-markdown/blob/main/changelog.md#change-source-to-children> for more info)'
@@ -86,10 +86,10 @@ test('react-markdown', async function (t) {
     console.warn = capture
 
     // @ts-expect-error: check how the runtime handles invalid `children`.
-    assert.equal(asHtml(<Markdown children={false} />), '')
+    assert.equal(asHtml(<Markdown children={true} />), '')
     assert.equal(
       message,
-      '[react-markdown] Warning: please pass a string as `children` (not: `false`)'
+      '[react-markdown] Warning: please pass a string as `children` (not: `true`)'
     )
 
     console.error = error
@@ -119,8 +119,11 @@ test('react-markdown', async function (t) {
 
     console.warn = capture
 
-    // @ts-expect-error: check how the runtime handles deprecated `allowDangerousHtml`.
-    assert.equal(asHtml(<Markdown allowDangerousHtml>a</Markdown>), '<p>a</p>')
+    assert.equal(
+      // @ts-expect-error: check how the runtime handles deprecated `allowDangerousHtml`.
+      asHtml(<Markdown allowDangerousHtml children="a" />),
+      '<p>a</p>'
+    )
     assert.equal(
       message,
       '[react-markdown] Warning: please remove `allowDangerousHtml` (see <https://github.com/remarkjs/react-markdown/blob/main/changelog.md#remove-buggy-html-in-markdown-parser> for more info)'
@@ -139,9 +142,28 @@ test('react-markdown', async function (t) {
 
   await t.test('should support `className`', function () {
     assert.equal(
-      asHtml(<Markdown className="md">a</Markdown>),
+      asHtml(<Markdown children="a" className="md" />),
       '<div class="md"><p>a</p></div>'
     )
+  })
+
+  await t.test('should support `className` (if w/o root)', function () {
+    assert.equal(
+      asHtml(
+        <Markdown children={'a'} className="b" rehypePlugins={[plugin]} />
+      ),
+      '<div class="b"></div>'
+    )
+
+    function plugin() {
+      /**
+       * @returns {Root}
+       */
+      return function () {
+        // @ts-expect-error: check how non-roots are handled.
+        return {type: 'comment', value: 'things!'}
+      }
+    }
   })
 
   await t.test('should support a block quote', function () {
@@ -505,13 +527,6 @@ test('react-markdown', async function (t) {
     assert.equal(actual, '<p>abc</p>')
   })
 
-  await t.test('should support `sourcePos`', function () {
-    assert.equal(
-      asHtml(<Markdown children="# *a*" sourcePos />),
-      '<h1 data-sourcepos="1:1-1:6"><em data-sourcepos="1:3-1:6">a</em></h1>'
-    )
-  })
-
   await t.test(
     'should support `allowedElements` (drop unlisted nodes)',
     function () {
@@ -622,6 +637,7 @@ test('react-markdown', async function (t) {
           components={{
             p(props) {
               const {node, ...rest} = props
+              assert.deepEqual(rest, {children: 'a'})
               return <div {...rest} />
             }
           }}
@@ -632,6 +648,12 @@ test('react-markdown', async function (t) {
   })
 
   await t.test('should fail on an invalid component', function () {
+    const warn = console.warn
+    /** @type {unknown} */
+    let message
+
+    console.error = capture
+
     assert.throws(function () {
       asHtml(
         <Markdown
@@ -642,26 +664,22 @@ test('react-markdown', async function (t) {
           }}
         />
       )
-    }, /Unexpected value `123` for `h1`, expected component or tag name/)
+    }, /Element type is invalid/)
+
+    console.error = warn
+
+    assert.match(String(message), /Warning: React.jsx: type is invalid/)
+
+    /**
+     * @param {unknown} d
+     * @returns {undefined}
+     */
+    function capture(d) {
+      message = d
+    }
   })
 
-  await t.test('should support `null`, `undefined` in components', function () {
-    assert.equal(
-      asHtml(
-        <Markdown
-          children="# *a*"
-          components={{
-            // @ts-expect-error: code allows `null` but TS does not.
-            h1: null,
-            em: undefined
-          }}
-        />
-      ),
-      '<h1><em>a</em></h1>'
-    )
-  })
-
-  await t.test('should support `components` (headings; `level`)', function () {
+  await t.test('should support `components` (headings)', function () {
     let calls = 0
 
     assert.equal(
@@ -677,18 +695,18 @@ test('react-markdown', async function (t) {
     assert.equal(calls, 2)
 
     /**
-     * @param {HeadingProps} props
+     * @param {JSX.IntrinsicElements['h1'] & ExtraProps} props
      */
     function heading(props) {
-      const {level, node, ...rest} = props
-      assert.equal(typeof level, 'number')
+      const {node, ...rest} = props
+      assert(node)
+      assert(node.tagName === 'h1' || node.tagName === 'h2')
       calls++
-      const H = `h${level}`
-      return <H {...rest} />
+      return <node.tagName {...rest} />
     }
   })
 
-  await t.test('should support `components` (code; `inline`)', function () {
+  await t.test('should support `components` (code)', function () {
     let calls = 0
     assert.equal(
       asHtml(
@@ -696,9 +714,9 @@ test('react-markdown', async function (t) {
           children={'```\na\n```\n\n\tb\n\n`c`'}
           components={{
             code(props) {
-              const {inline, node, ...rest} = props
-              // To do: this should always be boolean on `code`?
-              assert(inline === undefined || typeof inline === 'boolean')
+              const {node, ...rest} = props
+              assert(node)
+              assert(node.tagName === 'code')
               calls++
               return <code {...rest} />
             }
@@ -711,90 +729,80 @@ test('react-markdown', async function (t) {
     assert.equal(calls, 3)
   })
 
-  await t.test(
-    'should support `components` (li; `checked`, `index`, `ordered`)',
-    function () {
-      let calls = 0
+  await t.test('should support `components` (li)', function () {
+    let calls = 0
 
-      assert.equal(
-        asHtml(
-          <Markdown
-            children={'* [x] a\n1. b'}
-            components={{
-              li(props) {
-                const {checked, index, node, ordered, ...rest} = props
-                assert.equal(typeof ordered, 'boolean')
-                assert(checked === null || typeof checked === 'boolean')
-                assert.equal(index >= 0, true)
-                calls++
-                return <li {...rest} />
-              }
-            }}
-            remarkPlugins={[remarkGfm]}
-          />
-        ),
-        '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" disabled="" checked=""/> a</li>\n</ul>\n<ol>\n<li>b</li>\n</ol>'
-      )
+    assert.equal(
+      asHtml(
+        <Markdown
+          children={'* [x] a\n1. b'}
+          components={{
+            li(props) {
+              const {node, ...rest} = props
+              assert(node)
+              assert(node.tagName === 'li')
+              calls++
+              return <li {...rest} />
+            }
+          }}
+          remarkPlugins={[remarkGfm]}
+        />
+      ),
+      '<ul class="contains-task-list">\n<li class="task-list-item"><input type="checkbox" disabled="" checked=""/> a</li>\n</ul>\n<ol>\n<li>b</li>\n</ol>'
+    )
 
-      assert.equal(calls, 2)
-    }
-  )
+    assert.equal(calls, 2)
+  })
 
-  await t.test(
-    'should support `components` (ol; `depth`, `ordered`)',
-    function () {
-      let calls = 0
+  await t.test('should support `components` (ol)', function () {
+    let calls = 0
 
-      assert.equal(
-        asHtml(
-          <Markdown
-            children="1. a"
-            components={{
-              ol(props) {
-                const {depth, node, ordered, ...rest} = props
-                assert.equal(ordered, true)
-                assert.equal(depth, 0)
-                calls++
-                return <ol {...rest} />
-              }
-            }}
-          />
-        ),
-        '<ol>\n<li>a</li>\n</ol>'
-      )
+    assert.equal(
+      asHtml(
+        <Markdown
+          children="1. a"
+          components={{
+            ol(props) {
+              const {node, ...rest} = props
+              assert(node)
+              assert(node.tagName === 'ol')
+              calls++
+              return <ol {...rest} />
+            }
+          }}
+        />
+      ),
+      '<ol>\n<li>a</li>\n</ol>'
+    )
 
-      assert.equal(calls, 1)
-    }
-  )
+    assert.equal(calls, 1)
+  })
 
-  await t.test(
-    'should support `components` (ul; `depth`, `ordered`)',
-    function () {
-      let calls = 0
+  await t.test('should support `components` (ul)', function () {
+    let calls = 0
 
-      assert.equal(
-        asHtml(
-          <Markdown
-            children="* a"
-            components={{
-              ul(props) {
-                const {depth, node, ordered, ...rest} = props
-                assert.equal(ordered, false)
-                assert.equal(depth, 0)
-                calls++
-                return <ul {...rest} />
-              }
-            }}
-          />
-        ),
-        '<ul>\n<li>a</li>\n</ul>'
-      )
+    assert.equal(
+      asHtml(
+        <Markdown
+          children="* a"
+          components={{
+            ul(props) {
+              const {node, ...rest} = props
+              assert(node)
+              assert(node.tagName === 'ul')
+              calls++
+              return <ul {...rest} />
+            }
+          }}
+        />
+      ),
+      '<ul>\n<li>a</li>\n</ul>'
+    )
 
-      assert.equal(calls, 1)
-    }
-  )
+    assert.equal(calls, 1)
+  })
 
-  await t.test('should support `components` (tr; `isHeader`)', function () {
+  await t.test('should support `components` (tr)', function () {
     let calls = 0
 
     assert.equal(
@@ -803,8 +811,9 @@ test('react-markdown', async function (t) {
           children={'|a|\n|-|\n|b|'}
           components={{
             tr(props) {
-              const {isHeader, node, ...rest} = props
-              assert.equal(typeof isHeader, 'boolean')
+              const {node, ...rest} = props
+              assert(node)
+              assert(node.tagName === 'tr')
               calls++
               return <tr {...rest} />
             }
@@ -818,7 +827,7 @@ test('react-markdown', async function (t) {
     assert.equal(calls, 2)
   })
 
-  await t.test('should support `components` (td, th; `isHeader`)', function () {
+  await t.test('should support `components` (td, th)', function () {
     let tdCalls = 0
     let thCalls = 0
 
@@ -828,14 +837,16 @@ test('react-markdown', async function (t) {
           children={'|a|\n|-|\n|b|'}
           components={{
             td(props) {
-              const {isHeader, node, ...rest} = props
-              assert.equal(isHeader, false)
+              const {node, ...rest} = props
+              assert(node)
+              assert(node.tagName === 'td')
               tdCalls++
               return <td {...rest} />
             },
             th(props) {
-              const {isHeader, node, ...rest} = props
-              assert.equal(isHeader, true)
+              const {node, ...rest} = props
+              assert(node)
+              assert(node.tagName === 'th')
               thCalls++
               return <th {...rest} />
             }
@@ -889,60 +900,6 @@ test('react-markdown', async function (t) {
 
     assert.equal(calls, 1)
   })
-
-  await t.test(
-    'should support `rawSourcePos` (pass `sourcePosition` to components)',
-    function () {
-      let calls = 0
-      assert.equal(
-        asHtml(
-          <Markdown
-            children="*a*"
-            rawSourcePos
-            components={{
-              em(props) {
-                const {node, sourcePosition, ...rest} = props
-                assert.deepEqual(sourcePosition, {
-                  start: {line: 1, column: 1, offset: 0},
-                  end: {line: 1, column: 4, offset: 3}
-                })
-                calls++
-                return <em {...rest} />
-              }
-            }}
-          />
-        ),
-        '<p><em>a</em></p>'
-      )
-
-      assert.equal(calls, 1)
-    }
-  )
-
-  await t.test(
-    'should support `includeElementIndex` (pass `index` to components)',
-    function () {
-      let calls = 0
-      assert.equal(
-        asHtml(
-          <Markdown
-            children="a"
-            includeElementIndex
-            components={{
-              p(props) {
-                const {index, node, ...rest} = props
-                assert.equal(typeof index, 'number')
-                calls++
-                return <p>{rest.children}</p>
-              }
-            }}
-          />
-        ),
-        '<p>a</p>'
-      )
-      assert.equal(calls, 1)
-    }
-  )
 
   await t.test('should support plugins (`remark-gfm`)', function () {
     assert.equal(
@@ -1201,10 +1158,8 @@ test('react-markdown', async function (t) {
     }
   })
 
-  await t.test('should fail on a plugin replacing `root`', function () {
-    assert.throws(function () {
-      asHtml(<Markdown children="a" rehypePlugins={[plugin]} />)
-    }, /Unexpected `comment` node, expected `root/)
+  await t.test('should not fail on a plugin replacing `root`', function () {
+    assert.equal(asHtml(<Markdown children="a" rehypePlugins={[plugin]} />), '')
 
     function plugin() {
       /**

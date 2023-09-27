@@ -81,18 +81,12 @@
   "dependencies": {
     "@types/hast": "^3.0.0",
     "@types/prop-types": "^15.0.0",
-    "@types/unist": "^3.0.0",
-    "comma-separated-tokens": "^2.0.0",
-    "hast-util-whitespace": "^3.0.0",
+    "hast-util-to-jsx-runtime": "^2.0.0",
     "mdast-util-to-hast": "^13.0.0",
     "prop-types": "^15.0.0",
-    "property-information": "^6.0.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.0.0",
-    "space-separated-tokens": "^2.0.0",
-    "style-to-object": "^0.4.0",
     "unified": "^11.0.0",
-    "unist-util-stringify-position": "^4.0.0",
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.0"
   },
@@ -161,9 +155,9 @@
     "atLeast": 100,
     "detail": true,
     "ignoreCatch": true,
-    "#": "below is ignored because some proptypes will `any`",
+    "#": "below is ignored because some proptypes will `any`; to do: remove prop-types?",
     "ignoreFiles": [
-      "lib/react-markdown.d.ts"
+      "lib/index.d.ts"
     ],
     "strict": true
   },
@@ -191,13 +185,13 @@
           "test/**/*.jsx"
         ],
         "rules": {
-          "n/file-extension-in-import": "off",
           "no-unused-vars": "off"
         }
       }
     ],
     "prettier": true,
     "rules": {
+      "n/file-extension-in-import": "off",
       "unicorn/prefer-string-replace-all": "off"
     }
   }

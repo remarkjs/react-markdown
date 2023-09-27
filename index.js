@@ -1,8 +1,7 @@
 /**
- * @typedef {import('./lib/react-markdown.js').Options} Options
- * @typedef {import('./lib/ast-to-react.js').Components} Components
+ * @typedef {import('hast-util-to-jsx-runtime').Components} Components
+ * @typedef {import('hast-util-to-jsx-runtime').ExtraProps} ExtraProps
+ * @typedef {import('./lib/index.js').Options} Options
  */
 
-export {uriTransformer} from './lib/uri-transformer.js'
-
-export {ReactMarkdown as default} from './lib/react-markdown.js'
+export {ReactMarkdown as default, uriTransformer} from './lib/index.js'

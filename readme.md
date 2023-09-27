@@ -182,11 +182,6 @@ The default export is `ReactMarkdown`.
 *   `disallowedElements` (`Array<string>`, optional)\
     tag names to disallow (cannot combine w/ `allowedElements`), all tag names
     are allowed by default
-*   `includeElementIndex` (`boolean`, default: `false`)\
-    pass the `index` (number of elements before it) and `siblingCount` (number
-    of elements in parent) as props to all components
-*   `rawSourcePos` (`boolean`, default: `false`)\
-    pass a `sourcePosition` prop to all components with their [position][]
 *   `rehypePlugins` (`Array<Plugin>`, optional)\
     list of [rehype plugins][rehype-plugins] to use
 *   `remarkPlugins` (`Array<Plugin>`, optional)\
@@ -195,8 +190,6 @@ The default export is `ReactMarkdown`.
     options to pass through to [`remark-rehype`][remark-rehype]
 *   `skipHtml` (`boolean`, default: `false`)\
     ignore HTML in markdown completely
-*   `sourcePos` (`boolean`, default: `false`)\
-    pass a `data-sourcepos` prop to all components with a serialized position
 *   `transformImageUri` (`(src, alt, title) => string`, default:
     [`uriTransformer`][uri-transformer])\
     change URLs on images;
@@ -349,9 +342,9 @@ ReactDom.render(
     children={markdown}
     components={{
       code(props) {
-        const {children, className, inline, node, ...rest} = props
+        const {children, className, node, ...rest} = props
         const match = /language-(\w+)/.exec(className || '')
-        return !inline && match ? (
+        return match ? (
           <SyntaxHighlighter
             {...rest}
             children={String(children).replace(/\n$/, '')}
@@ -576,65 +569,10 @@ work with `react-markdown`.
 The props that are passed are what you probably would expect: an `a` (link) will
 get `href` (and `title`) props, and `img` (image) an `src`, `alt` and `title`,
 etc.
-There are some extra props passed.
 
-*   `code`
-    *   `inline` (`boolean?`)
-        — set to `true` for inline code
-    *   `className` (`string?`)
-        — set to `language-js` or so when using ` ```js `
-*   `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
-    *   `level` (`number` between 1 and 6)
-        — heading rank
-*   `input` (when using [`remark-gfm`][gfm])
-    *   `checked` (`boolean`)
-        — whether the item is checked
-    *   `disabled` (`true`)
-    *   `type` (`'checkbox'`)
-*   `li`
-    *   `index` (`number`)
-        — number of preceding items (so first gets `0`, etc.)
-    *   `ordered` (`boolean`)
-        — whether the parent is an `ol` or not
-    *   `checked` (`boolean?`)
-        — `null` normally, `boolean` when using [`remark-gfm`][gfm]’s tasklists
-    *   `className` (`string?`)
-        — set to `task-list-item` when using [`remark-gfm`][gfm] and the
-        item1 is a tasklist
-*   `ol`, `ul`
-    *   `depth` (`number`)
-        — number of ancestral lists (so first gets `0`, etc.)
-    *   `ordered` (`boolean`)
-        — whether it’s an `ol` or not
-    *   `className` (`string?`)
-        — set to `contains-task-list` when using [`remark-gfm`][gfm] and the
-        list contains one or more tasklists
-*   `td`, `th` (when using [`remark-gfm`][gfm])
-    *   `style` (`Object?`)
-        — something like `{textAlign: 'left'}` depending on how the cell is
-        aligned
-    *   `isHeader` (`boolean`)
-        — whether it’s a `th` or not
-*   `tr` (when using [`remark-gfm`][gfm])
-    *   `isHeader` (`boolean`)
-        — whether it’s in the `thead` or not
-
-Every component will receive a `node` (`Object`).
+Every component will receive a `node`.
 This is the original [hast](https://github.com/syntax-tree/hast) element being
 turned into a React element.
-
-Every element will receive a `key` (`string`).
-See [React’s docs](https://reactjs.org/docs/lists-and-keys.html#keys) for more
-info.
-
-Optionally, components will also receive:
-
-*   `data-sourcepos` (`string`)
-    — see `sourcePos` option
-*   `sourcePosition` (`Object`)
-    — see `rawSourcePos` option
-*   `index` and `siblingCount` (`number`)
-    — see `includeElementIndex` option
 
 ## Security
 
@@ -721,8 +659,6 @@ abide by its terms.
 
 [demo]: https://remarkjs.github.io/react-markdown/
 
-[position]: https://github.com/syntax-tree/unist#position
-
 [gfm]: https://github.com/remarkjs/remark-gfm
 
 [math]: https://github.com/remarkjs/remark-math
@@ -749,7 +685,7 @@ abide by its terms.
 
 [cm-html]: https://spec.commonmark.org/0.30/#html-blocks
 
-[uri]: https://github.com/remarkjs/react-markdown/blob/main/lib/uri-transformer.js
+[uri]: https://github.com/remarkjs/react-markdown/blob/main/lib/index.js#L356
 
 [uri-transformer]: #uritransformer
 

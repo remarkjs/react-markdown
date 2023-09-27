@@ -2,6 +2,105 @@
 
 All notable changes will be documented in this file.
 
+## 9.0.0 - unreleased
+
+### Remove `includeElementIndex` option
+
+The `includeElementIndex` option was removed, so `index` is never passed to
+components.
+Write a plugin to pass `index`:
+
+<details>
+<summary>Show example of plugin</summary>
+
+```jsx
+import {visit} from 'unist-util-visit'
+
+function rehypePluginAddingIndex() {
+  /**
+   * @param {import('hast').Root} tree
+   * @returns {undefined}
+   */
+  return function (tree) {
+    visit(tree, function (node, index) {
+      if (node.type === 'element' && typeof index === 'number') {
+        node.properties === index
+      }
+    })
+  }
+}
+```
+
+### Remove `rawSourcePos` option
+
+The `rawSourcePos` option was removed, so `sourcePos` is never passed to
+components.
+All components are passed `node`, so you can get `node.position` from them.
+
+### Remove `sourcePos` option
+
+The `sourcePos` option was removed, so `data-sourcepos` is never passed to
+elements.
+Write a plugin to pass `index`:
+
+<details>
+<summary>Show example of plugin</summary>
+
+```jsx
+import {stringifyPosition} from 'unist-util-stringify-position'
+import {visit} from 'unist-util-visit'
+
+function rehypePluginAddingIndex() {
+  /**
+   * @param {import('hast').Root} tree
+   * @returns {undefined}
+   */
+  return function (tree) {
+    visit(tree, function (node) {
+      if (node.type === 'element') {
+        node.properties.dataSourcepos = stringifyPosition(node.position)
+      }
+    })
+  }
+}
+```
+
+### Remove extra props passed to certain components
+
+When overwriting components, these props are no longer passed:
+
+*   `inline` on `code`:
+    — create a plugin or use `pre` for the block
+*   `level` on `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
+    — check `node.tagName` instead
+*   `checked` on `li`
+    — check `task-list-item` class or check `props.children`
+*   `index` on `li`
+    — create a plugin
+*   `ordered` on `li`
+    — create a plugin or check the parent
+*   `depth` on `ol`, `ul`
+    — create a plugin
+*   `ordered` on `ol`, `ul`
+    — check `node.tagName` instead
+*   `isHeader` on `td`, `th`
+    — check `node.tagName` instead
+*   `isHeader` on `tr`
+    — create a plugin or check children
+
+## 8.0.7 - 2023-04-12
+
+*   [`c289176`](https://github.com/remarkjs/react-markdown/commit/c289176)
+    Fix performance for keys
+    by [**@wooorm**](https://github.com/wooorm)
+    in [#738](https://github.com/remarkjs/react-markdown/pull/738)
+*   [`9034dbd`](https://github.com/remarkjs/react-markdown/commit/9034dbd)
+    Fix types in syntax highlight example
+    by [**@dlqqq**](https://github.com/dlqqq)
+    in [#736](https://github.com/remarkjs/react-markdown/pull/736)
+
+**Full Changelog**: <https://github.com/remarkjs/react-markdown/compare/8.0.6...8.0.7>
+
 ## 8.0.6 - 2023-03-20
 
 *   [`33ab015`](https://github.com/remarkjs/react-markdown/commit/33ab015)
