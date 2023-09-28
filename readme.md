@@ -136,9 +136,9 @@ ReactDom.render(<Markdown>{markdown}</Markdown>, document.body)
 
 </details>
 
-Here is an example that shows passing the markdown as a string and how
-to use a plugin ([`remark-gfm`][remark-gfm], which adds support for
-footnotes, strikethrough, tables, tasklists and URLs directly):
+Here is an example that shows how to use a plugin ([`remark-gfm`][remark-gfm],
+which adds support for footnotes, strikethrough, tables, tasklists and URLs
+directly):
 
 ```jsx
 import React from 'react'
@@ -685,7 +685,7 @@ const markdown = `
 `
 
 // Pass the value as an expresion as an only child:
-<Markdown>{markdown}</Markdown>
+const result = <Markdown>{markdown}</Markdown>
 ```
 
 👆 That works.

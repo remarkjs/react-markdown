@@ -124,7 +124,7 @@ function rehypePluginAddingIndex() {
 
 When overwriting components, these props are no longer passed:
 
-*   `inline` on `code`:
+*   `inline` on `code`
     — create a plugin or use `pre` for the block
 *   `level` on `h1`, `h2`, `h3`, `h4`, `h5`, `h6`
     — check `node.tagName` instead
