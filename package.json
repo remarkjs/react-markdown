@@ -10,13 +10,13 @@
   "devDependencies": {
     "@wooorm/starry-night": "^2.0.0",
     "cssnano": "^6.0.0",
-    "esbuild": "^0.17.0",
+    "esbuild": "^0.19.0",
     "eslint-config-xo-react": "^0.27.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "hast-util-to-jsx-runtime": "^1.0.0",
     "postcss-cli": "^10.0.0",
-    "prettier": "^2.0.0",
+    "prettier": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-markdown": "*",
@@ -29,11 +29,11 @@
     "remark-slug": "^7.0.0",
     "remark-toc": "^8.0.0",
     "stylelint": "^15.0.0",
-    "stylelint-config-standard": "^32.0.0",
-    "xo": "^0.54.0"
+    "stylelint-config-standard": "^34.0.0",
+    "xo": "^0.56.0"
   },
   "scripts": {
-    "format": "prettier . -w --loglevel warn && xo --fix && stylelint src/index.css --fix",
+    "format": "prettier . -w --log-level warn && xo --fix && stylelint src/index.css --fix",
     "build:css": "postcss src/index.css > dest/index.css",
     "build:html": "rehype -q -u preset-minify -u prevent-favicon-request src/index.html -o dest/",
     "build:js:nomodule": "esbuild src/index.js --define:process.env.NODE_ENV=\\\"production\\\" --log-level=warning --loader:.js=jsx --bundle --minify --target=es6 --outfile=dest/index.nomodule.js",
