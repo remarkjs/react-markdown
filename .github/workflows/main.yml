@@ -20,4 +20,4 @@ name: main
 on:
   push:
     branches:
-      - main
+      - website
