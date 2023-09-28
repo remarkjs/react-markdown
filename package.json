@@ -25,8 +25,8 @@
     "rehype-preset-minify": "^7.0.0",
     "rehype-prevent-favicon-request": "^4.0.0",
     "rehype-raw": "^7.0.0",
+    "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.0",
-    "remark-slug": "^7.0.0",
     "remark-toc": "^9.0.0",
     "stylelint": "^15.0.0",
     "stylelint-config-standard": "^34.0.0",
@@ -36,8 +36,8 @@
     "format": "prettier . -w --log-level warn && xo --fix && stylelint src/index.css --fix",
     "build:css": "postcss src/index.css > dest/index.css",
     "build:html": "rehype -q -u preset-minify -u prevent-favicon-request src/index.html -o dest/",
-    "build:js:nomodule": "esbuild src/index.js --define:process.env.NODE_ENV=\\\"production\\\" --log-level=warning --loader:.js=jsx --bundle --minify --target=es6 --outfile=dest/index.nomodule.js",
-    "build:js:module": "esbuild src/index.js --define:process.env.NODE_ENV=\\\"production\\\" --log-level=warning --loader:.js=jsx --bundle --minify --target=es2020 --format=esm --outfile=dest/index.module.js",
+    "build:js:nomodule": "esbuild src/index.js --bundle --conditions=browser,production --define:process.env.NODE_ENV=\\\"production\\\" --loader:.js=jsx --log-level=warning --minify --outfile=dest/index.nomodule.js --target=es6",
+    "build:js:module": "esbuild src/index.js --bundle --conditions=browser,production --define:process.env.NODE_ENV=\\\"production\\\" --format=esm --loader:.js=jsx --log-level=warning --minify --outfile=dest/index.module.js --target=es2020",
     "build:js": "npm run build:js:module && npm run build:js:nomodule",
     "build": "npm run build:js && npm run build:html && npm run build:css",
     "test": "npm run format && npm run build"
@@ -69,14 +69,7 @@
     ],
     "rules": {
       "n/file-extension-in-import": 0,
-      "react/state-in-constructor": [
-        2,
-        "always"
-      ],
-      "react/static-property-placement": [
-        2,
-        "property assignment"
-      ]
+      "react/jsx-no-bind": "off"
     },
     "ignores": [
       "dest/"

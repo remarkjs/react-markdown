@@ -1,23 +1,29 @@
+/**
+ * @typedef {import('@wooorm/starry-night').Grammar} Grammar
+ * @typedef {import('unified').PluggableList} PluggableList
+ */
+
 import {createStarryNight} from '@wooorm/starry-night'
 import sourceCss from '@wooorm/starry-night/source.css'
 import sourceJs from '@wooorm/starry-night/source.js'
-import textMd from '@wooorm/starry-night/text.md'
 import sourceTs from '@wooorm/starry-night/source.ts'
 import sourceTsx from '@wooorm/starry-night/source.tsx'
 import textHtmlBasic from '@wooorm/starry-night/text.html.basic'
+import textMd from '@wooorm/starry-night/text.md'
 import {toJsxRuntime} from 'hast-util-to-jsx-runtime'
 import React from 'react'
-// @ts-expect-error: TypeScript is wrong.
+// @ts-expect-error: untyped.
 import {Fragment, jsx, jsxs} from 'react/jsx-runtime'
 import ReactDom from 'react-dom/client'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 // To do: replace with `starry-night` when async plugins are supported.
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
+import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import remarkSlug from 'remark-slug'
 import remarkToc from 'remark-toc'
 
+/** @type {ReadonlyArray<Grammar>} */
 const grammars = [
   sourceCss,
   sourceJs,
@@ -40,14 +46,14 @@ const sample = `# A demo of \`react-markdown\`
 * Follows [CommonMark](https://commonmark.org)
 * Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
 * Renders actual React elements instead of using \`dangerouslySetInnerHTML\`
-* Lets you define your own components (to render \`MyHeading\` instead of \`h1\`)
+* Lets you define your own components (to render \`MyHeading\` instead of \`'h1'\`)
 * Has a lot of plugins
 
-## Table of contents
+## Contents
 
 Here is an example of a plugin in action
 ([\`remark-toc\`](https://github.com/remarkjs/remark-toc)).
-This section is replaced by an actual table of contents.
+**This section is replaced by an actual table of contents**.
 
 ## Syntax highlighting
 
@@ -57,11 +63,15 @@ Here is an example of a plugin to highlight code:
 \`\`\`js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 
+const markdown = \`
+# Your markdown here
+\`
+
 ReactDOM.render(
-  <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{'# Your markdown here'}</ReactMarkdown>,
+  <Markdown rehypePlugins={[rehypeHighlight]}>{markdown}</Markdown>,
   document.querySelector('#content')
 )
 \`\`\`
@@ -108,20 +118,27 @@ You can pass components to change things:
 \`\`\`js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ReactMarkdown from 'react-markdown'
+import Markdown from 'react-markdown'
 import MyFancyRule from './components/my-fancy-rule.js'
 
+const markdown = \`
+# Your markdown here
+\`
+
 ReactDOM.render(
-  <ReactMarkdown
+  <Markdown
     components={{
       // Use h2s instead of h1s
       h1: 'h2',
       // Use a component instead of hrs
-      hr: ({node, ...props}) => <MyFancyRule {...props} />
+      hr(props) {
+        const {node, ...rest} = props
+        return <MyFancyRule {...rest} />
+      }
     }}
   >
-    # Your markdown here
-  </ReactMarkdown>,
+    {markdown}
+  </Markdown>,
   document.querySelector('#content')
 )
 \`\`\`
@@ -138,29 +155,34 @@ A component by [Espen Hovlandsdal](https://espen.codes/)`
 const main = document.querySelectorAll('main')[0]
 const root = ReactDom.createRoot(main)
 
-/** @type {Awaited<ReturnType<createStarryNight>>} */
+/** @type {Awaited<ReturnType<typeof createStarryNight>>} */
 let starryNight
 
 // eslint-disable-next-line unicorn/prefer-top-level-await -- XO is wrong.
-createStarryNight(grammars).then((x) => {
-  starryNight = x
+createStarryNight(grammars).then(
+  /**
+   * @returns {undefined}
+   */
+  function (x) {
+    starryNight = x
 
-  const missing = starryNight.missingScopes()
-  if (missing.length > 0) {
-    throw new Error('Missing scopes: `' + missing + '`')
+    const missing = starryNight.missingScopes()
+    if (missing.length > 0) {
+      throw new Error('Missing scopes: `' + missing + '`')
+    }
+
+    root.render(React.createElement(Playground))
   }
-
-  root.render(React.createElement(Playground))
-})
+)
 
 function Playground() {
   const [text, setText] = React.useState(sample)
   const [gfm, setGfm] = React.useState(false)
   const [raw, setRaw] = React.useState(false)
-  /** @type {import('unified').PluggableList} */
-  const rehypePlugins = [[rehypeHighlight, {ignoreMissing: true}]]
-  /** @type {import('unified').PluggableList} */
-  const remarkPlugins = [remarkSlug, remarkToc]
+  /** @type {PluggableList} */
+  const rehypePlugins = [rehypeSlug, rehypeHighlight]
+  /** @type {PluggableList} */
+  const remarkPlugins = [remarkToc]
 
   if (gfm) {
     remarkPlugins.unshift(remarkGfm)
@@ -179,7 +201,7 @@ function Playground() {
               type="checkbox"
               name="gfm"
               checked={gfm}
-              onChange={() => {
+              onChange={function () {
                 setGfm(!gfm)
               }}
             />{' '}
@@ -191,7 +213,7 @@ function Playground() {
               type="checkbox"
               name="raw"
               checked={raw}
-              onChange={() => {
+              onChange={function () {
                 setRaw(!raw)
               }}
             />{' '}
@@ -200,12 +222,11 @@ function Playground() {
           </label>
         </div>
         <div className="editor-inner">
-          {' '}
           <div className="draw">
             {toJsxRuntime(starryNight.highlight(text, 'text.md'), {
+              Fragment,
               jsx,
-              jsxs,
-              Fragment
+              jsxs
             })}
             {/* Trailing whitespace in a `textarea` is shown, but not in a `div`
           with `white-space: pre-wrap`.
@@ -217,18 +238,20 @@ function Playground() {
             className="write"
             value={text}
             rows={text.split('\n').length + 1}
-            onChange={(event) => setText(event.target.value)}
+            onChange={function (event) {
+              setText(event.target.value)
+            }}
           />
         </div>
       </form>
       <div className="result">
-        <ReactMarkdown
+        <Markdown
           className="markdown-body"
           remarkPlugins={remarkPlugins}
           rehypePlugins={rehypePlugins}
         >
           {text}
-        </ReactMarkdown>
+        </Markdown>
       </div>
     </>
   )
