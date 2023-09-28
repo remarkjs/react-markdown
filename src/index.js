@@ -1,10 +1,10 @@
 import {createStarryNight} from '@wooorm/starry-night'
-import sourceCss from '@wooorm/starry-night/lang/source.css.js'
-import sourceJs from '@wooorm/starry-night/lang/source.js.js'
-import sourceGfm from '@wooorm/starry-night/lang/source.gfm.js'
-import sourceTs from '@wooorm/starry-night/lang/source.ts.js'
-import sourceTsx from '@wooorm/starry-night/lang/source.tsx.js'
-import textHtmlBasic from '@wooorm/starry-night/lang/text.html.basic.js'
+import sourceCss from '@wooorm/starry-night/source.css'
+import sourceJs from '@wooorm/starry-night/source.js'
+import textMd from '@wooorm/starry-night/text.md'
+import sourceTs from '@wooorm/starry-night/source.ts'
+import sourceTsx from '@wooorm/starry-night/source.tsx'
+import textHtmlBasic from '@wooorm/starry-night/text.html.basic'
 import {toJsxRuntime} from 'hast-util-to-jsx-runtime'
 import React from 'react'
 // @ts-expect-error: TypeScript is wrong.
@@ -21,10 +21,10 @@ import remarkToc from 'remark-toc'
 const grammars = [
   sourceCss,
   sourceJs,
-  sourceGfm,
   sourceTs,
   sourceTsx,
-  textHtmlBasic
+  textHtmlBasic,
+  textMd
 ]
 
 const sample = `# A demo of \`react-markdown\`
@@ -202,7 +202,7 @@ function Playground() {
         <div className="editor-inner">
           {' '}
           <div className="draw">
-            {toJsxRuntime(starryNight.highlight(text, 'source.gfm'), {
+            {toJsxRuntime(starryNight.highlight(text, 'text.md'), {
               jsx,
               jsxs,
               Fragment
