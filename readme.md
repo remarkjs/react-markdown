@@ -122,7 +122,9 @@ import Markdown from 'react-markdown'
 
 const markdown = '# Hi, *Pluto*!'
 
-ReactDom.render(<Markdown>{markdown}</Markdown>, document.body)
+export default function App() {
+  return <Markdown>{markdown}</Markdown>
+}
 ```
 
 <details>
@@ -148,10 +150,9 @@ import remarkGfm from 'remark-gfm'
 
 const markdown = `Just a link: www.nasa.gov.`
 
-ReactDom.render(
-  <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>,
-  document.body
-)
+export default function App(){
+  return <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
+}
 ```
 
 <details>
@@ -326,10 +327,9 @@ A table:
 | - | - |
 `
 
-ReactDom.render(
-  <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>,
-  document.body
-)
+export default function App() {
+  return <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
+}
 ```
 
 <details>
@@ -385,12 +385,13 @@ import remarkGfm from 'remark-gfm'
 
 const markdown = 'This ~is not~ strikethrough, but ~~this is~~!'
 
-ReactDom.render(
-  <Markdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
-    {markdown}
-  </Markdown>,
-  document.body
-)
+export default function App() {
+  return (
+    <Markdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
+      {markdown}
+    </Markdown>
+  )
+}
 ```
 
 <details>
@@ -429,29 +430,32 @@ console.log('It works!')
 ~~~
 `
 
+function generateCodeBlock(
+  props
+) {
+  const match = /language-(\w+)/.exec(props.className || '');
+  return match ? (
+    <SyntaxHighlighter
+      style={dark}
+      language={match[1]}
+      showLineNumbers
+      className={props.className}
+    >
+      {String(props.children).replace(/\n$/, '')}
+    </SyntaxHighlighter>
+  ) : (
+    <code className={props.className}>{props.children}</code>
+  );
+}
+
 ReactDom.render(
   <Markdown
-    children={markdown}
-    components={{
-      code(props) {
-        const {children, className, node, ...rest} = props
-        const match = /language-(\w+)/.exec(className || '')
-        return match ? (
-          <SyntaxHighlighter
-            {...rest}
-            children={String(children).replace(/\n$/, '')}
-            style={dark}
-            language={match[1]}
-            PreTag="div"
-          />
-        ) : (
-          <code {...rest} className={className}>
-            {children}
-          </code>
-        )
-      }
+        components={{
+      code: generateCodeBlock,
     }}
-  />,
+    >
+      {children}
+    </Markdown>,
   document.body
 )
 ```
@@ -486,12 +490,13 @@ import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for 
 
 const markdown = `The lift coefficient ($C_L$) is a dimensionless coefficient.`
 
-ReactDom.render(
-  <Markdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-    {markdown}
-  </Markdown>,
-  document.body
-)
+export default function App() {
+  return (
+    <Markdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
+      {markdown}
+    </Markdown>
+  )
+}
 ```
 
 <details>
@@ -612,10 +617,9 @@ Some *emphasis* and <strong>strong</strong>!
 
 </div>`
 
-ReactDom.render(
-  <Markdown rehypePlugins={[rehypeRaw]}>{markdown}</Markdown>,
-  document.body
-)
+export default function App() {
+  return <Markdown rehypePlugins={[rehypeRaw]}>{markdown}</Markdown>
+}
 ```
 
 <details>
