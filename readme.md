@@ -467,6 +467,7 @@ export default function App() {
       {children}
     </Markdown>
   )
+}
 
 createRoot(document.body).render(<App />)
 ```
