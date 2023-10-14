@@ -117,6 +117,7 @@ A basic hello world:
 
 ```jsx
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown'
 
 const markdown = '# Hi, *Pluto*!'
@@ -124,6 +125,8 @@ const markdown = '# Hi, *Pluto*!'
 export default function App() {
   return <Markdown>{markdown}</Markdown>
 }
+
+createRoot(document.body).render(<App />)
 ```
 
 <details>
@@ -143,6 +146,7 @@ directly):
 
 ```jsx
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -151,6 +155,8 @@ const markdown = `Just a link: www.nasa.gov.`
 export default function App(){
   return <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
 }
+
+createRoot(document.body).render(<App />)
 ```
 
 <details>
@@ -307,6 +313,7 @@ tables, tasklists and URLs directly:
 
 ```jsx
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -327,6 +334,8 @@ A table:
 export default function App() {
   return <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
 }
+
+createRoot(document.body).render(<App />)
 ```
 
 <details>
@@ -376,6 +385,7 @@ strikethrough:
 
 ```jsx
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -388,6 +398,8 @@ export default function App() {
     </Markdown>
   )
 }
+
+createRoot(document.body).render(<App />)
 ```
 
 <details>
@@ -413,6 +425,7 @@ In this case, we apply syntax highlighting with the seriously super amazing
 
 ```jsx
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -443,16 +456,19 @@ function generateCodeBlock(
   );
 }
 
-ReactDom.render(
+export default function App() {
+
+  return (
   <Markdown
         components={{
       code: generateCodeBlock,
     }}
     >
       {children}
-    </Markdown>,
-  document.body
-)
+    </Markdown>
+  )
+
+createRoot(document.body).render(<App />)
 ```
 
 <details>
@@ -477,6 +493,7 @@ is used to support math in markdown, and a transform plugin
 
 ```jsx
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
@@ -491,6 +508,8 @@ export default function App() {
     </Markdown>
   )
 }
+
+createRoot(document.body).render(<App />)
 ```
 
 <details>
@@ -601,6 +620,7 @@ can spare the bundle size (±60kb minzipped), then you can use
 
 ```jsx
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
@@ -613,6 +633,8 @@ Some *emphasis* and <strong>strong</strong>!
 export default function App() {
   return <Markdown rehypePlugins={[rehypeRaw]}>{markdown}</Markdown>
 }
+
+createRoot(document.body).render(<App />)
 ```
 
 <details>
