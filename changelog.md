@@ -75,7 +75,7 @@ function rehypePluginAddingIndex() {
   return function (tree) {
     visit(tree, function (node, index) {
       if (node.type === 'element' && typeof index === 'number') {
-        node.properties === index
+        node.properties.index = index
       }
     })
   }
