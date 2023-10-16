@@ -122,7 +122,7 @@ import Markdown from 'react-markdown'
 
 const markdown = '# Hi, *Pluto*!'
 
-export default function App() {
+function App() {
   return <Markdown>{markdown}</Markdown>
 }
 
@@ -152,7 +152,7 @@ import remarkGfm from 'remark-gfm'
 
 const markdown = `Just a link: www.nasa.gov.`
 
-export default function App(){
+function App(){
   return <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
 }
 
@@ -331,7 +331,7 @@ A table:
 | - | - |
 `
 
-export default function App() {
+function App() {
   return <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
 }
 
@@ -391,7 +391,7 @@ import remarkGfm from 'remark-gfm'
 
 const markdown = 'This ~is not~ strikethrough, but ~~this is~~!'
 
-export default function App() {
+function App() {
   return (
     <Markdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
       {markdown}
@@ -456,7 +456,7 @@ function generateCodeBlock(
   );
 }
 
-export default function App() {
+function App() {
 
   return (
   <Markdown
@@ -502,7 +502,7 @@ import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for 
 
 const markdown = `The lift coefficient ($C_L$) is a dimensionless coefficient.`
 
-export default function App() {
+function App() {
   return (
     <Markdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
       {markdown}
@@ -631,7 +631,7 @@ Some *emphasis* and <strong>strong</strong>!
 
 </div>`
 
-export default function App() {
+function App() {
   return <Markdown rehypePlugins={[rehypeRaw]}>{markdown}</Markdown>
 }
 
