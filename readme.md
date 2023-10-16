@@ -117,7 +117,7 @@ A basic hello world:
 
 ```jsx
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Markdown from 'react-markdown'
 
 const markdown = '# Hi, *Pluto*!'
@@ -146,7 +146,7 @@ directly):
 
 ```jsx
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -313,7 +313,7 @@ tables, tasklists and URLs directly:
 
 ```jsx
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -385,7 +385,7 @@ strikethrough:
 
 ```jsx
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -425,7 +425,7 @@ In this case, we apply syntax highlighting with the seriously super amazing
 
 ```jsx
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Markdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -494,7 +494,7 @@ is used to support math in markdown, and a transform plugin
 
 ```jsx
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Markdown from 'react-markdown'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
@@ -621,7 +621,7 @@ can spare the bundle size (±60kb minzipped), then you can use
 
 ```jsx
 import React from 'react'
-import { createRoot } from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
