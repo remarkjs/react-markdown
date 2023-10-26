@@ -78,19 +78,8 @@ textarea,
   max-width: 100%;
   overflow: hidden;
   margin: 8px;
-  height: 100%;
 }
 
-/* .editor textarea {
-  display: block;
-  min-height: 100vh;
-  width: 100%;
-  border: 0;
-  resize: none;
-  padding: calc(1em + 1ex);
-  background-color: var(--color-canvas-back);
-  color: var(--color-fg);
-} */
 .write,
 .draw {
   font-size: 14px;
