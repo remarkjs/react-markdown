@@ -117,12 +117,12 @@ A basic hello world:
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
 
 const markdown = '# Hi, *Pluto*!'
 
-ReactDom.render(<Markdown>{markdown}</Markdown>, document.body)
+createRoot(document.body).render(<Markdown>{markdown}</Markdown>)
 ```
 
 <details>
@@ -142,15 +142,14 @@ directly):
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 const markdown = `Just a link: www.nasa.gov.`
 
-ReactDom.render(
-  <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>,
-  document.body
+createRoot(document.body).render(
+  <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
 )
 ```
 
@@ -308,7 +307,7 @@ tables, tasklists and URLs directly:
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -326,9 +325,8 @@ A table:
 | - | - |
 `
 
-ReactDom.render(
-  <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>,
-  document.body
+createRoot(document.body).render(
+  <Markdown remarkPlugins={[remarkGfm]}>{markdown}</Markdown>
 )
 ```
 
@@ -379,17 +377,16 @@ strikethrough:
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 const markdown = 'This ~is not~ strikethrough, but ~~this is~~!'
 
-ReactDom.render(
+createRoot(document.body).render(
   <Markdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>
     {markdown}
-  </Markdown>,
-  document.body
+  </Markdown>
 )
 ```
 
@@ -416,7 +413,7 @@ In this case, we apply syntax highlighting with the seriously super amazing
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -429,7 +426,7 @@ console.log('It works!')
 ~~~
 `
 
-ReactDom.render(
+createRoot(document.body).render(
   <Markdown
     children={markdown}
     components={{
@@ -439,10 +436,10 @@ ReactDom.render(
         return match ? (
           <SyntaxHighlighter
             {...rest}
-            children={String(children).replace(/\n$/, '')}
-            style={dark}
-            language={match[1]}
             PreTag="div"
+            children={String(children).replace(/\n$/, '')}
+            language={match[1]}
+            style={dark}
           />
         ) : (
           <code {...rest} className={className}>
@@ -451,8 +448,7 @@ ReactDom.render(
         )
       }
     }}
-  />,
-  document.body
+  />
 )
 ```
 
@@ -478,7 +474,7 @@ is used to support math in markdown, and a transform plugin
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
@@ -486,11 +482,10 @@ import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for 
 
 const markdown = `The lift coefficient ($C_L$) is a dimensionless coefficient.`
 
-ReactDom.render(
+createRoot(document.body).render(
   <Markdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
     {markdown}
-  </Markdown>,
-  document.body
+  </Markdown>
 )
 ```
 
@@ -602,7 +597,7 @@ can spare the bundle size (±60kb minzipped), then you can use
 
 ```jsx
 import React from 'react'
-import ReactDom from 'react-dom'
+import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
@@ -612,9 +607,8 @@ Some *emphasis* and <strong>strong</strong>!
 
 </div>`
 
-ReactDom.render(
-  <Markdown rehypePlugins={[rehypeRaw]}>{markdown}</Markdown>,
-  document.body
+createRoot(document.body).render(
+  <Markdown rehypePlugins={[rehypeRaw]}>{markdown}</Markdown>
 )
 ```
 
