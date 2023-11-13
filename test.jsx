@@ -326,6 +326,13 @@ test('react-markdown', async function (t) {
     )
   })
 
+  await t.test('should support hash (`&`) in a URL', function () {
+    assert.equal(
+      asHtml(<Markdown children="[](a?b&c=d)" />),
+      '<p><a href="a?b&amp;c=d"></a></p>'
+    )
+  })
+
   await t.test('should support hash (`#`) in a URL', function () {
     assert.equal(
       asHtml(<Markdown children="[](a#javascript:alert(1))" />),
