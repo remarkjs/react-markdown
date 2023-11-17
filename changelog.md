@@ -2,23 +2,6 @@
 
 All notable changes will be documented in this file.
 
-## 9.0.1
-
-### Deprecate `className`
-
-The `className` prop was deprecated.
-Not only does the `className` prop add the `className` prop, it also implies a
-wrapper `<div>` will be created.
-Instead, you should wrap the content in a `<div>` manually.
-
-```jsx
-<div className={className}>
-  <Markdown>
-    {children}
-  </Markdown>
-</div>
-```
-
 ## 9.0.0 - 2023-09-27
 
 *   [`b67d714`](https://github.com/remarkjs/react-markdown/commit/b67d714)
