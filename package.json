@@ -10,12 +10,12 @@
   "devDependencies": {
     "@wooorm/starry-night": "^3.0.0",
     "cssnano": "^6.0.0",
-    "esbuild": "^0.19.0",
+    "esbuild": "^0.20.0",
     "eslint-config-xo-react": "^0.27.0",
     "eslint-plugin-react": "^7.0.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "hast-util-to-jsx-runtime": "^2.0.0",
-    "postcss-cli": "^10.0.0",
+    "postcss-cli": "^11.0.0",
     "prettier": "^3.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -28,8 +28,8 @@
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.0",
     "remark-toc": "^9.0.0",
-    "stylelint": "^15.0.0",
-    "stylelint-config-standard": "^34.0.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0",
     "xo": "^0.56.0"
   },
   "scripts": {
