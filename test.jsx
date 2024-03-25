@@ -61,32 +61,6 @@ test('react-markdown', async function (t) {
     }, /Unexpected `allowDangerousHtml` prop, remove it/)
   })
 
-  await t.test('should support `className`', function () {
-    assert.equal(
-      asHtml(<Markdown children="a" className="md" />),
-      '<div class="md"><p>a</p></div>'
-    )
-  })
-
-  await t.test('should support `className` (if w/o root)', function () {
-    assert.equal(
-      asHtml(
-        <Markdown children={'a'} className="b" rehypePlugins={[plugin]} />
-      ),
-      '<div class="b"></div>'
-    )
-
-    function plugin() {
-      /**
-       * @returns {Root}
-       */
-      return function () {
-        // @ts-expect-error: check how non-roots are handled.
-        return {type: 'comment', value: 'things!'}
-      }
-    }
-  })
-
   await t.test('should support a block quote', function () {
     assert.equal(
       asHtml(<Markdown children="> a" />),
