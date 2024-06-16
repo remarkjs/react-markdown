@@ -18,46 +18,46 @@ React component to render markdown.
 
 ## Feature highlights
 
-*   [x] **[safe][section-security] by default**
-    (no `dangerouslySetInnerHTML` or XSS attacks)
-*   [x] **[components][section-components]**
-    (pass your own component to use instead of `<h2>` for `## hi`)
-*   [x] **[plugins][section-plugins]**
-    (many plugins you can pick and choose from)
-*   [x] **[compliant][section-syntax]**
-    (100% to CommonMark, 100% to GFM with a plugin)
+* [x] **[safe][section-security] by default**
+  (no `dangerouslySetInnerHTML` or XSS attacks)
+* [x] **[components][section-components]**
+  (pass your own component to use instead of `<h2>` for `## hi`)
+* [x] **[plugins][section-plugins]**
+  (many plugins you can pick and choose from)
+* [x] **[compliant][section-syntax]**
+  (100% to CommonMark, 100% to GFM with a plugin)
 
 ## Contents
 
-*   [What is this?](#what-is-this)
-*   [When should I use this?](#when-should-i-use-this)
-*   [Install](#install)
-*   [Use](#use)
-*   [API](#api)
-    *   [`Markdown`](#markdown)
-    *   [`defaultUrlTransform(url)`](#defaulturltransformurl)
-    *   [`AllowElement`](#allowelement)
-    *   [`Components`](#components)
-    *   [`ExtraProps`](#extraprops)
-    *   [`Options`](#options)
-    *   [`UrlTransform`](#urltransform)
-*   [Examples](#examples)
-    *   [Use a plugin](#use-a-plugin)
-    *   [Use a plugin with options](#use-a-plugin-with-options)
-    *   [Use custom components (syntax highlight)](#use-custom-components-syntax-highlight)
-    *   [Use remark and rehype plugins (math)](#use-remark-and-rehype-plugins-math)
-*   [Plugins](#plugins)
-*   [Syntax](#syntax)
-*   [Types](#types)
-*   [Compatibility](#compatibility)
-*   [Architecture](#architecture)
-*   [Appendix A: HTML in markdown](#appendix-a-html-in-markdown)
-*   [Appendix B: Components](#appendix-b-components)
-*   [Appendix C: line endings in markdown (and JSX)](#appendix-c-line-endings-in-markdown-and-jsx)
-*   [Security](#security)
-*   [Related](#related)
-*   [Contribute](#contribute)
-*   [License](#license)
+* [What is this?](#what-is-this)
+* [When should I use this?](#when-should-i-use-this)
+* [Install](#install)
+* [Use](#use)
+* [API](#api)
+  * [`Markdown`](#markdown)
+  * [`defaultUrlTransform(url)`](#defaulturltransformurl)
+  * [`AllowElement`](#allowelement)
+  * [`Components`](#components)
+  * [`ExtraProps`](#extraprops)
+  * [`Options`](#options)
+  * [`UrlTransform`](#urltransform)
+* [Examples](#examples)
+  * [Use a plugin](#use-a-plugin)
+  * [Use a plugin with options](#use-a-plugin-with-options)
+  * [Use custom components (syntax highlight)](#use-custom-components-syntax-highlight)
+  * [Use remark and rehype plugins (math)](#use-remark-and-rehype-plugins-math)
+* [Plugins](#plugins)
+* [Syntax](#syntax)
+* [Types](#types)
+* [Compatibility](#compatibility)
+* [Architecture](#architecture)
+* [Appendix A: HTML in markdown](#appendix-a-html-in-markdown)
+* [Appendix B: Components](#appendix-b-components)
+* [Appendix C: line endings in markdown (and JSX)](#appendix-c-line-endings-in-markdown-and-jsx)
+* [Security](#security)
+* [Related](#related)
+* [Contribute](#contribute)
+* [License](#license)
 
 ## What is this?
 
@@ -66,8 +66,8 @@ that it’ll safely render to React elements.
 You can pass plugins to change how markdown is transformed and pass components
 that will be used instead of normal HTML elements.
 
-*   to learn markdown, see this [cheatsheet and tutorial][commonmark-help]
-*   to try out `react-markdown`, see [our demo][demo]
+* to learn markdown, see this [cheatsheet and tutorial][commonmark-help]
+* to try out `react-markdown`, see [our demo][demo]
 
 ## When should I use this?
 
@@ -176,8 +176,8 @@ Component to render markdown.
 
 ###### Parameters
 
-*   `options` ([`Options`][api-options])
-    — props
+* `options` ([`Options`][api-options])
+  — props
 
 ###### Returns
 
@@ -189,8 +189,8 @@ Make a URL safe.
 
 ###### Parameters
 
-*   `url` (`string`)
-    — URL
+* `url` (`string`)
+  — URL
 
 ###### Returns
 
@@ -202,12 +202,12 @@ Filter elements (TypeScript type).
 
 ###### Parameters
 
-*   `node` ([`Element` from `hast`][hast-element])
-    — element to check
-*   `index` (`number | undefined`)
-    — index of `element` in `parent`
-*   `parent` ([`Node` from `hast`][hast-node])
-    — parent of `element`
+* `node` ([`Element` from `hast`][hast-element])
+  — element to check
+* `index` (`number | undefined`)
+  — index of `element` in `parent`
+* `parent` ([`Node` from `hast`][hast-node])
+  — parent of `element`
 
 ###### Returns
 
@@ -239,8 +239,8 @@ Extra fields we pass to components (TypeScript type).
 
 ###### Fields
 
-*   `node` ([`Element` from `hast`][hast-element], optional)
-    — original node
+* `node` ([`Element` from `hast`][hast-element], optional)
+  — original node
 
 ### `Options`
 
@@ -248,37 +248,37 @@ Configuration (TypeScript type).
 
 ###### Fields
 
-*   `allowElement` ([`AllowElement`][api-allow-element], optional)
-    — filter elements;
-    `allowedElements` / `disallowedElements` is used first
-*   `allowedElements` (`Array<string>`, default: all tag names)
-    — tag names to allow;
-    cannot combine w/ `disallowedElements`
-*   `children` (`string`, optional)
-    — markdown
-*   `className` (`string`, optional)
-    — wrap in a `div` with this class name
-*   `components` ([`Components`][api-components], optional)
-    — map tag names to components
-*   `disallowedElements` (`Array<string>`, default: `[]`)
-    — tag names to disallow;
-    cannot combine w/ `allowedElements`
-*   `rehypePlugins` (`Array<Plugin>`, optional)
-    — list of [rehype plugins][rehype-plugins] to use
-*   `remarkPlugins` (`Array<Plugin>`, optional)
-    — list of [remark plugins][remark-plugins] to use
-*   `remarkRehypeOptions` ([`Options` from
-    `remark-rehype`][remark-rehype-options], optional)
-    — options to pass through to `remark-rehype`
-*   `skipHtml` (`boolean`, default: `false`)
-    — ignore HTML in markdown completely
-*   `unwrapDisallowed` (`boolean`, default: `false`)
-    — extract (unwrap) what’s in disallowed elements;
-    normally when say `strong` is not allowed, it and it’s children are dropped,
-    with `unwrapDisallowed` the element itself is replaced by its children
-*   `urlTransform` ([`UrlTransform`][api-url-transform], default:
-    [`defaultUrlTransform`][api-default-url-transform])
-    — change URLs
+* `allowElement` ([`AllowElement`][api-allow-element], optional)
+  — filter elements;
+  `allowedElements` / `disallowedElements` is used first
+* `allowedElements` (`Array<string>`, default: all tag names)
+  — tag names to allow;
+  cannot combine w/ `disallowedElements`
+* `children` (`string`, optional)
+  — markdown
+* `className` (`string`, optional)
+  — wrap in a `div` with this class name
+* `components` ([`Components`][api-components], optional)
+  — map tag names to components
+* `disallowedElements` (`Array<string>`, default: `[]`)
+  — tag names to disallow;
+  cannot combine w/ `allowedElements`
+* `rehypePlugins` (`Array<Plugin>`, optional)
+  — list of [rehype plugins][rehype-plugins] to use
+* `remarkPlugins` (`Array<Plugin>`, optional)
+  — list of [remark plugins][remark-plugins] to use
+* `remarkRehypeOptions` ([`Options` from
+  `remark-rehype`][remark-rehype-options], optional)
+  — options to pass through to `remark-rehype`
+* `skipHtml` (`boolean`, default: `false`)
+  — ignore HTML in markdown completely
+* `unwrapDisallowed` (`boolean`, default: `false`)
+  — extract (unwrap) what’s in disallowed elements;
+  normally when say `strong` is not allowed, it and it’s children are dropped,
+  with `unwrapDisallowed` the element itself is replaced by its children
+* `urlTransform` ([`UrlTransform`][api-url-transform], default:
+  [`defaultUrlTransform`][api-default-url-transform])
+  — change URLs
 
 ### `UrlTransform`
 
@@ -286,12 +286,12 @@ Transform URLs (TypeScript type).
 
 ###### Parameters
 
-*   `url` (`string`)
-    — URL
-*   `key` (`string`, example: `'href'`)
-    — property name
-*   `node` ([`Element` from `hast`][hast-element])
-    — element to check
+* `url` (`string`)
+  — URL
+* `key` (`string`, example: `'href'`)
+  — property name
+* `node` ([`Element` from `hast`][hast-element])
+  — element to check
 
 ###### Returns
 
@@ -515,13 +515,13 @@ We use [unified][], specifically [remark][] for markdown and [rehype][] for
 HTML, which are tools to transform content with plugins.
 Here are three good ways to find plugins:
 
-*   [`awesome-remark`][awesome-remark] and [`awesome-rehype`][awesome-rehype]
-    — selection of the most awesome projects
-*   [List of remark plugins][remark-plugins] and
-    [list of rehype plugins][rehype-plugins]
-    — list of all plugins
-*   [`remark-plugin`][remark-plugin] and [`rehype-plugin`][rehype-plugin] topics
-    — any tagged repo on GitHub
+* [`awesome-remark`][awesome-remark] and [`awesome-rehype`][awesome-rehype]
+  — selection of the most awesome projects
+* [List of remark plugins][remark-plugins] and
+  [list of rehype plugins][rehype-plugins]
+  — list of all plugins
+* [`remark-plugin`][remark-plugin] and [`rehype-plugin`][rehype-plugin] topics
+  — any tagged repo on GitHub
 
 ## Syntax
 
@@ -580,11 +580,11 @@ part until you hit the API section is required reading).
 to directly interact with unified.
 The processor goes through these steps:
 
-*   parse markdown to mdast (markdown syntax tree)
-*   transform through remark (markdown ecosystem)
-*   transform mdast to hast (HTML syntax tree)
-*   transform through rehype (HTML ecosystem)
-*   render hast to React with components
+* parse markdown to mdast (markdown syntax tree)
+* transform through remark (markdown ecosystem)
+* transform mdast to hast (HTML syntax tree)
+* transform through rehype (HTML ecosystem)
+* render hast to React with components
 
 ## Appendix A: HTML in markdown
 
@@ -739,14 +739,14 @@ It lets you define your own schema of what is and isn’t allowed.
 
 ## Related
 
-*   [`MDX`][mdx]
-    — JSX *in* markdown
-*   [`remark-gfm`][remark-gfm]
-    — add support for GitHub flavored markdown support
-*   [`react-remark`][react-remark]
-    — hook based alternative
-*   [`rehype-react`][rehype-react]
-    — turn HTML into React elements
+* [`MDX`][mdx]
+  — JSX *in* markdown
+* [`remark-gfm`][remark-gfm]
+  — add support for GitHub flavored markdown support
+* [`react-remark`][react-remark]
+  — hook based alternative
+* [`rehype-react`][rehype-react]
+  — turn HTML into React elements
 
 ## Contribute
 
