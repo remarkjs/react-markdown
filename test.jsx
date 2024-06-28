@@ -1,6 +1,7 @@
 /* @jsxRuntime automatic @jsxImportSource react */
 /**
  * @import {Root} from 'hast'
+ * @import {ComponentProps} from 'react'
  * @import {ExtraProps} from 'react-markdown'
  */
 
@@ -564,7 +565,7 @@ test('react-markdown', async function (t) {
     assert.equal(calls, 2)
 
     /**
-     * @param {JSX.IntrinsicElements['h1'] & ExtraProps} props
+     * @param {ComponentProps<'h1'> & ExtraProps} props
      */
     function heading(props) {
       const {node, ...rest} = props
