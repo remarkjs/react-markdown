@@ -1,6 +1,7 @@
 coverage/
 node_modules/
-*.d.ts
+types/
+*.tsbuildinfo
 *.log
 .DS_Store
 react-markdown.min.js

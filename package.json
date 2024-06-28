@@ -69,11 +69,13 @@
   ],
   "sideEffects": false,
   "type": "module",
-  "exports": "./index.js",
+  "exports": {
+    "types": "./types/exports.d.ts",
+    "default": "./lib/index.js"
+  },
   "files": [
     "lib/",
-    "index.d.ts",
-    "index.js"
+    "types/"
   ],
   "dependencies": {
     "@types/hast": "^3.0.0",
