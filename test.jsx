@@ -1,7 +1,7 @@
 /* @jsxRuntime automatic @jsxImportSource react */
 /**
- * @typedef {import('hast').Root} Root
- * @typedef {import('react-markdown').ExtraProps} ExtraProps
+ * @import {Root} from 'hast'
+ * @import {ExtraProps} from 'react-markdown'
  */
 
 import assert from 'node:assert/strict'
