@@ -1074,4 +1074,8 @@ test('react-markdown', async function (t) {
       }
     }
   })
+
+  await t.test('should autolink and autoLink prop is set', function(){
+    assert.equal(renderToStaticMarkup(<Markdown children="This is a link https://google.com" autoLink/>), '<p>This is a link <a href="https://google.com">https://google.com</a></p>')
+  })  
 })
