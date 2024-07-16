@@ -1,16 +1,11 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "checkJs": true,
-    "customConditions": ["development"],
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "exactOptionalPropertyTypes": true,
     "jsx": "preserve",
-    "lib": ["dom", "es2022"],
-    "module": "node16",
-    "strict": true,
-    "target": "es2022"
+    "lib": ["es2022"],
+    "noEmit": true,
+    "types": ["node"]
   },
-  "exclude": ["coverage/", "node_modules/"],
-  "include": ["**/*.js", "**/*.jsx", "lib/complex-types.d.ts"]
+  "exclude": ["coverage/", "lib/", "node_modules/"],
+  "references": [{"path": "./tsconfig.build.json"}]
 }
