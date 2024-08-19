@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "customConditions": ["development"],
+    "exactOptionalPropertyTypes": true,
+    "module": "node16",
+    "strict": true,
+    "target": "es2022"
+  }
+}
