@@ -55,6 +55,10 @@ test('react-markdown', async function (t) {
     assert.equal(renderToStaticMarkup(<Markdown children={undefined} />), '')
   })
 
+  await t.test('should support `string[]` as children', function () {
+    assert.equal(renderToStaticMarkup(<Markdown children={['']} />), '')
+  })
+
   await t.test('should warn w/ `allowDangerousHtml`', function () {
     assert.throws(function () {
       // @ts-expect-error: check how the runtime handles deprecated `allowDangerousHtml`.
