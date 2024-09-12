@@ -560,17 +560,25 @@ browsers.
 
 ## Architecture
 
-<pre><code>                                                           react-markdown
-         +----------------------------------------------------------------------------------------------------------------+
-         |                                                                                                                |
-         |  +----------+        +----------------+        +---------------+       +----------------+       +------------+ |
-         |  |          |        |                |        |               |       |                |       |            | |
-<a href="https://commonmark.org">markdown</a>-+->+  <a href="https://github.com/remarkjs/remark">remark</a>  +-<a href="https://github.com/syntax-tree/mdast">mdast</a>->+ <a href="https://github.com/remarkjs/remark/blob/main/doc/plugins.md">remark plugins</a> +-<a href="https://github.com/syntax-tree/mdast">mdast</a>->+ <a href="https://github.com/remarkjs/remark-rehype">remark-rehype</a> +-<a href="https://github.com/syntax-tree/hast">hast</a>->+ <a href="https://github.com/rehypejs/rehype/blob/main/doc/plugins.md">rehype plugins</a> +-<a href="https://github.com/syntax-tree/hast">hast</a>->+ <a href="#appendix-b-components">components</a> +-+->react elements
-         |  |          |        |                |        |               |       |                |       |            | |
-         |  +----------+        +----------------+        +---------------+       +----------------+       +------------+ |
-         |                                                                                                                |
-         +----------------------------------------------------------------------------------------------------------------+
-</code></pre>
+```mermaid
+flowchart LR
+  markdown[markdown] --> remark[remark]
+  subgraph remarkMarkdown[react-markdown]
+    direction LR
+    remark -- mdast --> remarkPlugins[remark plugins]
+    remarkPlugins -- mdast --> remarkRehype[remark-rehype]
+    remarkRehype -- hast --> rehypePlugins[rehype plugins]
+    rehypePlugins -- hast --> components[components]
+  end
+  components --> react[react elements]
+
+  click markdown "https://commonmark.org" "Markdown Specification"
+  click remark "https://github.com/remarkjs/remark" "Remark Documentation"
+  click remarkPlugins "https://github.com/remarkjs/remark/blob/main/doc/plugins.md" "Remark Plugins"
+  click remarkRehype "https://github.com/remarkjs/remark-rehype" "Remark Rehype Documentation"
+  click rehypePlugins "https://github.com/rehypejs/rehype/blob/main/doc/plugins.md" "Rehype Plugins Documentation"
+  click components "#appendix-b-components" "Components Documentation"
+```
 
 To understand what this project does, it’s important to first understand what
 unified does: please read through the [`unifiedjs/unified`][unified] readme (the
