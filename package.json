@@ -4,6 +4,8 @@
   "bugs": "https://github.com/remarkjs/react-markdown/issues",
   "contributors": [],
   "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
     "@wooorm/starry-night": "^3.0.0",
     "cssnano": "^7.0.0",
     "esbuild": "^0.24.0",
@@ -26,6 +28,8 @@
     "remark-toc": "^9.0.0",
     "stylelint": "^16.0.0",
     "stylelint-config-standard": "^36.0.0",
+    "type-coverage": "^2.0.0",
+    "typescript": "^5.0.0",
     "xo": "^0.59.0"
   },
   "license": "MIT",
@@ -48,6 +52,7 @@
   "private": true,
   "repository": "remarkjs/react-markdown",
   "scripts": {
+    "build": "tsc --build --clean && tsc --build && type-coverage",
     "generate:css": "postcss --output dest/index.css -- src/index.css",
     "generate:html": "rehype --output dest/ --quiet --use rehype-preset-minify --use rehype-prevent-favicon-request -- src/",
     "generate:js:module": "esbuild src/index.js --bundle --conditions=browser,production --define:process.env.NODE_ENV=\\\"production\\\" --format=esm --loader:.js=jsx --log-level=warning --minify --outfile=dest/index.module.js --target=es2020",
@@ -55,7 +60,7 @@
     "generate:js": "npm run generate:js:module && npm run generate:js:nomodule",
     "generate": "npm run generate:css && npm run generate:html && npm run generate:js",
     "format": "prettier --log-level warn --write -- . && stylelint --fix src/index.css && xo --fix",
-    "test": "npm run format && npm run build"
+    "test": "npm run build && npm run format && npm run generate"
   },
   "stylelint": {
     "extends": "stylelint-config-standard"

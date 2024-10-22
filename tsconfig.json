@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "customConditions": ["development"],
+    "declarationMap": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "exactOptionalPropertyTypes": true,
+    "jsx": "preserve",
+    "lib": ["dom", "es2023"],
+    "module": "node16",
+    "strict": true,
+    "target": "es2023"
+  },
+  "exclude": ["dest/", "node_modules/"],
+  "include": ["**/*.js", "**/*.jsx"]
+}

@@ -1,4 +1,7 @@
+*.d.ts
 *.log
+*.map
+*.tsbuildinfo
 .DS_Store
 dest/
 node_modules/
