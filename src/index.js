@@ -1,21 +1,20 @@
 /**
- * @typedef {import('@wooorm/starry-night').Grammar} Grammar
- * @typedef {import('unified').PluggableList} PluggableList
+ * @import {Grammar} from '@wooorm/starry-night'
+ * @import {PluggableList} from 'unified'
  */
 
 import {createStarryNight} from '@wooorm/starry-night'
 import sourceCss from '@wooorm/starry-night/source.css'
 import sourceJs from '@wooorm/starry-night/source.js'
-import sourceTs from '@wooorm/starry-night/source.ts'
 import sourceTsx from '@wooorm/starry-night/source.tsx'
+import sourceTs from '@wooorm/starry-night/source.ts'
 import textHtmlBasic from '@wooorm/starry-night/text.html.basic'
 import textMd from '@wooorm/starry-night/text.md'
 import {toJsxRuntime} from 'hast-util-to-jsx-runtime'
-import React from 'react'
-// @ts-expect-error: untyped.
-import {Fragment, jsx, jsxs} from 'react/jsx-runtime'
 import ReactDom from 'react-dom/client'
 import Markdown from 'react-markdown'
+import {Fragment, jsx, jsxs} from 'react/jsx-runtime'
+import React from 'react'
 // To do: replace with `starry-night` when async plugins are supported.
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
@@ -27,8 +26,8 @@ import remarkToc from 'remark-toc'
 const grammars = [
   sourceCss,
   sourceJs,
-  sourceTs,
   sourceTsx,
+  sourceTs,
   textHtmlBasic,
   textMd
 ]

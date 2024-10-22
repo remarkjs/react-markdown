@@ -1,18 +1,18 @@
 :root {
-  --ff-sans: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Noto Sans',
-    'Helvetica', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --color-canvas-back: #f6f8fa;
+  --color-fg: #0d1117;
+  --color-hl: #0969da;
   --ff-mono: ui-monospace, 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas',
     'Liberation Mono', monospace;
-  --color-canvas-back: #f6f8fa;
-  --color-hl: #0969da;
-  --color-fg: #0d1117;
+  --ff-sans: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Noto Sans',
+    'Helvetica', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 
-  color-scheme: light dark;
   background-color: var(--color-canvas-back);
+  color-scheme: light dark;
   color: var(--color-fg);
   font-family: var(--ff-sans);
-  font-kerning: normal;
   font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+  font-kerning: normal;
   text-size-adjust: 100%;
   word-break: break-word;
 }
@@ -20,22 +20,18 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-canvas-back: #0d1117;
-    --color-hl: #58a6ff;
     --color-fg: #f6f8fa;
+    --color-hl: #58a6ff;
   }
+}
+
+* {
+  box-sizing: border-box;
+  line-height: calc(1 * (1em + 1ex));
 }
 
 body {
   margin: 0;
-
-  /* background-color: var(--color-canvas-back); */
-
-  /* color: var(--color-fg); */
-}
-
-* {
-  line-height: calc(1 * (1em + 1ex));
-  box-sizing: border-box;
 }
 
 code,
@@ -49,17 +45,36 @@ textarea,
   font-size: smaller;
 }
 
-.page-header {
-  font-size: inherit;
-  margin: calc(1 * (1em + 1ex));
+.controls {
+  background-color: var(--color-canvas-back);
+  color: var(--color-fg);
+  padding: calc(1ex);
+  padding-top: 0;
 }
 
-.editor,
-.result {
-  position: fixed;
-  top: calc(3 * (1em + 1ex));
-  bottom: 0;
-  overflow: auto;
+.controls label {
+  display: block;
+  font-size: smaller;
+}
+
+.draw,
+.write {
+  background: transparent;
+  border: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  height: 100%;
+  letter-spacing: normal;
+  line-height: calc(1 * (1em + 1ex));
+  margin: 0;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  resize: none;
+  tab-size: 4;
+  white-space: pre-wrap;
+  width: 100%;
+  word-wrap: break-word;
 }
 
 .editor {
@@ -67,77 +82,58 @@ textarea,
   width: 50%;
 }
 
+.editor,
 .result {
-  right: 0;
-  left: 50%;
-  padding: calc(1em + 1ex);
+  bottom: 0;
+  overflow: auto;
+  position: fixed;
+  top: calc(3 * (1em + 1ex));
 }
 
 .editor-inner {
-  position: relative;
+  margin: 8px;
   max-width: 100%;
   overflow: hidden;
-  margin: 8px;
-}
-
-.write,
-.draw {
-  font-size: 14px;
-  tab-size: 4;
-  letter-spacing: normal;
-  line-height: calc(1 * (1em + 1ex));
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  background: transparent;
-  box-sizing: border-box;
-  border: none;
-  outline: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  resize: none;
-}
-
-.write::selection {
-  color: var(--color-fg);
-  background-color: hsl(42.22deg 74.31% 57.25% / 66%);
-}
-
-.write {
-  position: absolute;
-  top: 0;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-  color: transparent;
-  caret-color: var(--color-hl);
-}
-
-.controls {
-  color: var(--color-fg);
-  background-color: var(--color-canvas-back);
-  padding: calc(1ex);
-  padding-top: 0;
-}
-
-.controls label {
-  font-size: smaller;
-  display: block;
+  position: relative;
 }
 
 .github-corner svg {
-  z-index: 1;
-  width: calc(6.5 * (1em + 1ex));
   height: calc(6.5 * (1em + 1ex));
+  width: calc(6.5 * (1em + 1ex));
+  z-index: 1;
 }
 
 .github-corner:hover .octo-arm {
   animation: octocat-wave 560ms ease-in-out;
 }
 
+.page-header {
+  font-size: inherit;
+  margin: calc(1 * (1em + 1ex));
+}
+
 .show-big {
   display: none;
+}
+
+.result {
+  left: 50%;
+  padding: calc(1em + 1ex);
+  right: 0;
+}
+
+.write {
+  -webkit-print-color-adjust: exact;
+  caret-color: var(--color-hl);
+  color: transparent;
+  position: absolute;
+  print-color-adjust: exact;
+  top: 0;
+}
+
+.write::selection {
+  color: var(--color-fg);
+  background-color: hsl(42.22deg 74.31% 57.25% / 66%);
 }
 
 @keyframes octocat-wave {
@@ -173,11 +169,11 @@ textarea,
   }
 
   .controls {
-    position: fixed;
-    top: calc(3 * (1em + 1ex));
-    right: 50%;
-    z-index: 4;
     border-bottom-left-radius: 1ex;
+    position: fixed;
+    right: 50%;
+    top: calc(3 * (1em + 1ex));
+    z-index: 4;
   }
 
   .show-big {
