@@ -1,12 +1,8 @@
 {
-  "name": "www-react-markdown",
-  "private": true,
-  "license": "MIT",
-  "repository": "remarkjs/react-markdown",
-  "bugs": "https://github.com/remarkjs/react-markdown/issues",
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
+  "browserslist": "> 0.25%, not dead",
+  "bugs": "https://github.com/remarkjs/react-markdown/issues",
   "contributors": [],
-  "type": "module",
   "devDependencies": {
     "@wooorm/starry-night": "^3.0.0",
     "cssnano": "^7.0.0",
@@ -32,28 +28,8 @@
     "stylelint-config-standard": "^36.0.0",
     "xo": "^0.59.0"
   },
-  "scripts": {
-    "format": "prettier . -w --log-level warn && xo --fix && stylelint src/index.css --fix",
-    "build:css": "postcss src/index.css > dest/index.css",
-    "build:html": "rehype -q -u preset-minify -u prevent-favicon-request src/index.html -o dest/",
-    "build:js:nomodule": "esbuild src/index.js --bundle --conditions=browser,production --define:process.env.NODE_ENV=\\\"production\\\" --loader:.js=jsx --log-level=warning --minify --outfile=dest/index.nomodule.js --target=es6",
-    "build:js:module": "esbuild src/index.js --bundle --conditions=browser,production --define:process.env.NODE_ENV=\\\"production\\\" --format=esm --loader:.js=jsx --log-level=warning --minify --outfile=dest/index.module.js --target=es2020",
-    "build:js": "npm run build:js:module && npm run build:js:nomodule",
-    "build": "npm run build:js && npm run build:html && npm run build:css",
-    "test": "npm run format && npm run build"
-  },
-  "browserslist": "> 0.25%, not dead",
-  "prettier": {
-    "tabWidth": 2,
-    "useTabs": false,
-    "singleQuote": true,
-    "bracketSpacing": false,
-    "semi": false,
-    "trailingComma": "none"
-  },
-  "stylelint": {
-    "extends": "stylelint-config-standard"
-  },
+  "license": "MIT",
+  "name": "www-react-markdown",
   "postcss": {
     "plugins": {
       "cssnano": {
@@ -61,18 +37,42 @@
       }
     }
   },
+  "prettier": {
+    "bracketSpacing": false,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "useTabs": false
+  },
+  "private": true,
+  "repository": "remarkjs/react-markdown",
+  "scripts": {
+    "generate:css": "postcss --output dest/index.css -- src/index.css",
+    "generate:html": "rehype --output dest/ --quiet --use rehype-preset-minify --use rehype-prevent-favicon-request -- src/",
+    "generate:js:module": "esbuild src/index.js --bundle --conditions=browser,production --define:process.env.NODE_ENV=\\\"production\\\" --format=esm --loader:.js=jsx --log-level=warning --minify --outfile=dest/index.module.js --target=es2020",
+    "generate:js:nomodule": "esbuild src/index.js --bundle --conditions=browser,production --define:process.env.NODE_ENV=\\\"production\\\" --loader:.js=jsx --log-level=warning --minify --outfile=dest/index.nomodule.js --target=es6",
+    "generate:js": "npm run generate:js:module && npm run generate:js:nomodule",
+    "generate": "npm run generate:css && npm run generate:html && npm run generate:js",
+    "format": "prettier --log-level warn --write -- . && stylelint --fix src/index.css && xo --fix",
+    "test": "npm run format && npm run build"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard"
+  },
+  "type": "module",
   "xo": {
-    "prettier": true,
-    "extends": "xo-react",
     "envs": [
       "browser"
     ],
+    "extends": "xo-react",
+    "ignores": [
+      "dest/"
+    ],
+    "prettier": true,
     "rules": {
       "n/file-extension-in-import": 0,
       "react/jsx-no-bind": "off"
-    },
-    "ignores": [
-      "dest/"
-    ]
+    }
   }
 }
