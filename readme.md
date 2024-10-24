@@ -678,7 +678,7 @@ const markdown = `
 # This is perfect!
 `
 
-// Pass the value as an expresion as an only child:
+// Pass the value as an expression as an only child:
 const result = <Markdown>{markdown}</Markdown>
 ```
 
