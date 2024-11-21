@@ -704,7 +704,7 @@ slightly differently.
 
 ### Fixes
 
-* (Typings) Add `parserOptions` to type defintions (Ted Piotrowski)
+* (Typings) Add `parserOptions` to type definitions (Ted Piotrowski)
 * Allow renderer to be any React element type (Nathan Bierema)
 
 ## 4.1.0 - 2019-06-24
