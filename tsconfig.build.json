@@ -3,6 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
+    "declarationMap": true,
     "emitDeclarationOnly": true,
     "lib": ["dom", "es2022"],
     "outDir": "types/",
