@@ -1,7 +1,6 @@
 coverage/
 node_modules/
-*.d.ts.map
-*.d.ts
+types/
 *.log
 *.tsbuildinfo
 .DS_Store
