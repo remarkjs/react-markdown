@@ -1,8 +1,8 @@
 coverage/
 node_modules/
 types/
-*.tsbuildinfo
 *.log
+*.tsbuildinfo
 .DS_Store
 react-markdown.min.js
 yarn.lock
