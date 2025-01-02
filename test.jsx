@@ -167,21 +167,24 @@ test('react-markdown', async function (t) {
   await t.test('should support an image', function () {
     assert.equal(
       renderToStaticMarkup(<Markdown children="![a](b)" />),
-      '<p><img src="b" alt="a"/></p>'
+      // Note: React weirdly adds `rel="preload"`.
+      '<link rel="preload" as="image" href="b"/><p><img src="b" alt="a"/></p>'
     )
   })
 
   await t.test('should support an image w/ a title', function () {
     assert.equal(
       renderToStaticMarkup(<Markdown children="![a](b (c))" />),
-      '<p><img src="b" alt="a" title="c"/></p>'
+      // Note: React weirdly adds `rel="preload"`.
+      '<link rel="preload" as="image" href="b"/><p><img src="b" alt="a" title="c"/></p>'
     )
   })
 
   await t.test('should support an image reference / definition', function () {
     assert.equal(
       renderToStaticMarkup(<Markdown children={'![a]\n\n[a]: b'} />),
-      '<p><img src="b" alt="a"/></p>'
+      // Note: React weirdly adds `rel="preload"`.
+      '<link rel="preload" as="image" href="b"/><p><img src="b" alt="a"/></p>'
     )
   })
 
@@ -410,7 +413,7 @@ test('react-markdown', async function (t) {
           }}
         />
       ),
-      '<p><img src="" alt="a" title="c"/></p>'
+      '<p><img alt="a" title="c"/></p>'
     )
   })
 
@@ -564,7 +567,7 @@ test('react-markdown', async function (t) {
 
     console.error = warn
 
-    assert.match(String(message), /Warning: React.jsx: type is invalid/)
+    assert.match(String(message), /type is invalid/)
 
     /**
      * @param {unknown} d

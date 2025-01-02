@@ -7,3 +7,4 @@ node_modules/
 .DS_Store
 react-markdown.min.js
 yarn.lock
+!/test-types.d.ts
