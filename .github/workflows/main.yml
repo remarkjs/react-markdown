@@ -9,7 +9,7 @@ jobs:
           node-version: ${{matrix.node}}
       - run: npm install
       - run: npm test
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
     strategy:
       matrix:
         node:
