@@ -1,10 +1,10 @@
-coverage/
-node_modules/
-*.d.ts.map
 *.d.ts
 *.log
+*.map
 *.tsbuildinfo
 .DS_Store
+coverage/
+node_modules/
 react-markdown.min.js
 yarn.lock
 !/test-types.d.ts
