@@ -13,5 +13,5 @@
     "target": "es2023"
   },
   "exclude": ["dest/", "node_modules/"],
-  "include": ["**/*.js", "**/*.jsx"]
+  "include": ["**/*.js", "**/*.jsx", "types.d.ts"]
 }

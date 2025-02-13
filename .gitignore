@@ -7,3 +7,4 @@ dest/
 node_modules/
 package-lock.json
 yarn.lock
+!/types.d.ts

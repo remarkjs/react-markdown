@@ -2,10 +2,12 @@
   --color-canvas-back: #f6f8fa;
   --color-fg: #0d1117;
   --color-hl: #0969da;
-  --ff-mono: ui-monospace, 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas',
+  --ff-mono:
+    ui-monospace, 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas',
     'Liberation Mono', monospace;
-  --ff-sans: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Noto Sans',
-    'Helvetica', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --ff-sans:
+    -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Noto Sans', 'Helvetica',
+    'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
 
   background-color: var(--color-canvas-back);
   color-scheme: light dark;
@@ -13,8 +15,8 @@
   font-family: var(--ff-sans);
   font-feature-settings: 'kern', 'liga', 'clig', 'calt';
   font-kerning: normal;
+  overflow-wrap: anywhere;
   text-size-adjust: 100%;
-  word-break: break-word;
 }
 
 @media (prefers-color-scheme: dark) {
