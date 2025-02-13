@@ -1,80 +1,51 @@
 {
-  "name": "react-markdown",
-  "version": "9.0.3",
-  "description": "React component to render markdown",
-  "license": "MIT",
-  "keywords": [
-    "ast",
-    "commonmark",
-    "component",
-    "gfm",
-    "markdown",
-    "react",
-    "react-component",
-    "remark",
-    "unified"
-  ],
-  "repository": "remarkjs/react-markdown",
-  "bugs": "https://github.com/remarkjs/react-markdown/issues",
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/unified"
-  },
   "author": "Espen Hovlandsdal <espen@hovlandsdal.com>",
+  "bugs": "https://github.com/remarkjs/react-markdown/issues",
   "contributors": [
-    "Espen Hovlandsdal <espen@hovlandsdal.com>",
-    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
-    "Thomas Lindstrøm <t@hom.as>",
-    "Fabian Irsara <info@fabianirsara.com>",
-    "René Kooi <renee@kooi.me>",
-    "Nicolas Venegas <nvenegas@atlassian.com>",
+    "Alexander Wallin <office@alexanderwallin.com>",
+    "Alexander Wong <admin@alexander-wong.com>",
+    "André Staltz <andre@staltz.com>",
+    "Angus MacIsaac <angus.macisaac@busbud.com>",
+    "Beau Roberts <beau.roberts@autodesk.com>",
+    "Charlie Chen <doveccl@live.com>",
     "Christian Murphy <christian.murphy.42@gmail.com>",
-    "Linus Unnebäck <linus@folkdatorn.se>",
-    "Peng Guanwen <pg999w@outlook.com>",
-    "mudrz <mudrz@outlook.com>",
-    "Jesse Pinho <jesse@jessepinho.com>",
+    "Christoph Werner <christoph@codepunkt.de>",
+    "Danny <dannyharding10@gmail.com>",
+    "Dennis S <denis.s@svsg.co>",
+    "Espen Hovlandsdal <espen@hovlandsdal.com>",
+    "Evan Hensleigh <futuraprime@gmail.com>",
+    "Fabian Irsara <info@fabianirsara.com>",
     "Florentin Luca Rieger <florentin.rieger@gmail.com>",
     "Frank <frankieali4@gmail.com>",
     "Igor Kamyshev <garik.novel@gmail.com>",
     "Jack Williams <jsw547@gmail.com>",
     "Jakub Chrzanowski <jakub@chrzanowski.info>",
     "Jeremy Moseley <jeremy@jeremymoseley.net>",
+    "Jesse Pinho <jesse@jessepinho.com>",
     "Kelvin Chan <kchan@securitycompass.com>",
     "Kohei Asai <me@axross.io>",
+    "Linus Unnebäck <linus@folkdatorn.se>",
     "Marshall Smith <marshall@radialdevgroup.com>",
     "Nathan Bierema <nbierema@gmail.com>",
+    "Nicolas Venegas <nvenegas@atlassian.com>",
+    "Peng Guanwen <pg999w@outlook.com>",
     "Petr Gazarov <petrgazarov@gmail.com>",
     "Phil Rajchgot <tophil@outlook.com>",
     "Rasmus Eneman <rasmus@eneman.eu>",
+    "René Kooi <renee@kooi.me>",
     "Riku Rouvila <riku.rouvila@gmail.com>",
     "Robin Wieruch <wrobin@gmx.net>",
     "Rostyslav Melnychuk <blackswordgc@gmail.com>",
     "Ted Piotrowski <tppiotrowski@gmail.com>",
     "Thibaud Courtoison <do.not.press.enter@gmail.com>",
+    "Thomas Lindstrøm <t@hom.as>",
     "Tiago Roldão <focus5.6@gmail.com>",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
     "cerkiewny <mstarzycki@gmail.com>",
     "evoye <rosej@gmx.net>",
     "gRoberts84 <gavin@gav-roberts.co.uk>",
-    "Alexander Wallin <office@alexanderwallin.com>",
-    "vanchagreen <vanchagreen@gmail.com>",
-    "Alexander Wong <admin@alexander-wong.com>",
-    "André Staltz <andre@staltz.com>",
-    "Angus MacIsaac <angus.macisaac@busbud.com>",
-    "Beau Roberts <beau.roberts@autodesk.com>",
-    "Charlie Chen <doveccl@live.com>",
-    "Christoph Werner <christoph@codepunkt.de>",
-    "Danny <dannyharding10@gmail.com>",
-    "Dennis S <denis.s@svsg.co>",
-    "Evan Hensleigh <futuraprime@gmail.com>"
-  ],
-  "sideEffects": false,
-  "type": "module",
-  "exports": "./index.js",
-  "files": [
-    "lib/",
-    "index.d.ts.map",
-    "index.d.ts",
-    "index.js"
+    "mudrz <mudrz@outlook.com>",
+    "vanchagreen <vanchagreen@gmail.com>"
   ],
   "dependencies": {
     "@types/hast": "^3.0.0",
@@ -88,10 +59,7 @@
     "unist-util-visit": "^5.0.0",
     "vfile": "^6.0.0"
   },
-  "peerDependencies": {
-    "@types/react": ">=18",
-    "react": ">=18"
-  },
+  "description": "React component to render markdown",
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
@@ -111,13 +79,33 @@
     "typescript": "^5.0.0",
     "xo": "^0.60.0"
   },
-  "scripts": {
-    "build": "tsc --build --clean && tsc --build && type-coverage",
-    "format": "remark . --frail --output --quiet && prettier . --log-level warn --write && xo --fix",
-    "prepack": "npm run build && npm run format",
-    "test": "npm run build && npm run format && npm run test-coverage",
-    "test-api": "node --conditions development --experimental-loader=./script/load-jsx.js --no-warnings test.jsx",
-    "test-coverage": "c8 --100 --exclude script/ --reporter lcov npm run test-api"
+  "exports": "./index.js",
+  "files": [
+    "index.d.ts.map",
+    "index.d.ts",
+    "index.js",
+    "lib/"
+  ],
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/unified"
+  },
+  "keywords": [
+    "ast",
+    "commonmark",
+    "component",
+    "gfm",
+    "markdown",
+    "react",
+    "react-component",
+    "remark",
+    "unified"
+  ],
+  "license": "MIT",
+  "name": "react-markdown",
+  "peerDependencies": {
+    "@types/react": ">=18",
+    "react": ">=18"
   },
   "prettier": {
     "bracketSpacing": false,
@@ -136,12 +124,21 @@
       ]
     ]
   },
+  "repository": "remarkjs/react-markdown",
+  "scripts": {
+    "build": "tsc --build --clean && tsc --build && type-coverage",
+    "format": "remark --frail --output --quiet -- . && prettier --log-level warn --write -- . && xo --fix",
+    "test-api": "node --conditions development --experimental-loader=./script/load-jsx.js --no-warnings test.jsx",
+    "test-coverage": "c8 --100 --exclude script/ --reporter lcov -- npm run test-api",
+    "test": "npm run build && npm run format && npm run test-coverage"
+  },
+  "sideEffects": false,
   "typeCoverage": {
     "atLeast": 100,
-    "detail": true,
-    "ignoreCatch": true,
     "strict": true
   },
+  "type": "module",
+  "version": "9.0.3",
   "xo": {
     "envs": [
       "shared-node-browser"
