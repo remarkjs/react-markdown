@@ -1,18 +1,15 @@
 <!--
-Notes for maintaining this document:
+  Notes for maintaining this document:
 
-*   Update the link for `cm-html` once in a while
+  * update the version of the link for `commonmark-html` once in a while
 -->
 
 # react-markdown
 
-[![Build][build-badge]][build]
-[![Coverage][coverage-badge]][coverage]
-[![Downloads][downloads-badge]][downloads]
-[![Size][size-badge]][size]
-[![Sponsors][sponsors-badge]][collective]
-[![Backers][backers-badge]][collective]
-[![Chat][chat-badge]][chat]
+[![Build][badge-build-image]][badge-build-url]
+[![Coverage][badge-coverage-image]][badge-coverage-url]
+[![Downloads][badge-downloads-image]][badge-downloads-url]
+[![Size][badge-size-image]][badge-size-url]
 
 React component to render markdown.
 
@@ -67,7 +64,7 @@ You can pass plugins to change how markdown is transformed and pass components
 that will be used instead of normal HTML elements.
 
 * to learn markdown, see this [cheatsheet and tutorial][commonmark-help]
-* to try out `react-markdown`, see [our demo][demo]
+* to try out `react-markdown`, see [our demo][github-io-react-markdown]
 
 ## When should I use this?
 
@@ -77,21 +74,23 @@ have bugs with how they handle markdown, or don’t let you swap elements for
 components.
 `react-markdown` builds a virtual DOM, so React only replaces what changed,
 from a syntax tree.
-That’s supported because we use [unified][], specifically [remark][] for
-markdown and [rehype][] for HTML, which are popular tools to transform content
-with plugins.
+That’s supported because we use [unified][github-unified],
+specifically [remark][github-remark] for markdown and [rehype][github-rehype]
+for HTML,
+which are popular tools to transform content with plugins.
 
 This package focusses on making it easy for beginners to safely use markdown in
 React.
 When you’re familiar with unified, you can use a modern hooks based alternative
-[`react-remark`][react-remark] or [`rehype-react`][rehype-react] manually.
+[`react-remark`][github-react-remark] or [`rehype-react`][github-rehype-react]
+manually.
 If you instead want to use JavaScript and JSX *inside* markdown files, use
-[MDX][].
+[MDX][github-mdx].
 
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 16+), install with [npm][]:
+In Node.js (version 16+), install with [npm][npm-install]:
 
 ```sh
 npm install react-markdown
@@ -115,7 +114,7 @@ In browsers with [`esm.sh`][esmsh]:
 
 A basic hello world:
 
-```jsx
+```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
@@ -128,7 +127,7 @@ createRoot(document.body).render(<Markdown>{markdown}</Markdown>)
 <details>
 <summary>Show equivalent JSX</summary>
 
-```jsx
+```js
 <h1>
   Hi, <em>Pluto</em>!
 </h1>
@@ -136,11 +135,12 @@ createRoot(document.body).render(<Markdown>{markdown}</Markdown>)
 
 </details>
 
-Here is an example that shows how to use a plugin ([`remark-gfm`][remark-gfm],
-which adds support for footnotes, strikethrough, tables, tasklists and URLs
-directly):
+Here is an example that shows how to use a plugin
+([`remark-gfm`][github-remark-gfm],
+which adds support for footnotes, strikethrough, tables, tasklists and
+URLs directly):
 
-```jsx
+```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
@@ -156,7 +156,7 @@ createRoot(document.body).render(
 <details>
 <summary>Show equivalent JSX</summary>
 
-```jsx
+```js
 <p>
   Just a link: <a href="http://www.nasa.gov">www.nasa.gov</a>.
 </p>
@@ -202,11 +202,11 @@ Filter elements (TypeScript type).
 
 ###### Parameters
 
-* `node` ([`Element` from `hast`][hast-element])
+* `node` ([`Element` from `hast`][github-hast-element])
   — element to check
 * `index` (`number | undefined`)
   — index of `element` in `parent`
-* `parent` ([`Node` from `hast`][hast-node])
+* `parent` ([`Node` from `hast`][github-hast-nodes])
   — parent of `element`
 
 ###### Returns
@@ -239,7 +239,7 @@ Extra fields we pass to components (TypeScript type).
 
 ###### Fields
 
-* `node` ([`Element` from `hast`][hast-element], optional)
+* `node` ([`Element` from `hast`][github-hast-element], optional)
   — original node
 
 ### `Options`
@@ -264,11 +264,12 @@ Configuration (TypeScript type).
   — tag names to disallow;
   cannot combine w/ `allowedElements`
 * `rehypePlugins` (`Array<Plugin>`, optional)
-  — list of [rehype plugins][rehype-plugins] to use
+  — list of [rehype plugins][github-rehype-plugins] to use
 * `remarkPlugins` (`Array<Plugin>`, optional)
-  — list of [remark plugins][remark-plugins] to use
-* `remarkRehypeOptions` ([`Options` from
-  `remark-rehype`][remark-rehype-options], optional)
+  — list of [remark plugins][github-remark-plugins] to use
+* `remarkRehypeOptions`
+  ([`Options` from `remark-rehype`][github-remark-rehype-options],
+  optional)
   — options to pass through to `remark-rehype`
 * `skipHtml` (`boolean`, default: `false`)
   — ignore HTML in markdown completely
@@ -290,7 +291,7 @@ Transform URLs (TypeScript type).
   — URL
 * `key` (`string`, example: `'href'`)
   — property name
-* `node` ([`Element` from `hast`][hast-element])
+* `node` ([`Element` from `hast`][github-hast-element])
   — element to check
 
 ###### Returns
@@ -302,10 +303,10 @@ Transformed URL (`string`, optional).
 ### Use a plugin
 
 This example shows how to use a remark plugin.
-In this case, [`remark-gfm`][remark-gfm], which adds support for strikethrough,
-tables, tasklists and URLs directly:
+In this case, [`remark-gfm`][github-remark-gfm],
+which adds support for strikethrough, tables, tasklists and URLs directly:
 
-```jsx
+```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
@@ -333,7 +334,7 @@ createRoot(document.body).render(
 <details>
 <summary>Show equivalent JSX</summary>
 
-```jsx
+```js
 <>
   <p>
     A paragraph with <em>emphasis</em> and <strong>strong importance</strong>.
@@ -372,10 +373,10 @@ createRoot(document.body).render(
 This example shows how to use a plugin and give it options.
 To do that, use an array with the plugin at the first place, and the options
 second.
-[`remark-gfm`][remark-gfm] has an option to allow only double tildes for
+[`remark-gfm`][github-remark-gfm] has an option to allow only double tildes for
 strikethrough:
 
-```jsx
+```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
@@ -393,7 +394,7 @@ createRoot(document.body).render(
 <details>
 <summary>Show equivalent JSX</summary>
 
-```jsx
+```js
 <p>
   This ~is not~ strikethrough, but <del>this is</del>!
 </p>
@@ -406,12 +407,12 @@ createRoot(document.body).render(
 This example shows how you can overwrite the normal handling of an element by
 passing a component.
 In this case, we apply syntax highlighting with the seriously super amazing
-[`react-syntax-highlighter`][react-syntax-highlighter] by
-[**@conorhastings**][conor]:
+[`react-syntax-highlighter`][github-react-syntax-highlighter] by
+[**@conorhastings**][github-conorhastings]:
 
 <!-- To do: currently broken on actual ESM; let’s find an alternative? -->
 
-```jsx
+```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
@@ -455,7 +456,7 @@ createRoot(document.body).render(
 <details>
 <summary>Show equivalent JSX</summary>
 
-```jsx
+```js
 <>
   <p>Here is some JavaScript code:</p>
   <pre>
@@ -468,11 +469,12 @@ createRoot(document.body).render(
 
 ### Use remark and rehype plugins (math)
 
-This example shows how a syntax extension (through [`remark-math`][remark-math])
+This example shows how a syntax extension
+(through [`remark-math`][github-remark-math])
 is used to support math in markdown, and a transform plugin
-([`rehype-katex`][rehype-katex]) to render that math.
+([`rehype-katex`][github-rehype-katex]) to render that math.
 
-```jsx
+```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
@@ -492,7 +494,7 @@ createRoot(document.body).render(
 <details>
 <summary>Show equivalent JSX</summary>
 
-```jsx
+```js
 <p>
   The lift coefficient (
   <span className="katex">
@@ -511,16 +513,20 @@ createRoot(document.body).render(
 
 ## Plugins
 
-We use [unified][], specifically [remark][] for markdown and [rehype][] for
-HTML, which are tools to transform content with plugins.
+We use [unified][github-unified],
+specifically [remark][github-remark] for markdown and
+[rehype][github-rehype] for HTML,
+which are tools to transform content with plugins.
 Here are three good ways to find plugins:
 
-* [`awesome-remark`][awesome-remark] and [`awesome-rehype`][awesome-rehype]
+* [`awesome-remark`][github-awesome-remark] and
+  [`awesome-rehype`][github-awesome-rehype]
   — selection of the most awesome projects
-* [List of remark plugins][remark-plugins] and
-  [list of rehype plugins][rehype-plugins]
+* [List of remark plugins][github-remark-plugins] and
+  [list of rehype plugins][github-rehype-plugins]
   — list of all plugins
-* [`remark-plugin`][remark-plugin] and [`rehype-plugin`][rehype-plugin] topics
+* [`remark-plugin`][github-topic-remark-plugin] and
+  [`rehype-plugin`][github-topic-rehype-plugin] topics
   — any tagged repo on GitHub
 
 ## Syntax
@@ -529,7 +535,7 @@ Here are three good ways to find plugins:
 markdown implementations, by default.
 Some syntax extensions are supported through plugins.
 
-We use [`micromark`][micromark] under the hood for our parsing.
+We use [`micromark`][github-micromark] under the hood for our parsing.
 See its documentation for more information on markdown, CommonMark, and
 extensions.
 
@@ -573,8 +579,9 @@ browsers.
 </code></pre>
 
 To understand what this project does, it’s important to first understand what
-unified does: please read through the [`unifiedjs/unified`][unified] readme (the
-part until you hit the API section is required reading).
+unified does: please read through the [`unifiedjs/unified`][github-unified]
+readme
+(the part until you hit the API section is required reading).
 
 `react-markdown` is a unified pipeline — wrapped so that most folks don’t need
 to directly interact with unified.
@@ -593,9 +600,9 @@ because it is dangerous and defeats the purpose of this library.
 
 However, if you are in a trusted environment (you trust the markdown), and
 can spare the bundle size (±60kb minzipped), then you can use
-[`rehype-raw`][rehype-raw]:
+[`rehype-raw`][github-rehype-raw]:
 
-```jsx
+```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import Markdown from 'react-markdown'
@@ -615,7 +622,7 @@ createRoot(document.body).render(
 <details>
 <summary>Show equivalent JSX</summary>
 
-```jsx
+```js
 <div className="note">
   <p>
     Some <em>emphasis</em> and <strong>strong</strong>!
@@ -634,7 +641,7 @@ markdown!
 
 You can also change the things that come from markdown:
 
-```jsx
+```js
 <Markdown
   components={{
     // Map `h1` (`# heading`) to use `h2`s.
@@ -653,8 +660,8 @@ markdown (such as `h1` for `# heading`).
 Normally, in markdown, those are: `a`, `blockquote`, `br`, `code`, `em`, `h1`,
 `h2`, `h3`, `h4`, `h5`, `h6`, `hr`, `img`, `li`, `ol`, `p`, `pre`, `strong`, and
 `ul`.
-With [`remark-gfm`][remark-gfm], you can also use `del`, `input`, `table`,
-`tbody`, `td`, `th`, `thead`, and `tr`.
+With [`remark-gfm`][github-remark-gfm],
+you can also use `del`, `input`, `table`, `tbody`, `td`, `th`, `thead`, and `tr`.
 Other remark or rehype plugins that add support for new constructs will also
 work with `react-markdown`.
 
@@ -663,15 +670,15 @@ get `href` (and `title`) props, and `img` (image) an `src`, `alt` and `title`,
 etc.
 
 Every component will receive a `node`.
-This is the original [`Element` from `hast`][hast-element] element being turned
-into a React element.
+This is the original [`Element` from `hast`][github-hast-element] element being
+turned into a React element.
 
 ## Appendix C: line endings in markdown (and JSX)
 
 You might have trouble with how line endings work in markdown and JSX.
 We recommend the following, which solves all line ending problems:
 
-```jsx
+```js
 // If you write actual markdown in your code, put your markdown in a variable;
 // **do not indent markdown**:
 const markdown = `
@@ -688,7 +695,7 @@ Read on for what doesn’t and why that is.
 You might try to write markdown directly in your JSX and find that it **does
 not** work:
 
-```jsx
+```js
 <Markdown>
   # Hi
 
@@ -700,14 +707,14 @@ The is because in JSX the whitespace (including line endings) is collapsed to
 a single space.
 So the above example is equivalent to:
 
-```jsx
+```js
 <Markdown> # Hi This is **not** a paragraph. </Markdown>
 ```
 
 Instead, to pass markdown to `Markdown`, you can use an expression:
 with a template literal:
 
-```jsx
+```js
 <Markdown>{`
 # Hi
 
@@ -719,7 +726,7 @@ Template literals have another potential problem, because they keep whitespace
 (including indentation) inside them.
 That means that the following **does not** turn into a heading:
 
-```jsx
+```js
 <Markdown>{`
     # This is **not** a heading, it’s an indented code block
 `}</Markdown>
@@ -734,141 +741,33 @@ Furthermore, the `remarkPlugins`, `rehypePlugins`, and `components` you use may
 be insecure.
 
 To make sure the content is completely safe, even after what plugins do,
-use [`rehype-sanitize`][rehype-sanitize].
+use [`rehype-sanitize`][github-rehype-sanitize].
 It lets you define your own schema of what is and isn’t allowed.
 
 ## Related
 
-* [`MDX`][mdx]
+* [`MDX`][github-mdx]
   — JSX *in* markdown
-* [`remark-gfm`][remark-gfm]
+* [`remark-gfm`][github-remark-gfm]
   — add support for GitHub flavored markdown support
-* [`react-remark`][react-remark]
+* [`react-remark`][github-react-remark]
   — hook based alternative
-* [`rehype-react`][rehype-react]
+* [`rehype-react`][github-rehype-react]
   — turn HTML into React elements
 
 ## Contribute
 
-See [`contributing.md`][contributing] in [`remarkjs/.github`][health] for ways
-to get started.
-See [`support.md`][support] for ways to get help.
+See [`contributing.md`][health-contributing] in [`remarkjs/.github`][health]
+for ways to get started.
+See [`support.md`][health-support] for ways to get help.
 
-This project has a [code of conduct][coc].
+This project has a [code of conduct][health-coc].
 By interacting with this repository, organization, or community you agree to
 abide by its terms.
 
 ## License
 
-[MIT][license] © [Espen Hovlandsdal][author]
-
-[build-badge]: https://github.com/remarkjs/react-markdown/workflows/main/badge.svg
-
-[build]: https://github.com/remarkjs/react-markdown/actions
-
-[coverage-badge]: https://img.shields.io/codecov/c/github/remarkjs/react-markdown.svg
-
-[coverage]: https://codecov.io/github/remarkjs/react-markdown
-
-[downloads-badge]: https://img.shields.io/npm/dm/react-markdown.svg
-
-[downloads]: https://www.npmjs.com/package/react-markdown
-
-[size-badge]: https://img.shields.io/bundlejs/size/react-markdown
-
-[size]: https://bundlejs.com/?q=react-markdown
-
-[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
-
-[backers-badge]: https://opencollective.com/unified/backers/badge.svg
-
-[collective]: https://opencollective.com/unified
-
-[chat-badge]: https://img.shields.io/badge/chat-discussions-success.svg
-
-[chat]: https://github.com/remarkjs/remark/discussions
-
-[npm]: https://docs.npmjs.com/cli/install
-
-[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
-
-[esmsh]: https://esm.sh
-
-[health]: https://github.com/remarkjs/.github
-
-[coc]: https://github.com/remarkjs/.github/blob/main/code-of-conduct.md
-
-[contributing]: https://github.com/remarkjs/.github/blob/main/contributing.md
-
-[support]: https://github.com/remarkjs/.github/blob/main/support.md
-
-[license]: license
-
-[author]: https://espen.codes/
-
-[awesome-remark]: https://github.com/remarkjs/awesome-remark
-
-[awesome-rehype]: https://github.com/rehypejs/awesome-rehype
-
-[commonmark-help]: https://commonmark.org/help/
-
-[commonmark-html]: https://spec.commonmark.org/0.30/#html-blocks
-
-[hast-element]: https://github.com/syntax-tree/hast#element
-
-[hast-node]: https://github.com/syntax-tree/hast#nodes
-
-[mdx]: https://github.com/mdx-js/mdx/
-
-[micromark]: https://github.com/micromark/micromark
-
-[react]: http://reactjs.org
-
-[react-remark]: https://github.com/remarkjs/react-remark
-
-[react-syntax-highlighter]: https://github.com/react-syntax-highlighter/react-syntax-highlighter
-
-[rehype]: https://github.com/rehypejs/rehype
-
-[rehype-katex]: https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex
-
-[rehype-plugin]: https://github.com/topics/rehype-plugin
-
-[rehype-plugins]: https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
-
-[rehype-react]: https://github.com/rehypejs/rehype-react
-
-[rehype-raw]: https://github.com/rehypejs/rehype-raw
-
-[rehype-sanitize]: https://github.com/rehypejs/rehype-sanitize
-
-[remark]: https://github.com/remarkjs/remark
-
-[remark-gfm]: https://github.com/remarkjs/remark-gfm
-
-[remark-math]: https://github.com/remarkjs/remark-math
-
-[remark-plugin]: https://github.com/topics/remark-plugin
-
-[remark-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins
-
-[remark-rehype-options]: https://github.com/remarkjs/remark-rehype#options
-
-[unified]: https://github.com/unifiedjs/unified
-
-[typescript]: https://www.typescriptlang.org
-
-[conor]: https://github.com/conorhastings
-
-[demo]: https://remarkjs.github.io/react-markdown/
-
-[section-components]: #appendix-b-components
-
-[section-plugins]: #plugins
-
-[section-security]: #security
-
-[section-syntax]: #syntax
+[MIT][file-license] © [Espen Hovlandsdal][author]
 
 [api-allow-element]: #allowelement
 
@@ -883,3 +782,101 @@ abide by its terms.
 [api-options]: #options
 
 [api-url-transform]: #urltransform
+
+[author]: https://espen.codes/
+
+[badge-build-image]: https://github.com/remarkjs/react-markdown/workflows/main/badge.svg
+
+[badge-build-url]: https://github.com/remarkjs/react-markdown/actions
+
+[badge-coverage-image]: https://img.shields.io/codecov/c/github/remarkjs/react-markdown.svg
+
+[badge-coverage-url]: https://codecov.io/github/remarkjs/react-markdown
+
+[badge-downloads-image]: https://img.shields.io/npm/dm/react-markdown.svg
+
+[badge-downloads-url]: https://www.npmjs.com/package/react-markdown
+
+[badge-size-image]: https://img.shields.io/bundlejs/size/react-markdown
+
+[badge-size-url]: https://bundlejs.com/?q=react-markdown
+
+[commonmark-help]: https://commonmark.org/help/
+
+[commonmark-html]: https://spec.commonmark.org/0.31.2/#html-blocks
+
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[esmsh]: https://esm.sh
+
+[file-license]: license
+
+[github-awesome-rehype]: https://github.com/rehypejs/awesome-rehype
+
+[github-awesome-remark]: https://github.com/remarkjs/awesome-remark
+
+[github-conorhastings]: https://github.com/conorhastings
+
+[github-hast-element]: https://github.com/syntax-tree/hast#element
+
+[github-hast-nodes]: https://github.com/syntax-tree/hast#nodes
+
+[github-io-react-markdown]: https://remarkjs.github.io/react-markdown/
+
+[github-mdx]: https://github.com/mdx-js/mdx/
+
+[github-micromark]: https://github.com/micromark/micromark
+
+[github-react-remark]: https://github.com/remarkjs/react-remark
+
+[github-react-syntax-highlighter]: https://github.com/react-syntax-highlighter/react-syntax-highlighter
+
+[github-rehype]: https://github.com/rehypejs/rehype
+
+[github-rehype-katex]: https://github.com/remarkjs/remark-math/tree/main/packages/rehype-katex
+
+[github-rehype-plugins]: https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
+
+[github-rehype-raw]: https://github.com/rehypejs/rehype-raw
+
+[github-rehype-react]: https://github.com/rehypejs/rehype-react
+
+[github-rehype-sanitize]: https://github.com/rehypejs/rehype-sanitize
+
+[github-remark]: https://github.com/remarkjs/remark
+
+[github-remark-gfm]: https://github.com/remarkjs/remark-gfm
+
+[github-remark-math]: https://github.com/remarkjs/remark-math
+
+[github-remark-plugins]: https://github.com/remarkjs/remark/blob/main/doc/plugins.md#list-of-plugins
+
+[github-remark-rehype-options]: https://github.com/remarkjs/remark-rehype#options
+
+[github-topic-rehype-plugin]: https://github.com/topics/rehype-plugin
+
+[github-topic-remark-plugin]: https://github.com/topics/remark-plugin
+
+[github-unified]: https://github.com/unifiedjs/unified
+
+[health]: https://github.com/remarkjs/.github
+
+[health-coc]: https://github.com/remarkjs/.github/blob/main/code-of-conduct.md
+
+[health-contributing]: https://github.com/remarkjs/.github/blob/main/contributing.md
+
+[health-support]: https://github.com/remarkjs/.github/blob/main/support.md
+
+[npm-install]: https://docs.npmjs.com/cli/install
+
+[react]: http://reactjs.org
+
+[section-components]: #appendix-b-components
+
+[section-plugins]: #plugins
+
+[section-security]: #security
+
+[section-syntax]: #syntax
+
+[typescript]: https://www.typescriptlang.org

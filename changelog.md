@@ -1,3 +1,5 @@
+<!--lint disable media-style-->
+
 # Changelog
 
 All notable changes will be documented in this file.
@@ -64,7 +66,7 @@ Write a plugin to pass `index`:
 <details>
 <summary>Show example of plugin</summary>
 
-```jsx
+```js
 import {visit} from 'unist-util-visit'
 
 function rehypePluginAddingIndex() {
@@ -99,7 +101,7 @@ Write a plugin to pass `index`:
 <details>
 <summary>Show example of plugin</summary>
 
-```jsx
+```js
 import {stringifyPosition} from 'unist-util-stringify-position'
 import {visit} from 'unist-util-visit'
 
@@ -333,7 +335,7 @@ for more on components.
 
 Before (**broken**):
 
-```jsx
+```js
 <Markdown
   renderers={{
     // Use a fancy hr
@@ -344,7 +346,7 @@ Before (**broken**):
 
 Now (**fixed**):
 
-```jsx
+```js
 <Markdown
   components={{
     // Use a fancy hr
@@ -422,7 +424,7 @@ for more plugins.
 <details>
 <summary>Show example of feature</summary>
 
-```jsx
+```js
 import rehypeHighlight from 'rehype-highlight'
 
 <Markdown rehypePlugins={[rehypeHighlight]}>{`~~~js
@@ -454,7 +456,7 @@ too.
 
 Before (**broken**):
 
-```jsx
+```js
 import MarkdownWithHtml from 'react-markdown/with-html'
 
 <MarkdownWithHtml>{`# Hello, <i>world</i>!`}</MarkdownWithHtml>
@@ -462,7 +464,7 @@ import MarkdownWithHtml from 'react-markdown/with-html'
 
 Now (**fixed**):
 
-```jsx
+```js
 import Markdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
@@ -481,20 +483,20 @@ Instead of passing a `source` pass `children` instead:
 
 Before (**broken**):
 
-```jsx
+```js
 <Markdown source="some\nmarkdown"></Markdown>
 ```
 
 Now (**fixed**):
 
-```jsx
+```js
 <Markdown>{`some
 markdown`}</Markdown>
 ```
 
 Or (**also fixed**):
 
-```jsx
+```js
 <Markdown children={`some
 markdown`} />
 ```
@@ -513,7 +515,7 @@ names: `allowNode` to `allowElement`, `allowedTypes` to `allowedElements`, and
 
 Before (**broken**):
 
-```jsx
+```js
 <Markdown
   // Skip images
   disallowedTypes={['image']}
@@ -522,7 +524,7 @@ Before (**broken**):
 
 Now (**fixed**):
 
-```jsx
+```js
 <Markdown
   // Skip images
   disallowedElements={['img']}
@@ -533,7 +535,7 @@ Now (**fixed**):
 
 Before (**broken**):
 
-```jsx
+```js
 <Markdown
   // Skip h1
   allowNode={(node) => node.type !== 'heading' || node.depth !== 1}
@@ -542,7 +544,7 @@ Before (**broken**):
 
 Now (**fixed**):
 
-```jsx
+```js
 <Markdown
   // Skip h1
   allowElement={(element) => element.tagName !== 'h1'}
@@ -561,7 +563,7 @@ to components also changed from being based on markdown to being based on HTML.
 
 Before (**broken**):
 
-```jsx
+```js
 <Markdown
   includeNodeIndex={true}
   renderers={{
@@ -572,7 +574,7 @@ Before (**broken**):
 
 Now (**fixed**):
 
-```jsx
+```js
 <Markdown
   includeElementIndex={true}
   components={{
@@ -654,13 +656,13 @@ The breaking change is for renderers which blindly spread their props to an
 underlying component/tag.
 For instance:
 
-```jsx
+```js
 <ReactMarkdown renderers={{link: props => <a {...props} />}} … />
 ```
 
 Should now be written as:
 
-```jsx
+```js
 <ReactMarkdown renderers={{link: ({node, ...props}) => <a {...props} />}} … />
 ```
 
