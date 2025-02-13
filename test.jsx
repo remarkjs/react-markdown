@@ -1,7 +1,7 @@
 /* @jsxRuntime automatic @jsxImportSource react */
 /**
  * @import {Root} from 'hast'
- * @import {ComponentProps, ReactElement} from 'react'
+ * @import {ComponentProps} from 'react'
  * @import {ExtraProps} from 'react-markdown'
  */
 
@@ -409,7 +409,7 @@ test('react-markdown', async function (t) {
             assert.equal(url, 'https://b.com')
             assert.equal(key, 'src')
             assert.equal(node.tagName, 'img')
-            return ''
+            return null
           }}
         />
       ),
