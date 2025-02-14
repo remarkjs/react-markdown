@@ -32,6 +32,8 @@ React component to render markdown.
 * [Use](#use)
 * [API](#api)
   * [`Markdown`](#markdown)
+  * [`MarkdownAsync`](#markdownasync)
+  * [`MarkdownHooks`](#markdownhooks)
   * [`defaultUrlTransform(url)`](#defaulturltransformurl)
   * [`AllowElement`](#allowelement)
   * [`Components`](#components)
@@ -166,13 +168,56 @@ createRoot(document.body).render(
 
 ## API
 
-This package exports the following identifier:
+This package exports the identifiers
+[`MarkdownAsync`][api-markdown-async],
+[`MarkdownHooks`][api-markdown-hooks],
+and
 [`defaultUrlTransform`][api-default-url-transform].
 The default export is [`Markdown`][api-markdown].
 
 ### `Markdown`
 
 Component to render markdown.
+
+This is a synchronous component.
+When using async plugins,
+see [`MarkdownAsync`][api-markdown-async] or
+[`MarkdownHooks`][api-markdown-hooks].
+
+###### Parameters
+
+* `options` ([`Options`][api-options])
+  — props
+
+###### Returns
+
+React element (`JSX.Element`).
+
+### `MarkdownAsync`
+
+Component to render markdown with support for async plugins
+through async/await.
+
+Components returning promises is supported on the server.
+For async support on the client,
+see [`MarkdownHooks`][api-markdown-hooks].
+
+###### Parameters
+
+* `options` ([`Options`][api-options])
+  — props
+
+###### Returns
+
+Promise to a React element (`Promise<JSX.Element>`).
+
+### `MarkdownHooks`
+
+Component to render markdown with support for async plugins through hooks.
+
+Hooks run on the client.
+For async support on the server,
+see [`MarkdownAsync`][api-markdown-async].
 
 ###### Parameters
 
@@ -778,6 +823,10 @@ abide by its terms.
 [api-extra-props]: #extraprops
 
 [api-markdown]: #markdown
+
+[api-markdown-async]: #markdownasync
+
+[api-markdown-hooks]: #markdownhooks
 
 [api-options]: #options
 

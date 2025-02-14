@@ -7,21 +7,29 @@
 
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import {renderToStaticMarkup} from 'react-dom/server'
-import Markdown from 'react-markdown'
+import concatStream from 'concat-stream'
+import {renderToPipeableStream, renderToStaticMarkup} from 'react-dom/server'
+import Markdown, {MarkdownAsync, MarkdownHooks} from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import rehypeStarryNight from 'rehype-starry-night'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 import {visit} from 'unist-util-visit'
 
-test('react-markdown', async function (t) {
+const decoder = new TextDecoder()
+
+test('react-markdown (core)', async function (t) {
   await t.test('should expose the public api', async function () {
     assert.deepEqual(Object.keys(await import('react-markdown')).sort(), [
+      'MarkdownAsync',
+      'MarkdownHooks',
       'default',
       'defaultUrlTransform'
     ])
   })
+})
 
+test('Markdown', async function (t) {
   await t.test('should work', function () {
     assert.equal(renderToStaticMarkup(<Markdown children="a" />), '<p>a</p>')
   })
@@ -1077,4 +1085,88 @@ test('react-markdown', async function (t) {
       }
     }
   })
+})
+
+test('MarkdownAsync', async function (t) {
+  await t.test('should support `MarkdownAsync` (1)', async function () {
+    assert.throws(function () {
+      renderToStaticMarkup(<MarkdownAsync children={'a'} />)
+    }, /A component suspended while responding to synchronous input/)
+  })
+
+  await t.test('should support `MarkdownAsync` (2)', async function () {
+    return new Promise(function (resolve, reject) {
+      renderToPipeableStream(<MarkdownAsync children={'a'} />)
+        .pipe(
+          concatStream({encoding: 'u8'}, function (data) {
+            assert.equal(decoder.decode(data), '<p>a</p>')
+            resolve()
+          })
+        )
+        .on('error', reject)
+    })
+  })
+
+  await t.test(
+    'should support async plugins w/ `MarkdownAsync` (`rehype-starry-night`)',
+    async function () {
+      return new Promise(function (resolve) {
+        renderToPipeableStream(
+          <MarkdownAsync
+            children={'```js\nconsole.log(3.14)'}
+            rehypePlugins={[rehypeStarryNight]}
+          />
+        ).pipe(
+          concatStream({encoding: 'u8'}, function (data) {
+            assert.equal(
+              decoder.decode(data),
+              '<pre><code class="language-js"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">3.14</span>)\n</code></pre>'
+            )
+            resolve()
+          })
+        )
+      })
+    }
+  )
+})
+
+// Note: hooks are not supported on the “server”.
+test('MarkdownHooks', async function (t) {
+  await t.test('should support `MarkdownHooks` (1)', async function () {
+    assert.throws(function () {
+      renderToStaticMarkup(<MarkdownHooks children={'a'} />)
+    }, /A component suspended while responding to synchronous input/)
+  })
+
+  await t.test('should support `MarkdownHooks` (2)', async function () {
+    return new Promise(function (resolve, reject) {
+      renderToPipeableStream(<MarkdownHooks children={'a'} />)
+        .pipe(
+          concatStream({encoding: 'u8'}, function (data) {
+            assert.equal(decoder.decode(data), '')
+            resolve()
+          })
+        )
+        .on('error', reject)
+    })
+  })
+
+  await t.test(
+    'should support async plugins w/ `MarkdownHooks` (`rehype-starry-night`)',
+    async function () {
+      return new Promise(function (resolve) {
+        renderToPipeableStream(
+          <MarkdownHooks
+            children={'```js\nconsole.log(3.14)'}
+            rehypePlugins={[rehypeStarryNight]}
+          />
+        ).pipe(
+          concatStream({encoding: 'u8'}, function (data) {
+            assert.equal(decoder.decode(data), '')
+            resolve()
+          })
+        )
+      })
+    }
+  )
 })
