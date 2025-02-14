@@ -198,7 +198,7 @@ React element (`JSX.Element`).
 Component to render markdown with support for async plugins
 through async/await.
 
-Components returning promises is supported on the server.
+Components returning promises are supported on the server.
 For async support on the client,
 see [`MarkdownHooks`][api-markdown-hooks].
 
@@ -215,7 +215,8 @@ Promise to a React element (`Promise<JSX.Element>`).
 
 Component to render markdown with support for async plugins through hooks.
 
-Hooks run on the client.
+This uses `useEffect` and `useState` hooks.
+Hooks run on the client and do not immediately render something.
 For async support on the server,
 see [`MarkdownAsync`][api-markdown-async].
 
