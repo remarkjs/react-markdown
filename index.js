@@ -6,4 +6,9 @@
  * @typedef {import('./lib/index.js').UrlTransform} UrlTransform
  */
 
-export {Markdown as default, defaultUrlTransform} from './lib/index.js'
+export {
+  MarkdownAsync,
+  MarkdownHooks,
+  Markdown as default,
+  defaultUrlTransform
+} from './lib/index.js'
