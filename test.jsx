@@ -1133,9 +1133,7 @@ test('MarkdownAsync', async function (t) {
 // Note: hooks are not supported on the “server”.
 test('MarkdownHooks', async function (t) {
   await t.test('should support `MarkdownHooks` (1)', async function () {
-    assert.throws(function () {
-      renderToStaticMarkup(<MarkdownHooks children={'a'} />)
-    }, /A component suspended while responding to synchronous input/)
+    assert.equal(renderToStaticMarkup(<MarkdownHooks children={'a'} />), '')
   })
 
   await t.test('should support `MarkdownHooks` (2)', async function () {
