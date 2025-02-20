@@ -101,14 +101,14 @@ npm install react-markdown
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import Markdown from 'https://esm.sh/react-markdown@9'
+import Markdown from 'https://esm.sh/react-markdown@10'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import Markdown from 'https://esm.sh/react-markdown@9?bundle'
+  import Markdown from 'https://esm.sh/react-markdown@10?bundle'
 </script>
 ```
 
@@ -600,7 +600,7 @@ versions of Node.js.
 
 When we cut a new major release, we drop support for unmaintained versions of
 Node.
-This means we try to keep the current release line, `react-markdown@^9`,
+This means we try to keep the current release line, `react-markdown@10`,
 compatible with Node.js 16.
 
 They work in all modern browsers (essentially: everything not IE 11).
