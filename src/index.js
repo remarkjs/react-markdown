@@ -243,13 +243,14 @@ function Playground() {
         </div>
       </form>
       <div className="result">
-        <MarkdownHooks
-          className="markdown-body"
-          remarkPlugins={remarkPlugins}
-          rehypePlugins={rehypePlugins}
-        >
-          {text}
-        </MarkdownHooks>
+        <div className="markdown-body">
+          <MarkdownHooks
+            remarkPlugins={remarkPlugins}
+            rehypePlugins={rehypePlugins}
+          >
+            {text}
+          </MarkdownHooks>
+        </div>
       </div>
     </>
   )
