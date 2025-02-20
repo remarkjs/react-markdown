@@ -302,8 +302,6 @@ Configuration (TypeScript type).
   cannot combine w/ `disallowedElements`
 * `children` (`string`, optional)
   — markdown
-* `className` (`string`, optional)
-  — wrap in a `div` with this class name
 * `components` ([`Components`][api-components], optional)
   — map tag names to components
 * `disallowedElements` (`Array<string>`, default: `[]`)
