@@ -12,11 +12,10 @@ import textHtmlBasic from '@wooorm/starry-night/text.html.basic'
 import textMd from '@wooorm/starry-night/text.md'
 import {toJsxRuntime} from 'hast-util-to-jsx-runtime'
 import ReactDom from 'react-dom/client'
-import Markdown from 'react-markdown'
+import {MarkdownHooks} from 'react-markdown'
 import {Fragment, jsx, jsxs} from 'react/jsx-runtime'
 import React from 'react'
-// To do: replace with `starry-night` when async plugins are supported.
-import rehypeHighlight from 'rehype-highlight'
+import rehypeStarryNight from 'rehype-starry-night'
 import rehypeRaw from 'rehype-raw'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
@@ -57,20 +56,20 @@ Here is an example of a plugin in action
 ## Syntax highlighting
 
 Here is an example of a plugin to highlight code:
-[\`rehype-highlight\`](https://github.com/rehypejs/rehype-highlight).
+[\`rehype-starry-night\`](https://github.com/rehypejs/rehype-starry-night).
 
 \`\`\`js
 import React from 'react'
-import ReactDOM from 'react-dom'
-import Markdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
+import ReactDom from 'react-dom'
+import {MarkdownHooks} from 'react-markdown'
+import rehypeStarryNight from 'rehype-starry-night'
 
 const markdown = \`
 # Your markdown here
 \`
 
-ReactDOM.render(
-  <Markdown rehypePlugins={[rehypeHighlight]}>{markdown}</Markdown>,
+ReactDom.render(
+  <MarkdownHooks rehypePlugins={[rehypeStarryNight]}>{markdown}</MarkdownHooks>,
   document.querySelector('#content')
 )
 \`\`\`
@@ -116,7 +115,7 @@ You can pass components to change things:
 
 \`\`\`js
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDom from 'react-dom'
 import Markdown from 'react-markdown'
 import MyFancyRule from './components/my-fancy-rule.js'
 
@@ -124,7 +123,7 @@ const markdown = \`
 # Your markdown here
 \`
 
-ReactDOM.render(
+ReactDom.render(
   <Markdown
     components={{
       // Use h2s instead of h1s
@@ -179,7 +178,7 @@ function Playground() {
   const [gfm, setGfm] = React.useState(false)
   const [raw, setRaw] = React.useState(false)
   /** @type {PluggableList} */
-  const rehypePlugins = [rehypeSlug, rehypeHighlight]
+  const rehypePlugins = [rehypeSlug, rehypeStarryNight]
   /** @type {PluggableList} */
   const remarkPlugins = [remarkToc]
 
@@ -244,13 +243,13 @@ function Playground() {
         </div>
       </form>
       <div className="result">
-        <Markdown
+        <MarkdownHooks
           className="markdown-body"
           remarkPlugins={remarkPlugins}
           rehypePlugins={rehypePlugins}
         >
           {text}
-        </Markdown>
+        </MarkdownHooks>
       </div>
     </>
   )
