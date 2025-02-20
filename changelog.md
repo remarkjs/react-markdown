@@ -4,6 +4,57 @@
 
 All notable changes will be documented in this file.
 
+## 10.0.0 - 2025-02-20
+
+* [`aaaa40b`](https://github.com/remarkjs/react-markdown/commit/aaaa40b)
+  Remove support for `className` prop
+  **migrate**: see “Remove `className`” below
+
+### Remove `className`
+
+The `className` prop was removed.
+If you want to add classes to some element that wraps the markdown
+you can explicitly write that element and add the class to it.
+You can then choose yourself which tag name to use and whether to add other
+props.
+
+Before:
+
+```js
+<Markdown className="markdown-body">{markdown}</Markdown>
+```
+
+After:
+
+```js
+<div className="markdown-body">
+  <Markdown>{markdown}</Markdown>
+</div>
+```
+
+## 9.1.0 - 2025-02-20
+
+* [`6ce120e`](https://github.com/remarkjs/react-markdown/commit/6ce120e)
+  Add support for async plugins
+
+## 9.0.3 - 2025-01-06
+
+(same as 9.0.2 but now with d.ts files)
+
+## 9.0.2 - 2025-01-06
+
+* [`b151a90`](https://github.com/remarkjs/react-markdown/commit/b151a90)
+  Fix types for React 19
+* [`6962af7`](https://github.com/remarkjs/react-markdown/commit/6962af7)
+  Add declaration maps
+* [`aa5933b`](https://github.com/remarkjs/react-markdown/commit/aa5933b)
+  Refactor to use `@import` to import types
+
+## 9.0.1 - 2023-11-13
+
+* [`d8e3787`](https://github.com/remarkjs/react-markdown/commit/d8e3787)
+  Fix double encoding in new url transform
+
 ## 9.0.0 - 2023-09-27
 
 * [`b67d714`](https://github.com/remarkjs/react-markdown/commit/b67d714)
