@@ -191,7 +191,7 @@ see [`MarkdownAsync`][api-markdown-async] or
 
 ###### Returns
 
-React element (`JSX.Element`).
+React element (`ReactElement`).
 
 ### `MarkdownAsync`
 
@@ -209,7 +209,7 @@ see [`MarkdownHooks`][api-markdown-hooks].
 
 ###### Returns
 
-Promise to a React element (`Promise<JSX.Element>`).
+Promise to a React element (`Promise<ReactElement>`).
 
 ### `MarkdownHooks`
 
@@ -227,7 +227,7 @@ see [`MarkdownAsync`][api-markdown-async].
 
 ###### Returns
 
-React element (`JSX.Element`).
+React element (`ReactElement`).
 
 ### `defaultUrlTransform(url)`
 
@@ -266,17 +266,12 @@ Map tag names to components (TypeScript type).
 ###### Type
 
 ```ts
-import type {Element} from 'hast'
+import type {ExtraProps} from 'react-markdown'
+import type {ComponentProps, ElementType} from 'react'
 
-type Components = Partial<{
-  [TagName in keyof JSX.IntrinsicElements]:
-    // Class component:
-    | (new (props: JSX.IntrinsicElements[TagName] & ExtraProps) => JSX.ElementClass)
-    // Function component:
-    | ((props: JSX.IntrinsicElements[TagName] & ExtraProps) => JSX.Element | string | null | undefined)
-    // Tag name:
-    | keyof JSX.IntrinsicElements
-}>
+type Components = {
+  [Key in Extract<ElementType, string>]?: ElementType<ComponentProps<Key> & ExtraProps>
+}
 ```
 
 ### `ExtraProps`
