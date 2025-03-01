@@ -1,13 +1,17 @@
 /* @jsxRuntime automatic @jsxImportSource react */
 /**
  * @import {Root} from 'hast'
- * @import {ComponentProps} from 'react'
+ * @import {ComponentProps, ReactNode} from 'react'
  * @import {ExtraProps} from 'react-markdown'
+ * @import {Plugin} from 'unified'
  */
 
+import 'global-jsdom/register'
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import {render, waitFor} from '@testing-library/react'
 import concatStream from 'concat-stream'
+import {Component} from 'react'
 import {renderToPipeableStream, renderToStaticMarkup} from 'react-dom/server'
 import Markdown, {MarkdownAsync, MarkdownHooks} from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
@@ -1106,39 +1110,119 @@ test('MarkdownAsync', async function (t) {
 
 // Note: hooks are not supported on the “server”.
 test('MarkdownHooks', async function (t) {
-  await t.test('should support `MarkdownHooks` (1)', async function () {
-    assert.equal(renderToStaticMarkup(<MarkdownHooks children={'a'} />), '')
-  })
+  await t.test('should support `MarkdownHooks`', async function () {
+    const plugin = deferPlugin()
 
-  await t.test('should support `MarkdownHooks` (2)', async function () {
-    return new Promise(function (resolve, reject) {
-      renderToPipeableStream(<MarkdownHooks children={'a'} />)
-        .pipe(
-          concatStream({encoding: 'u8'}, function (data) {
-            assert.equal(decoder.decode(data), '')
-            resolve()
-          })
-        )
-        .on('error', reject)
+    const {container} = render(
+      <MarkdownHooks children={'a'} rehypePlugins={[plugin.plugin]} />
+    )
+
+    assert.equal(container.innerHTML, '')
+    plugin.resolve()
+    await waitFor(() => {
+      assert.notEqual(container.innerHTML, '')
     })
+    assert.equal(container.innerHTML, '<p>a</p>')
   })
 
   await t.test(
     'should support async plugins w/ `MarkdownHooks` (`rehype-starry-night`)',
     async function () {
-      return new Promise(function (resolve) {
-        renderToPipeableStream(
-          <MarkdownHooks
-            children={'```js\nconsole.log(3.14)'}
-            rehypePlugins={[rehypeStarryNight]}
-          />
-        ).pipe(
-          concatStream({encoding: 'u8'}, function (data) {
-            assert.equal(decoder.decode(data), '')
-            resolve()
-          })
-        )
+      const plugin = deferPlugin()
+
+      const {container} = render(
+        <MarkdownHooks
+          children={'```js\nconsole.log(3.14)'}
+          rehypePlugins={[plugin.plugin, rehypeStarryNight]}
+        />
+      )
+
+      assert.equal(container.innerHTML, '')
+      plugin.resolve()
+      await waitFor(() => {
+        assert.notEqual(container.innerHTML, '')
       })
+      assert.equal(
+        container.innerHTML,
+        '<pre><code class="language-js"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">3.14</span>)\n</code></pre>'
+      )
     }
   )
+
+  await t.test('should support `MarkdownHooks` that error', async function () {
+    const plugin = deferPlugin()
+
+    const {container} = render(
+      <ErrorBoundary>
+        <MarkdownHooks children={'a'} rehypePlugins={[plugin.plugin]} />
+      </ErrorBoundary>
+    )
+
+    assert.equal(container.innerHTML, '')
+    plugin.reject(new Error('rejected'))
+    await waitFor(() => {
+      assert.notEqual(container.innerHTML, '')
+    })
+    assert.equal(container.innerHTML, 'Error: rejected')
+  })
 })
+
+/**
+ * @typedef DeferredPlugin
+ * @property {Plugin<[]>} plugin
+ *   A unified plugin
+ * @property {() => void} resolve
+ *   Resolve the plugin.
+ * @property {(error: Error) => void} reject
+ *   Reject the plugin.
+ */
+
+/**
+ * Create an async unified plugin which waits until a promise is resolved.
+ *
+ * @returns {DeferredPlugin}
+ *   The plugin and resolver.
+ */
+function deferPlugin() {
+  /** @type {() => void} */
+  let res
+  /** @type {(error: Error) => void} */
+  let rej
+  /** @type {Promise<void>} */
+  const promise = new Promise((resolve, reject) => {
+    res = resolve
+    rej = reject
+  })
+
+  return {
+    resolve() {
+      res()
+    },
+    reject(error) {
+      rej(error)
+    },
+    plugin() {
+      return () => promise
+    }
+  }
+}
+
+class ErrorBoundary extends Component {
+  state = {
+    error: null
+  }
+
+  /**
+   * @param {Error} error
+   */
+  componentDidCatch(error) {
+    this.setState({error})
+  }
+
+  render() {
+    const {children} = /** @type {{children: ReactNode}} */ (this.props)
+    const {error} = this.state
+
+    return error ? String(error) : children
+  }
+}
