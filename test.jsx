@@ -6,9 +6,9 @@
  * @import {Plugin} from 'unified'
  */
 
-import 'global-jsdom/register'
 import assert from 'node:assert/strict'
 import test from 'node:test'
+import 'global-jsdom/register'
 import {render, waitFor} from '@testing-library/react'
 import concatStream from 'concat-stream'
 import {Component} from 'react'
