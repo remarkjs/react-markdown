@@ -1149,6 +1149,28 @@ test('MarkdownHooks', async function (t) {
     }
   )
 
+  await t.test(
+    'should support `MarkdownHooks` loading fallback',
+    async function () {
+      const plugin = deferPlugin()
+
+      const {container} = render(
+        <MarkdownHooks
+          children={'a'}
+          fallback="Loading"
+          rehypePlugins={[plugin.plugin]}
+        />
+      )
+
+      assert.equal(container.innerHTML, 'Loading')
+      plugin.resolve()
+      await waitFor(() => {
+        assert.notEqual(container.innerHTML, 'Loading')
+      })
+      assert.equal(container.innerHTML, '<p>a</p>')
+    }
+  )
+
   await t.test('should support `MarkdownHooks` that error', async function () {
     const plugin = deferPlugin()
 
