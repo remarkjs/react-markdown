@@ -62,13 +62,13 @@
   },
   "description": "React component to render markdown",
   "devDependencies": {
+    "@nodejs-loaders/tsx": "^1.0.0",
     "@testing-library/react": "^16.0.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "c8": "^10.0.0",
     "concat-stream": "^2.0.0",
-    "esbuild": "^0.25.0",
     "eslint-plugin-react": "^7.0.0",
     "global-jsdom": "^26.0.0",
     "prettier": "^3.0.0",
@@ -133,8 +133,8 @@
   "scripts": {
     "build": "tsc --build --clean && tsc --build && type-coverage",
     "format": "remark --frail --output --quiet -- . && prettier --log-level warn --write -- . && xo --fix",
-    "test-api": "node --conditions development --experimental-loader=./script/load-jsx.js --no-warnings test.jsx",
-    "test-coverage": "c8 --100 --exclude script/ --reporter lcov -- npm run test-api",
+    "test-api": "node --conditions development --experimental-loader=@nodejs-loaders/tsx --no-warnings test.jsx",
+    "test-coverage": "c8 --100 --reporter lcov -- npm run test-api",
     "test": "npm run build && npm run format && npm run test-coverage"
   },
   "sideEffects": false,
