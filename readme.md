@@ -48,7 +48,6 @@ React component to render markdown.
   * [Use remark and rehype plugins (math)](#use-remark-and-rehype-plugins-math)
 * [Plugins](#plugins)
 * [Syntax](#syntax)
-* [Types](#types)
 * [Compatibility](#compatibility)
 * [Architecture](#architecture)
 * [Appendix A: HTML in markdown](#appendix-a-html-in-markdown)
@@ -175,6 +174,15 @@ This package exports the identifiers
 and
 [`defaultUrlTransform`][api-default-url-transform].
 The default export is [`Markdown`][api-markdown].
+
+It also exports the additional [TypeScript][] types
+[`AllowElement`][api-allow-element],
+[`Components`][api-components],
+[`ExtraProps`][api-extra-props],
+[`HooksOptions`][api-hooks-options],
+[`Options`][api-options],
+and
+[`UrlTransform`][api-url-transform].
 
 ### `Markdown`
 
@@ -592,17 +600,6 @@ Some syntax extensions are supported through plugins.
 We use [`micromark`][github-micromark] under the hood for our parsing.
 See its documentation for more information on markdown, CommonMark, and
 extensions.
-
-## Types
-
-This package is fully typed with [TypeScript][].
-It exports the additional types
-[`AllowElement`][api-allow-element],
-[`Components`][api-components],
-[`ExtraProps`][api-extra-props],
-[`HooksOptions`][api-hooks-options],
-[`Options`][api-options], and
-[`UrlTransform`][api-url-transform].
 
 ## Compatibility
 
