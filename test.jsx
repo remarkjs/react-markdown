@@ -6,6 +6,17 @@
  * @import {Plugin} from 'unified'
  */
 
+/**
+ * @typedef DeferredPlugin
+ *   Deferred plugin.
+ * @property {Plugin<[]>} plugin
+ *   Plugin.
+ * @property {(error: Error) => undefined} reject
+ *   Reject the plugin.
+ * @property {() => undefined} resolve
+ *   Resolve the plugin.
+ */
+
 import assert from 'node:assert/strict'
 import test from 'node:test'
 import 'global-jsdom/register'
@@ -1112,83 +1123,92 @@ test('MarkdownAsync', async function (t) {
 test('MarkdownHooks', async function (t) {
   await t.test('should support `MarkdownHooks`', async function () {
     const plugin = deferPlugin()
-
-    const {container} = render(
+    const result = render(
       <MarkdownHooks children={'a'} rehypePlugins={[plugin.plugin]} />
     )
 
-    assert.equal(container.innerHTML, '')
+    assert.equal(result.container.innerHTML, '')
+
     plugin.resolve()
-    await waitFor(() => {
-      assert.notEqual(container.innerHTML, '')
+
+    await waitFor(function () {
+      assert.notEqual(result.container.innerHTML, '')
     })
-    assert.equal(container.innerHTML, '<p>a</p>')
+
+    assert.equal(result.container.innerHTML, '<p>a</p>')
   })
 
   await t.test(
     'should support async plugins w/ `MarkdownHooks` (`rehype-starry-night`)',
     async function () {
       const plugin = deferPlugin()
-
-      const {container} = render(
+      const result = render(
         <MarkdownHooks
           children={'```js\nconsole.log(3.14)'}
           rehypePlugins={[plugin.plugin, rehypeStarryNight]}
         />
       )
 
-      assert.equal(container.innerHTML, '')
+      assert.equal(result.container.innerHTML, '')
+
       plugin.resolve()
-      await waitFor(() => {
-        assert.notEqual(container.innerHTML, '')
+
+      await waitFor(function () {
+        assert.notEqual(result.container.innerHTML, '')
       })
+
       assert.equal(
-        container.innerHTML,
+        result.container.innerHTML,
         '<pre><code class="language-js"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">3.14</span>)\n</code></pre>'
       )
     }
   )
 
-  await t.test(
-    'should support `MarkdownHooks` loading fallback',
-    async function () {
-      const plugin = deferPlugin()
-
-      const {container} = render(
-        <MarkdownHooks
-          children={'a'}
-          fallback="Loading"
-          rehypePlugins={[plugin.plugin]}
-        />
-      )
-
-      assert.equal(container.innerHTML, 'Loading')
-      plugin.resolve()
-      await waitFor(() => {
-        assert.notEqual(container.innerHTML, 'Loading')
-      })
-      assert.equal(container.innerHTML, '<p>a</p>')
-    }
-  )
-
-  await t.test('should support `MarkdownHooks` that error', async function () {
+  await t.test('should support `fallback`', async function () {
     const plugin = deferPlugin()
+    const result = render(
+      <MarkdownHooks
+        children={'a'}
+        fallback="Loading"
+        rehypePlugins={[plugin.plugin]}
+      />
+    )
 
-    const {container} = render(
+    assert.equal(result.container.innerHTML, 'Loading')
+
+    plugin.resolve()
+
+    await waitFor(function () {
+      assert.notEqual(result.container.innerHTML, 'Loading')
+    })
+
+    assert.equal(result.container.innerHTML, '<p>a</p>')
+  })
+
+  await t.test('should support plugins that error', async function () {
+    const plugin = deferPlugin()
+    const result = render(
       <ErrorBoundary>
         <MarkdownHooks children={'a'} rehypePlugins={[plugin.plugin]} />
       </ErrorBoundary>
     )
 
-    assert.equal(container.innerHTML, '')
+    assert.equal(result.container.innerHTML, '')
+
+    console.info('\nNote: the below error (`Error: rejected`) is expected.\n')
+
     plugin.reject(new Error('rejected'))
-    await waitFor(() => {
-      assert.notEqual(container.innerHTML, '')
+
+    await waitFor(function () {
+      assert.notEqual(result.container.innerHTML, '')
     })
-    assert.equal(container.innerHTML, 'Error: rejected')
+
+    console.info('Note: the above error (`Error: rejected`) was expected.')
+
+    assert.equal(result.container.innerHTML, 'Error: rejected')
   })
 
-  await t.test('should support `MarkdownHooks` rerenders', async function () {
+  await t.test('should support rerenders', async function () {
     const pluginA = deferPlugin()
     const pluginB = deferPlugin()
 
@@ -1196,76 +1216,83 @@ test('MarkdownHooks', async function (t) {
       <MarkdownHooks children={'a'} rehypePlugins={[pluginA.plugin]} />
     )
 
+    assert.equal(result.container.innerHTML, '')
+
     result.rerender(
       <MarkdownHooks children={'b'} rehypePlugins={[pluginB.plugin]} />
     )
 
     assert.equal(result.container.innerHTML, '')
-    pluginB.resolve()
+
     pluginA.resolve()
-    await waitFor(() => {
+    pluginB.resolve()
+
+    await waitFor(function () {
       assert.notEqual(result.container.innerHTML, '')
     })
+
     assert.equal(result.container.innerHTML, '<p>b</p>')
   })
 })
 
 /**
- * @typedef DeferredPlugin
- * @property {Plugin<[]>} plugin
- *   A unified plugin
- * @property {() => void} resolve
- *   Resolve the plugin.
- * @property {(error: Error) => void} reject
- *   Reject the plugin.
- */
-
-/**
- * Create an async unified plugin which waits until a promise is resolved.
+ * Create an async unified plugin that waits until a promise is resolved or
+ * rejected from the outside.
  *
  * @returns {DeferredPlugin}
- *   The plugin and resolver.
+ *   Deferred plugin object.
  */
 function deferPlugin() {
-  /** @type {() => void} */
-  let res
   /** @type {(error: Error) => void} */
-  let rej
+  let hoistedReject
+  /** @type {() => void} */
+  let hoistedResolve
   /** @type {Promise<void>} */
-  const promise = new Promise((resolve, reject) => {
-    res = resolve
-    rej = reject
+  const promise = new Promise(function (resolve, reject) {
+    hoistedResolve = resolve
+    hoistedReject = reject
   })
 
   return {
-    resolve() {
-      res()
+    plugin() {
+      return function () {
+        return promise
+      }
     },
     reject(error) {
-      rej(error)
+      hoistedReject(error)
     },
-    plugin() {
-      return () => promise
+    resolve() {
+      hoistedResolve()
     }
   }
 }
 
+/**
+ * Basic error boundary.
+ */
 class ErrorBoundary extends Component {
-  state = {
-    error: null
-  }
-
   /**
    * @param {Error} error
+   *   Error.
+   * @returns {undefined}
+   *   Nothing.
    */
   componentDidCatch(error) {
     this.setState({error})
   }
 
   render() {
-    const {children} = /** @type {{children: ReactNode}} */ (this.props)
-    const {error} = this.state
+    const props = /** @type {{children: ReactNode}} */ (this.props)
 
-    return error ? String(error) : children
+    return this.state.error ? String(this.state.error) : props.children
+  }
+
+  state = {
+    /**
+     * @type {Error | undefined}
+     *   Error.
+     */
+    error: undefined
   }
 }
