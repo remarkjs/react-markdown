@@ -38,6 +38,7 @@ React component to render markdown.
   * [`AllowElement`](#allowelement)
   * [`Components`](#components)
   * [`ExtraProps`](#extraprops)
+  * [`HooksOptions`](#hooksoptions)
   * [`Options`](#options)
   * [`UrlTransform`](#urltransform)
 * [Examples](#examples)
@@ -227,7 +228,7 @@ see [`MarkdownAsync`][api-markdown-async].
 
 ###### Returns
 
-React element (`ReactElement`).
+React node (`ReactNode`).
 
 ### `defaultUrlTransform(url)`
 
@@ -282,6 +283,20 @@ Extra fields we pass to components (TypeScript type).
 
 * `node` ([`Element` from `hast`][github-hast-element], optional)
   — original node
+
+### `HooksOptions`
+
+Configuration for [`MarkdownHooks`][api-markdown-hooks] (TypeScript type);
+extends the regular [`Options`][api-options] with a `fallback` prop.
+
+###### Extends
+
+[`Options`][api-options].
+
+###### Fields
+
+* `fallback` (`ReactNode`, optional)
+  — content to render while the processor processing the markdown
 
 ### `Options`
 
@@ -583,8 +598,9 @@ extensions.
 This package is fully typed with [TypeScript][].
 It exports the additional types
 [`AllowElement`][api-allow-element],
-[`ExtraProps`][api-extra-props],
 [`Components`][api-components],
+[`ExtraProps`][api-extra-props],
+[`HooksOptions`][api-hooks-options],
 [`Options`][api-options], and
 [`UrlTransform`][api-url-transform].
 
@@ -815,6 +831,8 @@ abide by its terms.
 [api-default-url-transform]: #defaulturltransformurl
 
 [api-extra-props]: #extraprops
+
+[api-hooks-options]: #hooksoptions
 
 [api-markdown]: #markdown
 
