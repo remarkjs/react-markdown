@@ -1165,6 +1165,27 @@ test('MarkdownHooks', async function (t) {
     })
     assert.equal(container.innerHTML, 'Error: rejected')
   })
+
+  await t.test('should support `MarkdownHooks` rerenders', async function () {
+    const pluginA = deferPlugin()
+    const pluginB = deferPlugin()
+
+    const result = render(
+      <MarkdownHooks children={'a'} rehypePlugins={[pluginA.plugin]} />
+    )
+
+    result.rerender(
+      <MarkdownHooks children={'b'} rehypePlugins={[pluginB.plugin]} />
+    )
+
+    assert.equal(result.container.innerHTML, '')
+    pluginB.resolve()
+    pluginA.resolve()
+    await waitFor(() => {
+      assert.notEqual(result.container.innerHTML, '')
+    })
+    assert.equal(result.container.innerHTML, '<p>b</p>')
+  })
 })
 
 /**
