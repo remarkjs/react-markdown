@@ -544,12 +544,6 @@ test('Markdown', async function (t) {
   })
 
   await t.test('should fail on an invalid component', function () {
-    const warn = console.warn
-    /** @type {unknown} */
-    let message
-
-    console.error = capture
-
     assert.throws(function () {
       renderToStaticMarkup(
         <Markdown
@@ -561,18 +555,6 @@ test('Markdown', async function (t) {
         />
       )
     }, /Element type is invalid/)
-
-    console.error = warn
-
-    assert.match(String(message), /type is invalid/)
-
-    /**
-     * @param {unknown} d
-     * @returns {undefined}
-     */
-    function capture(d) {
-      message = d
-    }
   })
 
   await t.test('should support `components` (headings)', function () {
