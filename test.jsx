@@ -335,6 +335,13 @@ test('Markdown', async function (t) {
     )
   })
 
+  await t.test('should support a tel', function () {
+    assert.equal(
+      renderToStaticMarkup(<Markdown children="[](tel:+12345678910)" />),
+      '<p><a href="tel:+12345678910"></a></p>'
+    )
+  })
+
   await t.test('should allow an empty URL', function () {
     assert.equal(
       renderToStaticMarkup(<Markdown children="[]()" />),
