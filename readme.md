@@ -242,6 +242,10 @@ React node (`ReactNode`).
 
 Make a URL safe.
 
+This follows how GitHub works.
+It allows the protocols `http`, `https`, `irc`, `ircs`, `mailto`, and `xmpp`,
+and URLs relative to the current protocol (such as `/something`).
+
 ###### Parameters
 
 * `url` (`string`)
