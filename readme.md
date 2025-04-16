@@ -101,14 +101,14 @@ npm install react-markdown
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import Markdown from 'https://esm.sh/react-markdown@10'
+import { Markdown } from 'https://esm.sh/react-markdown@10'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import Markdown from 'https://esm.sh/react-markdown@10?bundle'
+  import { Markdown } from 'https://esm.sh/react-markdown@10?bundle'
 </script>
 ```
 
@@ -119,7 +119,7 @@ A basic hello world:
 ```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import Markdown from 'react-markdown'
+import { Markdown } from 'react-markdown'
 
 const markdown = '# Hi, *Pluto*!'
 
@@ -145,7 +145,7 @@ URLs directly):
 ```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import Markdown from 'react-markdown'
+import { Markdown } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 const markdown = `Just a link: www.nasa.gov.`
@@ -173,7 +173,6 @@ This package exports the identifiers
 [`MarkdownHooks`][api-markdown-hooks],
 and
 [`defaultUrlTransform`][api-default-url-transform].
-The default export is [`Markdown`][api-markdown].
 
 It also exports the additional [TypeScript][] types
 [`AllowElement`][api-allow-element],
@@ -375,7 +374,7 @@ which adds support for strikethrough, tables, tasklists and URLs directly:
 ```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import Markdown from 'react-markdown'
+import { Markdown } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 const markdown = `A paragraph with *emphasis* and **strong importance**.
@@ -445,7 +444,7 @@ strikethrough:
 ```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import Markdown from 'react-markdown'
+import { Markdown } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 const markdown = 'This ~is not~ strikethrough, but ~~this is~~!'
@@ -481,7 +480,7 @@ In this case, we apply syntax highlighting with the seriously super amazing
 ```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import Markdown from 'react-markdown'
+import { Markdown } from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -543,7 +542,7 @@ is used to support math in markdown, and a transform plugin
 ```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import Markdown from 'react-markdown'
+import { Markdown } from 'react-markdown'
 import rehypeKatex from 'rehype-katex'
 import remarkMath from 'remark-math'
 import 'katex/dist/katex.min.css' // `rehype-katex` does not import the CSS for you
@@ -661,7 +660,7 @@ can spare the bundle size (±60kb minzipped), then you can use
 ```js
 import React from 'react'
 import {createRoot} from 'react-dom/client'
-import Markdown from 'react-markdown'
+import { Markdown } from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 
 const markdown = `<div class="note">
