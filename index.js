@@ -10,6 +10,6 @@
 export {
   MarkdownAsync,
   MarkdownHooks,
-  Markdown as default,
+  Markdown,
   defaultUrlTransform
 } from './lib/index.js'
