@@ -169,6 +169,7 @@ createRoot(document.body).render(
 ## API
 
 This package exports the identifiers
+[`Markdown`][api-markdown],
 [`MarkdownAsync`][api-markdown-async],
 [`MarkdownHooks`][api-markdown-hooks],
 and
