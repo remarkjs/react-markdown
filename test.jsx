@@ -1167,6 +1167,30 @@ test('MarkdownHooks', async function (t) {
     assert.equal(result.container.innerHTML, '<p>a</p>')
   })
 
+  await t.test('should support `onComplete`', async function () {
+    const plugin = deferPlugin()
+    let succes = false
+    render(
+      <MarkdownHooks
+        children={'a'}
+        onComplete={function () {
+          succes = true
+        }}
+        rehypePlugins={[plugin.plugin]}
+      />
+    )
+
+    assert.equal(succes, false)
+
+    plugin.resolve()
+
+    await waitFor(function () {
+      assert.notEqual(succes, false)
+    })
+
+    assert.equal(succes, true)
+  })
+
   await t.test('should support plugins that error', async function () {
     const plugin = deferPlugin()
     const result = render(
