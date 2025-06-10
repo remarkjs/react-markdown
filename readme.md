@@ -693,6 +693,65 @@ CommonMark][commonmark-html].
 Make sure to use blank lines around block-level HTML that again contains
 markdown!
 
+### Using rehype-raw with TypeScript
+
+If you encounter TypeScript errors when using `rehype-raw`, you may need to use a type assertion:
+
+```tsx
+import React from 'react'
+import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+
+function App() {
+  return (
+    <Markdown 
+      rehypePlugins={[rehypeRaw as any]}
+    >
+      {`# Hello, <em>world</em>!`}
+    </Markdown>
+  )
+}
+```
+
+### Security considerations with rehype-raw
+
+⚠️ **Warning**: Using `rehype-raw` allows arbitrary HTML in markdown which can be a security risk. Always use it with [`rehype-sanitize`][github-rehype-sanitize] when processing untrusted content:
+
+```js
+import React from 'react'
+import Markdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
+
+function App() {
+  return (
+    <Markdown 
+      rehypePlugins={[rehypeRaw, rehypeSanitize]}
+    >
+      {userGeneratedContent}
+    </Markdown>
+  )
+}
+```
+
+### Common mistakes
+
+❌ **Don't** use rehype plugins in `remarkPlugins`:
+```js
+// Wrong - this will not work
+<Markdown remarkPlugins={[rehypeRaw]}>
+```
+
+✅ **Do** use rehype plugins in `rehypePlugins`:
+```js
+// Correct
+<Markdown rehypePlugins={[rehypeRaw]}>
+```
+
+This is a common mistake because both remark and rehype are part of the unified ecosystem, but they process different stages of the content:
+- **remark plugins** process markdown (mdast)
+- **rehype plugins** process HTML (hast)
+
 ## Appendix B: Components
 
 You can also change the things that come from markdown:
