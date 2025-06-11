@@ -698,7 +698,8 @@ markdown!
 
 ### Using rehype-raw with TypeScript
 
-If you encounter TypeScript errors when using `rehype-raw`, you may need to use a type assertion:
+If you encounter TypeScript errors when using `rehype-raw`, you may need to
+use a type assertion:
 
 ```tsx
 import React from 'react'
@@ -718,7 +719,10 @@ function App() {
 
 ### Security considerations with rehype-raw
 
-⚠️ **Warning**: Using `rehype-raw` allows arbitrary HTML in markdown which can be a security risk. Always use it with [`rehype-sanitize`][github-rehype-sanitize] when processing untrusted content:
+⚠️ **Warning**: Using `rehype-raw` allows arbitrary HTML in markdown which can
+be a security risk.
+Always use it with [`rehype-sanitize`][github-rehype-sanitize] when processing
+untrusted content:
 
 ```js
 import React from 'react'
@@ -739,7 +743,7 @@ function App() {
 
 ### Common mistakes
 
-❌ **Don't** use rehype plugins in `remarkPlugins`:
+❌ **Don’t** use rehype plugins in `remarkPlugins`:
 
 ```js
 // Wrong - this will not work
@@ -753,7 +757,8 @@ function App() {
 <Markdown rehypePlugins={[rehypeRaw]}>
 ```
 
-This is a common mistake because both remark and rehype are part of the unified ecosystem, but they process different stages of the content:
+This is a common mistake because both remark and rehype are part of the
+unified ecosystem, but they process different stages of the content:
 
 * **remark plugins** process markdown (mdast)
 * **rehype plugins** process HTML (hast)
