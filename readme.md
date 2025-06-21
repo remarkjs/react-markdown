@@ -810,8 +810,8 @@ It lets you define your own schema of what is and isn’t allowed.
   — hook based alternative
 * [`rehype-react`][github-rehype-react]
   — turn HTML into React elements
-* [`react-native-remark`][github-react-native-remark]
-  - remark on React Native
+* [`react-native-remark`][github-react-native-remark] 
+  — remark on React Native
 
 ## Contribute
 
