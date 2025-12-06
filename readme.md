@@ -89,13 +89,19 @@ manually.
 If you instead want to use JavaScript and JSX *inside* markdown files, use
 [MDX][github-mdx].
 
-## Install
+## Installation
 
-This package is [ESM only][esm].
-In Node.js (version 16+), install with [npm][npm-install]:
+react-markdown is [ESM only][esm].
+You must use Node.js 16+, modern bundlers (Vite / webpack 5+), or any runtime that supports ECMAScript modules. [npm][npm-install]:
+
+*Node.js (npm, pnpm, yarn)*
 
 ```sh
 npm install react-markdown
+# or
+pnpm add react-markdown
+# or
+yarn add react-markdown
 ```
 
 In Deno with [`esm.sh`][esmsh]:
