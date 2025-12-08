@@ -53,7 +53,7 @@
     "devlop": "^1.0.0",
     "hast-util-to-jsx-runtime": "^2.0.0",
     "html-url-attributes": "^3.0.0",
-    "mdast-util-to-hast": "^13.0.0",
+    "mdast-util-to-hast": "^13.2.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.0.0",
     "unified": "^11.0.0",
