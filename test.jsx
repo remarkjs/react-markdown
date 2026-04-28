@@ -24,7 +24,11 @@ import {render, waitFor} from '@testing-library/react'
 import concatStream from 'concat-stream'
 import {Component} from 'react'
 import {renderToPipeableStream, renderToStaticMarkup} from 'react-dom/server'
-import Markdown, {MarkdownAsync, MarkdownHooks} from 'react-markdown'
+import Markdown, {
+  MarkdownAsync,
+  MarkdownHooks,
+  defaultUrlTransform
+} from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeStarryNight from 'rehype-starry-night'
 import remarkGfm from 'remark-gfm'
@@ -413,6 +417,40 @@ test('Markdown', async function (t) {
       '<p><img alt="a" title="c"/></p>'
     )
   })
+
+  await t.test(
+    'should support a custom `safeProtocol` via `urlTransform`',
+    function () {
+      assert.equal(
+        renderToStaticMarkup(
+          <Markdown
+            children="[a](tel:+123)"
+            urlTransform={function (url) {
+              return defaultUrlTransform(url, /^tel$/i)
+            }}
+          />
+        ),
+        '<p><a href="tel:+123">a</a></p>'
+      )
+    }
+  )
+
+  await t.test(
+    'should drop URLs whose protocol is not in `safeProtocol`',
+    function () {
+      assert.equal(
+        renderToStaticMarkup(
+          <Markdown
+            children="[a](https://b.com)"
+            urlTransform={function (url) {
+              return defaultUrlTransform(url, /^tel$/i)
+            }}
+          />
+        ),
+        '<p><a href="">a</a></p>'
+      )
+    }
+  )
 
   await t.test('should support `skipHtml`', function () {
     const actual = renderToStaticMarkup(
@@ -1056,6 +1094,37 @@ test('Markdown', async function (t) {
       }
     }
   })
+})
+
+test('defaultUrlTransform', async function (t) {
+  await t.test('should allow default protocols', function () {
+    assert.equal(
+      defaultUrlTransform('https://example.com'),
+      'https://example.com'
+    )
+    assert.equal(defaultUrlTransform('mailto:a@b.c'), 'mailto:a@b.c')
+  })
+
+  await t.test('should drop unsafe protocols by default', function () {
+    assert.equal(defaultUrlTransform('data:text/html,<script>'), '')
+  })
+
+  await t.test('should allow relative URLs', function () {
+    assert.equal(defaultUrlTransform('/a/b'), '/a/b')
+    assert.equal(defaultUrlTransform('a?x:y'), 'a?x:y')
+    assert.equal(defaultUrlTransform('a#x:y'), 'a#x:y')
+  })
+
+  await t.test('should accept a custom `safeProtocol`', function () {
+    assert.equal(defaultUrlTransform('tel:+123', /^tel$/i), 'tel:+123')
+  })
+
+  await t.test(
+    'should drop protocols not matched by `safeProtocol`',
+    function () {
+      assert.equal(defaultUrlTransform('https://example.com', /^tel$/i), '')
+    }
+  )
 })
 
 test('MarkdownAsync', async function (t) {

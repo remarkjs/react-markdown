@@ -34,7 +34,7 @@ React component to render markdown.
   * [`Markdown`](#markdown)
   * [`MarkdownAsync`](#markdownasync)
   * [`MarkdownHooks`](#markdownhooks)
-  * [`defaultUrlTransform(url)`](#defaulturltransformurl)
+  * [`defaultUrlTransform(url, safeProtocol)`](#defaulturltransformurl-safeprotocol)
   * [`AllowElement`](#allowelement)
   * [`Components`](#components)
   * [`ExtraProps`](#extraprops)
@@ -238,18 +238,21 @@ see [`MarkdownAsync`][api-markdown-async].
 
 React node (`ReactNode`).
 
-### `defaultUrlTransform(url)`
+### `defaultUrlTransform(url, safeProtocol)`
 
 Make a URL safe.
 
 This follows how GitHub works.
-It allows the protocols `http`, `https`, `irc`, `ircs`, `mailto`, and `xmpp`,
-and URLs relative to the current protocol (such as `/something`).
+By default it allows the protocols `http`, `https`, `irc`, `ircs`, `mailto`,
+and `xmpp`, and URLs relative to the current protocol (such as `/something`);
+pass `safeProtocol` to override which protocols are allowed.
 
 ###### Parameters
 
 * `url` (`string`)
   — URL
+* `safeProtocol` (`RegExp`, optional)
+  — regex matching protocols to allow (default: `/^(https?|ircs?|mailto|xmpp)$/i`)
 
 ###### Returns
 
@@ -829,7 +832,7 @@ abide by its terms.
 
 [api-components]: #components
 
-[api-default-url-transform]: #defaulturltransformurl
+[api-default-url-transform]: #defaulturltransformurl-safeprotocol
 
 [api-extra-props]: #extraprops
 
