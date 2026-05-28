@@ -34,6 +34,7 @@ React component to render markdown.
   * [`Markdown`](#markdown)
   * [`MarkdownAsync`](#markdownasync)
   * [`MarkdownHooks`](#markdownhooks)
+  * [`createUrlTransform(safeProtocol?)`](#createurltransformsafeprotocol)
   * [`defaultUrlTransform(url)`](#defaulturltransformurl)
   * [`AllowElement`](#allowelement)
   * [`Components`](#components)
@@ -238,6 +239,31 @@ see [`MarkdownAsync`][api-markdown-async].
 
 React node (`ReactNode`).
 
+### `createUrlTransform(safeProtocol?)`
+
+Create a URL transform function with a custom set of allowed protocols.
+
+This is useful when you want to extend the default allowed protocols without
+reimplementing the full sanitization logic.
+For example, to also allow `tel:` links:
+
+```js
+import Markdown, {createUrlTransform} from 'react-markdown'
+
+const urlTransform = createUrlTransform(/^(https?|ircs?|mailto|xmpp|tel)$/i)
+
+const element = <Markdown urlTransform={urlTransform}>{'[call](tel:+1-555-0100)'}</Markdown>
+```
+
+###### Parameters
+
+* `safeProtocol` (`RegExp`, default: `/^(https?|ircs?|mailto|xmpp)$/i`)
+  — pattern of allowed protocols
+
+###### Returns
+
+URL transform function ([`UrlTransform`][api-url-transform]).
+
 ### `defaultUrlTransform(url)`
 
 Make a URL safe.
@@ -245,6 +271,9 @@ Make a URL safe.
 This follows how GitHub works.
 It allows the protocols `http`, `https`, `irc`, `ircs`, `mailto`, and `xmpp`,
 and URLs relative to the current protocol (such as `/something`).
+
+To allow additional protocols,
+use [`createUrlTransform`][api-create-url-transform].
 
 ###### Parameters
 
@@ -828,6 +857,8 @@ abide by its terms.
 [api-allow-element]: #allowelement
 
 [api-components]: #components
+
+[api-create-url-transform]: #createurltransformsafeprotocol
 
 [api-default-url-transform]: #defaulturltransformurl
 

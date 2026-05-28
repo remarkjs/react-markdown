@@ -24,7 +24,12 @@ import {render, waitFor} from '@testing-library/react'
 import concatStream from 'concat-stream'
 import {Component} from 'react'
 import {renderToPipeableStream, renderToStaticMarkup} from 'react-dom/server'
-import Markdown, {MarkdownAsync, MarkdownHooks} from 'react-markdown'
+import Markdown, {
+  MarkdownAsync,
+  MarkdownHooks,
+  createUrlTransform,
+  defaultUrlTransform
+} from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import rehypeStarryNight from 'rehype-starry-night'
 import remarkGfm from 'remark-gfm'
@@ -38,6 +43,7 @@ test('react-markdown (core)', async function (t) {
     assert.deepEqual(Object.keys(await import('react-markdown')).sort(), [
       'MarkdownAsync',
       'MarkdownHooks',
+      'createUrlTransform',
       'default',
       'defaultUrlTransform'
     ])
@@ -1056,6 +1062,91 @@ test('Markdown', async function (t) {
       }
     }
   })
+})
+
+test('createUrlTransform', async function (t) {
+  /** @type {import('hast').Element} */
+  const mockNode = {type: 'element', tagName: 'a', properties: {}, children: []}
+
+  await t.test(
+    'should behave identically to `defaultUrlTransform` by default',
+    function () {
+      const transform = createUrlTransform()
+      assert.equal(
+        transform('https://example.com', 'href', mockNode),
+        'https://example.com'
+      )
+      assert.equal(
+        transform('http://example.com', 'href', mockNode),
+        'http://example.com'
+      )
+      assert.equal(
+        transform('mailto:user@example.com', 'href', mockNode),
+        'mailto:user@example.com'
+      )
+      assert.equal(transform('vbscript:alert(1)', 'href', mockNode), '')
+      assert.equal(
+        transform('/relative/path', 'href', mockNode),
+        '/relative/path'
+      )
+    }
+  )
+
+  await t.test('should allow custom protocols via a RegExp', function () {
+    const transform = createUrlTransform(/^(https?|ircs?|mailto|xmpp|tel)$/i)
+    assert.equal(
+      transform('tel:+1-555-0100', 'href', mockNode),
+      'tel:+1-555-0100'
+    )
+    assert.equal(
+      transform('https://example.com', 'href', mockNode),
+      'https://example.com'
+    )
+    assert.equal(transform('vbscript:alert(1)', 'href', mockNode), '')
+  })
+
+  await t.test('should block protocols not in the custom set', function () {
+    const transform = createUrlTransform(/^https?$/i)
+    assert.equal(transform('mailto:user@example.com', 'href', mockNode), '')
+    assert.equal(
+      transform('https://example.com', 'href', mockNode),
+      'https://example.com'
+    )
+  })
+
+  await t.test('should work as a `urlTransform` prop', function () {
+    const transform = createUrlTransform(/^(https?|ircs?|mailto|xmpp|tel)$/i)
+    assert.equal(
+      renderToStaticMarkup(
+        <Markdown urlTransform={transform}>
+          {'[call](tel:+1-555-0100)'}
+        </Markdown>
+      ),
+      '<p><a href="tel:+1-555-0100">call</a></p>'
+    )
+  })
+
+  await t.test(
+    'should match behavior of `defaultUrlTransform` as a constant',
+    function () {
+      // Both operate on the URL string; key and node are unused here.
+      /** @type {import('hast').Element} */
+      const node = {
+        type: 'element',
+        tagName: 'a',
+        properties: {},
+        children: []
+      }
+      assert.equal(
+        defaultUrlTransform('https://example.com', 'href', node),
+        createUrlTransform()('https://example.com', 'href', node)
+      )
+      assert.equal(
+        defaultUrlTransform('vbscript:alert(1)', 'href', node),
+        createUrlTransform()('vbscript:alert(1)', 'href', node)
+      )
+    }
+  )
 })
 
 test('MarkdownAsync', async function (t) {
