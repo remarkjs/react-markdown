@@ -14,9 +14,14 @@ export function createLoader() {
 
   // Node version 17.
   /**
+   * Load a JSX file.
+   *
    * @param {string} href
+   *   URL.
    * @param {unknown} context
+   *   Values.
    * @param {Function} defaultLoad
+   *   Loader.
    */
   async function load(href, context, defaultLoad) {
     const url = new URL(href)
@@ -45,9 +50,14 @@ export function createLoader() {
 
   // Pre version 17.
   /**
+   * Get the format of a JSX file.
+   *
    * @param {string} href
+   *   URL.
    * @param {unknown} context
+   *   Values.
    * @param {Function} defaultGetFormat
+   *   Get context.
    */
   function getFormat(href, context, defaultGetFormat) {
     const url = new URL(href)
@@ -58,9 +68,14 @@ export function createLoader() {
   }
 
   /**
+   * Transform a JSX file.
+   *
    * @param {Buffer} value
+   *   Text.
    * @param {{url: string, [x: string]: unknown}} context
+   *   Values.
    * @param {Function} defaultTransformSource
+   *   Transform context.
    */
   async function transformSource(value, context, defaultTransformSource) {
     const url = new URL(context.url)

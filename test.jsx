@@ -1,4 +1,5 @@
 /* @jsxRuntime automatic @jsxImportSource react */
+
 /**
  * @import {Root} from 'hast'
  * @import {ComponentProps, ReactNode} from 'react'
@@ -8,9 +9,9 @@
 
 /**
  * @typedef DeferredPlugin
- *   Deferred plugin.
+ *   Wrapped plugin.
  * @property {Plugin<[]>} plugin
- *   Plugin.
+ *   Original plugin.
  * @property {(error: Error) => undefined} reject
  *   Reject the plugin.
  * @property {() => undefined} resolve
@@ -573,12 +574,15 @@ test('Markdown', async function (t) {
     assert.equal(calls, 2)
 
     /**
+     * Component.
+     *
      * @param {ComponentProps<'h1'> & ExtraProps} props
+     *   Properties.
      */
     function heading(props) {
       const {node, ...rest} = props
-      assert(node)
-      assert(node.tagName === 'h1' || node.tagName === 'h2')
+      assert.ok(node)
+      assert.ok(node.tagName === 'h1' || node.tagName === 'h2')
       calls++
       return <node.tagName {...rest} />
     }
@@ -593,8 +597,8 @@ test('Markdown', async function (t) {
           components={{
             code(props) {
               const {node, ...rest} = props
-              assert(node)
-              assert(node.tagName === 'code')
+              assert.ok(node)
+              assert.equal(node.tagName, 'code')
               calls++
               return <code {...rest} />
             }
@@ -617,8 +621,8 @@ test('Markdown', async function (t) {
           components={{
             li(props) {
               const {node, ...rest} = props
-              assert(node)
-              assert(node.tagName === 'li')
+              assert.ok(node)
+              assert.equal(node.tagName, 'li')
               calls++
               return <li {...rest} />
             }
@@ -642,8 +646,8 @@ test('Markdown', async function (t) {
           components={{
             ol(props) {
               const {node, ...rest} = props
-              assert(node)
-              assert(node.tagName === 'ol')
+              assert.ok(node)
+              assert.equal(node.tagName, 'ol')
               calls++
               return <ol {...rest} />
             }
@@ -666,8 +670,8 @@ test('Markdown', async function (t) {
           components={{
             ul(props) {
               const {node, ...rest} = props
-              assert(node)
-              assert(node.tagName === 'ul')
+              assert.ok(node)
+              assert.equal(node.tagName, 'ul')
               calls++
               return <ul {...rest} />
             }
@@ -690,8 +694,8 @@ test('Markdown', async function (t) {
           components={{
             tr(props) {
               const {node, ...rest} = props
-              assert(node)
-              assert(node.tagName === 'tr')
+              assert.ok(node)
+              assert.equal(node.tagName, 'tr')
               calls++
               return <tr {...rest} />
             }
@@ -716,15 +720,15 @@ test('Markdown', async function (t) {
           components={{
             td(props) {
               const {node, ...rest} = props
-              assert(node)
-              assert(node.tagName === 'td')
+              assert.ok(node)
+              assert.equal(node.tagName, 'td')
               tdCalls++
               return <td {...rest} />
             },
             th(props) {
               const {node, ...rest} = props
-              assert(node)
-              assert(node.tagName === 'th')
+              assert.ok(node)
+              assert.equal(node.tagName, 'th')
               thCalls++
               return <th {...rest} />
             }
@@ -820,7 +824,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -842,7 +849,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -864,7 +874,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -886,7 +899,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -912,7 +928,10 @@ test('Markdown', async function (t) {
 
       function plugin() {
         /**
+         * Transform.
+         *
          * @param {Root} tree
+         *   Tree to transform.
          * @returns {undefined}
          */
         return function (tree) {
@@ -935,7 +954,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -957,7 +979,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -1004,7 +1029,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -1027,7 +1055,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @param {Root} tree
+       *   Tree to transform.
        * @returns {undefined}
        */
       return function (tree) {
@@ -1048,7 +1079,10 @@ test('Markdown', async function (t) {
 
     function plugin() {
       /**
+       * Transform.
+       *
        * @returns {Root}
+       *   New tree.
        */
       return function () {
         // @ts-expect-error: check how non-roots are handled.
@@ -1254,9 +1288,19 @@ function deferPlugin() {
  * Basic error boundary.
  */
 class ErrorBoundary extends Component {
+  state = {
+    /**
+     * @type {Error | undefined}
+     *   Error.
+     */
+    error: undefined
+  }
+
   /**
+   * Basic error boundary.
+   *
    * @param {Error} error
-   *   Error.
+   *   Problem.
    * @returns {undefined}
    *   Nothing.
    */
@@ -1268,13 +1312,5 @@ class ErrorBoundary extends Component {
     const props = /** @type {{children: ReactNode}} */ (this.props)
 
     return this.state.error ? String(this.state.error) : props.children
-  }
-
-  state = {
-    /**
-     * @type {Error | undefined}
-     *   Error.
-     */
-    error: undefined
   }
 }

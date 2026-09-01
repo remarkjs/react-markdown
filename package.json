@@ -63,14 +63,15 @@
   "description": "React component to render markdown",
   "devDependencies": {
     "@testing-library/react": "^16.0.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "c8": "^10.0.0",
+    "c8": "^12.0.0",
     "concat-stream": "^2.0.0",
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.28.0",
     "eslint-plugin-react": "^7.0.0",
-    "global-jsdom": "^26.0.0",
+    "global-jsdom": "^29.0.0",
+    "globals": "^16.0.0",
     "prettier": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -82,7 +83,7 @@
     "remark-toc": "^9.0.0",
     "type-coverage": "^2.0.0",
     "typescript": "^5.0.0",
-    "xo": "^0.60.0"
+    "xo": "^4.0.0"
   },
   "exports": "./index.js",
   "files": [
@@ -143,27 +144,5 @@
     "strict": true
   },
   "type": "module",
-  "version": "10.1.0",
-  "xo": {
-    "envs": [
-      "shared-node-browser"
-    ],
-    "extends": "plugin:react/jsx-runtime",
-    "overrides": [
-      {
-        "files": [
-          "**/*.jsx"
-        ],
-        "rules": {
-          "no-unused-vars": "off"
-        }
-      }
-    ],
-    "prettier": true,
-    "rules": {
-      "complexity": "off",
-      "n/file-extension-in-import": "off",
-      "unicorn/prevent-abbreviations": "off"
-    }
-  }
+  "version": "10.1.0"
 }
