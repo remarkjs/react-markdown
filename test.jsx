@@ -19,10 +19,11 @@
  */
 
 import assert from 'node:assert/strict'
+import {PassThrough} from 'node:stream'
+import {text} from 'node:stream/consumers'
 import test from 'node:test'
 import 'global-jsdom/register'
 import {render, waitFor} from '@testing-library/react'
-import concatStream from 'concat-stream'
 import {Component} from 'react'
 import {renderToPipeableStream, renderToStaticMarkup} from 'react-dom/server'
 import Markdown, {MarkdownAsync, MarkdownHooks} from 'react-markdown'
@@ -31,8 +32,6 @@ import rehypeStarryNight from 'rehype-starry-night'
 import remarkGfm from 'remark-gfm'
 import remarkToc from 'remark-toc'
 import {visit} from 'unist-util-visit'
-
-const decoder = new TextDecoder()
 
 test('react-markdown (core)', async function (t) {
   await t.test('should expose the public api', async function () {
@@ -1100,37 +1099,29 @@ test('MarkdownAsync', async function (t) {
   })
 
   await t.test('should support `MarkdownAsync` (2)', async function () {
-    return new Promise(function (resolve, reject) {
-      renderToPipeableStream(<MarkdownAsync children={'a'} />)
-        .pipe(
-          concatStream({encoding: 'u8'}, function (data) {
-            assert.equal(decoder.decode(data), '<p>a</p>')
-            resolve()
-          })
-        )
-        .on('error', reject)
-    })
+    const stream = new PassThrough()
+
+    renderToPipeableStream(<MarkdownAsync children={'a'} />).pipe(stream)
+
+    assert.equal(await text(stream), '<p>a</p>')
   })
 
   await t.test(
     'should support async plugins w/ `MarkdownAsync` (`rehype-starry-night`)',
     async function () {
-      return new Promise(function (resolve) {
-        renderToPipeableStream(
-          <MarkdownAsync
-            children={'```js\nconsole.log(3.14)'}
-            rehypePlugins={[rehypeStarryNight]}
-          />
-        ).pipe(
-          concatStream({encoding: 'u8'}, function (data) {
-            assert.equal(
-              decoder.decode(data),
-              '<pre><code class="language-js"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">3.14</span>)\n</code></pre>'
-            )
-            resolve()
-          })
-        )
-      })
+      const stream = new PassThrough()
+
+      renderToPipeableStream(
+        <MarkdownAsync
+          children={'```js\nconsole.log(3.14)'}
+          rehypePlugins={[rehypeStarryNight]}
+        />
+      ).pipe(stream)
+
+      assert.equal(
+        await text(stream),
+        '<pre><code class="language-js"><span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-c1">3.14</span>)\n</code></pre>'
+      )
     }
   )
 })
