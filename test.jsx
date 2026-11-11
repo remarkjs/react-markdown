@@ -1240,6 +1240,141 @@ test('MarkdownHooks', async function (t) {
 
     assert.equal(result.container.innerHTML, '<p>b</p>')
   })
+
+  await t.test('should transform URLs once across rerenders', function () {
+    /** @type {ComponentProps<typeof MarkdownHooks>} */
+    const options = {
+      children: '[a](/x)',
+      rehypePlugins: [],
+      urlTransform(url) {
+        return '/proxy' + url
+      }
+    }
+    const result = render(<MarkdownHooks {...options} />)
+
+    assert.equal(result.container.innerHTML, '<p><a href="/proxy/x">a</a></p>')
+
+    result.rerender(<MarkdownHooks {...options} />)
+    result.rerender(<MarkdownHooks {...options} />)
+
+    assert.equal(result.container.innerHTML, '<p><a href="/proxy/x">a</a></p>')
+  })
+
+  await t.test('should transform URLs once in strict mode', function () {
+    /** @type {ComponentProps<typeof MarkdownHooks>} */
+    const options = {
+      children: '[a](/x)',
+      rehypePlugins: [],
+      urlTransform(url) {
+        return '/proxy' + url
+      }
+    }
+    const result = render(<MarkdownHooks {...options} />, {
+      reactStrictMode: true
+    })
+
+    assert.equal(result.container.innerHTML, '<p><a href="/proxy/x">a</a></p>')
+
+    result.rerender(<MarkdownHooks {...options} />)
+
+    assert.equal(result.container.innerHTML, '<p><a href="/proxy/x">a</a></p>')
+  })
+
+  await t.test(
+    'should restore elements after changing `allowedElements`',
+    function () {
+      const result = render(
+        <MarkdownHooks children="*a*" allowedElements={['p']} />
+      )
+
+      assert.equal(result.container.innerHTML, '<p></p>')
+
+      result.rerender(<MarkdownHooks children="*a*" />)
+
+      assert.equal(result.container.innerHTML, '<p><em>a</em></p>')
+    }
+  )
+
+  await t.test(
+    'should restore elements after changing `allowElement`',
+    function () {
+      /** @type {ComponentProps<typeof MarkdownHooks>} */
+      const options = {
+        children: '*a*',
+        allowElement(element) {
+          return element.tagName !== 'em'
+        }
+      }
+      const result = render(<MarkdownHooks {...options} />)
+
+      assert.equal(result.container.innerHTML, '<p></p>')
+
+      result.rerender(<MarkdownHooks children={options.children} />)
+
+      assert.equal(result.container.innerHTML, '<p><em>a</em></p>')
+    }
+  )
+
+  await t.test(
+    'should restore elements after changing `disallowedElements`',
+    function () {
+      const result = render(
+        <MarkdownHooks children="*a*" disallowedElements={['em']} />
+      )
+
+      assert.equal(result.container.innerHTML, '<p></p>')
+
+      result.rerender(<MarkdownHooks children="*a*" />)
+
+      assert.equal(result.container.innerHTML, '<p><em>a</em></p>')
+    }
+  )
+
+  await t.test('should restore HTML after changing `skipHtml`', function () {
+    const result = render(<MarkdownHooks children="a<i>b</i>c" skipHtml />)
+
+    assert.equal(result.container.innerHTML, '<p>abc</p>')
+
+    result.rerender(<MarkdownHooks children="a<i>b</i>c" />)
+
+    assert.equal(result.container.innerHTML, '<p>a&lt;i&gt;b&lt;/i&gt;c</p>')
+  })
+
+  await t.test('should update `unwrapDisallowed`', function () {
+    const disallowedElements = ['em']
+    const result = render(
+      <MarkdownHooks children="*a*" disallowedElements={disallowedElements} />
+    )
+
+    assert.equal(result.container.innerHTML, '<p></p>')
+
+    result.rerender(
+      <MarkdownHooks
+        children="*a*"
+        disallowedElements={disallowedElements}
+        unwrapDisallowed
+      />
+    )
+
+    assert.equal(result.container.innerHTML, '<p>a</p>')
+  })
+
+  await t.test('should update `urlTransform`', function () {
+    /** @type {ComponentProps<typeof MarkdownHooks>} */
+    const options = {
+      children: '[a](/x)',
+      urlTransform(url) {
+        return '/proxy' + url
+      }
+    }
+    const result = render(<MarkdownHooks {...options} />)
+
+    assert.equal(result.container.innerHTML, '<p><a href="/proxy/x">a</a></p>')
+
+    result.rerender(<MarkdownHooks children={options.children} />)
+
+    assert.equal(result.container.innerHTML, '<p><a href="/x">a</a></p>')
+  })
 })
 
 /**
