@@ -229,6 +229,10 @@ Hooks run on the client and do not immediately render something.
 For async support on the server,
 see [`MarkdownAsync`][api-markdown-async].
 
+When using `MarkdownHooks`, keep `urlTransform`, `allowElement`,
+`allowedElements`, `disallowedElements`, `skipHtml`, and `unwrapDisallowed`
+stable between renders to avoid reprocessing the markdown.
+
 ###### Parameters
 
 * `options` ([`Options`][api-options])

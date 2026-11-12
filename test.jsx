@@ -24,7 +24,7 @@ import {text} from 'node:stream/consumers'
 import test from 'node:test'
 import 'global-jsdom/register'
 import {render, waitFor} from '@testing-library/react'
-import {Component} from 'react'
+import {Component, StrictMode} from 'react'
 import {renderToPipeableStream, renderToStaticMarkup} from 'react-dom/server'
 import Markdown, {MarkdownAsync, MarkdownHooks} from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
@@ -1245,7 +1245,6 @@ test('MarkdownHooks', async function (t) {
     /** @type {ComponentProps<typeof MarkdownHooks>} */
     const options = {
       children: '[a](/x)',
-      rehypePlugins: [],
       urlTransform(url) {
         return '/proxy' + url
       }
@@ -1264,18 +1263,23 @@ test('MarkdownHooks', async function (t) {
     /** @type {ComponentProps<typeof MarkdownHooks>} */
     const options = {
       children: '[a](/x)',
-      rehypePlugins: [],
       urlTransform(url) {
         return '/proxy' + url
       }
     }
-    const result = render(<MarkdownHooks {...options} />, {
-      reactStrictMode: true
-    })
+    const result = render(
+      <StrictMode>
+        <MarkdownHooks {...options} />
+      </StrictMode>
+    )
 
     assert.equal(result.container.innerHTML, '<p><a href="/proxy/x">a</a></p>')
 
-    result.rerender(<MarkdownHooks {...options} />)
+    result.rerender(
+      <StrictMode>
+        <MarkdownHooks {...options} />
+      </StrictMode>
+    )
 
     assert.equal(result.container.innerHTML, '<p><a href="/proxy/x">a</a></p>')
   })
