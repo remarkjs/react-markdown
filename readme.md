@@ -229,11 +229,6 @@ Hooks run on the client and do not immediately render something.
 For async support on the server,
 see [`MarkdownAsync`][api-markdown-async].
 
-Pass plugins, `remarkRehypeOptions`, `allowedElements`, `disallowedElements`,
-`allowElement`, and `urlTransform` as stable references,
-for example by defining them outside your component.
-A new value on each render processes the markdown again.
-
 ###### Parameters
 
 * `options` ([`Options`][api-options])
